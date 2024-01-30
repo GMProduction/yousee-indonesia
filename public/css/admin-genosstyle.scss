@@ -8,6 +8,7 @@ $color1: #ff8f8f;
 $color2: #f3b664;
 $color3: #9ade7b;
 $color4: #508d69;
+$color5: #00b7ff5d;
 
 $unread-bg: #f2f6fc;
 
@@ -1024,7 +1025,11 @@ input.form-control {
   .select2-selection--multiple
   .select2-selection__rendered
   .select2-selection__choice {
-  border-radius: 50px;
+  border-radius: 50px !important;
+  background-color: $color5 !important;
+  font-size: 0.8rem !important;
+  flex-direction: row-reverse !important;
+  gap: 10px !important;
 }
 
 @media only screen and (max-width: 580px) {

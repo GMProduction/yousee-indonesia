@@ -10,6 +10,9 @@
     <!-- Or for RTL support -->
     <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.rtl.min.css" />
+
+    <!-- include summernote css/js -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-bs5.min.css" />
 @endsection
 
 
@@ -58,99 +61,64 @@
                 </div>
 
 
+                <div class="row mb-3">
+                    <div class="col-md-8 ">
+                        <label for="p-notelp" class="form-label">Tambahkan Tags</label>
+                        <select class="form-select" id="multiple-select-field" data-placeholder="Choose anything" multiple>
+                            <option>Christmas Island</option>
+                            <option>South Sudan</option>
+                            <option>Jamaica</option>
+                            <option>Kenya</option>
+                            <option>French Guiana</option>
+                            <option>Mayotta</option>
+                            <option>Liechtenstein</option>
+                            <option>Denmark</option>
+                            <option>Eritrea</option>
+                            <option>Gibraltar</option>
+                            <option>Saint Helena, Ascension and Tristan da Cunha</option>
+                            <option>Haiti</option>
+                            <option>Namibia</option>
+                            <option>South Georgia and the South Sandwich Islands</option>
+                            <option>Vietnam</option>
+                            <option>Yemen</option>
+                            <option>Philippines</option>
+                            <option>Benin</option>
+                            <option>Czech Republic</option>
+                            <option>Russia</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 d-flex gap-2">
+                        <div class="w-100   ">
+                            <div class=" mb-3">
+                                <label for="p-email" class="form-label" style="font-size: 0.6rem">Tambahkan Tags *jika
+                                    belum ada</label>
+
+                                <input type="text" class="form-control" style="height: 2.5rem;" id="p-newtags"
+                                    name="p-newtags" placeholder="tags baru">
+                            </div>
+
+                        </div>
+                        <div>
+                            <label for="p-email" class="form-label">.</label>
+                            <button type="button"
+                                class="btn-warning-sm text-nowrap d-flex align-items-center  justify-content-center "
+                                style="height: 2.5rem;  padding-top: 0; padding-bottom: 0"><span
+                                    class="material-symbols-outlined">
+                                    save
+                                </span></button>
+                        </div>
+
+
+                    </div>
+                </div>
+
                 <div class="mb-3">
-                    <label for="p-notelp" class="form-label">Tambahkan Tags</label>
-                    <select class="form-select" id="multiple-select-field" data-placeholder="Choose anything" multiple>
-                        <option>Christmas Island</option>
-                        <option>South Sudan</option>
-                        <option>Jamaica</option>
-                        <option>Kenya</option>
-                        <option>French Guiana</option>
-                        <option>Mayotta</option>
-                        <option>Liechtenstein</option>
-                        <option>Denmark</option>
-                        <option>Eritrea</option>
-                        <option>Gibraltar</option>
-                        <option>Saint Helena, Ascension and Tristan da Cunha</option>
-                        <option>Haiti</option>
-                        <option>Namibia</option>
-                        <option>South Georgia and the South Sandwich Islands</option>
-                        <option>Vietnam</option>
-                        <option>Yemen</option>
-                        <option>Philippines</option>
-                        <option>Benin</option>
-                        <option>Czech Republic</option>
-                        <option>Russia</option>
-                    </select>
+                    <label class="control-label" for="textarea">Descrizione breve:</label>
+                    <textarea class="summernote" name="p-isiartikel"></textarea>
                 </div>
 
-                <div class="form-floating mb-3">
-                    <input type="email" class="form-control" id="p-email" name="p-email" placeholder="lokasi">
-                    <label for="p-email" class="form-label">Email</label>
-                </div>
+                <button type="button" class="bt-primary m-2 ms-auto">Simpan Perubahan</button>
 
-                <div class="form-floating mb-3">
-                    <textarea rows="3" type="text" class="form-control" id="p-sejarahsingkat" name="p-sejarahsingkat"></textarea>
-                    <label for="p-sejarahsingkat" class="form-label">Sejarah Singkat</label>
-                </div>
-                <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="p-telpkantor" name="p-telpkantor"
-                        placeholder="Nomor Telp. Kantor">
-                    <label for="p-telpkantor" class="form-label">No. Telp Kantor</label>
-                </div>
-
-                <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="p-petapusat" name="p-petapusat"
-                        placeholder='<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.508271932542!2d106.88216657576419!3d-6.196469660706733!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f5b4958505db%3A0x489cbcb4771909c!2sYousee%20Indonesia%20-%20Marketing%20Office%20%7C%7C%20Billboard%2C%20Baliho%2C%20Videotron%20Nasional%20Indonesia!5e0!3m2!1sen!2sid!4v1706332624474!5m2!1sen!2sid" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'>
-                    <label for="p-petapusat" class="form-label">Alamat Kantor Pusat</label>
-                </div>
-
-                <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="p-petasolo" name="p-petasolo"
-                        placeholder='<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.508271932542!2d106.88216657576419!3d-6.196469660706733!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f5b4958505db%3A0x489cbcb4771909c!2sYousee%20Indonesia%20-%20Marketing%20Office%20%7C%7C%20Billboard%2C%20Baliho%2C%20Videotron%20Nasional%20Indonesia!5e0!3m2!1sen!2sid!4v1706332624474!5m2!1sen!2sid" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'>
-                    <label for="p-petasolo" class="form-label">Alamat Kantor Solo</label>
-                </div>
-                Sosial Media (Link)
-                <div class="row">
-
-
-                    <div class="col-md-3 col-sm-12">
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="p-facebook" name="p-facebook"
-                                placeholder="facebook">
-                            <label for="p-facebook" class="form-label">Facebook</label>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 col-sm-12">
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="p-instagram" name="p-instagram"
-                                placeholder="instagram">
-                            <label for="p-instagram" class="form-label">Instagram</label>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 col-sm-12">
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="p-tiktok" name="p-tiktok"
-                                placeholder="tiktok">
-                            <label for="p-tiktok" class="form-label">Tiktok</label>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 col-sm-12">
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="p-whatsapp" name="p-whatsapp"
-                                placeholder="whatsapp">
-                            <label for="p-whatsapp" class="form-label">Whatsapp</label>
-                        </div>
-                    </div>
-
-
-                    <button type="button" class="bt-primary m-2 ms-auto">Simpan Perubahan</button>
-
-                    </form>
-                </div>
             </div>
         </div>
     </div>
@@ -160,7 +128,7 @@
     <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-bs5.min.js"></script>
     <script>
         // Note that the name "myDropzone" is the camelized
         // id of the form.
@@ -173,6 +141,10 @@
             width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
             placeholder: $(this).data('placeholder'),
             closeOnSelect: false,
+        });
+
+        $(document).ready(function() {
+            $('.summernote').summernote();
         });
     </script>
 @endsection

@@ -809,6 +809,39 @@ input.form-control {
   font-size: 0.8rem;
 }
 
+.dz-image img {
+  width: 100%;
+  height: 100%;
+}
+
+.dropzone.dz-started .dz-message {
+  display: block !important;
+}
+
+.dropzone {
+  border: 2px dashed #028af4 !important;
+}
+
+.dropzone .dz-preview.dz-complete .dz-success-mark {
+  opacity: 1;
+}
+
+.dropzone .dz-preview.dz-error .dz-success-mark {
+  opacity: 0;
+}
+
+.dropzone .dz-preview .dz-error-message {
+  top: 144px;
+}
+
+.select2-container--bootstrap-5 .select2-selection--multiple .select2-selection__rendered .select2-selection__choice {
+  border-radius: 50px !important;
+  background-color: rgba(0, 183, 255, 0.3647058824) !important;
+  font-size: 0.8rem !important;
+  flex-direction: row-reverse !important;
+  gap: 10px !important;
+}
+
 @media only screen and (max-width: 580px) {
   .admin .sidebar {
     display: none;

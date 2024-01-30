@@ -114,7 +114,7 @@
                             href="/admin/datatitik">
 
                             <span class="material-symbols-outlined">
-                                contacs
+                                contacts
                             </span>
                             <span class="text-menu"> Contact</span>
                             <span class="tooltiptext">Contact</span>
