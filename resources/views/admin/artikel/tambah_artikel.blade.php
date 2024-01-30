@@ -55,16 +55,16 @@
 
 
                 <div class=" mb-3">
-                    <label for="p-gambar" class="form-label">Gambar Utama</label>
+                    <label class="form-label">Gambar Utama</label>
 
-                    <form action="/target" class="dropzone" id="my-dropzone"></form>
+                    <form action="/target" class="dropzone" id="p-gambar"></form>
                 </div>
 
 
                 <div class="row mb-3">
                     <div class="col-md-8 ">
-                        <label for="p-notelp" class="form-label">Tambahkan Tags</label>
-                        <select class="form-select" id="multiple-select-field" data-placeholder="Choose anything" multiple>
+                        <label for="p-tags" class="form-label">Tambahkan Tags</label>
+                        <select class="form-select" id="p-tags" data-placeholder="Choose anything" multiple>
                             <option>Christmas Island</option>
                             <option>South Sudan</option>
                             <option>Jamaica</option>
@@ -90,7 +90,7 @@
                     <div class="col-md-4 d-flex gap-2">
                         <div class="w-100   ">
                             <div class=" mb-3">
-                                <label for="p-email" class="form-label" style="font-size: 0.6rem">Tambahkan Tags *jika
+                                <label for="p-newtags" class="form-label" style="font-size: 0.6rem">Tambahkan Tags *jika
                                     belum ada</label>
 
                                 <input type="text" class="form-control" style="height: 2.5rem;" id="p-newtags"
@@ -99,7 +99,7 @@
 
                         </div>
                         <div>
-                            <label for="p-email" class="form-label">.</label>
+                            <label class="form-label">.</label>
                             <button type="button"
                                 class="btn-warning-sm text-nowrap d-flex align-items-center  justify-content-center "
                                 style="height: 2.5rem;  padding-top: 0; padding-bottom: 0"><span
@@ -107,14 +107,12 @@
                                     save
                                 </span></button>
                         </div>
-
-
                     </div>
                 </div>
 
                 <div class="mb-3">
-                    <label class="control-label" for="textarea">Descrizione breve:</label>
-                    <textarea class="summernote" name="p-isiartikel"></textarea>
+                    <label class="control-label" for="p-isiartikel">Isi Artikel</label>
+                    <textarea id="p-isiartikel" class="summernote" name="p-isiartikel"></textarea>
                 </div>
 
                 <button type="button" class="bt-primary m-2 ms-auto">Simpan Perubahan</button>
@@ -136,7 +134,7 @@
             // Configuration options go here
         };
 
-        $('#multiple-select-field').select2({
+        $('#p-tags').select2({
             theme: "bootstrap-5",
             width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
             placeholder: $(this).data('placeholder'),

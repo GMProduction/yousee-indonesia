@@ -607,6 +607,19 @@ body {
 .admin .btn-warning-sm:hover {
   background-color: #e9971d;
 }
+.admin .btn-danger-sm {
+  all: unset;
+  cursor: pointer;
+  background-color: #ed7878;
+  padding: 3px 10px;
+  border-radius: 5px;
+  color: white;
+  transition: all 300ms ease-in-out;
+  font-weight: bold;
+}
+.admin .btn-danger-sm:hover {
+  background-color: #f34d4d;
+}
 .admin .breadcrumb-item a {
   all: unset !important;
   color: gray;

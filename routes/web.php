@@ -30,6 +30,13 @@ Route::get('/admin/tambah-artikel', function () {
     return view('admin.artikel.tambah_artikel');
 });
 
+Route::get('/admin/service', function () {
+    return view('admin.service.service');
+});
+
+Route::get('/admin/tambah-service', function () {
+    return view('admin.service.tambah_service');
+});
 
 Route::get('/login', function () {
     return view('auth.login');
@@ -37,4 +44,8 @@ Route::get('/login', function () {
 
 Route::get('/admin/profile', function () {
     return view('admin.profile');
+});
+
+Route::get('/admin/about', function () {
+    return view('admin.about');
 });
