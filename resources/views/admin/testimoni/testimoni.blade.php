@@ -10,7 +10,7 @@
             <div class="menu d-flex justify-content-between ">
                 <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb" class="me-5">
                     <ol class="breadcrumb mb-0 ">
-                        <li class="breadcrumb-item "><a href="#">Data clients</a></li>
+                        <li class="breadcrumb-item "><a href="#">Data testimoni</a></li>
                     </ol>
                 </nav>
 
@@ -27,13 +27,15 @@
                 <div class="menu-container">
                     <div class="menu overflow-hidden">
                         <div class="title-container">
-                            <p class="title">Data clients</p>
+                            <p class="title">Tambah testimoni</p>
                         </div>
-                        <table id="tableClients" class="table table-striped" style="width:100%">
+                        <table id="tableTestimoni" class="table table-striped" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>Logo Clients</th>
-                                    <th>Nama clients</th>
+                                    <th>Foto</th>
+                                    <th>Nama</th>
+                                    <th>Isi Testimoni</th>
+                                    <th>Rating</th>
                                     <th>Action</th>
                                     {{-- detail, ubah status pesanan --}}
                                 </tr>
@@ -44,8 +46,25 @@
                                             style="height: 50px" />
                                     </td>
                                     <td><span class="maxlines">Prabowo</span></td>
+                                    <td><span class="maxlines">Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum
+                                            Lorem ipsum Lorem ipsum </span></td>
+                                    <td><span class="material-symbols-outlined">
+                                            star
+                                        </span>
+                                        <span class="material-symbols-outlined">
+                                            star
+                                        </span>
+                                        <span class="material-symbols-outlined">
+                                            star
+                                        </span>
+                                        <span class="material-symbols-outlined">
+                                            star
+                                        </span>
 
-
+                                        <span class="material-symbols-outlined">
+                                            star
+                                        </span>
+                                    </td>
                                     <td><span class="d-flex gap-1">
                                             <a class="btn-primary-sm">Lihat
                                             </a>
@@ -61,8 +80,10 @@
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <th>Logo Clients</th>
-                                    <th>Nama clients</th>
+                                    <th>Foto</th>
+                                    <th>Nama</th>
+                                    <th>Isi Testimoni</th>
+                                    <th>Rating</th>
                                     <th>Action</th>
                                     {{-- detail, ubah status pesanan --}}
                                 </tr>
@@ -75,22 +96,57 @@
                 <div class="menu-container">
                     <div class="menu overflow-hidden">
                         <div class="title-container">
-                            <p class="title">Tambah clients</p>
+                            <p class="title">Data testimoni</p>
                         </div>
                         <input type="hidden" id="d-id" name="d-id">
 
                         <div class=" mb-3">
-                            <label class="form-label">Gambar Clients</label>
+                            <label class="form-label">Foto</label>
 
                             <form action="/target" class="dropzone" id="p-icon"></form>
                         </div>
 
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="p-judulclients" name="p-judulclients"
-                                placeholder="Nama Clients">
-                            <label for="p-namaclient" class="form-label">Nama Clients</label>
+                            <input type="text" class="form-control" id="p-nama" name="p-nama"
+                                placeholder="Nama Testimoni">
+                            <label for="p-nama" class="form-label">Nama</label>
                         </div>
 
+                        <div class="form-floating mb-3">
+                            <textarea type="text" class="form-control" style="min-height: 100px" id="p-isi" name="p-isi"
+                                placeholder="Isi Testimoni" rows="5"></textarea>
+                            <label for="p-isi" class="form-label">Isi Testimoni</label>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="p-isi" class="form-label">Rating</label>
+                            <br>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
+                                    value="option1">
+                                <label class="form-check-label" for="inlineRadio1">1</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
+                                    value="option2">
+                                <label class="form-check-label" for="inlineRadio2">2</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
+                                    value="option2">
+                                <label class="form-check-label" for="inlineRadio2">3</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
+                                    value="option2">
+                                <label class="form-check-label" for="inlineRadio2">4</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" checked type="radio" name="inlineRadioOptions"
+                                    id="inlineRadio2" value="option2">
+                                <label class="form-check-label" for="inlineRadio2">5</label>
+                            </div>
+                        </div>
 
 
                         <button type="button" class="bt-primary m-2 ms-auto">Simpan Perubahan</button>
@@ -109,7 +165,7 @@
     <script>
         $(document).ready(function() {
 
-            var tableclients = $('#tableclients').DataTable({
+            var tabletestimoni = $('#tabletestimoni').DataTable({
                 responsive: {
                     details: {
                         display: DataTable.Responsive.display.modal({

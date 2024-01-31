@@ -198,6 +198,46 @@
                     </a>
                 </div>
                 <div class="end">
+                    <a class="iconbtn " id="dropdownnotif" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span class="badges">
+                        </span>
+                        <span class="material-symbols-outlined">
+                            mail
+                        </span>
+
+                    </a>
+                    <div class="dropdown-menu menudropdown notif" aria-labelledby="dropdownnotif">
+                        <div class="title-container">
+                            <p class="title">Notification</p>
+                            <a class="action"> Clear All</a>
+                        </div>
+                        <hr>
+                        <div class="notif-container">
+                            <div class="notif-item unread">
+
+                                <div class="content-container">
+                                    <p class="title-content">Bagus Want to buy something </p>
+                                    <p class="body-content">You Have new transaction from bagus yanuar, please check!
+                                    </p>
+                                </div>
+                                <hr>
+
+                            </div>
+
+                            <div class="notif-item">
+
+                                <div class="content-container">
+                                    <p class="title-content">Bagus Want to buy something </p>
+                                    <p class="body-content">You Have new transaction from bagus yanuar, please check!
+                                    </p>
+                                </div>
+                                <hr>
+
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="footer-container"><a>See All Notifications</a></div>
+                    </div>
                     <div class="dropdown">
                         <div class="profile-button">
                             <div class="content">
