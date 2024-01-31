@@ -759,6 +759,20 @@ body {
     }
   }
 
+  .btn-danger-sm {
+    all: unset;
+    cursor: pointer;
+    background-color: #ed7878;
+    padding: 3px 10px;
+    border-radius: 5px;
+    color: white;
+    transition: all 300ms ease-in-out;
+    font-weight: bold;
+    &:hover {
+      background-color: #f34d4d;
+    }
+  }
+
   .breadcrumb-item {
     a {
       all: unset !important;

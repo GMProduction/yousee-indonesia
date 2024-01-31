@@ -37,11 +37,18 @@
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 
+
+    {{-- SWEEET ALERT --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.4/dist/sweetalert2.min.css"
+        integrity="sha256-h2Gkn+H33lnKlQTNntQyLXMWq7/9XI2rlPCsLsVcUBs=" crossorigin="anonymous">
+
+
     @yield('morecss')
 
 </head>
 
 <body>
+
     <div class="d-flex admin ">
         {{-- SIDEBAR --}}
         <div class="sidebar ">
@@ -86,8 +93,7 @@
                     </li>
 
                     <li>
-                        <a class="menu tooltip {{ Request::is('admin/datatitik') ? 'active' : '' }}"
-                            href="/admin/datatitik">
+                        <a class="menu tooltip {{ Request::is('admin/about') ? 'active' : '' }}" href="/admin/about">
 
                             <span class="material-symbols-outlined">
                                 info
@@ -98,8 +104,8 @@
                     </li>
 
                     <li>
-                        <a class="menu tooltip {{ Request::is('admin/datatitik') ? 'active' : '' }}"
-                            href="/admin/datatitik">
+                        <a class="menu tooltip {{ Request::is('admin/service') ? 'active' : '' }}"
+                            href="/admin/service">
 
                             <span class="material-symbols-outlined">
                                 home_repair_service
@@ -186,11 +192,8 @@
                                     <a class="logout" href="">Logout</a>
                                 </div>
                             </div>
-
                         </div>
-
                     </div>
-
                 </div>
             </div>
 
@@ -212,11 +215,13 @@
             integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
         </script>
 
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.4/dist/sweetalert2.all.min.js"
+            integrity="sha256-SrfCZ78qS4YeGNB8awBuKLepMKtLR86uP4oomyg4pUc=" crossorigin="anonymous"></script>
+
         <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
         <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
         <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js"></script>
-
         <script src="{{ asset('js/admin-genosstyle.js') }}"></script>
 
         @yield('morejs')

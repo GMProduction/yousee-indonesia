@@ -6,7 +6,7 @@
             <div class="menu d-flex justify-content-between ">
                 <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb" class="me-5">
                     <ol class="breadcrumb mb-0 ">
-                        <li class="breadcrumb-item "><a href="#">Data Artikel</a></li>
+                        <li class="breadcrumb-item "><a href="#">Data Service</a></li>
                     </ol>
                 </nav>
 
@@ -21,17 +21,16 @@
         <div class="menu-container">
             <div class="menu overflow-hidden">
                 <div class="title-container">
-                    <p class="title">Data Artikel</p>
-                    <a class="btn-primary-sm" href="/admin/tambah-artikel">Tambah Artikel</a>
+                    <p class="title">Data Service</p>
+                    <a class="btn-primary-sm" href="/admin/tambah-service">Tambah Data Service</a>
                 </div>
-                <table id="tableArtikel" class="table table-striped" style="width:100%">
+                <table id="tableService" class="table table-striped" style="width:100%">
                     <thead>
                         <tr>
-                            <th>Gambar</th>
-                            <th>Judul</th>
+                            <th>Icon</th>
+                            <th>Nama Service</th>
                             {{-- slug otomatis ambil dari judul --}}
-                            <th>Isi Artikel</th>
-                            <th>tags</th>
+                            <th>Keterangan</th>
                             <th>Action</th>
                             {{-- detail, ubah status pesanan --}}
                         </tr>
@@ -40,7 +39,7 @@
                         <tr>
                             <td><img src="https://www.dreambox.id/wp-content/uploads/2022/06/15.jpg" style="height: 50px" />
                             </td>
-                            <td><span class="maxlines">15 Billboard strategis di Semarang</span></td>
+                            <td><span class="maxlines">Billboard</span></td>
                             <td><span class="maxlines">Berikut ini billboard strategis di semarang, Lorem Ipsum is simply
                                     dummy text of the
                                     printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy
@@ -53,10 +52,9 @@
                                     with
                                     desktop publishing software like Aldus PageMaker including versions of Lorem
                                     Ipsum.</span></td>
-                            <td><span class="maxlines">billboard semarang, baliho semarang, iklan semarang, semarang
-                                    jos</span></td>
+
                             <td><span class="d-flex gap-1">
-                                    <a class="btn-primary-sm">Lihat Artikel
+                                    <a class="btn-primary-sm">Lihat
                                     </a>
                                     <a class="btn-warning-sm">Ubah
                                     </a>
@@ -70,11 +68,10 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                            <th>Gambar</th>
-                            <th>Judul</th>
+                            <th>Icon</th>
+                            <th>Nama Service</th>
                             {{-- slug otomatis ambil dari judul --}}
-                            <th>Isi Artikel</th>
-                            <th>tags</th>
+                            <th>Keterangan</th>
                             <th>Action</th>
                             {{-- detail, ubah status pesanan --}}
                         </tr>
@@ -89,7 +86,7 @@
     <script>
         $(document).ready(function() {
 
-            var tableArtikel = $('#tableArtikel').DataTable({
+            var tableservice = $('#tableservice').DataTable({
                 responsive: {
                     details: {
                         display: DataTable.Responsive.display.modal({
