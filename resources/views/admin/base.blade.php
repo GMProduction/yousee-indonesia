@@ -116,14 +116,36 @@
                     </li>
 
                     <li>
-                        <a class="menu tooltip {{ Request::is('admin/datatitik') ? 'active' : '' }}"
-                            href="/admin/datatitik">
+                        <a class="menu tooltip {{ Request::is('admin/portfolio') ? 'active' : '' }}"
+                            href="/admin/portfolio">
 
                             <span class="material-symbols-outlined">
-                                contacts
+                                work_history
                             </span>
-                            <span class="text-menu"> Contact</span>
-                            <span class="tooltiptext">Contact</span>
+                            <span class="text-menu"> Portfolio</span>
+                            <span class="tooltiptext">Portfolio</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="menu tooltip {{ Request::is('admin/clients') ? 'active' : '' }}"
+                            href="/admin/clients">
+
+                            <span class="material-symbols-outlined">
+                                group
+                            </span>
+                            <span class="text-menu"> Clients</span>
+                            <span class="tooltiptext">Clients</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="menu tooltip {{ Request::is('admin/testimoni') ? 'active' : '' }}"
+                            href="/admin/testimoni">
+
+                            <span class="material-symbols-outlined">
+                                forum
+                            </span>
+                            <span class="text-menu"> Testimoni</span>
+                            <span class="tooltiptext">Testimoni</span>
                         </a>
                     </li>
                 </ul>

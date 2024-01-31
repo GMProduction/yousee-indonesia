@@ -38,6 +38,26 @@ Route::get('/admin/tambah-service', function () {
     return view('admin.service.tambah_service');
 });
 
+Route::get('/admin/portfolio', function () {
+    return view('admin.portfolio.portfolio');
+});
+
+Route::get('/admin/tambah-portfolio', function () {
+    return view('admin.portfolio.tambah_portfolio');
+});
+
+Route::get('/admin/clients', function () {
+    return view('admin.clients.clients');
+});
+
+Route::get('/admin/testimoni', function () {
+    return view('admin.testimoni.testimoni');
+});
+
+Route::get('/admin/inbox', function () {
+    return view('admin.inbox.inbox');
+});
+
 Route::get('/login', function () {
     return view('auth.login');
 });
