@@ -63,9 +63,9 @@ Route::get('/login', function () {
 });
 
 Route::get('/admin/profile', function () {
-    return view('admin.profile');
+    return view('admin.profile.profile');
 });
 
 Route::get('/admin/about', function () {
-    return view('admin.about');
+    return view('admin.about.about');
 });

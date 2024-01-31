@@ -56,9 +56,10 @@
                                     Ipsum.</span></td>
 
                             <td><span class="d-flex gap-1">
-                                    <a class="btn-primary-sm">Lihat Detail
+                                    <a class="btn-primary-sm" data-bs-toggle="modal" data-bs-target="#modalinbox">Lihat
+                                        Detail
                                     </a>
-                                    <a class="btn-warning-sm">Ubah
+                                    <a class="btn-warning-sm">Whatsapp
                                     </a>
 
                                     <a class="btn-danger-sm deletebutton">Hapus
@@ -80,6 +81,38 @@
                         </tr>
                     </tfoot>
                 </table>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="modalinbox" tabindex="-1" aria-labelledby="modalinboxLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl ">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalinboxLabel">Pesan dari "Nama"</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            <span class="fw-bold ">Nama </span>
+                            <span>(Nomor HP) </span>
+                        </div>
+                        <div><span>dari perusahaan "Nama Perusahaan"</span></div>
+                        <br>
+                        <div><span class="fw-bold ">Isi Pesan</span></div>
+                        <div><span>Lorem Ipsum, Lorem Ipsum, Lorem Ipsum, Lorem Ipsum,Lorem Ipsum, Lorem Ipsum,Lorem Ipsum,
+                                Lorem Ipsum,Lorem Ipsum, Lorem Ipsum,Lorem Ipsum, Lorem Ipsum,Lorem Ipsum, Lorem Ipsum,Lorem
+                                Ipsum, Lorem Ipsum,Lorem Ipsum, Lorem Ipsum,Lorem Ipsum, Lorem Ipsum,Lorem Ipsum, Lorem
+                                Ipsum,Lorem Ipsum, Lorem Ipsum,Lorem Ipsum, Lorem Ipsum,Lorem Ipsum, Lorem Ipsum,Lorem
+                                Ipsum, Lorem Ipsum,Lorem Ipsum, Lorem Ipsum,Lorem Ipsum, Lorem Ipsum,Lorem Ipsum, Lorem
+                                Ipsum,Lorem Ipsum, Lorem Ipsum,Lorem Ipsum, Lorem Ipsum,Lorem Ipsum, Lorem Ipsum,</span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Hubungi lewat whatsapp</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

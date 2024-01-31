@@ -236,7 +236,7 @@
                             </div>
                         </div>
                         <hr>
-                        <div class="footer-container"><a>See All Notifications</a></div>
+                        <div class="footer-container"><a href="/admin/inbox">See All Notifications</a></div>
                     </div>
                     <div class="dropdown">
                         <div class="profile-button">
