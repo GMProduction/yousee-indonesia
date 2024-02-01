@@ -1,0 +1,28 @@
+$light-background: white;
+$primary-color: #4fd0f3;
+$accent-color: #642aed;
+$primary-light: rgb(204, 237, 250);
+$font-sizenormal: 0.8rem;
+
+$color1: #ff8f8f;
+$color2: #f3b664;
+$color3: #9ade7b;
+$color4: #508d69;
+$color5: #00b7ff5d;
+
+$unread-bg: #f2f6fc;
+
+$btnlogin-color: #ff6347;
+$rounded: 10px;
+//UKURAN
+$panel-login: 450px;
+$lebar-logo: 5em;
+
+$tinggi-navbar: 60px;
+// SIDEBAR
+body {
+  font-family: "Poppins", sans-serif;
+}
+
+@media only screen and (max-width: 580px) {
+}

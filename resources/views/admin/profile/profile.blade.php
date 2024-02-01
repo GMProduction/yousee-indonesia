@@ -51,7 +51,8 @@
                 </div>
 
                 <div class="form-floating mb-3">
-                    <textarea rows="3" type="text" class="form-control" id="p-sejarahsingkat" name="p-sejarahsingkat"></textarea>
+                    <textarea rows="3" style="min-height: 100px" type="text" class="form-control" id="p-sejarahsingkat"
+                        name="p-sejarahsingkat"></textarea>
                     <label for="p-sejarahsingkat" class="form-label">Sejarah Singkat</label>
                 </div>
                 <div class="form-floating mb-3">
