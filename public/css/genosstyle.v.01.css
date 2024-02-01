@@ -1,3 +1,101 @@
 body {
   font-family: "Poppins", sans-serif;
 }
+
+.feather {
+  width: 24px;
+  height: 24px;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.g-navbar {
+  display: flex;
+  justify-content: space-between;
+  height: 100px;
+  align-items: center;
+}
+.g-navbar img {
+  width: 100px;
+}
+.g-navbar .g-nav-menu {
+  display: flex;
+  gap: 3rem;
+}
+.g-navbar .g-nav-menu .menu {
+  all: unset;
+  color: black;
+  cursor: pointer;
+  font-size: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease-in-out;
+  gap: 5px;
+}
+.g-navbar .g-nav-menu .menu .indicator {
+  height: 5px;
+  border-radius: 50px;
+  width: 0;
+  background-color: #4fd0f3;
+  transition: all 0.3s ease-in-out;
+}
+.g-navbar .g-nav-menu .menu:hover {
+  color: #4fd0f3 !important;
+}
+.g-navbar .g-nav-menu .menu:hover .indicator {
+  width: 20px !important;
+  background-color: rgb(204, 237, 250) !important;
+}
+.g-navbar .g-nav-menu .menu.active {
+  font-weight: bold;
+}
+.g-navbar .g-nav-menu .menu.active .indicator {
+  width: 20px !important;
+}
+.g-navbar .g-nav-social {
+  display: flex;
+  gap: 10px;
+}
+.g-navbar .g-nav-social img {
+  width: 24px;
+}
+.g-navbar .g-nav-social a {
+  width: 25px;
+  height: 25px;
+  border-radius: 5px;
+  transition: all 0.3s ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.g-navbar .g-nav-social a svg {
+  transition: all 0.3s ease-in-out;
+  color: black !important;
+}
+.g-navbar .g-nav-social a:hover {
+  background-color: #4fd0f3;
+}
+.g-navbar .g-nav-social a:hover svg {
+  color: white !important;
+}
+
+.g-hero {
+  display: block;
+  text-align: center;
+}
+.g-hero .hero-logo {
+  margin-top: 50px;
+  width: 323px;
+}
+.g-hero .hero-text {
+  margin-top: 30px;
+}
+.g-hero .hero-text span {
+  width: 1060px;
+  display: block;
+}
