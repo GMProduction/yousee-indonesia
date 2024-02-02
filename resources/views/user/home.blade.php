@@ -125,6 +125,27 @@
         <img class="hero-image" src="{{ asset('images/local/indonesiamaps.png') }}" />
     </div>
 
+    <div class="g-info">
+        <div class="info container ">
+            <span class="score">5</span>
+            <span class="definition">Tahun Pengalaman</span>
+        </div>
+        <div class="line"></div>
+        <div class="info container ">
+            <span class="score">5</span>
+            <span class="definition">Tahun Pengalaman</span>
+        </div>
+        <div class="line"></div>
+        <div class="info container ">
+            <span class="score">5</span>
+            <span class="definition">Tahun Pengalaman</span>
+        </div>
+        <div class="line"></div>
+        <div class="info container ">
+            <span class="score">5</span>
+            <span class="definition">Tahun Pengalaman</span>
+        </div>
+    </div>
     <script src="{{ asset('js/fitty.min.js') }}"></script>
     <script>
         fitty('.fittopage');

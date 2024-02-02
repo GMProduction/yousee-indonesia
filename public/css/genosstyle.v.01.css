@@ -99,3 +99,41 @@ body {
   width: 1060px;
   display: block;
 }
+
+.g-info {
+  margin-top: 100px;
+  background-color: #4fd0f3;
+  height: 200px;
+  width: 100%;
+  position: relative;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 50px 0;
+}
+.g-info .info {
+  width: 20wv;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+.g-info .info .score {
+  font-size: 50px;
+  margin-right: 20px;
+}
+.g-info .info .definition {
+  font-size: 25px;
+  display: flex;
+  flex-wrap: wrap;
+  word-spacing: 100px;
+}
+.g-info .line {
+  height: 100%;
+  width: 10px;
+  background-color: black !important;
+  border-radius: 10px;
+  margin: 0 50px;
+}
