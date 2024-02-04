@@ -132,18 +132,18 @@
         </div>
         <div class="line"></div>
         <div class="info container ">
-            <span class="score">5</span>
-            <span class="definition">Tahun Pengalaman</span>
+            <span class="score">2K+</span>
+            <span class="definition">Titik Iklan Strategis</span>
         </div>
         <div class="line"></div>
         <div class="info container ">
-            <span class="score">5</span>
-            <span class="definition">Tahun Pengalaman</span>
+            <span class="score">8K+</span>
+            <span class="definition">Happy Customer</span>
         </div>
         <div class="line"></div>
         <div class="info container ">
-            <span class="score">5</span>
-            <span class="definition">Tahun Pengalaman</span>
+            <span class="score">4,6</span>
+            <span class="definition">Overal Rating</span>
         </div>
     </div>
     <script src="{{ asset('js/fitty.min.js') }}"></script>

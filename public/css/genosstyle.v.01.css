@@ -117,12 +117,12 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 50px;
 }
 .g-info .info .score {
-  font-size: 50px;
+  font-size: 6rem;
   margin-right: 20px;
+  font-weight: 500;
 }
 .g-info .info .definition {
   font-size: 25px;
@@ -133,7 +133,6 @@ body {
 .g-info .line {
   height: 100%;
   width: 10px;
-  background-color: black !important;
+  background-color: rgba(0, 0, 0, 0.205) !important;
   border-radius: 10px;
-  margin: 0 50px;
 }
