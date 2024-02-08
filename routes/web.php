@@ -17,6 +17,11 @@ Route::get('/', function () {
     return view('user.home');
 });
 
+Route::get('/services', function () {
+    return view('user.services');
+});
+
+
 Route::get('/admin/dashboard', function () {
     return view('admin.dashboard');
 });
