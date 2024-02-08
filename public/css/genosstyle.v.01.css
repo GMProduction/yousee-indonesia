@@ -1,5 +1,5 @@
 body {
-  font-family: "Poppins", sans-serif;
+  font-family: "Baloo Thambi 2", system-ui;
 }
 
 .feather {
@@ -135,4 +135,12 @@ body {
   width: 10px;
   background-color: rgba(0, 0, 0, 0.205) !important;
   border-radius: 10px;
+}
+
+.btn-warning {
+  background-color: orange;
+  color: white;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 5px;
 }

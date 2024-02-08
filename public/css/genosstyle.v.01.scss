@@ -21,7 +21,7 @@ $lebar-logo: 5em;
 $tinggi-navbar: 60px;
 // SIDEBAR
 body {
-  font-family: "Poppins", sans-serif;
+  font-family: "Baloo Thambi 2", system-ui;
 }
 
 .feather {
@@ -177,5 +177,13 @@ body {
   }
 }
 
+// UTILITIES
+.btn-warning {
+  background-color: orange;
+  color: white;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 5px;
+}
 @media only screen and (max-width: 580px) {
 }

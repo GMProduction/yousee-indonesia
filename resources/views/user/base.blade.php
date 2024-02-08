@@ -23,10 +23,8 @@
     {{-- FONT --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Thambi+2:wght@400;500;700;800&display=swap"
         rel="stylesheet">
-
 
     {{-- DATA TABLES --}}
     <link href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" />
