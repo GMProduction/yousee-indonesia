@@ -118,8 +118,7 @@
     <div class="g-hero">
         <img class="hero-logo" src="{{ asset('images/local/logo-yousee.png') }}" />
         <div class="hero-text">
-            <span class="fittopage">Pasang Iklan Billboard di Seluruh</span>
-            <span class="fittopage">INDONESIA</span>
+            <img src="{{ asset('images/local/titikseluruhindonesia.png') }}" class="img-titikseluruhindonesia" />
         </div>
         <img class="hero-image" src="{{ asset('images/local/indonesiamaps.png') }}" />
     </div>
