@@ -113,10 +113,10 @@ body {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  padding: 50px 0;
+  padding: 50px 50px;
 }
 .g-info .info {
-  width: 20wv;
+  width: 15wv;
   height: 100%;
   display: flex;
   align-items: center;
@@ -125,14 +125,14 @@ body {
   margin-right: auto;
 }
 .g-info .info .score {
-  font-size: 50px;
+  font-size: 5rem;
   margin-right: 20px;
+  font-weight: bold;
 }
 .g-info .info .definition {
-  font-size: 25px;
+  font-size: 1.5rem;
   display: flex;
   flex-wrap: wrap;
-  word-spacing: 100px;
 }
 .g-info .line {
   height: 100%;
@@ -142,12 +142,44 @@ body {
   margin: 0 50px;
 }
 
-.btn-warning {
+.g-container-left {
+  width: 100%;
+  padding: 100px;
+  display: flex !important;
+  gap: 30px;
+  position: relative;
+}
+.g-container-left .content {
+  flex: 1;
+  max-width: 600px;
+}
+.g-container-left .content .title {
+  font-size: 3rem;
+  font-weight: bold;
+  background: -webkit-linear-gradient(rgb(71, 186, 229) 63%, rgb(42, 95, 167) 0%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.g-container-left .content .text {
+  font-weight: 1.2rem;
+  color: gray !important;
+}
+.g-container-left img {
+  flex: 1;
+  width: 50%;
+  -o-object-fit: scale-down;
+     object-fit: scale-down;
+  rotate: -20deg;
+}
+
+.btn-pasangiklan {
+  all: unset;
   background-color: orange;
   color: white;
   font-weight: bold;
-  padding: 10px 20px;
+  padding: 20px 40px;
   border-radius: 5px;
+  cursor: pointer !important;
 }
 
 .g-services {

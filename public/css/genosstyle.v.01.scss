@@ -150,10 +150,10 @@ body {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  padding: 50px 0;
+  padding: 50px 50px;
 
   .info {
-    width: 20wv;
+    width: 15wv;
     height: 100%;
     display: flex;
     align-items: center;
@@ -162,15 +162,15 @@ body {
     margin-right: auto;
 
     .score {
-      font-size: 50px;
+      font-size: 5rem;
       margin-right: 20px;
+      font-weight: bold;
     }
 
     .definition {
-      font-size: 25px;
+      font-size: 1.5rem;
       display: flex;
       flex-wrap: wrap;
-      word-spacing: 100px;
     }
   }
 
@@ -183,13 +183,50 @@ body {
   }
 }
 
+.g-container-left {
+  width: 100%;
+  padding: 100px;
+  display: flex !important;
+  gap: 30px;
+  position: relative;
+
+  .content {
+    flex: 1;
+    max-width: 600px;
+    .title {
+      font-size: 3rem;
+      font-weight: bold;
+
+      background: -webkit-linear-gradient(
+        rgba(71, 186, 229, 1) 63%,
+        rgba(42, 95, 167, 1) 0%
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .text {
+      font-weight: 1.2rem;
+      color: gray !important;
+    }
+  }
+
+  img {
+    flex: 1;
+    width: 50%;
+    object-fit: scale-down;
+    rotate: -20deg;
+  }
+}
 // UTILITIES
-.btn-warning {
+.btn-pasangiklan {
+  all: unset;
   background-color: orange;
   color: white;
   font-weight: bold;
-  padding: 10px 20px;
+  padding: 20px 40px;
   border-radius: 5px;
+  cursor: pointer !important;
 }
 .g-services {
   display: flex;
