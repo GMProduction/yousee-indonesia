@@ -22,11 +22,26 @@
             <div class="menu overflow-hidden">
                 <div class="title-container">
                     <p class="title">Data portfolio</p>
-                    <a class="btn-primary-sm" href="/admin/tambah-portfolio">Tambah Data portfolio</a>
+                    <a class="btn-primary-sm" href="{{route('admin.portfolio.data')}}">Tambah Data portfolio</a>
                 </div>
-                <table id="tableService" class="table table-striped" style="width:100%">
-                    <thead>
+                <div class="table-responsive">
+
+                    <table id="tabel" class="table table-striped" style="width:100%">
+                        <thead>
                         <tr>
+                            <th>#</th>
+                            <th>Gambar</th>
+                            <th>Nama portfolio</th>
+                            {{-- slug otomatis ambil dari nama --}}
+                            <th>Keterangan</th>
+                            {{-- keterangan bisa kosong --}}
+                            <th style="width: 100px;">Action</th>
+                            {{-- detail, ubah status pesanan --}}
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr>
+                            <th>#</th>
                             <th>Gambar</th>
                             <th>Nama portfolio</th>
                             {{-- slug otomatis ambil dari nama --}}
@@ -35,50 +50,9 @@
                             <th>Action</th>
                             {{-- detail, ubah status pesanan --}}
                         </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><img src="https://www.dreambox.id/wp-content/uploads/2022/06/15.jpg" style="height: 50px" />
-                            </td>
-                            <td><span class="maxlines">Billboard Film Mencari Cinta 2.000 titik</span></td>
-                            <td><span class="maxlines">Berikut ini billboard strategis di semarang, Lorem Ipsum is simply
-                                    dummy text of the
-                                    printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy
-                                    text
-                                    ever since the 1500s, when an unknown printer took a galley of type and scrambled it to
-                                    make
-                                    a type specimen book. It has survived not only five centuries, but also the leap into
-                                    electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s
-                                    with the release of Letraset sheets containing Lorem Ipsum passages, and more recently
-                                    with
-                                    desktop publishing software like Aldus PageMaker including versions of Lorem
-                                    Ipsum.</span></td>
-
-                            <td><span class="d-flex gap-1">
-                                    <a class="btn-primary-sm">Lihat
-                                    </a>
-                                    <a class="btn-warning-sm">Ubah
-                                    </a>
-
-                                    <a class="btn-danger-sm deletebutton">Hapus
-                                    </a>
-                                </span>
-                            </td>
-                        </tr>
-
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <th>Gambar</th>
-                            <th>Nama portfolio</th>
-                            {{-- slug otomatis ambil dari nama --}}
-                            <th>Keterangan</th>
-                            {{-- keterangan bisa kosong --}}
-                            <th>Action</th>
-                            {{-- detail, ubah status pesanan --}}
-                        </tr>
-                    </tfoot>
-                </table>
+                        </tfoot>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -86,43 +60,58 @@
 
 @section('morejs')
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
 
-            var tableportfolio = $('#tableportfolio').DataTable({
-                responsive: {
-                    details: {
-                        display: DataTable.Responsive.display.modal({
-                            header: function(row) {
-                                var data = row.data();
-                                return 'Details for ' + data[0] + ' ' + data[1];
-                            }
-                        }),
-                        renderer: DataTable.Responsive.renderer.tableAll({
-                            tableClass: 'table'
-                        })
-                    }
-                }
-            });
-
-            $(".deletebutton").click(function() {
-                Swal.fire({
-                    title: "Are you sure?",
-                    text: "You won't be able to revert this!",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Yes, delete it!"
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        Swal.fire({
-                            title: "Deleted!",
-                            text: "Your file has been deleted.",
-                            icon: "success"
-                        });
-                    }
-                });
-            });
         });
+
+        show_datatable();
+
+        function show_datatable() {
+            let colums = [
+                {
+                    className: "text-center",
+                    orderable: false,
+                    defaultContent: "",
+                    searchable: false
+                },
+                {
+                    // data: 'public_health_center.name', name: 'public_health_center.name'
+                    data: 'image', name: 'image',
+                    render: function (data, x, row) {
+                        return '<img  src="' + row.image + '" height="50" alt="img"/>'
+                    }
+                },
+                {
+                    data: 'name', name: 'name',
+                },
+                {
+                    data: 'des', name: 'des',
+                    render: function (data) {
+                        return '<span class="pv-archiveText">' + data + '</span>'
+                    }
+                },
+                {
+                    className: "text-center",
+                    data: 'id', name: 'id', orderable: false, searchable: false,
+                    render: function (data, x, row) {
+                        return '<div class="d-flex justify-content-between gap-1">' +
+                            '       <a class="btn-primary-sm">Lihat</a>' +
+                            '       <a class="btn-warning-sm" href="/admin/portfolio/data?q=' + data + '">Ubah</a>' +
+                            '       <a class="btn-danger-sm deletebutton" id="deleteData" data-name="' + row.title + '" data-id="' + data + '">Hapus</a>' +
+                            '</div>'
+                    }
+                },
+            ];
+            datatable('tabel', '{{route('admin.portfolio.datatable')}}', colums)
+        }
+
+        $(document).on('click', '#deleteData', function () {
+            let form = {
+                '_token': '{{csrf_token()}}',
+                'id': $(this).data('id')
+            }
+            deleteData('artikel ' + $(this).data('name'), form, '{{route('admin.portfolio.delete')}}')
+            return false
+        })
     </script>
 @endsection

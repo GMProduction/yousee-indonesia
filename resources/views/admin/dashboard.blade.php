@@ -8,7 +8,7 @@
                 <div class="content">
                     <div class="stat">
                         <p class="title">Jumlah Titik</p>
-                        <p class="val">100</p>
+                        <p class="val" id="titikAll">0</p>
                     </div>
 
                     <div class="report">
@@ -27,11 +27,11 @@
                 <div class="content">
                     <div class="stat">
                         <p class="title">Jumlah Artikel</p>
-                        <p class="val">120</p>
+                        <p class="val article">0</p>
                     </div>
 
                     <div class="report">
-                        <p> <span class="down">120</span> Jumlah artikel.</p>
+                        <p> <span class="down article">0</span> Jumlah artikel.</p>
                     </div>
                 </div>
 
@@ -46,11 +46,11 @@
                 <div class="content">
                     <div class="stat">
                         <p class="title">Jumlah Portfolio</p>
-                        <p class="val">100</p>
+                        <p class="val porto">0</p>
                     </div>
 
                     <div class="report">
-                        <p> <span class="down">100</span> Titik portfolio.</p>
+                        <p> <span class="down porto">0</span> Titik portfolio.</p>
                     </div>
                 </div>
 
@@ -352,5 +352,35 @@
             let endDateVal = e.target.value
             document.getElementById('endDateSelected').innerText = endDateVal
         })
+
+        $(document).ready(function () {
+            getTitik()
+            getArticle()
+            getPortfolio()
+        })
+
+        function getTitik() {
+            $.get('{{route('admin.dashboard.titik')}}', function (res,x,s) {
+                if (s.status == 200){
+                    $('#titikAll').html(res['titik'].toLocaleString())
+                }
+            })
+        }
+
+        function getArticle() {
+            $.get('{{route('admin.dashboard.article')}}', function (res,x,s) {
+                if (s.status == 200){
+                    $('.article').html(res['article'].toLocaleString())
+                }
+            })
+
+
+        }function getPortfolio() {
+            $.get('{{route('admin.dashboard.portfolio')}}', function (res,x,s) {
+                if (s.status == 200){
+                    $('.porto').html(res['porto'].toLocaleString())
+                }
+            })
+        }
     </script>
 @endsection

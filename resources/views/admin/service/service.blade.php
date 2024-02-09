@@ -22,11 +22,25 @@
             <div class="menu overflow-hidden">
                 <div class="title-container">
                     <p class="title">Data Service</p>
-                    <a class="btn-primary-sm" href="/admin/tambah-service">Tambah Data Service</a>
+                    <a class="btn-primary-sm" href="{{route('admin.service.data')}}">Tambah Data Service</a>
                 </div>
-                <table id="tableService" class="table table-striped" style="width:100%">
-                    <thead>
+                <div class="table-responsive">
+
+                    <table id="tabel" class="table table-striped">
+                        <thead>
                         <tr>
+                            <th>#</th>
+                            <th>Icon</th>
+                            <th>Nama Service</th>
+                            {{-- slug otomatis ambil dari judul --}}
+                            <th>Keterangan</th>
+                            <th style="width: 100px">Action</th>
+                            {{-- detail, ubah status pesanan --}}
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr>
+                            <th>#</th>
                             <th>Icon</th>
                             <th>Nama Service</th>
                             {{-- slug otomatis ambil dari judul --}}
@@ -34,49 +48,9 @@
                             <th>Action</th>
                             {{-- detail, ubah status pesanan --}}
                         </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><img src="https://www.dreambox.id/wp-content/uploads/2022/06/15.jpg" style="height: 50px" />
-                            </td>
-                            <td><span class="maxlines">Billboard</span></td>
-                            <td><span class="maxlines">Berikut ini billboard strategis di semarang, Lorem Ipsum is simply
-                                    dummy text of the
-                                    printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy
-                                    text
-                                    ever since the 1500s, when an unknown printer took a galley of type and scrambled it to
-                                    make
-                                    a type specimen book. It has survived not only five centuries, but also the leap into
-                                    electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s
-                                    with the release of Letraset sheets containing Lorem Ipsum passages, and more recently
-                                    with
-                                    desktop publishing software like Aldus PageMaker including versions of Lorem
-                                    Ipsum.</span></td>
-
-                            <td><span class="d-flex gap-1">
-                                    <a class="btn-primary-sm">Lihat
-                                    </a>
-                                    <a class="btn-warning-sm">Ubah
-                                    </a>
-
-                                    <a class="btn-danger-sm deletebutton">Hapus
-                                    </a>
-                                </span>
-                            </td>
-                        </tr>
-
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <th>Icon</th>
-                            <th>Nama Service</th>
-                            {{-- slug otomatis ambil dari judul --}}
-                            <th>Keterangan</th>
-                            <th>Action</th>
-                            {{-- detail, ubah status pesanan --}}
-                        </tr>
-                    </tfoot>
-                </table>
+                        </tfoot>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -84,25 +58,8 @@
 
 @section('morejs')
     <script>
-        $(document).ready(function() {
-
-            var tableservice = $('#tableservice').DataTable({
-                responsive: {
-                    details: {
-                        display: DataTable.Responsive.display.modal({
-                            header: function(row) {
-                                var data = row.data();
-                                return 'Details for ' + data[0] + ' ' + data[1];
-                            }
-                        }),
-                        renderer: DataTable.Responsive.renderer.tableAll({
-                            tableClass: 'table'
-                        })
-                    }
-                }
-            });
-
-            $(".deletebutton").click(function() {
+        $(document).ready(function () {
+            $(".deletebutton").click(function () {
                 Swal.fire({
                     title: "Are you sure?",
                     text: "You won't be able to revert this!",
@@ -122,5 +79,55 @@
                 });
             });
         });
+
+        show_datatable();
+
+        function show_datatable() {
+            let colums = [
+                {
+                    className: "text-center",
+                    orderable: false,
+                    defaultContent: "",
+                    searchable: false
+                },
+                {
+                    // data: 'public_health_center.name', name: 'public_health_center.name'
+                    data: 'image', name: 'image',
+                    render: function (data, x, row) {
+                        return '<img  src="' + row.image + '" height="50" alt="img"/>'
+                    }
+                },
+                {
+                    data: 'name', name: 'name',
+                },
+                {
+                    data: 'des', name: 'des',
+                    render: function (data) {
+                        return '<span class="pv-archiveText">' + data + '</span>'
+                    }
+                },
+                {
+                    className: "text-center",
+                    data: 'id', name: 'id', orderable: false, searchable: false,
+                    render: function (data, x, row) {
+                        return '<div class="d-flex justify-content-between gap-1">' +
+                            '       <a class="btn-primary-sm">Lihat</a>' +
+                            '       <a class="btn-warning-sm" href="/admin/service/data?q=' + data + '">Ubah</a>' +
+                            '       <a class="btn-danger-sm deletebutton" id="deleteData" data-name="' + row.title + '" data-id="' + data + '">Hapus</a>' +
+                            '</div>'
+                    }
+                },
+            ];
+            datatable('tabel', '{{route('admin.service.datatable')}}', colums)
+        }
+
+        $(document).on('click', '#deleteData', function () {
+            let form = {
+                '_token': '{{csrf_token()}}',
+                'id': $(this).data('id')
+            }
+            deleteData('artikel ' + $(this).data('name'), form, '{{route('admin.service.delete')}}')
+            return false
+        })
     </script>
 @endsection

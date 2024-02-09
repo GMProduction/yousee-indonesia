@@ -31,6 +31,7 @@ function datatable(tb, url, columns, createdRow = null, order = []) {
         columnDefs: columnDefs,
         columns: columns,
         // scrollX: true,
+        // responsive: true
     });
     // }).columns.adjust().responsive.recalc();
 }

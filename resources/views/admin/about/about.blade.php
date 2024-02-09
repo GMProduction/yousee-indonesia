@@ -28,18 +28,26 @@
 
         <div class="menu-container">
             <div class="menu">
-                <div class="title-container">
-                    <p class="title">About</p>
-                </div>
+              <form id="form" onsubmit="return saveForm()" enctype="multipart/form-data">
+                  @csrf
+                  <div class="title-container">
+                      <p class="title">About</p>
+                  </div>
 
-                <div class=" mb-3">
-                    <label class="form-label">Upload Company Profile</label>
+                  <div class=" mb-3">
+                      <label class="form-label">Upload Company Profile</label>
 
-                    <form action="/target" class="dropzone" id="p-companyprofile"></form>
-                </div>
+                      <input type="file" id="image1" name="company_profile" class="image"
+                             data-min-height="10" data-heigh="400" accept="application/pdf"
+                             data-allowed-file-extensions="pdf"/>
+                      @if($data)
+                          <a target="_blank" rel="noopener" href="{{$data->company_profile}}">Lihat File</a>
+                      @endif
+                  </div>
 
-                <button type="button" class="bt-primary m-2 ms-auto">Simpan Perubahan</button>
+                  <button type="submit" class="bt-primary m-2 ms-auto">Simpan Perubahan</button>
 
+              </form>
             </div>
         </div>
     </div>
@@ -52,8 +60,17 @@
     <script>
         // Note that the name "myDropzone" is the camelized
         // id of the form.
-        Dropzone.options.myDropzone = {
-            // Configuration options go here
-        };
+        $(document).ready(function () {
+            @if($data && $data->company_profile)
+            setImgDropify('image1', null, '{{$data->company_profile}}');
+            @else
+            setImgDropify('image1');
+            @endif
+        });
+
+        function saveForm() {
+            saveData('Simpan Company Profile', 'form', '{{route('admin.about')}}', null,'image' )
+            return false
+        }
     </script>
 @endsection
