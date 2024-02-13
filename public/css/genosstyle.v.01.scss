@@ -185,7 +185,7 @@ body {
 
 .g-container-left {
   width: 100%;
-  padding: 100px;
+  padding: 5% 100px;
   display: flex !important;
   gap: 30px;
   position: relative;
@@ -196,18 +196,21 @@ body {
     .title {
       font-size: 3rem;
       font-weight: bold;
-
-      background: -webkit-linear-gradient(
-        rgba(71, 186, 229, 1) 63%,
-        rgba(42, 95, 167, 1) 0%
+      line-height: 1.4;
+      background: linear-gradient(
+        0deg,
+        rgba(42, 95, 167, 1) 0%,
+        rgba(71, 186, 229, 1) 63%
       );
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      margin-bottom: 40px;
     }
 
     .text {
       font-weight: 1.2rem;
       color: gray !important;
+      margin-bottom: 60px;
     }
   }
 
@@ -216,6 +219,104 @@ body {
     width: 50%;
     object-fit: scale-down;
     rotate: -20deg;
+  }
+}
+
+.g-container-clients {
+  width: 100%;
+  padding: 5% 100px;
+  display: block;
+  gap: 30px;
+  position: relative;
+  text-align: center;
+
+  .content {
+    .title {
+      font-size: 3rem;
+      font-weight: bold;
+      text-align: center;
+
+      background: linear-gradient(
+        0deg,
+        rgba(42, 95, 167, 1) 0%,
+        rgba(71, 186, 229, 1) 63%
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 40px;
+    }
+
+    .text {
+      font-weight: 1.2rem;
+      color: gray !important;
+      margin-left: 20%;
+      margin-right: 20%;
+    }
+  }
+
+  .client-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, max-content));
+    grid-gap: 16px;
+    justify-content: center;
+    padding: initial;
+    gap: 20px;
+    margin-left: 20%;
+    margin-right: 20%;
+
+    .client {
+      list-style-type: none;
+      padding: 5px;
+      width: 100px;
+    }
+  }
+}
+
+.g-container-testimoni {
+  width: 100%;
+  padding: 5% 100px;
+  display: flex !important;
+  flex-direction: column;
+  gap: 30px;
+  position: relative;
+
+  .title-container {
+    display: flex;
+    justify-content: space-between;
+    .title {
+      font-size: 3rem;
+      font-weight: bold;
+      line-height: 1.4;
+      background: linear-gradient(
+        0deg,
+        rgba(42, 95, 167, 1) 0%,
+        rgba(71, 186, 229, 1) 63%
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 40px;
+    }
+
+    .arrow-container {
+      display: flex;
+      gap: 20px;
+
+      .arrow {
+        background-color: rgb(243, 63, 63) !important;
+        padding: 20px;
+        border-radius: 50px;
+        img {
+          width: 15px;
+          height: 15px;
+        }
+      }
+    }
+  }
+
+  .text {
+    font-weight: 1.2rem;
+    color: gray !important;
+    margin-bottom: 60px;
   }
 }
 // UTILITIES
