@@ -240,13 +240,23 @@ body {
   gap: 20px;
 }
 .g-container-testimoni .title-container .arrow-container .arrow {
-  background-color: rgb(243, 63, 63) !important;
+  background-color: white;
   padding: 20px;
   border-radius: 50px;
+  height: 60px;
+  width: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease-in-out;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+.g-container-testimoni .title-container .arrow-container .arrow:hover {
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 .g-container-testimoni .title-container .arrow-container .arrow img {
-  width: 15px;
-  height: 15px;
+  width: 25px;
+  height: 25px;
 }
 .g-container-testimoni .text {
   font-weight: 1.2rem;
