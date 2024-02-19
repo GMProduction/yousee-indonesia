@@ -21,6 +21,10 @@ Route::get('/services', function () {
     return view('user.services');
 });
 
+Route::get('/article', function () {
+    return view('user.article');
+});
+
 
 Route::get('/admin/dashboard', function () {
     return view('admin.dashboard');
