@@ -21,8 +21,17 @@ Route::get('/services', function () {
     return view('user.services');
 });
 
-Route::get('/article', function () {
-    return view('user.article');
+Route::get('/artikel', function () {
+    return view('user.artikel');
+});
+
+Route::get('/titik-kami', function () {
+    return view('user.titikkami');
+});
+
+
+Route::get('/detailartikel', function () {
+    return view('user.detailartikel');
 });
 
 

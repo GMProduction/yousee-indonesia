@@ -61,6 +61,7 @@
         <img src="{{ asset('images/local/resize-indo.png') }}" alt="titik-iklan-billboard-indonesia" />
     </div>
 
+    {{-- CLIENTS --}}
     <div class="g-container-clients">
         <div class="content">
             <p class="title">Our Happy Clients</p>
@@ -83,6 +84,8 @@
         </div>
     </div>
 
+
+    {{-- TESTIMONIES --}}
     <div class="g-container-testimoni">
         <div class="title-container">
             <p class="title">Pelanggan Kami
@@ -98,19 +101,88 @@
                 </a>
             </div>
         </div>
-        <p class="text">Menyediakan lebih dari 10.000 titik iklan billboard. Sebaran titik iklan yang luas, mampu
-            menjangkau hingga
-            seluruh kota di Indonesia. Kemudahan dalam sewa billboard berbeda wilayah. Atur harga sewa billboard
-            Anda,
-            pilih durasi tayang mulai dari mingguan ataupun bulanan.
-        </p>
-        <a class="btn-pasangiklan">
-            Pasang Iklan Sekarang
-        </a>
+        <div class="row  gx-5">
+            @for ($i = 0; $i < 4; $i++)
+                <div class="col-3">
+                    <div class="testimoni-card">
+                        <p class="quote">“</p>
+                        <p class="testimoni-text ">“Iklan ini benar-benar mengubah cara saya melihat produk ini. Saya sangat
+                            puas
+                            dengan kreativitas
+                            dan efektivitasnya.”</p>
+                        <hr>
+                        <div class="testimoni-profile">
+                            <img class="testimoni-profpic" src="{{ asset('images/local/login.jpg') }}" />
+                            <div>
+                                <p class="testimoni-name">Joko Paryanto</p>
+                                <p class="testimoni-position">CEO (Logan Food)</p>
+                                <span>
+                                    <img src="{{ asset('images/local/star.png') }}" />
+                                    <img src="{{ asset('images/local/star.png') }}" />
+                                    <img src="{{ asset('images/local/star.png') }}" />
+                                    <img src="{{ asset('images/local/star.png') }}" />
+                                    <img src="{{ asset('images/local/star.png') }}" />
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endfor
+
+        </div>
+
     </div>
 
-    <img src="{{ asset('images/local/resize-indo.png') }}" alt="titik-iklan-billboard-indonesia" />
+
+    <div class="mb-5"></div>
+    {{-- PORTFOLIO --}}
+    <div class="g-portfolio">
+        <p class="title ">Portfolio Kami</p>
+        <div class="portfolio-wrapper">
+            <div class="portfolio">
+                <img src="{{ asset('images/local/login.jpg') }}" />
+            </div>
+            <div class="portfolio">
+                <img src="{{ asset('images/local/login.jpg') }}" />
+            </div>
+            <div class="portfolio">
+                <img src="{{ asset('images/local/login.jpg') }}" />
+            </div>
+            <div class="portfolio">
+                <img src="{{ asset('images/local/login.jpg') }}" />
+            </div>
+            <div class="portfolio">
+                <img src="{{ asset('images/local/login.jpg') }}" />
+            </div>
+            <div class="portfolio">
+                <img src="{{ asset('images/local/login.jpg') }}" />
+            </div>
+            <div class="portfolio">
+                <img src="{{ asset('images/local/login.jpg') }}" />
+            </div>
+            <div class="portfolio">
+                <img src="{{ asset('images/local/login.jpg') }}" />
+            </div>
+        </div>
     </div>
+
+    {{-- ONE WEEK SERVICES --}}
+    <div class="oneweek-services">
+        <img src={{ asset('images/local/calendar.jpg') }} />
+
+
+        <div>
+            <p class="title">Pasang Iklan Billboard 1 Minggu Tetap Dilayani. Fleksibel!</p>
+            <p class="text">Maksimalkan performa iklan Anda, kami rekomendasikan untuk memasang lebih dari 1 titik di
+                wilayah yang
+                berbeda dengan durasi yang sama. Dengan jangkauan lebih dari 10.000 titik iklan, pemasangan iklan
+                billboardmu bisa dimulai dengan durasi 1 minggu saja. Sebebas itu!</p>
+            <a class="btn-pasangiklan">
+                Konsultasi Gratis
+            </a>
+        </div>
+    </div>
+
 
     <script src="{{ asset('js/fitty.min.js') }}"></script>
     <script>
