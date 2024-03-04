@@ -14,99 +14,57 @@
                 <div class="pencarian-wrapper">
                     <p class="title">Tersedia titik diseluruh INDONESIA</p>
                     <div class="prov-wrapper">
-                        <a class="prov">DKI Jakarta</a>
-                        <a class="prov">Jawa Barat</a>
-                        <a class="prov"> Jawa Tengah</a>
-                        <a class="prov">Jawa Timur</a>
-                        <a class="prov">DI Yogyakarta</a>
-                        <a class="prov">BALI</a>
-                        <a class="prov">SUMATERA UTARA</a>
-                        <a class="prov">SUMATERA BARAT</a>
-                        <a class="prov">SUMATERA SELATAN</a>
-                        <a class="prov">KALIMANTAN</a>
-                        <a class="prov">SULAWESI</a>
-                        <a class="prov">PAPUA</a>
-                        <a class="prov">MALUKU</a>
-
+                        <a class="prov"><img src="{{ asset('images/local/icon/provinsi/jakarta.webp') }}" /><span>DKI
+                                Jakarta</span></a>
+                        <a class="prov"><img src="{{ asset('images/local/icon/provinsi/jawabarat.png') }}" />Jawa
+                            Barat</a>
+                        <a class="prov"><img src="{{ asset('images/local/icon/provinsi/jawatengah.png') }}" />Jawa
+                            Tengah</a>
+                        <a class="prov"><img src="{{ asset('images/local/icon/provinsi/jawatimur.png') }}" />Jawa
+                            Timur</a>
+                        <a class="prov"><img src="{{ asset('images/local/icon/provinsi/jogja.png') }}" />DI Yogyakarta</a>
+                        <a class="prov"><img src="{{ asset('images/local/icon/provinsi/bali.jpg') }}" />BALI</a>
+                        <a class="prov"><img
+                                src="{{ asset('images/local/icon/provinsi/png-clipart-north-sumatra-gubernatorial-election-2018-dinas-perindustrian-dan-perdagangan-provinsi-sumatera-utara-pemerintah-provinsi-sumatera-utara-bps-sumut-indonesian-sumatera-arm-indonesia-thumbnail.png') }}" />SUMATERA
+                            UTARA</a>
+                        <a class="prov"><img src="{{ asset('images/local/icon/provinsi/sumaterabarat.png') }}" />SUMATERA
+                            BARAT</a>
+                        <a class="prov"><img
+                                src="{{ asset('images/local/icon/provinsi/sumateraselatan.png') }}" />SUMATERA SELATAN</a>
+                        <a class="prov"><img
+                                src="{{ asset('images/local/icon/provinsi/kalimantan.png') }}" />KALIMANTAN</a>
+                        <a class="prov"><img src="{{ asset('images/local/icon/provinsi/sulawesi.png') }}" />SULAWESI</a>
+                        <a class="prov"><img src="{{ asset('images/local/icon/provinsi/papua.png') }}" />PAPUA</a>
+                        <a class="prov"><img src="{{ asset('images/local/icon/provinsi/maluku.png') }}" />MALUKU</a>
                     </div>
-                    <p class="isi">Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem autem
-                        reiciendis
-                        sunt repudiandae
-                        eum
-                        inventore nesciunt, dignissimos, enim vitae eveniet rerum obcaecati commodi recusandae voluptas
-                        minima!
-                        Eos
-                        blanditiis repellat ducimus?
-
-
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem autem
-                        reiciendis
-                        sunt repudiandae
-                        eum
-                        inventore nesciunt, dignissimos, enim vitae eveniet rerum obcaecati commodi recusandae voluptas
-                        minima!
-                        Eos
-                        blanditiis repellat ducimus?
-
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem autem
-                        reiciendis
-                        sunt repudiandae
-                        eum
-                        inventore nesciunt, dignissimos, enim vitae eveniet rerum obcaecati commodi recusandae voluptas
-                        minima!
-                        Eos
-                        blanditiis repellat ducimus?
-
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem autem
-                        reiciendis
-                        sunt repudiandae
-                        eum
-                        inventore nesciunt, dignissimos, enim vitae eveniet rerum obcaecati commodi recusandae voluptas
-                        minima!
-                        Eos
-                        blanditiis repellat ducimus?
-                    </p>
-                </div>
-                <div class="btn-wrapper">
-                    <a href="/detailartikel">Baca Selengkapnya</a>
                 </div>
             </div>
         </div>
 
+    </div>
 
-        <p class="title-content ">Semua Artikel yang Kami Sajikan</p>
+    <p class="title-content text-center">Titik di Jawa Tengah</p>
+    <div class="list-article">
 
-        <div class="search-wrapper">
-            <div class="search-field">
-                <span class="material-symbols-outlined text-grey">
-                    search
-                </span>
-                <input type="text" placeholder="Pencarian Artikel" />
+        @for ($i = 0; $i < 20; $i++)
+            <div class="card-article">
+                <img src="{{ asset('images/local/login.jpg') }}" />
 
-            </div>
-        </div>
+                <div class="article-content">
+                    <div class="article-wrapper">
+                        <p class="title">Jl. Slamet Riyadi no 123 Banjarsari Surakarta</p>
+                        <p class="time">Jawa Tengah, Surakarta</p>
+                        <hr>
 
-        <div class="list-article">
-
-            @for ($i = 0; $i < 20; $i++)
-                <div class="card-article">
-                    <img src="{{ asset('images/local/login.jpg') }}" />
-
-                    <div class="article-content">
-                        <div class="article-wrapper">
-                            <p class="title">Judul Artikel, Judul Artikel, Judul Artikel, </p>
-                            <p class="time">12 Feb 2024 16:13</p>
-                            <hr>
-
-                            <div class="btn-wrapper">
-                                <a href="#"><span>Baca Selengkapnya</span><span class="material-symbols-outlined">
-                                        arrow_right_alt
-                                    </span></a>
-                            </div>
+                        <div class="btn-wrapper">
+                            <a href="#"><span>Lihat Titik</span><span class="material-symbols-outlined">
+                                    arrow_right_alt
+                                </span></a>
                         </div>
                     </div>
                 </div>
-            @endfor
+            </div>
+        @endfor
 
-        </div>
-    @endsection
+    </div>
+@endsection
