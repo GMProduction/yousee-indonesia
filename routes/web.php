@@ -29,6 +29,13 @@ Route::get('/titik-kami', function () {
     return view('user.titikkami');
 });
 
+Route::get('/contact', function () {
+    return view('user.contact');
+});
+
+Route::get('/portfolio', function () {
+    return view('user.portfolio');
+});
 
 Route::get('/detailartikel', function () {
     return view('user.detailartikel');
