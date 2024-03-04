@@ -48,12 +48,18 @@
     <nav class="g-navbar container ">
         <img src="{{ asset('images/local/logo-yousee-panjang.png') }}" />
         <div class="g-nav-menu">
-            <a class="menu active" href="/">Home<span class="indicator "></span></a>
-            <a class="menu" href="/services">Services<span class="indicator"></span></a>
-            <a class="menu" href="/titik-kami">Titik Kami<span class="indicator"></span></a>
-            <a class="menu" href="/portfolio">Portfolio<span class="indicator"></span></a>
-            <a class="menu" href="/artikel">Artikel<span class="indicator"></span></a>
-            <a class="menu" href="/contact">Contact<span class="indicator"></span></a>
+            <a class="menu {{ Request::is('/') ? 'active' : '' }}" href="/">Home<span
+                    class="indicator "></span></a>
+            <a class="menu {{ Request::is('services') ? 'active' : '' }}" href="/services">Services<span
+                    class="indicator "></span></a>
+            <a class="menu {{ Request::is('titik-kami') ? 'active' : '' }}" href="/titik-kami">Titik Kami<span
+                    class="indicator"></span></a>
+            <a class="menu {{ Request::is('portfolio') ? 'active' : '' }}" href="/portfolio">Portfolio<span
+                    class="indicator"></span></a>
+            <a class="menu {{ Request::is('artikel') ? 'active' : '' }}" href="/artikel">Artikel<span
+                    class="indicator"></span></a>
+            <a class="menu {{ Request::is('contact') ? 'active' : '' }}" href="/contact">Contact<span
+                    class="indicator"></span></a>
         </div>
         <div class="g-nav-social">
             <a>
@@ -240,6 +246,8 @@
 
         </div>
     </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

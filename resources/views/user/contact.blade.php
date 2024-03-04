@@ -149,6 +149,29 @@
             style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
     </div>
 
+
+    {{-- CLIENTS --}}
+    <div class="g-container-clients">
+        <div class="content">
+            <p class="title">Our Happy Clients</p>
+            <p class="text">Sebagai perusahaan billboard, kami telah dipercaya untuk mengerjakan pemasangan iklan
+                dengan berbagai macam media seperti billboard, baliho, LED Banner, JPO, Bando Jalan & Videotron. Mulai
+                dari brand multinasional hingga institusi pemerintahan sudah mempercayakan kebutuhan iklan luar ruang
+                kepada kami.
+
+
+            </p>
+            <div class="mb-5"></div>
+
+        </div>
+
+        <div class="client-list">
+            @for ($i = 1; $i < 15; $i++)
+                <img class="client" loading="lazy" src="{{ asset('images/local/clients/' . $i . '.webp') }}" />
+            @endfor
+
+        </div>
+    </div>
     <div class="morethan10000">
         <img src="{{ asset('images/local/city.jpg') }}" />
         <div class="d-flex flex-column justify-content-center align-items-center h-100">

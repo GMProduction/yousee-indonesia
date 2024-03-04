@@ -24,7 +24,8 @@
                             Timur</a>
                         <a class="prov"><img src="{{ asset('images/local/icon/provinsi/jogja.png') }}" />DI Yogyakarta</a>
                         <a class="prov"><img src="{{ asset('images/local/icon/provinsi/bali.jpg') }}" />BALI</a>
-                        <a class="prov"><img src="{{ asset('images/local/icon/provinsi/sumaterautara.png') }}" />
+
+                        <a class="prov"><img src="{{ asset('images/local/icon/provinsi/sumaterautara.png') }}" />SUMATERA
                             UTARA</a>
                         <a class="prov"><img src="{{ asset('images/local/icon/provinsi/sumaterabarat.png') }}" />SUMATERA
                             BARAT</a>
