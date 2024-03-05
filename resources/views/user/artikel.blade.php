@@ -54,7 +54,7 @@
                     </p>
                 </div>
                 <div class="btn-wrapper">
-                    <a href="/detailartikel">Baca Selengkapnya</a>
+                    <a href="/detailartikel/slug-artikel">Baca Selengkapnya</a>
                 </div>
             </div>
             <img src="{{ asset('images/local/login.jpg') }}" />
@@ -86,7 +86,8 @@
                             <hr>
 
                             <div class="btn-wrapper">
-                                <a href="#"><span>Baca Selengkapnya</span><span class="material-symbols-outlined">
+                                <a href="/detailartikel/slug-artikel"><span>Baca Selengkapnya</span><span
+                                        class="material-symbols-outlined">
                                         arrow_right_alt
                                     </span></a>
                             </div>
@@ -94,6 +95,5 @@
                     </div>
                 </div>
             @endfor
-
         </div>
     @endsection

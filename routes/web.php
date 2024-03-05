@@ -25,6 +25,19 @@ Route::get('/artikel', function () {
     return view('user.artikel');
 });
 
+Route::get('/artikel-by-tag/tag', function () {
+    return view('user.artikelbytag');
+});
+
+Route::get('/titik/titik-billboard-di-jawa-tengah', function () {
+    return view('user.titik_per_provinsi');
+});
+
+Route::get('/titik/titik-billboard-di-semarang', function () {
+    return view('user.titik_per_kota');
+});
+
+
 Route::get('/titik-kami', function () {
     return view('user.titikkami');
 });
@@ -37,9 +50,14 @@ Route::get('/portfolio', function () {
     return view('user.portfolio');
 });
 
-Route::get('/detailartikel', function () {
+Route::get('/detailartikel/slug-artikel', function () {
     return view('user.detailartikel');
 });
+
+Route::get('/detailtitik/slug-titik', function () {
+    return view('user.detailtitik');
+});
+
 
 
 Route::get('/admin/dashboard', function () {

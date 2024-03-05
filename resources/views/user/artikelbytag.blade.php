@@ -9,11 +9,9 @@
         <div class="hero-text">
             <img src="{{ asset('images/local/youseeartikel.png') }}" />
         </div>
-        <div class="article-full">
+        <div class="article-headline">
             <div class="article-content">
                 <div class="article-wrapper">
-                    <img src="{{ asset('images/local/login.jpg') }}" />
-
                     <p class="title">Judul Artikel</p>
                     <p class="time">12 Feb 2024 16:13</p>
                     <hr>
@@ -54,20 +52,16 @@
                         Eos
                         blanditiis repellat ducimus?
                     </p>
-
-                    <p class="text-start mt-5 fw-bold">Tags: </p>
-                    <div class="tag-wrapper">
-                        <a class="tag-artikel" href="/artikel-by-tag/tag">billboard</a>
-                        <a class="tag-artikel" href="/artikel-by-tag/tag">semarang</a>
-                        <a class="tag-artikel" href="/artikel-by-tag/tag">terlaris</a>
-                    </div>
                 </div>
-
+                <div class="btn-wrapper">
+                    <a href="/detailartikel/slug-artikel">Baca Selengkapnya</a>
+                </div>
             </div>
+            <img src="{{ asset('images/local/login.jpg') }}" />
         </div>
 
 
-        <p class="title-content ">Baca Juga Artikel yang lain</p>
+        <p class="title-content ">Semua Artikel dengan Tag (Nama Tag)</p>
 
         <div class="search-wrapper">
             <div class="search-field">
@@ -101,6 +95,5 @@
                     </div>
                 </div>
             @endfor
-
         </div>
     @endsection

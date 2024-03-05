@@ -784,6 +784,62 @@ body {
   }
 }
 
+// DETAIL TITIK
+.detail-titik {
+  display: flex;
+  padding: 20px;
+  box-shadow: 4px 19px 41px 6px rgba(0, 0, 0, 0.1);
+  width: 900px;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: -50px;
+  background-color: white;
+  z-index: 10;
+  position: relative;
+  overflow-y: hidden;
+
+  .detailtitik-content {
+    display: flex;
+    flex-direction: column;
+
+    img {
+      width: 100%;
+      margin-bottom: 30px;
+    }
+
+    .detailtitik-wrapper {
+      padding: 20px;
+      .title {
+        font-size: 1.7rem;
+        font-weight: bold;
+        margin-bottom: 0px;
+      }
+      .spesifikasi {
+        text-align: left;
+        display: inline-block;
+        background-color: $primary-color;
+        padding: 10px 10px 10px 30px;
+        border-radius: 0 50px 50px 0;
+        font-weight: bold;
+      }
+      .info {
+        display: flex;
+        align-items: start;
+        gap: 10px;
+        .title-part {
+          text-align: left;
+          font-weight: bold;
+          margin-bottom: 0;
+        }
+        .content-part {
+          text-align: left;
+          margin-bottom: 20px;
+        }
+      }
+    }
+  }
+}
+
 // LIST ARTIKEL
 .list-article {
   display: flex;
@@ -1055,5 +1111,24 @@ body {
   }
 }
 
+.tag-wrapper {
+  display: flex;
+  flex-wrap: wrap !important;
+  gap: 10px;
+
+  .tag-artikel {
+    all: unset;
+    cursor: pointer;
+    padding: 5px 10px;
+    background-color: #97bdfe;
+    font-weight: bold;
+    font-size: 0.8rem;
+    border-radius: 50px;
+    transition: all 300ms ease-in-out;
+    &:hover {
+      background-color: #4fd0f3;
+    }
+  }
+}
 @media only screen and (max-width: 580px) {
 }

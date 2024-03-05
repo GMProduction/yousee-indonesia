@@ -57,7 +57,8 @@
                         <hr>
 
                         <div class="btn-wrapper">
-                            <a href="#"><span>Lihat Titik</span><span class="material-symbols-outlined">
+                            <a href="/detailtitik/slug-titik"><span>Lihat Titik</span><span
+                                    class="material-symbols-outlined">
                                     arrow_right_alt
                                 </span></a>
                         </div>
