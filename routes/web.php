@@ -17,85 +17,55 @@ Route::get('/', function () {
     return view('user.home');
 });
 
-Route::get('/services', function () {
-    return view('user.services');
+Route::prefix('/admin')->group(function (){
+    Route::prefix('dashboard')->group(function (){
+        Route::get('',[\App\Http\Controllers\Admin\DashboardController::class,'index'])->name('admin.dashboard');
+        Route::get('titik',[\App\Http\Controllers\Admin\DashboardController::class,'getDataTitik'])->name('admin.dashboard.titik');
+        Route::get('article',[\App\Http\Controllers\Admin\DashboardController::class,'getDataArticle'])->name('admin.dashboard.article');
+        Route::get('portfolio',[\App\Http\Controllers\Admin\DashboardController::class,'getDataPortofolio'])->name('admin.dashboard.portfolio');
+    });
+
+    Route::prefix('tags')->group(function (){
+        Route::get('',[\App\Http\Controllers\Admin\TagsController::class,'getAll'])->name('admin.tags');
+        Route::post('add',[\App\Http\Controllers\Admin\TagsController::class,'postTag'])->name('admin.tags.add');
+    });
+    Route::match(['GET','POST'],'profile', [\App\Http\Controllers\Admin\ProfileController::class,'index'])->name('admin.profile');
+    Route::prefix('artikel')->group(function (){
+        Route::get('datatable', [\App\Http\Controllers\Admin\ArticleController::class,'datatable'])->name('admin.article.datatable');
+        Route::get('', [\App\Http\Controllers\Admin\ArticleController::class,'index'])->name('admin.article');
+        Route::match(['GET','POST'],'data', [\App\Http\Controllers\Admin\ArticleController::class,'pageAdd'])->name('admin.article.data');
+        Route::post('delete', [\App\Http\Controllers\Admin\ArticleController::class,'delete'])->name('admin.article.delete');
+    });
+    Route::prefix('service')->group(function (){
+        Route::get('datatable', [\App\Http\Controllers\Admin\ServiceController::class,'datatable'])->name('admin.service.datatable');
+        Route::get('', [\App\Http\Controllers\Admin\ServiceController::class,'index'])->name('admin.service');
+        Route::match(['GET','POST'],'data', [\App\Http\Controllers\Admin\ServiceController::class,'pageAdd'])->name('admin.service.data');
+        Route::post('delete', [\App\Http\Controllers\Admin\ServiceController::class,'delete'])->name('admin.service.delete');
+    });
+
+    Route::prefix('portfolio')->group(function (){
+        Route::get('datatable', [\App\Http\Controllers\Admin\PortofolioController::class,'datatable'])->name('admin.portfolio.datatable');
+        Route::get('', [\App\Http\Controllers\Admin\PortofolioController::class,'index'])->name('admin.portfolio');
+        Route::match(['GET','POST'],'data', [\App\Http\Controllers\Admin\PortofolioController::class,'pageAdd'])->name('admin.portfolio.data');
+        Route::post('delete', [\App\Http\Controllers\Admin\PortofolioController::class,'delete'])->name('admin.portfolio.delete');
+    });
+
+    Route::prefix('clients')->group(function (){
+        Route::get('datatable', [\App\Http\Controllers\Admin\ClientController::class,'datatable'])->name('admin.clients.datatable');
+        Route::get('', [\App\Http\Controllers\Admin\ClientController::class,'index'])->name('admin.clients');
+        Route::post('data', [\App\Http\Controllers\Admin\ClientController::class,'pageAdd'])->name('admin.clients.data');
+        Route::post('delete', [\App\Http\Controllers\Admin\ClientController::class,'delete'])->name('admin.clients.delete');
+    });
+    Route::match(['GET','POST'],'about', [\App\Http\Controllers\Admin\AboutController::class,'index'])->name('admin.about');
+    Route::prefix('testimoni')->group(function (){
+        Route::get('datatable', [\App\Http\Controllers\Admin\TestimoniController::class,'datatable'])->name('admin.testimoni.datatable');
+        Route::get('', [\App\Http\Controllers\Admin\TestimoniController::class,'index'])->name('admin.testimoni');
+        Route::post('data', [\App\Http\Controllers\Admin\TestimoniController::class,'pageAdd'])->name('admin.testimoni.data');
+        Route::post('delete', [\App\Http\Controllers\Admin\TestimoniController::class,'delete'])->name('admin.testimoni.delete');
+    });
+
 });
 
-Route::get('/artikel', function () {
-    return view('user.artikel');
-});
-
-Route::get('/artikel-by-tag/tag', function () {
-    return view('user.artikelbytag');
-});
-
-Route::get('/titik/titik-billboard-di-jawa-tengah', function () {
-    return view('user.titik_per_provinsi');
-});
-
-Route::get('/titik/titik-billboard-di-semarang', function () {
-    return view('user.titik_per_kota');
-});
-
-
-Route::get('/titik-kami', function () {
-    return view('user.titikkami');
-});
-
-Route::get('/contact', function () {
-    return view('user.contact');
-});
-
-Route::get('/portfolio', function () {
-    return view('user.portfolio');
-});
-
-Route::get('/detailartikel/slug-artikel', function () {
-    return view('user.detailartikel');
-});
-
-Route::get('/detailtitik/slug-titik', function () {
-    return view('user.detailtitik');
-});
-
-
-
-Route::get('/admin/dashboard', function () {
-    return view('admin.dashboard');
-});
-
-
-Route::get('/admin/artikel', function () {
-    return view('admin.artikel.artikel');
-});
-
-Route::get('/admin/tambah-artikel', function () {
-    return view('admin.artikel.tambah_artikel');
-});
-
-Route::get('/admin/service', function () {
-    return view('admin.service.service');
-});
-
-Route::get('/admin/tambah-service', function () {
-    return view('admin.service.tambah_service');
-});
-
-Route::get('/admin/portfolio', function () {
-    return view('admin.portfolio.portfolio');
-});
-
-Route::get('/admin/tambah-portfolio', function () {
-    return view('admin.portfolio.tambah_portfolio');
-});
-
-Route::get('/admin/clients', function () {
-    return view('admin.clients.clients');
-});
-
-Route::get('/admin/testimoni', function () {
-    return view('admin.testimoni.testimoni');
-});
 
 Route::get('/admin/inbox', function () {
     return view('admin.inbox.inbox');
@@ -103,12 +73,4 @@ Route::get('/admin/inbox', function () {
 
 Route::get('/login', function () {
     return view('auth.login');
-});
-
-Route::get('/admin/profile', function () {
-    return view('admin.profile.profile');
-});
-
-Route::get('/admin/about', function () {
-    return view('admin.about.about');
 });

@@ -65,6 +65,41 @@ return [
             'endpoint' => env('AWS_ENDPOINT'),
         ],
 
+        'articleImage' => [
+            'driver' => 'local',
+            'root' => public_path() . '/images/article',
+            'url' => env('APP_URL') . '/storage',
+            'visibility' => 'public',
+        ],
+
+        'serviceImage' => [
+            'driver' => 'local',
+            'root' => public_path() . '/images/service',
+            'url' => env('APP_URL') . '/storage',
+            'visibility' => 'public',
+        ],
+
+        'portfolioImage' => [
+            'driver' => 'local',
+            'root' => public_path() . '/images/portfolio',
+            'url' => env('APP_URL') . '/storage',
+            'visibility' => 'public',
+        ],
+
+        'aboutImage' => [
+            'driver' => 'local',
+            'root' => public_path() . '/images/about',
+            'url' => env('APP_URL') . '/storage',
+            'visibility' => 'public',
+        ],
+
+        'testimoniImage' => [
+            'driver' => 'local',
+            'root' => public_path() . '/images/testimoni',
+            'url' => env('APP_URL') . '/storage',
+            'visibility' => 'public',
+        ],
+
     ],
 
     /*
