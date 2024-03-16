@@ -64,8 +64,8 @@
 
             <ul>
                 <li>
-                    <a class=" menu {{ Request::is('admin/dashboard') ? 'active' : '' }} tooltip"
-                       href="/admin/dashboard"><span class="material-symbols-outlined">
+                    <a class=" menu {{ Request::is('admin') ? 'active' : '' }} tooltip"
+                       href="/admin"><span class="material-symbols-outlined">
                                 dashboard
                             </span>
                         <span class="text-menu"> Beranda</span>
@@ -259,7 +259,7 @@
                                 <p class="user">User</p>
                                 <p class="email">user@gmail.com</p>
                                 <hr>
-                                <a class="logout" href="">Logout</a>
+                                <a class="logout" href="/logout">Logout</a>
 
                             </div>
                         </div>
