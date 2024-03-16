@@ -67,7 +67,6 @@ Route::prefix('/admin')->group(function (){
 });
 
 
-
 Route::get('/admin/inbox', function () {
     return view('admin.inbox.inbox');
 });

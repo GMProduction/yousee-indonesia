@@ -7,6 +7,11 @@
 
     <title>Admin || Genos Template</title>
 
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
+
+
     {{-- BOOTSTRAP --}}
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -94,6 +99,7 @@
                 <li>
                     <a class="menu tooltip {{ Request::is('admin/about') ? 'active' : '' }}" href="/admin/about">
 
+
                             <span class="material-symbols-outlined">
                                 info
                             </span>
@@ -105,6 +111,7 @@
                 <li>
                     <a class="menu tooltip {{ Request::is('admin/service') ? 'active' : '' }}"
                        href="/admin/service">
+
 
                             <span class="material-symbols-outlined">
                                 home_repair_service
@@ -118,6 +125,7 @@
                     <a class="menu tooltip {{ Request::is('admin/portfolio') ? 'active' : '' }}"
                        href="/admin/portfolio">
 
+
                             <span class="material-symbols-outlined">
                                 work_history
                             </span>
@@ -128,6 +136,7 @@
                 <li>
                     <a class="menu tooltip {{ Request::is('admin/clients') ? 'active' : '' }}"
                        href="/admin/clients">
+
 
                             <span class="material-symbols-outlined">
                                 group
@@ -251,6 +260,7 @@
                                 <p class="email">user@gmail.com</p>
                                 <hr>
                                 <a class="logout" href="">Logout</a>
+
                             </div>
                         </div>
                     </div>
