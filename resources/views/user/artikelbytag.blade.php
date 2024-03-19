@@ -61,7 +61,7 @@
         </div>
 
 
-        <p class="title-content ">Semua Artikel dengan Tag (Nama Tag)</p>
+        <p class="title-content ">Semua Artikel dengan Tag ({{request('tag')}})</p>
 
         <div class="search-wrapper">
             <div class="search-field">
@@ -74,19 +74,16 @@
         </div>
 
         <div class="list-article">
-
-            @for ($i = 0; $i < 20; $i++)
+            @foreach($article as $d)
                 <div class="card-article">
-                    <img src="{{ asset('images/local/login.jpg') }}" />
-
+                    <img src="{{ asset($d->image) }}"/>
                     <div class="article-content">
                         <div class="article-wrapper">
-                            <p class="title">Judul Artikel, Judul Artikel, Judul Artikel, </p>
-                            <p class="time">12 Feb 2024 16:13</p>
+                            <p class="title">{{$d->title}}</p>
+                            <p class="time">{{date_format($d->created_at, 'd M Y H:m')}}</p>
                             <hr>
-
                             <div class="btn-wrapper">
-                                <a href="/detailartikel/slug-artikel"><span>Baca Selengkapnya</span><span
+                                <a href="{{route('article.detail',['slug' => $d->slug])}}"><span>Baca Selengkapnya</span><span
                                         class="material-symbols-outlined">
                                         arrow_right_alt
                                     </span></a>
@@ -94,6 +91,7 @@
                         </div>
                     </div>
                 </div>
-            @endfor
+            @endforeach
+
         </div>
     @endsection
