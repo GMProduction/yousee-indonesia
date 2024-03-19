@@ -168,6 +168,7 @@
         }
 
         function afterSave() {
+            $('#p-newtags').val('')
             getDataTags()
         }
     </script>

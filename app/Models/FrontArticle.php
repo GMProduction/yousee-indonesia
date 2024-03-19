@@ -16,6 +16,7 @@ class FrontArticle extends Model
         'title',
         'image',
         'tags',
-        'content'
+        'content',
+        'slug'
     ];
 }

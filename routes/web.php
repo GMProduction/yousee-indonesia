@@ -72,12 +72,17 @@ Route::match(['GET', 'POST'], '/login', [\App\Http\Controllers\Admin\LoginContro
 Route::get('/logout', [\App\Http\Controllers\Admin\LoginController::class, 'logout']);
 
 
-Route::get('/artikel',[\App\Http\Controllers\ArtikelController::class,'index']);
+Route::prefix('artikel')->group(function (){
+    Route::get('',[\App\Http\Controllers\ArtikelController::class,'index']);
+    Route::get('{slug}', [\App\Http\Controllers\ArtikelController::class,'detail'])->name('article.detail');
+    Route::get('tag/{tag}', [\App\Http\Controllers\ArtikelController::class,'byTag'])->name('article.tag');
+});
+
 Route::get('/services',[\App\Http\Controllers\ServiceController::class,'index']);
 
-Route::get('/artikel-by-tag/tag', function () {
-    return view('user.artikelbytag');
-});
+
+
+
 
 Route::get('/titik/titik-billboard-di-jawa-tengah', function () {
     return view('user.titik_per_provinsi');
@@ -100,9 +105,7 @@ Route::get('/portfolio', function () {
     return view('user.portfolio');
 });
 
-Route::get('/detailartikel/slug-artikel', function () {
-    return view('user.detailartikel');
-});
+
 
 Route::get('/detailtitik/slug-titik', function () {
     return view('user.detailtitik');

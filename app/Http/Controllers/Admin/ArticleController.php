@@ -6,6 +6,7 @@ use App\Helper\CustomController;
 use App\Models\FrontArticle;
 use App\Models\FrontTags;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
 
 class ArticleController extends CustomController
@@ -63,6 +64,22 @@ class ArticleController extends CustomController
 
         $form = request()->all();
         $image = null;
+        $form['slug'] = Str::slug($form['title']);
+        $id = request('id');
+        if ($id){
+            $checkSlug = FrontArticle::where([['slug', $form['slug']],['id','!=',$id]])->first();
+        }else{
+            $checkSlug = FrontArticle::where('slug', $form['slug'])->first();
+        }
+
+        if ($checkSlug){
+            return response()->json(
+                [
+                    'msg' => 'Judul artikel sudah ada',
+                ],
+                203
+            );
+        }
 
         if (request('image')) {
             $image     = $this->generateImageName('image');
@@ -71,7 +88,7 @@ class ArticleController extends CustomController
             $form['image'] = $stringImg;
         }
 
-        $id = request('id');
+
         if ($id) {
             $data = FrontArticle::find($id);
             if ($image && $data->image){

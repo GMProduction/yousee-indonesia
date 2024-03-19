@@ -1,5 +1,13 @@
 @extends('user.base')
 
+@section('header')
+    <meta name="description" content="">
+    <meta name="keyword" content="">
+    <meta name="og:image" content="">
+    <meta name="og:site_name" content="">
+    <meta name="og:description" content="">
+    <meta name="og:title" content="{{$article ? $article->title : ''}}">
+@endsection
 @section('morecss')
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
@@ -12,54 +20,19 @@
         <div class="article-full">
             <div class="article-content">
                 <div class="article-wrapper">
-                    <img src="{{ asset('images/local/login.jpg') }}" />
+                    <img src="{{ $article->image }}" />
 
-                    <p class="title">Judul Artikel</p>
-                    <p class="time">12 Feb 2024 16:13</p>
+                    <h3 class="title">{{$article->title}}</h3>
+                    <p class="time">{{date_format($article->created_at, 'd M Y H:m')}}</p>
                     <hr>
-                    <p class="isi">Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem autem
-                        reiciendis
-                        sunt repudiandae
-                        eum
-                        inventore nesciunt, dignissimos, enim vitae eveniet rerum obcaecati commodi recusandae voluptas
-                        minima!
-                        Eos
-                        blanditiis repellat ducimus?
-
-
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem autem
-                        reiciendis
-                        sunt repudiandae
-                        eum
-                        inventore nesciunt, dignissimos, enim vitae eveniet rerum obcaecati commodi recusandae voluptas
-                        minima!
-                        Eos
-                        blanditiis repellat ducimus?
-
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem autem
-                        reiciendis
-                        sunt repudiandae
-                        eum
-                        inventore nesciunt, dignissimos, enim vitae eveniet rerum obcaecati commodi recusandae voluptas
-                        minima!
-                        Eos
-                        blanditiis repellat ducimus?
-
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem autem
-                        reiciendis
-                        sunt repudiandae
-                        eum
-                        inventore nesciunt, dignissimos, enim vitae eveniet rerum obcaecati commodi recusandae voluptas
-                        minima!
-                        Eos
-                        blanditiis repellat ducimus?
+                    <p class="isi">{!! $article->content !!}
                     </p>
 
                     <p class="text-start mt-5 fw-bold">Tags: </p>
                     <div class="tag-wrapper">
-                        <a class="tag-artikel" href="/artikel-by-tag/tag">billboard</a>
-                        <a class="tag-artikel" href="/artikel-by-tag/tag">semarang</a>
-                        <a class="tag-artikel" href="/artikel-by-tag/tag">terlaris</a>
+                        @foreach($article->text_tag as $d)
+                            <a class="tag-artikel" href="{{route('article.tag',['tag' => $d])}}">{{$d}}</a>
+                        @endforeach
                     </div>
                 </div>
 
