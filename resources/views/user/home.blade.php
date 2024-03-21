@@ -103,7 +103,7 @@
         </div>
         <div class="row  gx-5">
             @for ($i = 0; $i < 4; $i++)
-                <div class="col-3">
+                <div class="col-lg-3 col-md-6 col-sm12">
                     <div class="testimoni-card">
                         <p class="quote">“</p>
                         <p class="testimoni-text ">“Iklan ini benar-benar mengubah cara saya melihat produk ini. Saya sangat
