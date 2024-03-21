@@ -2,6 +2,14 @@ body {
   font-family: "Baloo Thambi 2", system-ui;
 }
 
+.nav-website {
+  display: block;
+}
+
+.nav-mobile {
+  display: none !important;
+}
+
 .feather {
   width: 24px;
   height: 24px;
@@ -984,4 +992,225 @@ body {
 }
 .tag-wrapper .tag-artikel:hover {
   background-color: #4fd0f3;
+}
+
+@media only screen and (max-width: 580px) {
+  .nav-website {
+    display: none;
+  }
+  .g-navbar {
+    height: 60px;
+  }
+  .nav-mobile {
+    display: flex !important;
+    padding: 25px;
+    justify-content: space-between;
+  }
+  .nav-mobile .iconmenu {
+    width: 30px !important;
+  }
+  .g-hero .hero-logo {
+    margin-top: 50px;
+    width: 50%;
+  }
+  .g-hero .hero-text img {
+    width: 80%;
+  }
+  .g-hero .hero-image {
+    margin-top: -10px;
+    width: 80%;
+  }
+  .g-info {
+    margin-top: 100px;
+    flex-wrap: wrap;
+    padding: 10px 10px;
+  }
+  .g-info .line {
+    display: none;
+  }
+  .g-info .info {
+    width: 50%;
+    height: 0;
+  }
+  .g-info .info .definition {
+    font-size: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .g-info .info .score {
+    font-size: 1.2rem;
+  }
+  .g-container-left {
+    padding: 5% 20px;
+  }
+  .g-container-left img {
+    display: none;
+  }
+  .g-container-left .content .title {
+    font-size: 2rem;
+    margin-bottom: 40px;
+  }
+  .g-container-left .content img {
+    display: none;
+  }
+  .g-container-clients {
+    padding: 5% 20px;
+    margin-top: 100px;
+  }
+  .g-container-clients .content .title {
+    font-size: 2rem;
+    text-align: center;
+  }
+  .g-container-clients .content .text {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+  .g-container-clients .client-list {
+    grid-template-columns: repeat(auto-fit, minmax(60px, max-content));
+    gap: 26px;
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+  .g-container-testimoni {
+    margin-top: 100px;
+    padding: 5% 20px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .g-container-testimoni .title-container .title {
+    font-size: 2rem;
+    line-height: 1.4;
+    margin-bottom: 40px;
+  }
+  .g-portfolio {
+    padding: 0;
+  }
+  .g-portfolio .title {
+    font-size: 2rem;
+    padding: 5% 20px;
+  }
+  .g-portfolio .portfolio-wrapper {
+    width: 100%;
+  }
+  .g-portfolio .portfolio-wrapper .portfolio {
+    width: 75px;
+    height: 75px;
+  }
+  .g-portfolio .portfolio-wrapper .portfolio img {
+    width: 100%;
+    height: 100%;
+    -o-object-fit: cover;
+    object-fit: cover;
+  }
+  .oneweek-services {
+    display: block;
+  }
+  .oneweek-services img {
+    display: none;
+  }
+  .oneweek-services .title {
+    font-size: 2rem;
+  }
+  .oneweek-services .text {
+    font-size: 1rem;
+  }
+  .onetime-services {
+    margin-top: 100px;
+    width: 100%;
+    padding: 0 20px;
+    display: flex;
+    gap: 50px;
+    align-items: end;
+  }
+  .onetime-services img {
+    display: none;
+  }
+  .onetime-services .content {
+    width: 100%;
+  }
+  .onetime-services .content .title {
+    font-size: 2rem;
+  }
+  .footer .footer-tag {
+    font-size: 1.5rem;
+    margin-top: 20px;
+    margin-bottom: 0;
+  }
+  .footer .footer-logo {
+    width: 70%;
+  }
+  .footer .header {
+    margin-top: 50px;
+  }
+  .arrow-container {
+    display: flex;
+    gap: 10px;
+  }
+  .arrow-container .arrow {
+    height: 30px !important;
+    width: 30px !important;
+  }
+  .arrow-container .arrow img {
+    width: 25px;
+    height: 25px;
+  }
+  .g-services {
+    margin-top: 0px;
+  }
+  .g-services .g-menu {
+    flex-wrap: wrap;
+    padding: 0 5px;
+  }
+  .g-services .g-content {
+    width: 95%;
+    flex-wrap: wrap;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .g-services .g-content img {
+    width: 95%;
+    height: 95%;
+    -o-object-fit: cover;
+    object-fit: cover;
+  }
+  .g-services .g-content .text .title {
+    margin-top: 30px;
+  }
+  .pencarian-container {
+    padding: 10px;
+    width: 95%;
+    margin-top: 0;
+  }
+  .pencarian-container .pencarian-content .pencarian-wrapper {
+    padding: 0;
+  }
+  .title-content {
+    font-size: 2rem;
+  }
+  .list-article {
+    width: 100%;
+  }
+  .pencarian-container.contact {
+    width: 95%;
+  }
+  .p-sm-20 {
+    padding: 20px;
+  }
+  .sm-none {
+    display: none;
+  }
+  .sm-mb-30 {
+    margin-bottom: 30px;
+  }
+  .morethan10000 {
+    margin-top: 50px;
+  }
+  .morethan10000 p {
+    width: 95%;
+  }
+  .detail-titik {
+    width: 95%;
+    margin-top: 0;
+    padding: 0;
+  }
 }

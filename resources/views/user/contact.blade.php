@@ -13,7 +13,7 @@
             <div class="pencarian-content w-100">
                 <div class="pencarian-wrapper ">
                     <div class="row ">
-                        <div class="col-8  ">
+                        <div class="col-md-8  col-sm-12 p-sm-20 sm-mb-30">
                             <p class="title mb-0 text-start  ">Berikan Kami Pesan</p>
                             <p class="title mb-3 text-start  "> atau Kritik dan Saran</p>
                             <div class="d-flex position-relative ">
@@ -43,12 +43,12 @@
 
                                     </div>
                                 </form>
-                                <div class="me-3 ms-3 " style="width: 1px; border : 1px solid #eee"></div>
+                                <div class="me-3 ms-3 sm-none " style="width: 1px; border : 1px solid #eee"></div>
                             </div>
 
                         </div>
 
-                        <div class="col-4  ">
+                        <div class="col-md-4 col-sm-12">
                             <div class="contact">
 
                                 <p class="header">Contact Us</p>

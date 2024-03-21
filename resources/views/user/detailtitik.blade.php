@@ -18,7 +18,7 @@
 
                     <div class="p-3">
                         <div class="row">
-                            <div class="col-4">
+                            <div class="col-md-4 col-sm-12">
                                 <div class="info">
                                     <span class="material-symbols-outlined  ">
                                         location_on
@@ -29,7 +29,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-4">
+                            <div class="col-md-4 col-sm-12">
                                 <div class="info">
                                     <span class="material-symbols-outlined">
                                         location_city
@@ -41,7 +41,7 @@
                                 </div>
 
                             </div>
-                            <div class="col-4">
+                            <div class="col-md-4 col-sm-12">
                                 <div class="info">
                                     <span class="material-symbols-outlined">
                                         area_chart
@@ -62,7 +62,7 @@
                                 <span class="spesifikasi">Spesifikasi</span>
                             </div>
                             <div class="row p-3">
-                                <div class="col-4">
+                                <div class="col-md-4 col-sm-6">
                                     <div class="info">
                                         <span class="material-symbols-outlined">
                                             mms
@@ -74,7 +74,7 @@
                                     </div>
 
                                 </div>
-                                <div class="col-4">
+                                <div class="col-md-4 col-sm-6">
                                     <div class="info">
                                         <span class="material-symbols-outlined">
                                             output_circle
@@ -86,7 +86,7 @@
                                     </div>
 
                                 </div>
-                                <div class="col-4">
+                                <div class="col-md-4 col-sm-12">
 
                                     <div class="info">
                                         <span class="material-symbols-outlined">
@@ -100,7 +100,7 @@
 
                                 </div>
 
-                                <div class="col-4">
+                                <div class="col-md-4 col-sm-12">
                                     <div class="info">
                                         <span class="material-symbols-outlined">
                                             move_selection_left
@@ -112,7 +112,7 @@
                                     </div>
 
                                 </div>
-                                <div class="col-4">
+                                <div class="col-md-4 col-sm-12">
                                     <div class="info">
                                         <span class="material-symbols-outlined">
                                             trending_flat
@@ -124,7 +124,7 @@
                                     </div>
 
                                 </div>
-                                <div class="col-4">
+                                <div class="col-md-4 col-sm-12">
                                     <div class="info">
                                         <span class="material-symbols-outlined">
                                             arrow_upward
@@ -135,7 +135,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-4">
+                                <div class="col-md-4 col-sm-12">
                                     <div class="info">
                                         <span class="material-symbols-outlined">
                                             traffic
