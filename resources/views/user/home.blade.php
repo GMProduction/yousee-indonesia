@@ -53,7 +53,9 @@
                 Anda,
                 pilih durasi tayang mulai dari mingguan ataupun bulanan.
             </p>
-            <a class="btn-pasangiklan">
+            <a class="btn-pasangiklan"
+                href="https://api.whatsapp.com/send?phone=6281226059817&text=Halo%2C%20saya%20mau%20tanya%20tentang%20pasang%20billboard"
+                target="_blank">
                 Pasang Iklan Sekarang
             </a>
         </div>
@@ -77,9 +79,9 @@
         </div>
 
         <div class="client-list">
-            @for ($i = 1; $i < 15; $i++)
-                <img class="client" loading="lazy" src="{{ asset('images/local/clients/' . $i . '.webp') }}" />
-            @endfor
+            @foreach ($clients as $client)
+                <img class="client" loading="lazy" src="{{ asset($client->image) }}" />
+            @endforeach
 
         </div>
     </div>
@@ -102,33 +104,27 @@
             </div>
         </div>
         <div class="row  gx-5">
-            @for ($i = 0; $i < 4; $i++)
+            @foreach ($testimonies as $testimoni)
                 <div class="col-lg-3 col-md-6 col-sm12">
                     <div class="testimoni-card">
                         <p class="quote">“</p>
-                        <p class="testimoni-text ">“Iklan ini benar-benar mengubah cara saya melihat produk ini. Saya sangat
-                            puas
-                            dengan kreativitas
-                            dan efektivitasnya.”</p>
+                        <p class="testimoni-text ">“{{ $testimoni->content }}”</p>
                         <hr>
                         <div class="testimoni-profile">
-                            <img class="testimoni-profpic" src="{{ asset('images/local/login.jpg') }}" />
+                            <img class="testimoni-profpic" src="{{ asset($testimoni->image) }}" />
                             <div>
-                                <p class="testimoni-name">Joko Paryanto</p>
-                                <p class="testimoni-position">CEO (Logan Food)</p>
+                                <p class="testimoni-name">{{ $testimoni->name }}</p>
                                 <span>
-                                    <img src="{{ asset('images/local/star.png') }}" />
-                                    <img src="{{ asset('images/local/star.png') }}" />
-                                    <img src="{{ asset('images/local/star.png') }}" />
-                                    <img src="{{ asset('images/local/star.png') }}" />
-                                    <img src="{{ asset('images/local/star.png') }}" />
+                                    @for ($i = 0; $i < $testimoni->star; $i++)
+                                        <img src="{{ asset('images/local/star.png') }}" />
+                                    @endfor
+
                                 </span>
                             </div>
                         </div>
                     </div>
                 </div>
-            @endfor
-
+            @endforeach
         </div>
 
     </div>
@@ -139,30 +135,11 @@
     <div class="g-portfolio">
         <p class="title ">Portfolio Kami</p>
         <div class="portfolio-wrapper">
-            <div class="portfolio">
-                <img src="{{ asset('images/local/login.jpg') }}" />
-            </div>
-            <div class="portfolio">
-                <img src="{{ asset('images/local/login.jpg') }}" />
-            </div>
-            <div class="portfolio">
-                <img src="{{ asset('images/local/login.jpg') }}" />
-            </div>
-            <div class="portfolio">
-                <img src="{{ asset('images/local/login.jpg') }}" />
-            </div>
-            <div class="portfolio">
-                <img src="{{ asset('images/local/login.jpg') }}" />
-            </div>
-            <div class="portfolio">
-                <img src="{{ asset('images/local/login.jpg') }}" />
-            </div>
-            <div class="portfolio">
-                <img src="{{ asset('images/local/login.jpg') }}" />
-            </div>
-            <div class="portfolio">
-                <img src="{{ asset('images/local/login.jpg') }}" />
-            </div>
+            @foreach ($portfolios as $portfolio)
+                <div class="portfolio">
+                    <img src="{{ asset($portfolio->image) }}" />
+                </div>
+            @endforeach
         </div>
     </div>
 

@@ -13,9 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('user.home');
-});
+Route::get('/', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::prefix('/admin')->group(function () {
     Route::get('', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin.dashboard');
@@ -61,7 +59,6 @@ Route::prefix('/admin')->group(function () {
         Route::post('data', [\App\Http\Controllers\Admin\TestimoniController::class, 'pageAdd'])->name('admin.testimoni.data');
         Route::post('delete', [\App\Http\Controllers\Admin\TestimoniController::class, 'delete'])->name('admin.testimoni.delete');
     });
-
 });
 
 Route::get('/admin/inbox', function () {
@@ -72,13 +69,13 @@ Route::match(['GET', 'POST'], '/login', [\App\Http\Controllers\Admin\LoginContro
 Route::get('/logout', [\App\Http\Controllers\Admin\LoginController::class, 'logout']);
 
 
-Route::prefix('artikel')->group(function (){
-    Route::get('',[\App\Http\Controllers\ArtikelController::class,'index']);
-    Route::get('{slug}', [\App\Http\Controllers\ArtikelController::class,'detail'])->name('article.detail');
-    Route::get('tag/{tag}', [\App\Http\Controllers\ArtikelController::class,'byTag'])->name('article.tag');
+Route::prefix('artikel')->group(function () {
+    Route::get('', [\App\Http\Controllers\ArtikelController::class, 'index']);
+    Route::get('{slug}', [\App\Http\Controllers\ArtikelController::class, 'detail'])->name('article.detail');
+    Route::get('tag/{tag}', [\App\Http\Controllers\ArtikelController::class, 'byTag'])->name('article.tag');
 });
 
-Route::get('/services',[\App\Http\Controllers\ServiceController::class,'index']);
+Route::get('/services', [\App\Http\Controllers\ServiceController::class, 'index']);
 
 
 

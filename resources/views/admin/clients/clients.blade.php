@@ -2,7 +2,7 @@
 
 @section('morecss')
     {{-- DROPZONE --}}
-    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css"/>
+    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
 @endsection
 @section('content')
     <div class="dashboard">
@@ -32,22 +32,22 @@
                         <div class="table-responsive">
                             <table id="tabel" class="table table-striped" style="width:100%">
                                 <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Logo Clients</th>
-                                    <th>Nama clients</th>
-                                    <th style="width: 100px;">Action</th>
-                                    {{-- detail, ubah status pesanan --}}
-                                </tr>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Logo Clients</th>
+                                        <th>Nama clients</th>
+                                        <th style="width: 100px;">Action</th>
+                                        {{-- detail, ubah status pesanan --}}
+                                    </tr>
                                 </thead>
                                 <tfoot>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Logo Clients</th>
-                                    <th>Nama clients</th>
-                                    <th>Action</th>
-                                    {{-- detail, ubah status pesanan --}}
-                                </tr>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Logo Clients</th>
+                                        <th>Nama clients</th>
+                                        <th>Action</th>
+                                        {{-- detail, ubah status pesanan --}}
+                                    </tr>
                                 </tfoot>
                             </table>
                         </div>
@@ -67,19 +67,20 @@
                             <div class=" mb-3">
                                 <label class="form-label">Gambar Clients</label>
 
-                                <input type="file" id="image1" name="image" class="image"
-                                       data-min-height="10" data-heigh="400" accept="image/jpeg, image/jpg, image/png"
-                                       data-allowed-file-extensions="jpg jpeg png"/>
+                                <input type="file" id="image1" name="image" class="image" data-min-height="10"
+                                    data-heigh="400" accept="image/jpeg, image/jpg, image/png"
+                                    data-allowed-file-extensions="jpg jpeg png webp" />
                             </div>
 
                             <div class="form-floating mb-3">
                                 <input type="text" class="form-control" id="p-namaclient" name="name"
-                                       placeholder="Nama Clients">
+                                    placeholder="Nama Clients">
                                 <label for="p-namaclient" class="form-label">Nama Clients</label>
                             </div>
 
                             <div class="d-flex justify-content-between gap-2">
-                                <button type="button" class="btn-warning-sm w-100 text-center " onclick="clearData()">Clear</button>
+                                <button type="button" class="btn-warning-sm w-100 text-center "
+                                    onclick="clearData()">Clear</button>
                                 <button type="submit" class="bt-primary  w-100 ">Simpan Perubahan</button>
                             </div>
                         </form>
@@ -92,15 +93,14 @@
 
 @section('morejs')
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             setImgDropify('image1');
         });
 
         show_datatable();
 
         function show_datatable() {
-            let colums = [
-                {
+            let colums = [{
                     className: "text-center",
                     orderable: false,
                     defaultContent: "",
@@ -108,39 +108,46 @@
                 },
                 {
                     // data: 'public_health_center.name', name: 'public_health_center.name'
-                    data: 'image', name: 'image',
-                    render: function (data, x, row) {
+                    data: 'image',
+                    name: 'image',
+                    render: function(data, x, row) {
                         return '<img  src="' + row.image + '" height="50" alt="img"/>'
                     }
                 },
                 {
-                    data: 'name', name: 'name',
+                    data: 'name',
+                    name: 'name',
                 },
                 {
                     className: "text-center",
-                    data: 'id', name: 'id', orderable: false, searchable: false,
-                    render: function (data, x, row) {
+                    data: 'id',
+                    name: 'id',
+                    orderable: false,
+                    searchable: false,
+                    render: function(data, x, row) {
                         return '<div class="d-flex justify-content-between gap-1">' +
                             '       <a class="btn-primary-sm">Lihat</a>' +
-                            '       <a class="btn-warning-sm" id="editData" data-image="' + row.image + '" data-name="' + row.name + '" data-id="' + data + '">Ubah</a>' +
-                            '       <a class="btn-danger-sm deletebutton" id="deleteData" data-name="' + row.name + '" data-id="' + data + '">Hapus</a>' +
+                            '       <a class="btn-warning-sm" id="editData" data-image="' + row.image +
+                            '" data-name="' + row.name + '" data-id="' + data + '">Ubah</a>' +
+                            '       <a class="btn-danger-sm deletebutton" id="deleteData" data-name="' + row.name +
+                            '" data-id="' + data + '">Hapus</a>' +
                             '</div>'
                     }
                 },
             ];
-            datatable('tabel', '{{route('admin.clients.datatable')}}', colums)
+            datatable('tabel', '{{ route('admin.clients.datatable') }}', colums)
         }
 
-        $(document).on('click', '#deleteData', function () {
+        $(document).on('click', '#deleteData', function() {
             let form = {
-                '_token': '{{csrf_token()}}',
+                '_token': '{{ csrf_token() }}',
                 'id': $(this).data('id')
             }
-            deleteData('client ' + $(this).data('name'), form, '{{route('admin.clients.delete')}}', aftersave)
+            deleteData('client ' + $(this).data('name'), form, '{{ route('admin.clients.delete') }}', aftersave)
             return false
         })
 
-        $(document).on('click', '#editData', function () {
+        $(document).on('click', '#editData', function() {
             $('#p-namaclient').val($(this).data('name'))
             $('#id').val($(this).data('id'))
             setImgDropify('image1', null, $(this).data('image'));
@@ -148,7 +155,7 @@
         })
 
         function saveForm() {
-            saveData('Simpan Client', 'form', '{{route('admin.clients.data')}}', null, 'image', aftersave)
+            saveData('Simpan Client', 'form', '{{ route('admin.clients.data') }}', null, 'image', aftersave)
             return false
         }
 
