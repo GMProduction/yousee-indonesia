@@ -1,6 +1,6 @@
 /** General page styling **/
 body {
-  background-color: #e5e5e5;
+  background-color: #fefefe;
   font-family: "Helvetica Neue Light", "Helvetica Neue", Arial, sans-serif;
 }
 
@@ -87,6 +87,7 @@ a {
     -webkit-border-radius: 1rem;
        -moz-border-radius: 1rem;
             border-radius: 1rem;
+            width:210px;
   }
 
   .tiles-wrap li img:hover{
@@ -183,4 +184,17 @@ a {
 #filters li.active {
   background: #4281f5;
   color: #ffffff;
+}
+
+@media only screen and (max-width: 620px) {
+    .tiles-wrap a {
+
+        width: 100px;
+        height: 100px;
+
+      }
+
+    .tiles-wrap li img{
+                width:110px;
+      }
 }

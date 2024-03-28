@@ -155,7 +155,7 @@
             <!-- These are our grid blocks -->
             @foreach ($portfolios as $portfolio)
                 <li>
-                    <img src="{{ asset($portfolio->image) }}" width="210" />
+                    <img src="{{ asset($portfolio->image) }}" />
                 </li>
             @endforeach
 
