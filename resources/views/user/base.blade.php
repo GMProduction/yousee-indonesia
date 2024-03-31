@@ -351,6 +351,8 @@
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
     <script src="{{ asset('js/wookmark.js') }}"></script>
+
+
     @yield('morejs')
 </body>
 

@@ -211,13 +211,15 @@
         });
 
         splide.mount();
-    </script>
-    <script type="text/javascript">
-        window.onload = function() {
-            var wookmark1 = new Wookmark("#wookmark1", {
-                outerOffset: 10, // Optional, the distance to the containers border
-                itemWidth: 210, // Optional, the width of a grid item
-            });
-        };
+
+        <
+        script type = "text/javascript" >
+            window.onload = function() {
+                var wookmark1 = new Wookmark("#wookmark1", {
+                    outerOffset: 10, // Optional, the distance to the containers border
+                    itemWidth: 210, // Optional, the width of a grid item
+                });
+            }; <
+        />
     </script>
 @endsection
