@@ -1,5 +1,13 @@
 @extends('user.base')
 
+@section('morecss')
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"
+        integrity="sha256-FZsW7H2V5X9TGinSjjwYJ419Xka27I8XPDmWryGlWtw=" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css"
+        integrity="sha256-5uKiXEwbaQh9cgd2/5Vp6WmMnsUr3VZZw0a8rKnOKNU=" crossorigin="anonymous">
+@endsection
+
 @section('content')
     <div class="g-hero">
         <img class="hero-logo" src="{{ asset('images/local/logo-yousee.png') }}" />
@@ -53,7 +61,9 @@
                 Anda,
                 pilih durasi tayang mulai dari mingguan ataupun bulanan.
             </p>
-            <a class="btn-pasangiklan">
+            <a class="btn-pasangiklan"
+                href="https://api.whatsapp.com/send?phone=6281226059817&text=Halo%2C%20saya%20mau%20tanya%20tentang%20pasang%20billboard"
+                target="_blank">
                 Pasang Iklan Sekarang
             </a>
         </div>
@@ -77,9 +87,9 @@
         </div>
 
         <div class="client-list">
-            @for ($i = 1; $i < 15; $i++)
-                <img class="client" loading="lazy" src="{{ asset('images/local/clients/' . $i . '.webp') }}" />
-            @endfor
+            @foreach ($clients as $client)
+                <img class="client" loading="lazy" src="{{ asset($client->image) }}" />
+            @endforeach
 
         </div>
     </div>
@@ -87,90 +97,74 @@
 
     {{-- TESTIMONIES --}}
     <div class="g-container-testimoni">
-        <div class="title-container">
-            <p class="title">Pelanggan Kami
-                yang Puas</p>
 
-            <div class="arrow-container">
-                <a class="arrow">
-                    <img src="{{ asset('images/local/icon/chevron_left.png') }}" />
-                </a>
 
-                <a class="arrow">
-                    <img src="{{ asset('images/local/icon/chevron_right.png') }}" />
-                </a>
-            </div>
-        </div>
-        <div class="row  gx-5">
-            @for ($i = 0; $i < 4; $i++)
-                <div class="col-lg-3 col-md-6 col-sm12">
-                    <div class="testimoni-card">
-                        <p class="quote">“</p>
-                        <p class="testimoni-text ">“Iklan ini benar-benar mengubah cara saya melihat produk ini. Saya sangat
-                            puas
-                            dengan kreativitas
-                            dan efektivitasnya.”</p>
-                        <hr>
-                        <div class="testimoni-profile">
-                            <img class="testimoni-profpic" src="{{ asset('images/local/login.jpg') }}" />
-                            <div>
-                                <p class="testimoni-name">Joko Paryanto</p>
-                                <p class="testimoni-position">CEO (Logan Food)</p>
-                                <span>
-                                    <img src="{{ asset('images/local/star.png') }}" />
-                                    <img src="{{ asset('images/local/star.png') }}" />
-                                    <img src="{{ asset('images/local/star.png') }}" />
-                                    <img src="{{ asset('images/local/star.png') }}" />
-                                    <img src="{{ asset('images/local/star.png') }}" />
-                                </span>
-                            </div>
-                        </div>
-                    </div>
+
+
+        <section class="splide" aria-label="Splide Basic HTML Example">
+            <div class="title-container">
+                <p class="title">Pelanggan Kami
+                    yang Puas</p>
+                <div class="arrow-container splide__arrows">
+                    <button class="arrow splide__arrow--prev">
+                        <img src="{{ asset('images/local/icon/chevron_left.png') }}" />
+                    </button>
+                    <button class="arrow splide__arrow--next">
+                        <img src="{{ asset('images/local/icon/chevron_right.png') }}" />
+                    </button>
                 </div>
-            @endfor
+            </div>
 
-        </div>
+            <div class="splide__track">
+                <ul class="splide__list">
+                    @foreach ($testimonies as $testimoni)
+                        <li class="splide__slide">
+                            <div class="testimoni-card">
+                                <p class="quote">“</p>
+                                <p class="testimoni-text ">“{{ $testimoni->content }}”</p>
+                                <hr>
+                                <div class="testimoni-profile">
+                                    <img class="testimoni-profpic" src="{{ asset($testimoni->image) }}" />
+                                    <div>
+                                        <p class="testimoni-name">{{ $testimoni->name }}</p>
+                                        <span>
+                                            @for ($i = 0; $i < $testimoni->star; $i++)
+                                                <img src="{{ asset('images/local/star.png') }}" />
+                                            @endfor
 
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+        </section>
     </div>
+
 
 
     <div class="mb-5"></div>
     {{-- PORTFOLIO --}}
     <div class="g-portfolio">
-        <p class="title ">Portfolio Kami</p>
-        <div class="portfolio-wrapper">
-            <div class="portfolio">
-                <img src="{{ asset('images/local/login.jpg') }}" />
-            </div>
-            <div class="portfolio">
-                <img src="{{ asset('images/local/login.jpg') }}" />
-            </div>
-            <div class="portfolio">
-                <img src="{{ asset('images/local/login.jpg') }}" />
-            </div>
-            <div class="portfolio">
-                <img src="{{ asset('images/local/login.jpg') }}" />
-            </div>
-            <div class="portfolio">
-                <img src="{{ asset('images/local/login.jpg') }}" />
-            </div>
-            <div class="portfolio">
-                <img src="{{ asset('images/local/login.jpg') }}" />
-            </div>
-            <div class="portfolio">
-                <img src="{{ asset('images/local/login.jpg') }}" />
-            </div>
-            <div class="portfolio">
-                <img src="{{ asset('images/local/login.jpg') }}" />
-            </div>
-        </div>
+        <p class="title mb-0">Portfolio Kami</p>
+    </div>
+    <div role="main">
+        <ul class="tiles-wrap animated" id="wookmark1">
+            <!-- These are our grid blocks -->
+            @foreach ($portfolios as $portfolio)
+                <li>
+                    <img src="{{ asset($portfolio->image) }}" />
+                </li>
+            @endforeach
+
+        </ul>
     </div>
 
     {{-- ONE WEEK SERVICES --}}
     <div class="oneweek-services">
         <img src={{ asset('images/local/calendar.jpg') }} />
-
-
         <div>
             <p class="title">Pasang Iklan Billboard 1 Minggu Tetap Dilayani. Fleksibel!</p>
             <p class="text">Maksimalkan performa iklan Anda, kami rekomendasikan untuk memasang lebih dari 1 titik di
@@ -182,10 +176,50 @@
             </a>
         </div>
     </div>
+@endsection
 
-
-    <script src="{{ asset('js/fitty.min.js') }}"></script>
+@section('morejs')
     <script>
-        fitty('.fittopage');
+        var splide = new Splide('.splide', {
+            classes: {
+                arrows: 'splide__arrows your-class-arrows',
+                arrow: 'splide__arrow your-class-arrow',
+                prev: 'splide__arrow--prev your-class-prev',
+                next: 'splide__arrow--next your-class-next',
+            },
+            breakpoints: {
+                1366: {
+                    perPage: 3,
+
+                },
+                1024: {
+                    perPage: 2,
+
+                },
+                767: {
+                    perPage: 1,
+
+                },
+
+            },
+            type: 'loop',
+            perPage: 4,
+            perMove: 1,
+            prevArrow: $('#prev'),
+            nextArrow: $('#next'),
+            pagination: false,
+        });
+
+        splide.mount();
+
+        <
+        script type = "text/javascript" >
+            window.onload = function() {
+                var wookmark1 = new Wookmark("#wookmark1", {
+                    outerOffset: 10, // Optional, the distance to the containers border
+                    itemWidth: 210, // Optional, the width of a grid item
+                });
+            }; <
+        />
     </script>
-@endsection()
+@endsection

@@ -22,6 +22,7 @@
 
     {{-- CSS --}}
     <link href="{{ asset('css/genosstyle.v.01.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/main.css') }}" rel="stylesheet" />
 
     {{-- FONT --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -142,7 +143,8 @@
                         class="indicator "></span></a></li>
             <li><a class="dropdown-item menu {{ Request::is('services') ? 'active' : '' }}"
                     href="/services">Services<span class="indicator "></span></a></li>
-            <li><a class="dropdown-item menu {{ Request::is('titik-kami') ? 'active' : '' }}" href="/titik-kami">Titik
+            <li><a class="dropdown-item menu {{ Request::is('titik-kami') ? 'active' : '' }}"
+                    href="/titik-kami">Titik
                     Kami<span class="indicator"></span></a></li>
             <li><a class="dropdown-item menu {{ Request::is('portfolio') ? 'active' : '' }}"
                     href="/portfolio">Portfolio<span class="indicator"></span></a></li>
@@ -341,7 +343,17 @@
         </div>
     </footer>
 
+
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+    <script src="{{ asset('js/wookmark.js') }}"></script>
+
+
+    @yield('morejs')
 </body>
 
 </html>
