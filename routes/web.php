@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::prefix('/admin')->group(function () {
+Route::prefix('/admin')->middleware('auth')->group(function () {
     Route::get('', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('titik', [\App\Http\Controllers\Admin\DashboardController::class, 'getDataTitik'])->name('admin.dashboard.titik');
     Route::get('article', [\App\Http\Controllers\Admin\DashboardController::class, 'getDataArticle'])->name('admin.dashboard.article');
@@ -59,11 +59,12 @@ Route::prefix('/admin')->group(function () {
         Route::post('data', [\App\Http\Controllers\Admin\TestimoniController::class, 'pageAdd'])->name('admin.testimoni.data');
         Route::post('delete', [\App\Http\Controllers\Admin\TestimoniController::class, 'delete'])->name('admin.testimoni.delete');
     });
+    Route::get('inbox', function () {
+        return view('admin.inbox.inbox');
+    });
+
 });
 
-Route::get('/admin/inbox', function () {
-    return view('admin.inbox.inbox');
-});
 
 Route::match(['GET', 'POST'], '/login', [\App\Http\Controllers\Admin\LoginController::class, 'index'])->name('login');
 Route::get('/logout', [\App\Http\Controllers\Admin\LoginController::class, 'logout']);
@@ -83,7 +84,6 @@ Route::get('/titik/{province}', [\App\Http\Controllers\TitikController::class,'t
 Route::get('/titik/{prvince}/{city}', function () {
     return view('user.titik_per_kota');
 });
-
 
 Route::get('/titik-kami', [\App\Http\Controllers\TitikController::class,'index']);
 
