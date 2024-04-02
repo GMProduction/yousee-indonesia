@@ -78,21 +78,14 @@ Route::prefix('artikel')->group(function () {
 Route::get('/services', [\App\Http\Controllers\ServiceController::class, 'index']);
 
 
+Route::get('/titik/{province}', [\App\Http\Controllers\TitikController::class,'titikProvince']);
 
-
-
-Route::get('/titik/titik-billboard-di-jawa-tengah', function () {
-    return view('user.titik_per_provinsi');
-});
-
-Route::get('/titik/titik-billboard-di-semarang', function () {
+Route::get('/titik/{prvince}/{city}', function () {
     return view('user.titik_per_kota');
 });
 
 
-Route::get('/titik-kami', function () {
-    return view('user.titikkami');
-});
+Route::get('/titik-kami', [\App\Http\Controllers\TitikController::class,'index']);
 
 Route::get('/contact', function () {
     return view('user.contact');
@@ -104,6 +97,4 @@ Route::get('/portfolio', function () {
 
 
 
-Route::get('/detailtitik/slug-titik', function () {
-    return view('user.detailtitik');
-});
+Route::get('/detailtitik/{slug}', [\App\Http\Controllers\TitikController::class, 'detail']);

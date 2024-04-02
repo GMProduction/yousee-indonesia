@@ -14,28 +14,28 @@
                 <div class="pencarian-wrapper">
                     <p class="title">Tersedia titik diseluruh INDONESIA</p>
                     <div class="prov-wrapper">
-                        <a class="prov"><img src="{{ asset('images/local/icon/provinsi/jakarta.webp') }}" /><span>DKI
+                        <a class="prov" href="/titik/DKI JAKARTA"><img src="{{ asset('images/local/icon/provinsi/jakarta.webp') }}" /><span>DKI
                                 Jakarta</span></a>
-                        <a class="prov"><img src="{{ asset('images/local/icon/provinsi/jawabarat.png') }}" />Jawa
+                        <a class="prov" href="/titik/JAWA BARAT"><img src="{{ asset('images/local/icon/provinsi/jawabarat.png') }}" />Jawa
                             Barat</a>
-                        <a class="prov"><img src="{{ asset('images/local/icon/provinsi/jawatengah.png') }}" />Jawa
+                        <a class="prov" href="/titik/JAWA TENGAH"><img src="{{ asset('images/local/icon/provinsi/jawatengah.png') }}" />Jawa
                             Tengah</a>
-                        <a class="prov"><img src="{{ asset('images/local/icon/provinsi/jawatimur.png') }}" />Jawa
+                        <a class="prov" href="/titik/JAWA TIMUR"><img src="{{ asset('images/local/icon/provinsi/jawatimur.png') }}" />Jawa
                             Timur</a>
-                        <a class="prov"><img src="{{ asset('images/local/icon/provinsi/jogja.png') }}" />DI Yogyakarta</a>
-                        <a class="prov"><img src="{{ asset('images/local/icon/provinsi/bali.jpg') }}" />BALI</a>
+                        <a class="prov" href="/titik/DI YOGYAKARTA"><img src="{{ asset('images/local/icon/provinsi/jogja.png') }}" />DI Yogyakarta</a>
+                        <a class="prov" href="/titik/BALI"><img src="{{ asset('images/local/icon/provinsi/bali.jpg') }}" />BALI</a>
 
-                        <a class="prov"><img src="{{ asset('images/local/icon/provinsi/sumaterautara.png') }}" />SUMATERA
+                        <a class="prov" href="/titik/SUMATERA UTARA"><img src="{{ asset('images/local/icon/provinsi/sumaterautara.png') }}" />SUMATERA
                             UTARA</a>
-                        <a class="prov"><img src="{{ asset('images/local/icon/provinsi/sumaterabarat.png') }}" />SUMATERA
+                        <a class="prov" href="/titik/SUMATERA BARAT"><img src="{{ asset('images/local/icon/provinsi/sumaterabarat.png') }}" />SUMATERA
                             BARAT</a>
-                        <a class="prov"><img
+                        <a class="prov" href="/titik/SUMATERA SELATAN"><img
                                 src="{{ asset('images/local/icon/provinsi/sumateraselatan.png') }}" />SUMATERA SELATAN</a>
-                        <a class="prov"><img
+                        <a class="prov" href="/titik/KALIMANTAN"><img
                                 src="{{ asset('images/local/icon/provinsi/kalimantan.png') }}" />KALIMANTAN</a>
-                        <a class="prov"><img src="{{ asset('images/local/icon/provinsi/sulawesi.png') }}" />SULAWESI</a>
-                        <a class="prov"><img src="{{ asset('images/local/icon/provinsi/papua.png') }}" />PAPUA</a>
-                        <a class="prov"><img src="{{ asset('images/local/icon/provinsi/maluku.png') }}" />MALUKU</a>
+                        <a class="prov" href="/titik/SULAWESI"><img src="{{ asset('images/local/icon/provinsi/sulawesi.png') }}" />SULAWESI</a>
+                        <a class="prov" href="/titik/PAPUA"><img src="{{ asset('images/local/icon/provinsi/papua.png') }}" />PAPUA</a>
+                        <a class="prov" href="/titik/MALUKU"><img src="{{ asset('images/local/icon/provinsi/maluku.png') }}" />MALUKU</a>
                     </div>
                 </div>
             </div>
@@ -46,18 +46,18 @@
     <p class="title-content text-center">Titik di Jawa Tengah</p>
     <div class="list-article">
 
-        @for ($i = 0; $i < 20; $i++)
+       @foreach($titik as $d)
             <div class="card-article">
-                <img src="{{ asset('images/local/login.jpg') }}" />
+                <img src="{{ $dom. $d->image3 }}" />
 
                 <div class="article-content">
                     <div class="article-wrapper">
-                        <p class="title">Jl. Slamet Riyadi no 123 Banjarsari Surakarta</p>
-                        <p class="time">Jawa Tengah, Surakarta</p>
+                        <p class="title">{{$d->address}}</p>
+                        <p class="time">{{$d->city->province->name}}, {{$d->city->name}}</p>
                         <hr>
 
                         <div class="btn-wrapper">
-                            <a href="/detailtitik/slug-titik"><span>Lihat Titik</span><span
+                            <a href="/detailtitik/{{$d->slug}}"><span>Lihat Titik</span><span
                                     class="material-symbols-outlined">
                                     arrow_right_alt
                                 </span></a>
@@ -65,7 +65,32 @@
                     </div>
                 </div>
             </div>
-        @endfor
+        @endforeach
 
+
+{{--        @for ($i = 0; $i < 20; $i++)--}}
+{{--            <div class="card-article">--}}
+{{--                <img src="{{ asset('images/local/login.jpg') }}" />--}}
+
+{{--                <div class="article-content">--}}
+{{--                    <div class="article-wrapper">--}}
+{{--                        <p class="title">Jl. Slamet Riyadi no 123 Banjarsari Surakarta</p>--}}
+{{--                        <p class="time">Jawa Tengah, Surakarta</p>--}}
+{{--                        <hr>--}}
+
+{{--                        <div class="btn-wrapper">--}}
+{{--                            <a href="/detailtitik/slug-titik"><span>Lihat Titik</span><span--}}
+{{--                                    class="material-symbols-outlined">--}}
+{{--                                    arrow_right_alt--}}
+{{--                                </span></a>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        @endfor--}}
+
+    </div>
+    <div class="d-flex justify-content-center mt-4">
+        {{ $titik->links() }}
     </div>
 @endsection

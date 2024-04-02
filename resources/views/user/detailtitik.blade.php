@@ -1,5 +1,12 @@
 @extends('user.base')
-
+@section('header')
+    <meta name="description"  content="{{$data ? $data->type->name.' - '.$data->address.' - '.$data->location  : ''}}">
+    <meta name="keyword" content="{{$data->type->name}}">
+    <meta name="og:image" content="">
+    <meta name="og:site_name" content="">
+    <meta name="og:description" content="{{$data ? $data->type->name.' - '.$data->address.' - '.$data->location  : ''}}">
+    <meta name="og:title" content="{{$data ? $data->address : ''}}">
+@endsection
 @section('morecss')
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
@@ -12,9 +19,9 @@
         <div class="detail-titik">
             <div class="detailtitik-content">
                 <div class="detailtitik-wrapper">
-                    <img src="{{ asset('images/local/login.jpg') }}" />
+                    <img src="{{$dom. $data->image3 }}" />
 
-                    <p class="title mb-3 ">Jalan A Yani, Manahan, Banjarsari, Surakarta, Jawa Tengah</p>
+                    <p class="title mb-3 ">{{$data->address}}</p>
 
                     <div class="p-3">
                         <div class="row">
@@ -25,7 +32,7 @@
                                     </span>
                                     <div>
                                         <p class="title-part">Lokasi Titik</p>
-                                        <p class="content-part">Barat Terminal Tirtonadi Solo</p>
+                                        <p class="content-part">{{$data->location}}</p>
                                     </div>
                                 </div>
                             </div>
@@ -36,7 +43,7 @@
                                     </span>
                                     <div>
                                         <p class="title-part">Kota</p>
-                                        <p class="content-part">Surakarta</p>
+                                        <p class="content-part">{{$data->city->name}}</p>
                                     </div>
                                 </div>
 
@@ -48,7 +55,7 @@
                                     </span>
                                     <div>
                                         <p class="title-part">Provinsi</p>
-                                        <p class="content-part">Jawa Tengah</p>
+                                        <p class="content-part">{{$data->city->province->name}}</p>
                                     </div>
                                 </div>
 
@@ -69,7 +76,7 @@
                                         </span>
                                         <div>
                                             <p class="title-part">Type Media</p>
-                                            <p class="content-part">Billboard</p>
+                                            <p class="content-part">{{$data->type->name}}</p>
                                         </div>
                                     </div>
 
@@ -81,7 +88,7 @@
                                         </span>
                                         <div>
                                             <p class="title-part">Sisi</p>
-                                            <p class="content-part">1 Sisi</p>
+                                            <p class="content-part">{{$data->side}}</p>
                                         </div>
                                     </div>
 
@@ -94,7 +101,7 @@
                                         </span>
                                         <div>
                                             <p class="title-part">Jumlah</p>
-                                            <p class="content-part">1 Media Iklan</p>
+                                            <p class="content-part">{{$data->address}}</p>
                                         </div>
                                     </div>
 
@@ -107,7 +114,7 @@
                                         </span>
                                         <div>
                                             <p class="title-part">Posisi</p>
-                                            <p class="content-part">Horizontal</p>
+                                            <p class="content-part">{{$data->position}}</p>
                                         </div>
                                     </div>
 
@@ -119,7 +126,7 @@
                                         </span>
                                         <div>
                                             <p class="title-part">Panjang</p>
-                                            <p class="content-part">10 Meter</p>
+                                            <p class="content-part">{{$data->width}}</p>
                                         </div>
                                     </div>
 
@@ -131,7 +138,7 @@
                                         </span>
                                         <div>
                                             <p class="title-part">Tinggi</p>
-                                            <p class="content-part">5 Meter</p>
+                                            <p class="content-part">{{$data->height}}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -142,7 +149,7 @@
                                         </span>
                                         <div>
                                             <p class="title-part">Trafik /hari</p>
-                                            <p class="content-part">14567</p>
+                                            <p class="content-part">{{$data->trafic}}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -154,30 +161,30 @@
         </div>
 
 
-        <p class="title-content ">Titik Kami yang Lain</p>
+        <p class="title-content ">Titik Kami yang Lain di {{$data->city->name}}</p>
 
         <div class="list-article">
 
-            @for ($i = 0; $i < 20; $i++)
+            @foreach($titik as $d)
                 <div class="card-article">
-                    <img src="{{ asset('images/local/login.jpg') }}" />
+                    <img src="{{ $dom. $d->image3 }}" />
 
                     <div class="article-content">
                         <div class="article-wrapper">
-                            <p class="title">Jl. Slamet Riyadi no 123 Banjarsari Surakarta</p>
-                            <p class="time">Jawa Tengah, Surakarta</p>
+                            <p class="title">{{$d->address}}</p>
+                            <p class="time">{{$d->city->province->name}}, {{$d->city->name}}</p>
                             <hr>
 
                             <div class="btn-wrapper">
-                                <a href="/detailtitik/slug-titik"><span>Lihat Titik</span><span
+                                <a href="/detailtitik/{{$d->slug}}"><span>Lihat Titik</span><span
                                         class="material-symbols-outlined">
-                                        arrow_right_alt
-                                    </span></a>
+                                    arrow_right_alt
+                                </span></a>
                             </div>
                         </div>
                     </div>
                 </div>
-            @endfor
+            @endforeach
 
         </div>
     @endsection
