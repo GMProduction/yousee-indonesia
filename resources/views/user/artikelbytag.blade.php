@@ -28,15 +28,15 @@
 
         <p class="title-content ">Semua Artikel dengan Tag ({{ request('tag') }})</p>
 
-        <div class="search-wrapper">
-            <div class="search-field">
-                <span class="material-symbols-outlined text-grey">
-                    search
-                </span>
-                <input type="text" placeholder="Pencarian Artikel" />
+{{--        <div class="search-wrapper">--}}
+{{--            <div class="search-field">--}}
+{{--                <span class="material-symbols-outlined text-grey">--}}
+{{--                    search--}}
+{{--                </span>--}}
+{{--                <input type="text" placeholder="Pencarian Artikel" />--}}
 
-            </div>
-        </div>
+{{--            </div>--}}
+{{--        </div>--}}
 
         <div class="list-article">
             @foreach ($article as $d)
@@ -58,5 +58,8 @@
                 </div>
             @endforeach
 
+        </div>
+        <div class="d-flex justify-content-center mt-4">
+            {{ $article->links() }}
         </div>
     @endsection

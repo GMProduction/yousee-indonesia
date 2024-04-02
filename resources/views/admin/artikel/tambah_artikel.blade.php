@@ -92,7 +92,10 @@
                             </div>
                         </div>
                     </div>
-
+                    <div class="mb-3">
+                        <label class="control-label" for="p-pendek">Deskripsi Pendek</label>
+                        <textarea id="p-pendek" class="form-control" maxlength="200" name="sort_desc">{{$data ? $data->sort_desc :''}}</textarea>
+                    </div>
                     <div class="mb-3">
                         <label class="control-label" for="p-isiartikel">Isi Artikel</label>
                         <textarea id="p-isiartikel" class="summernote" name="content">{{$data ? $data->content :''}}</textarea>
