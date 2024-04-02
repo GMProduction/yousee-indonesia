@@ -81,7 +81,9 @@
                 </div>
             @endforeach
         </div>
-        {{ $data->links() }}
+     <div class="d-flex justify-content-center mt-4">
+         {{ $data->links() }}
+     </div>
 
     </div>
 @endsection
