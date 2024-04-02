@@ -1,18 +1,26 @@
 @extends('user.base')
-
+@section('header')
+    <meta name="description" content="sewa baliho, billboard, bando jalan, led banner, jpo, videotron, megatron di provinsi {{strtolower(request('province'))}}">
+    <meta name="keyword" content="baliho, billboard, bando jalan, led banner, jpo, videotron, megatron">
+    <title>sewa baliho, billboard di provinsi {{strtolower(request('province'))}}</title>
+    <meta name="og:image" content="">
+    <meta name="og:site_name" content="">
+    <meta name="og:description" content="sewa baliho, billboard, bando jalan, led banner, jpo, videotron, megatron di provinsi {{strtolower(request('province'))}}">
+    <meta name="og:title" content="sewa baliho, billboard di provinsi {{strtolower(request('province'))}}">
+@endsection
 @section('morecss')
     <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"/>
 @endsection
 @section('content')
     <div class="g-hero">
         <div class="hero-text">
-            <img src="{{ asset('images/local/carititik.png') }}" />
+            <img src="{{ asset('images/local/carititik.png') }}"/>
         </div>
         <div class="pencarian-container">
             <div class="pencarian-content">
                 <div class="pencarian-wrapper">
-                    <p class="title mb-4 ">Titik Billboard di Jawa Tengah</p>
+                    <p class="title mb-4 ">Titik Billboard di {{request('province')}}</p>
                     <p>Dengan memiliki titik billboard di seluruh Indonesia, Anda memiliki kesempatan luar biasa untuk
                         mencapai audiens yang luas dan beragam di seluruh negeri. Dari pantai-pantai eksotis di Bali hingga
                         jalan-jalan sibuk di Jakarta, dan dari pedesaan di Jawa hingga kota-kota kosmopolitan di Sumatera,
@@ -25,21 +33,21 @@
 
     </div>
 
-    <p class="title-content text-center">Titik di Jawa Tengah</p>
+    <p class="title-content text-center">Titik di {{request('province')}}</p>
     <div class="list-article">
 
-        @for ($i = 0; $i < 20; $i++)
+        @foreach($titik as $d)
             <div class="card-article">
-                <img src="{{ asset('images/local/login.jpg') }}" />
+                <img src="{{ $dom. $d->image3 }}"/>
 
                 <div class="article-content">
                     <div class="article-wrapper">
-                        <p class="title">Jl. Slamet Riyadi no 123 Banjarsari Surakarta</p>
-                        <p class="time">Jawa Tengah, Surakarta</p>
+                        <p class="title">{{$d->address}}</p>
+                        <p class="time">{{$d->city->province->name}}, {{$d->city->name}}</p>
                         <hr>
 
                         <div class="btn-wrapper">
-                            <a href="/detailtitik/slug-titik"><span>Lihat Titik</span><span
+                            <a href="/detailtitik/{{$d->slug}}"><span>Lihat Titik</span><span
                                     class="material-symbols-outlined">
                                     arrow_right_alt
                                 </span></a>
@@ -47,7 +55,10 @@
                     </div>
                 </div>
             </div>
-        @endfor
+        @endforeach
 
+    </div>
+    <div class="d-flex justify-content-center mt-4">
+        {{ $titik->links() }}
     </div>
 @endsection
