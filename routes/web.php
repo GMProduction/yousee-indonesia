@@ -18,8 +18,16 @@ Route::get('/', [\App\Http\Controllers\HomeController::class, 'index'])->name('h
 Route::prefix('/admin')->middleware('auth')->group(function () {
     Route::get('', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('titik', [\App\Http\Controllers\Admin\DashboardController::class, 'getDataTitik'])->name('admin.dashboard.titik');
+    Route::get('titik-public', [\App\Http\Controllers\Admin\DashboardController::class, 'getDataTitikPublic'])->name('admin.dashboard.titik.public');
     Route::get('article', [\App\Http\Controllers\Admin\DashboardController::class, 'getDataArticle'])->name('admin.dashboard.article');
     Route::get('dashboard-portfolio', [\App\Http\Controllers\Admin\DashboardController::class, 'getDataPortofolio'])->name('admin.dashboard.portfolio');
+
+    Route::prefix('inbox')->group(function (){
+        Route::get('datatable', [\App\Http\Controllers\Admin\InboxController::class, 'datatable'])->name('admin.dashboard.inbox.datatable');
+        Route::post('delete', [\App\Http\Controllers\Admin\InboxController::class, 'delete'])->name('admin.dashboard.inbox.delete');
+        Route::get('notif', [\App\Http\Controllers\Admin\InboxController::class, 'getInbox'])->name('admin.dashboard.inbox.notif');
+        Route::get('find/{id}', [\App\Http\Controllers\Admin\InboxController::class, 'findInbox'])->name('admin.dashboard.inbox.findInbox');
+    });
 
     Route::prefix('tags')->group(function () {
         Route::get('', [\App\Http\Controllers\Admin\TagsController::class, 'getAll'])->name('admin.tags');
@@ -87,9 +95,7 @@ Route::get('/titik/{prvince}/{city}', function () {
 
 Route::get('/titik-kami', [\App\Http\Controllers\TitikController::class,'index']);
 
-Route::get('/contact', function () {
-    return view('user.contact');
-});
+Route::match(['POST','GET'],'/contact', [\App\Http\Controllers\ContactController::class,'index']);
 
 Route::get('/portfolio', function () {
     return view('user.portfolio');

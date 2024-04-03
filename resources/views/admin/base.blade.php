@@ -9,7 +9,7 @@
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet"/>
 
 
     {{-- BOOTSTRAP --}}
@@ -220,28 +220,26 @@
                         <a class="action"> Clear All</a>
                     </div>
                     <hr>
-                    <div class="notif-container">
-                        <div class="notif-item unread">
+                    <div class="notif-container" id="notif">
+{{--                                                <div class="notif-item unread">--}}
+{{--                                                    <div class="content-container">--}}
+{{--                                                        <p class="title-content">Bagus Want to buy something </p>--}}
+{{--                                                        <p class="body-content">You Have new transaction from bagus yanuar, please check!--}}
+{{--                                                        </p>--}}
+{{--                                                    </div>--}}
+{{--                                                    <hr>--}}
 
-                            <div class="content-container">
-                                <p class="title-content">Bagus Want to buy something </p>
-                                <p class="body-content">You Have new transaction from bagus yanuar, please check!
-                                </p>
-                            </div>
-                            <hr>
+{{--                                                </div>--}}
+{{--                                                <div class="notif-item">--}}
 
-                        </div>
+{{--                                                    <div class="content-container">--}}
+{{--                                                        <p class="title-content">Bagus Want to buy something </p>--}}
+{{--                                                        <p class="body-content">You Have new transaction from bagus yanuar, please check!--}}
+{{--                                                        </p>--}}
+{{--                                                    </div>--}}
+{{--                                                    <hr>--}}
 
-                        <div class="notif-item">
-
-                            <div class="content-container">
-                                <p class="title-content">Bagus Want to buy something </p>
-                                <p class="body-content">You Have new transaction from bagus yanuar, please check!
-                                </p>
-                            </div>
-                            <hr>
-
-                        </div>
+{{--                                                </div>--}}
                     </div>
                     <hr>
                     <div class="footer-container"><a href="/admin/inbox">See All Notifications</a></div>
@@ -300,6 +298,27 @@
 <script src="{{ asset('js/dropify/js/dropify.js') }}"></script>
 
 <script>
+    getAjaxResNotif()
+
+    function getAjaxResNotif() {
+        let notif = $('#notif')
+        // notif.empty()
+        $.get('{{route('admin.dashboard.inbox.notif')}}', function (res, x, s) {
+            if (s.status == 200) {
+                $.each(res, function (k, v) {
+                    let stat = v.isNew ? 'unread' : ''
+                    notif.append('<div class="notif-item '+stat+'">' +
+                        '<div class="content-container">' +
+                        ' <p class="title-content">' + v.name + '</p>' +
+                        ' <p class="body-content maxlines">'+v.message+'</p>' +
+                        ' </div>' +
+                        ' <hr>' +
+                        '</div>');
+                })
+            }
+        })
+    }
+
     jQuery.fn.dataTableExt.oApi.fnPagingInfo = function (oSettings) {
         return {
             "iStart": oSettings._iDisplayStart,
