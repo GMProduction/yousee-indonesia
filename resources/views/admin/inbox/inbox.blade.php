@@ -22,63 +22,30 @@
             <div class="menu overflow-hidden">
                 <div class="title-container">
                     <p class="title">Data Inbox</p>
-                    <a class="btn-primary-sm" href="/admin/tambah-inbox">Tambah Inbox</a>
                 </div>
-                <table id="tableInbox" class="table table-striped" style="width:100%">
+                <table id="tabel" class="table table-striped" style="width:100%">
                     <thead>
-                        <tr>
-                            <th>Nama</th>
-                            <th>Nomor Telp</th>
-                            <th>Nama Perusahaan</th>
-                            {{-- slug otomatis ambil dari judul --}}
-                            <th>Isi Pesan</th>
-                            <th>Action</th>
-                            {{-- detail, ubah status pesanan --}}
-                        </tr>
+                    <tr>
+                        <th>#</th>
+                        <th>Nama</th>
+                        <th>Nomor Telp</th>
+                        {{-- slug otomatis ambil dari judul --}}
+                        <th>Isi Pesan</th>
+                        <th style="width: 300px">Action</th>
+                        {{-- detail, ubah status pesanan --}}
+                    </tr>
                     </thead>
-                    <tbody>
-                        <tr>
 
-                            <td><span class="maxlines">Joko</span></td>
-                            <td><span class="maxlines">098129381</span></td>
-                            <td><span class="maxlines">Genossys</span></td>
-                            <td><span class="maxlines">Berikut ini billboard strategis di semarang, Lorem Ipsum is simply
-                                    dummy text of the
-                                    printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy
-                                    text
-                                    ever since the 1500s, when an unknown printer took a galley of type and scrambled it to
-                                    make
-                                    a type specimen book. It has survived not only five centuries, but also the leap into
-                                    electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s
-                                    with the release of Letraset sheets containing Lorem Ipsum passages, and more recently
-                                    with
-                                    desktop publishing software like Aldus PageMaker including versions of Lorem
-                                    Ipsum.</span></td>
-
-                            <td><span class="d-flex gap-1">
-                                    <a class="btn-primary-sm" data-bs-toggle="modal" data-bs-target="#modalinbox">Lihat
-                                        Detail
-                                    </a>
-                                    <a class="btn-warning-sm">Whatsapp
-                                    </a>
-
-                                    <a class="btn-danger-sm deletebutton">Hapus
-                                    </a>
-                                </span>
-                            </td>
-                        </tr>
-
-                    </tbody>
                     <tfoot>
-                        <tr>
-                            <th>Gambar</th>
-                            <th>Judul</th>
-                            {{-- slug otomatis ambil dari judul --}}
-                            <th>Isi Inbox</th>
-                            <th>tags</th>
-                            <th>Action</th>
-                            {{-- detail, ubah status pesanan --}}
-                        </tr>
+                    <tr>
+                        <th>#</th>
+                        <th>Nama</th>
+                        <th>Nomor Telp</th>
+                        {{-- slug otomatis ambil dari judul --}}
+                        <th>Isi Pesan</th>
+                        <th style="width: 300px">Action</th>
+                        {{-- detail, ubah status pesanan --}}
+                    </tr>
                     </tfoot>
                 </table>
             </div>
@@ -89,28 +56,22 @@
             <div class="modal-dialog modal-xl ">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modalinboxLabel">Pesan dari "Nama"</h5>
+                        <h5 class="modal-title" id="modalinboxLabel">Pesan dari "<span class="iName"></span>"</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div>
-                            <span class="fw-bold ">Nama </span>
-                            <span>(Nomor HP) </span>
+                            <span class="fw-bold iName">Nama </span>
+                            <span>(<span class="iPhone"></span>) </span>
                         </div>
-                        <div><span>dari perusahaan "Nama Perusahaan"</span></div>
                         <br>
                         <div><span class="fw-bold ">Isi Pesan</span></div>
-                        <div><span>Lorem Ipsum, Lorem Ipsum, Lorem Ipsum, Lorem Ipsum,Lorem Ipsum, Lorem Ipsum,Lorem Ipsum,
-                                Lorem Ipsum,Lorem Ipsum, Lorem Ipsum,Lorem Ipsum, Lorem Ipsum,Lorem Ipsum, Lorem Ipsum,Lorem
-                                Ipsum, Lorem Ipsum,Lorem Ipsum, Lorem Ipsum,Lorem Ipsum, Lorem Ipsum,Lorem Ipsum, Lorem
-                                Ipsum,Lorem Ipsum, Lorem Ipsum,Lorem Ipsum, Lorem Ipsum,Lorem Ipsum, Lorem Ipsum,Lorem
-                                Ipsum, Lorem Ipsum,Lorem Ipsum, Lorem Ipsum,Lorem Ipsum, Lorem Ipsum,Lorem Ipsum, Lorem
-                                Ipsum,Lorem Ipsum, Lorem Ipsum,Lorem Ipsum, Lorem Ipsum,Lorem Ipsum, Lorem Ipsum,</span>
+                        <div><span class="iMessage"></span>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Hubungi lewat whatsapp</button>
+                        <a  class="btn btn-primary" id="iWa" target="_blank">Hubungi lewat whatsapp</a>
                     </div>
                 </div>
             </div>
@@ -120,43 +81,74 @@
 
 @section('morejs')
     <script>
-        $(document).ready(function() {
+        let detail_inbox;
+        show_datatable();
 
-            var tableInbox = $('#tableInbox').DataTable({
-                responsive: {
-                    details: {
-                        display: DataTable.Responsive.display.modal({
-                            header: function(row) {
-                                var data = row.data();
-                                return 'Details for ' + data[0] + ' ' + data[1];
-                            }
-                        }),
-                        renderer: DataTable.Responsive.renderer.tableAll({
-                            tableClass: 'table'
-                        })
+        function show_datatable() {
+            let colums = [
+                {
+                    className: "text-center",
+                    orderable: false,
+                    defaultContent: "",
+                    searchable: false
+                },
+                {
+                    data: 'name', name: 'name',
+                },
+                {
+                    data: 'phone', name: 'phone',
+                },
+                {
+                    data: 'message', name: 'message',
+                    render: function (data) {
+                        return '<span class="maxlines">' + data + '</span>'
                     }
-                }
-            });
+                },
+                {
+                    className: "text-center",
+                    data: 'id', name: 'id', orderable: false, searchable: false,
+                    render: function (data, x, row) {
+                        let picPhone = row.phone;
+                        const first = picPhone.substring(0, 1);
+                        if (first == 0) {
+                            picPhone = '62' + picPhone.substring(1)
+                        }
 
-            $(".deletebutton").click(function() {
-                Swal.fire({
-                    title: "Are you sure?",
-                    text: "You won't be able to revert this!",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Yes, delete it!"
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        Swal.fire({
-                            title: "Deleted!",
-                            text: "Your file has been deleted.",
-                            icon: "success"
-                        });
+                        return '<span class="d-flex gap-1">' +
+                            ' <a class="btn-primary-sm" id="detailData" data-id="' + data + '" data-message="' + row.message + '" data-phone="' + row.phone + '" data-name="' + row.name + '">Lihat Detail' +
+                            '</a> ' +
+                            '<a class="btn-warning-sm" ' +
+                            '  target="_blank" href="https://wa.me/' + picPhone + '">Whatsapp</a>' +
+                            ' <a class="btn-danger-sm" id="deleteInbox" data-name="' + row.name + '" data-id="' + data + '" >Hapus</a>' +
+                            '</span>';
                     }
-                });
-            });
-        });
+                },
+            ];
+            datatable('tabel', '{{route('admin.dashboard.inbox.datatable')}}', colums)
+        }
+
+        $(document).on('click', '#deleteInbox', function () {
+            let form = {
+                '_token': '{{csrf_token()}}',
+                'id': $(this).data('id')
+            }
+            deleteData('message ' + $(this).data('name'), form, '{{route('admin.dashboard.inbox.delete')}}', afterDelete)
+            return false
+        })
+
+        function afterDelete() {
+            $('#tabel').DataTable().ajax.reload(null,false);
+        }
+
+        $(document).on('click', '#detailData', function () {
+            let phone = $(this).data('phone')
+            let name = $(this).data('name')
+            let message = $(this).data('message')
+            $('.iName').html(name)
+            $('.iPhone').html(phone)
+            $('#iWa').attr('href',"https://wa.me/"+phone)
+            $('.iMessage').html(message)
+            $('#modalinbox').modal('show')
+        })
     </script>
 @endsection
