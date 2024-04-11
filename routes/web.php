@@ -15,11 +15,19 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::prefix('/admin')->group(function () {
+Route::prefix('/admin')->middleware('auth')->group(function () {
     Route::get('', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('titik', [\App\Http\Controllers\Admin\DashboardController::class, 'getDataTitik'])->name('admin.dashboard.titik');
+    Route::get('titik-public', [\App\Http\Controllers\Admin\DashboardController::class, 'getDataTitikPublic'])->name('admin.dashboard.titik.public');
     Route::get('article', [\App\Http\Controllers\Admin\DashboardController::class, 'getDataArticle'])->name('admin.dashboard.article');
     Route::get('dashboard-portfolio', [\App\Http\Controllers\Admin\DashboardController::class, 'getDataPortofolio'])->name('admin.dashboard.portfolio');
+
+    Route::prefix('inbox')->group(function (){
+        Route::get('datatable', [\App\Http\Controllers\Admin\InboxController::class, 'datatable'])->name('admin.dashboard.inbox.datatable');
+        Route::post('delete', [\App\Http\Controllers\Admin\InboxController::class, 'delete'])->name('admin.dashboard.inbox.delete');
+        Route::get('notif', [\App\Http\Controllers\Admin\InboxController::class, 'getInbox'])->name('admin.dashboard.inbox.notif');
+        Route::get('find/{id}', [\App\Http\Controllers\Admin\InboxController::class, 'findInbox'])->name('admin.dashboard.inbox.findInbox');
+    });
 
     Route::prefix('tags')->group(function () {
         Route::get('', [\App\Http\Controllers\Admin\TagsController::class, 'getAll'])->name('admin.tags');
@@ -59,11 +67,12 @@ Route::prefix('/admin')->group(function () {
         Route::post('data', [\App\Http\Controllers\Admin\TestimoniController::class, 'pageAdd'])->name('admin.testimoni.data');
         Route::post('delete', [\App\Http\Controllers\Admin\TestimoniController::class, 'delete'])->name('admin.testimoni.delete');
     });
+    Route::get('inbox', function () {
+        return view('admin.inbox.inbox');
+    });
+
 });
 
-Route::get('/admin/inbox', function () {
-    return view('admin.inbox.inbox');
-});
 
 Route::match(['GET', 'POST'], '/login', [\App\Http\Controllers\Admin\LoginController::class, 'index'])->name('login');
 Route::get('/logout', [\App\Http\Controllers\Admin\LoginController::class, 'logout']);
@@ -78,25 +87,15 @@ Route::prefix('artikel')->group(function () {
 Route::get('/services', [\App\Http\Controllers\ServiceController::class, 'index']);
 
 
+Route::get('/titik/{province}', [\App\Http\Controllers\TitikController::class,'titikProvince']);
 
-
-
-Route::get('/titik/titik-billboard-di-jawa-tengah', function () {
-    return view('user.titik_per_provinsi');
-});
-
-Route::get('/titik/titik-billboard-di-semarang', function () {
+Route::get('/titik/{prvince}/{city}', function () {
     return view('user.titik_per_kota');
 });
 
+Route::get('/titik-kami', [\App\Http\Controllers\TitikController::class,'index']);
 
-Route::get('/titik-kami', function () {
-    return view('user.titikkami');
-});
-
-Route::get('/contact', function () {
-    return view('user.contact');
-});
+Route::match(['POST','GET'],'/contact', [\App\Http\Controllers\ContactController::class,'index']);
 
 Route::get('/portfolio', function () {
     return view('user.portfolio');
@@ -104,6 +103,4 @@ Route::get('/portfolio', function () {
 
 
 
-Route::get('/detailtitik/slug-titik', function () {
-    return view('user.detailtitik');
-});
+Route::get('/detailtitik/{slug}', [\App\Http\Controllers\TitikController::class, 'detail']);

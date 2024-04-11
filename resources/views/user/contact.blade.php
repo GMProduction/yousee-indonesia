@@ -16,23 +16,36 @@
                         <div class="col-md-8  col-sm-12 p-sm-20 sm-mb-30">
                             <p class="title mb-0 text-start  ">Berikan Kami Pesan</p>
                             <p class="title mb-3 text-start  "> atau Kritik dan Saran</p>
+                            @if (session('message'))
+                                <div class="alert alert-success text-center" role="alert">
+                                    {{ session('message') }}
+                                </div>
+                            @endif
                             <div class="d-flex position-relative ">
 
-                                <form class="flex-grow-1 ">
+                                <form class="flex-grow-1 " method="POST">
+                                    @csrf
                                     <div class="form-floating mb-3">
-                                        <input type="text" class="form-control" id="p-nama" name="p-nama"
+                                        <input type="text" class="form-control" id="p-nama" name="name"
                                             placeholder="Nama">
                                         <label for="p-nama" class="form-label">Nama</label>
                                     </div>
 
                                     <div class="form-floating mb-3">
-                                        <input type="text" class="form-control" id="p-nowa" name="p-nowa"
-                                            placeholder="Nomor Whatsapp">
+                                        <input
+                                            type="text"
+                                            id="phone"
+                                            name="phone"
+                                            class="form-control"
+                                            pattern="[0-9\s]{11,14}"
+                                            required
+                                        />
+
                                         <label for="p-nowa" class="form-label">Nomor Whatsapp</label>
                                     </div>
 
                                     <div class="form-floating mb-3">
-                                        <textarea type="text" class="form-control" id="p-pesan" name="p-pesan" rows="5" placeholder="pesan"
+                                        <textarea type="text" class="form-control" id="p-pesan" name="message" rows="5" placeholder="pesan"
                                             style="min-height: 200px"></textarea>
                                         <label for="p-pesan" class="form-label">Pesan</label>
                                     </div>

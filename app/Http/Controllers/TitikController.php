@@ -2,9 +2,51 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Item;
+use Illuminate\Support\Facades\Config;
+
 class TitikController extends Controller
 {
-    public function index(){
-        return view('user.services');
+    private $dom;
+
+    public function __construct()
+    {
+        $this->dom = env('INTERNAL_DOMAIN', 'http://yousee.test');
     }
+
+    public function dataTitik($num = 12, $non = null)
+    {
+        $titik = Item::where('isShow', '=', true);
+        if ($non) {
+            $titik = $titik->where('id', '!=', $non);
+        }
+        $titik = $titik->paginate($num);
+
+        return $titik;
+    }
+
+    public function index()
+    {
+        $titik = $this->dataTitik();
+
+        return view('user.titikkami', ['titik' => $titik, 'dom' => $this->dom]);
+    }
+
+    public function detail($slug)
+    {
+        $item  = Item::where('slug', $slug)->firstOrFail();
+        $titik = Item::where([['isShow', '=', true], ['city_id', $item->city_id], ['id', '!=', $item->id]])->paginate(8);
+
+        return view('user.detailtitik', ['titik' => $titik, 'data' => $item, 'dom' => $this->dom]);
+    }
+
+    public function titikProvince($province)
+    {
+        $titik = Item::where('isShow', '=', true)
+                     ->whereHas('city.province', function ($q) use ($province) {
+                         return $q->where('name', 'LIKE','%' . $province . '%');
+                     })->paginate(12);
+        return view('user.titik_per_provinsi',['titik' => $titik, 'dom' => $this->dom]);
+    }
+
 }

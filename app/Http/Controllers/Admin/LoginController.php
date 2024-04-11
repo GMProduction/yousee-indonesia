@@ -20,7 +20,7 @@ class LoginController extends Controller
     {
         $field = \request()->validate(
             [
-                'username' => 'required|string|exists:users,username',
+                'username' => 'required|string',
                 'password' => 'required|string',
             ]
         );
@@ -29,10 +29,22 @@ class LoginController extends Controller
 //                return redirect('/admin');
 //            }
         if ($this->isAuth($field)) {
+            if (\auth()->user()->isActive == false){
+                Auth::logout();
+                return redirect()->back()->withInput()->withErrors(
+                    [
+                        'username' => 'User non aktif'
+                    ]
+                );
+            }
             $role     = \auth()->user()->role;
             if ($role !== 'cs'){
                 Auth::logout();
-                return redirect()->back()->withcErrors(['username' => 'Akun tidak sesuai'])->withInput();
+                return redirect()->back()->withInput()->withErrors(
+                    [
+                        'username' => 'Akun tidak sesuai'
+                    ]
+                );
             }
 
 //            return response()->json();
