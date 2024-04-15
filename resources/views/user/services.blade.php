@@ -70,4 +70,19 @@
             });
         };
     </script>
+
+    <script>
+        var slideUp = {
+            distance: '50%',
+            origin: 'bottom',
+            delay: 300,
+        };
+        document.addEventListener('DOMContentLoaded', function() {
+            ScrollReveal().reveal('.g-hero', slideUp);
+            ScrollReveal().reveal('.g-services', slideUp);
+            ScrollReveal().reveal('.g-portfolio', slideUp);
+
+            // Tambahkan lebih banyak elemen sesuai kebutuhan
+        });
+    </script>
 @endsection

@@ -12,7 +12,7 @@ class TitikController extends Controller
 
     public function __construct()
     {
-        $this->dom = env('INTERNAL_DOMAIN', 'http://yousee.test');
+        $this->dom = env('INTERNAL_DOMAIN', 'https://internal.yousee-indonesia.com');
     }
 
     public function dataTitik($num = 12, $non = null)

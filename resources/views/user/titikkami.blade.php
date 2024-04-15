@@ -54,17 +54,30 @@
 
     </div>
 
-    <p class="title-content text-center">Titik di Jawa Tengah</p>
-    <div class="list-article">
+    <p class="title-content text-center">Titik Kami</p>
+    <div class="section-description ">
+        <p>Kami bangga memiliki jaringan titik yang luas dan beragam, mencakup seluruh wilayah Indonesia. Dengan titik-titik
+            kami yang tersebar di berbagai provinsi, kami siap membantu Anda menjangkau audiens Anda dimanapun mereka
+            berada. Keberadaan titik kami yang banyak dan strategis ini memungkinkan kami untuk memberikan layanan terbaik
+            bagi kebutuhan promosi dan informasi Anda.
+        </p>
+
+
+    </div>
+    <div class="list-titik">
 
         @foreach ($titik as $d)
             <a class="card-article" href="/detailtitik/{{ $d->slug }}">
-                <img src="{{ $dom . $d->image3 }}" />
 
+                <img src="{{ $dom . $d->image2 }}" />
+                <div
+                    style="position: absolute; top: 50%; right: 0; transform: translateY(-50%); background-color: green; padding: 2px 10px; border-radius: 5px 0 0 5px; font-size: 0.8rem; color: white;">
+                    {{ $titik[0]->type->name }}</div>
                 <div class="article-content">
                     <div class="article-wrapper">
-                        <p class="title">{{ $d->address }}</p>
-                        <p class="time">{{ $d->city->province->name }}, {{ $d->city->name }}</p>
+                        <p class="title mt-2"> {{ $d->city->province->name }}</p>
+                        <p class="time">{{ $d->city->name }}</p>
+                        <p class="alamat">{{ $d->address }}</p>
                         <hr>
 
 
@@ -99,4 +112,19 @@
     <div class="d-flex justify-content-center mt-4">
         {{ $titik->links() }}
     </div>
+@endsection
+
+@section('morejs')
+    <script>
+        var slideUp = {
+            distance: '50%',
+            origin: 'bottom',
+            delay: 300,
+        };
+        document.addEventListener('DOMContentLoaded', function() {
+            ScrollReveal().reveal('.list-titik', slideUp);
+            ScrollReveal().reveal('.g-hero', slideUp);
+            // Tambahkan lebih banyak elemen sesuai kebutuhan
+        });
+    </script>
 @endsection

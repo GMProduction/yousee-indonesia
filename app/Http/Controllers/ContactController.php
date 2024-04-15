@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Admin\AboutController;
+use App\Models\FrontClients;
 use App\Models\FrontProfile;
 use App\Models\Inbox;
 
@@ -14,7 +15,8 @@ class ContactController extends Controller
             return $this->postData();
         }
         $profiles = FrontProfile::get();
-        return view('user.contact', ['profiles' => $profiles]);
+        $clients = FrontClients::get();
+        return view('user.contact', ['profiles' => $profiles, 'clients' => $clients]);
     }
 
     public function postData()

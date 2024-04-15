@@ -32,8 +32,9 @@ class ArtikelController extends Controller
                 $q->orWhereJsonContains('tags', $t);
             }
         })->latest()->paginate(12);
+        $profiles = FrontProfile::get();
 
-        return view('user.detailartikel', ['article' => $checkSlug, 'data' => $article]);
+        return view('user.detailartikel', ['article' => $checkSlug, 'data' => $article, 'profiles' => $profiles]);
     }
 
     public function byTag($tag)
@@ -41,6 +42,7 @@ class ArtikelController extends Controller
         $tagData = FrontTags::where('name', $tag)->first();
         $article = FrontArticle::whereJsonContains('tags', (string)$tagData->id)->latest()->paginate(12);
         $newArtikel = FrontArticle::latest()->first();
-        return view('user.artikelbytag', ['article' => $article, 'newArtikel' => $newArtikel]);
+        $profiles = FrontProfile::get();
+        return view('user.artikelbytag', ['article' => $article, 'newArtikel' => $newArtikel, 'profiles' => $profiles]);
     }
 }

@@ -22,7 +22,7 @@ Route::prefix('/admin')->middleware('auth')->group(function () {
     Route::get('article', [\App\Http\Controllers\Admin\DashboardController::class, 'getDataArticle'])->name('admin.dashboard.article');
     Route::get('dashboard-portfolio', [\App\Http\Controllers\Admin\DashboardController::class, 'getDataPortofolio'])->name('admin.dashboard.portfolio');
 
-    Route::prefix('inbox')->group(function (){
+    Route::prefix('inbox')->group(function () {
         Route::get('datatable', [\App\Http\Controllers\Admin\InboxController::class, 'datatable'])->name('admin.dashboard.inbox.datatable');
         Route::post('delete', [\App\Http\Controllers\Admin\InboxController::class, 'delete'])->name('admin.dashboard.inbox.delete');
         Route::get('notif', [\App\Http\Controllers\Admin\InboxController::class, 'getInbox'])->name('admin.dashboard.inbox.notif');
@@ -70,7 +70,6 @@ Route::prefix('/admin')->middleware('auth')->group(function () {
     Route::get('inbox', function () {
         return view('admin.inbox.inbox');
     });
-
 });
 
 
@@ -87,20 +86,14 @@ Route::prefix('artikel')->group(function () {
 Route::get('/services', [\App\Http\Controllers\ServiceController::class, 'index']);
 
 
-Route::get('/titik/{province}', [\App\Http\Controllers\TitikController::class,'titikProvince']);
+Route::get('/titik/{province}', [\App\Http\Controllers\TitikController::class, 'titikProvince']);
 
 Route::get('/titik/{prvince}/{city}', function () {
     return view('user.titik_per_kota');
 });
 
-Route::get('/titik-kami', [\App\Http\Controllers\TitikController::class,'index']);
+Route::get('/titik-kami', [\App\Http\Controllers\TitikController::class, 'index']);
+Route::match(['POST', 'GET'], '/contact', [\App\Http\Controllers\ContactController::class, 'index']);
 
-Route::match(['POST','GET'],'/contact', [\App\Http\Controllers\ContactController::class,'index']);
-
-Route::get('/portfolio', function () {
-    return view('user.portfolio');
-});
-
-
-
+Route::get('/portfolio', [\App\Http\Controllers\PortfolioController::class, 'index']);
 Route::get('/detailtitik/{slug}', [\App\Http\Controllers\TitikController::class, 'detail']);

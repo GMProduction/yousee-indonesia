@@ -72,39 +72,39 @@
                 </div>
                 <table id="tabel" class="table table-striped nowrap " style="width:100%">
                     <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Nama</th>
-                        <th>Nomor Whatsapp</th>
-                        <th>Pesan</th>
-                        <th style="width: 100px">Action</th>
-                        {{-- detail, ubah status pesanan --}}
-                    </tr>
+                        <tr>
+                            <th>#</th>
+                            <th>Nama</th>
+                            <th>Nomor Whatsapp</th>
+                            <th>Pesan</th>
+                            <th style="width: 100px">Action</th>
+                            {{-- detail, ubah status pesanan --}}
+                        </tr>
                     </thead>
-{{--                    <tbody>--}}
-{{--                    <tr>--}}
-{{--                        <td>Bagus</td>--}}
-{{--                        <td>0895178657</td>--}}
-{{--                        <td>Halo, saya mau pasang billboard untuk kota Solo 20 titik, gimana caranya ?</td>--}}
-{{--                        <td>--}}
-{{--                            <span class="d-flex gap-1">--}}
-{{--                                <a class="btn-primary-sm" data-bs-toggle="modal"--}}
-{{--                                   data-bs-target="#modaldetail">Whatsapp</a>--}}
-{{--                                    <a class="btn-warning-sm" data-bs-toggle="modal"--}}
-{{--                                       data-bs-target="#modalubahpesanan">Hapus</a>--}}
-{{--                                </span>--}}
-{{--                        </td>--}}
-{{--                    </tr>--}}
+                    {{--                    <tbody> --}}
+                    {{--                    <tr> --}}
+                    {{--                        <td>Bagus</td> --}}
+                    {{--                        <td>0895178657</td> --}}
+                    {{--                        <td>Halo, saya mau pasang billboard untuk kota Solo 20 titik, gimana caranya ?</td> --}}
+                    {{--                        <td> --}}
+                    {{--                            <span class="d-flex gap-1"> --}}
+                    {{--                                <a class="btn-primary-sm" data-bs-toggle="modal" --}}
+                    {{--                                   data-bs-target="#modaldetail">Whatsapp</a> --}}
+                    {{--                                    <a class="btn-warning-sm" data-bs-toggle="modal" --}}
+                    {{--                                       data-bs-target="#modalubahpesanan">Hapus</a> --}}
+                    {{--                                </span> --}}
+                    {{--                        </td> --}}
+                    {{--                    </tr> --}}
 
-{{--                    </tbody>--}}
+                    {{--                    </tbody> --}}
                     <tfoot>
-                    <tr>
-                        <th>#</th>
-                        <th>Nama</th>
-                        <th>Nomor Whatsapp</th>
-                        <th>Pesan</th>
-                        <th>Action</th>
-                    </tr>
+                        <tr>
+                            <th>#</th>
+                            <th>Nama</th>
+                            <th>Nomor Whatsapp</th>
+                            <th>Pesan</th>
+                            <th>Action</th>
+                        </tr>
                     </tfoot>
                 </table>
 
@@ -116,15 +116,15 @@
 
 @section('morejs')
     <script script>
-        $(document).ready(function () {
-            getAjaxRes('{{route('admin.dashboard.titik')}}', $('#titikAll'), 'titik')
-            getAjaxRes('{{route('admin.dashboard.titik.public')}}', $('#titikPublic'), 'titik')
-            getAjaxRes('{{route('admin.dashboard.article')}}', $('.article'), 'article')
-            getAjaxRes('{{route('admin.dashboard.portfolio')}}', $('.porto'), 'porto')
+        $(document).ready(function() {
+            getAjaxRes('{{ route('admin.dashboard.titik') }}', $('#titikAll'), 'titik')
+            getAjaxRes('{{ route('admin.dashboard.titik.public') }}', $('#titikPublic'), 'titik')
+            getAjaxRes('{{ route('admin.dashboard.article') }}', $('.article'), 'article')
+            getAjaxRes('{{ route('admin.dashboard.portfolio') }}', $('.porto'), 'porto')
         })
 
         function getAjaxRes(url, content, variable) {
-            $.get(url, function (res, x, s) {
+            $.get(url, function(res, x, s) {
                 if (s.status == 200) {
                     content.html(res[variable].toLocaleString())
                 }
@@ -135,29 +135,34 @@
         show_datatable();
 
         function show_datatable() {
-            let colums = [
-                {
+            let colums = [{
                     className: "text-center",
                     orderable: false,
                     defaultContent: "",
                     searchable: false
                 },
                 {
-                    data: 'name', name: 'name',
+                    data: 'name',
+                    name: 'name',
                 },
                 {
-                    data: 'phone', name: 'phone',
+                    data: 'phone',
+                    name: 'phone',
                 },
                 {
-                    data: 'message', name: 'message',
-                    render: function (data) {
+                    data: 'message',
+                    name: 'message',
+                    render: function(data) {
                         return '<span class="maxlines">' + data + '</span>'
                     }
                 },
                 {
                     className: "text-center",
-                    data: 'id', name: 'id', orderable: false, searchable: false,
-                    render: function (data, x, row) {
+                    data: 'id',
+                    name: 'id',
+                    orderable: false,
+                    searchable: false,
+                    render: function(data, x, row) {
                         let picPhone = row.phone;
                         const first = picPhone.substring(0, 1);
                         if (first == 0) {
@@ -165,26 +170,28 @@
                         }
                         return '<span class="d-flex gap-1">' +
                             ' <a class="btn-primary-sm" ' +
-                            '  target="_blank" href="https://wa.me/'+picPhone+'">Whatsapp</a>' +
-                            ' <a class="btn-warning-sm" id="deleteInbox" data-name="'+row.name+'" data-id="'+data+'" >Hapus</a>' +
+                            '  target="_blank" href="https://wa.me/' + picPhone + '">Whatsapp</a>' +
+                            ' <a class="btn-warning-sm" id="deleteInbox" data-name="' + row.name + '" data-id="' +
+                            data + '" >Hapus</a>' +
                             '</span>';
                     }
                 },
             ];
-            datatable('tabel', '{{route('admin.dashboard.inbox.datatable')}}', colums)
+            datatable('tabel', '{{ route('admin.dashboard.inbox.datatable') }}', colums)
         }
 
-        $(document).on('click','#deleteInbox', function () {
+        $(document).on('click', '#deleteInbox', function() {
             let form = {
-                '_token': '{{csrf_token()}}',
+                '_token': '{{ csrf_token() }}',
                 'id': $(this).data('id')
             }
-            deleteData('message ' + $(this).data('name'), form, '{{route('admin.dashboard.inbox.delete')}}', afterDelete)
+            deleteData('message ' + $(this).data('name'), form, '{{ route('admin.dashboard.inbox.delete') }}',
+                afterDelete)
             return false
         })
 
         function afterDelete() {
-            $('#tabel').DataTable().ajax.reload(null,false);
+            $('#tabel').DataTable().ajax.reload(null, false);
         }
     </script>
 @endsection

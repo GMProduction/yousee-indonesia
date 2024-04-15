@@ -249,8 +249,7 @@
                             <div class="content">
 
                                 <a id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img
-                                        src="https://store.sirclo.com/blog/wp-content/uploads/2022/04/6.-user-persona.jpg" />
+                                    <img src="{{ asset('images/local/account.jpg') }}" />
                                 </a>
 
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">

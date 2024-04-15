@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+
     <title>Yousee Indonesia || Sewa Billboard, Media Iklan</title>
 
     @yield('header')
@@ -54,15 +55,15 @@
         <div class="g-nav-menu">
             <a class="menu {{ Request::is('/') ? 'active' : '' }}" href="/">Home<span
                     class="indicator "></span></a>
-            <a class="menu {{ Request::is('services') ? 'active' : '' }}" href="/services">Services<span
+            <a class="menu {{ Request::is('services*') ? 'active' : '' }}" href="/services">Services<span
                     class="indicator "></span></a>
-            <a class="menu {{ Request::is('titik-kami') ? 'active' : '' }}" href="/titik-kami">Titik Kami<span
+            <a class="menu {{ Request::is('titik-kami*') ? 'active' : '' }}" href="/titik-kami">Titik Kami<span
                     class="indicator"></span></a>
-            <a class="menu {{ Request::is('portfolio') ? 'active' : '' }}" href="/portfolio">Portfolio<span
+            <a class="menu {{ Request::is('portfolio*') ? 'active' : '' }}" href="/portfolio">Portfolio<span
                     class="indicator"></span></a>
-            <a class="menu {{ Request::is('artikel') ? 'active' : '' }}" href="/artikel">Artikel<span
+            <a class="menu {{ Request::is('artikel*') ? 'active' : '' }}" href="/artikel">Artikel<span
                     class="indicator"></span></a>
-            <a class="menu {{ Request::is('contact') ? 'active' : '' }}" href="/contact">Contact<span
+            <a class="menu {{ Request::is('contact*') ? 'active' : '' }}" href="/contact">Contact<span
                     class="indicator"></span></a>
         </div>
         <div class="g-nav-social">
