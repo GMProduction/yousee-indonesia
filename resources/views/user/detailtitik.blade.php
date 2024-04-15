@@ -1,11 +1,13 @@
 @extends('user.base')
 @section('header')
-    <meta name="description"  content="{{$data ? $data->type->name.' - '.$data->address.' - '.$data->location  : ''}}">
-    <meta name="keyword" content="{{$data->type->name}}">
+    <meta name="description"
+        content="{{ $data ? $data->type->name . ' - ' . $data->address . ' - ' . $data->location : '' }}">
+    <meta name="keyword" content="{{ $data->type->name }}">
     <meta name="og:image" content="">
     <meta name="og:site_name" content="">
-    <meta name="og:description" content="{{$data ? $data->type->name.' - '.$data->address.' - '.$data->location  : ''}}">
-    <meta name="og:title" content="{{$data ? $data->address : ''}}">
+    <meta name="og:description"
+        content="{{ $data ? $data->type->name . ' - ' . $data->address . ' - ' . $data->location : '' }}">
+    <meta name="og:title" content="{{ $data ? $data->address : '' }}">
 @endsection
 @section('morecss')
     <link rel="stylesheet"
@@ -19,9 +21,9 @@
         <div class="detail-titik">
             <div class="detailtitik-content">
                 <div class="detailtitik-wrapper">
-                    <img src="{{$dom. $data->image3 }}" />
+                    <img src="{{ $dom . $data->image2 }}" />
 
-                    <p class="title mb-3 ">{{$data->address}}</p>
+                    <p class="title mb-3 ">{{ $data->address }}</p>
 
                     <div class="p-3">
                         <div class="row">
@@ -32,7 +34,7 @@
                                     </span>
                                     <div>
                                         <p class="title-part">Lokasi Titik</p>
-                                        <p class="content-part">{{$data->location}}</p>
+                                        <p class="content-part">{{ $data->location }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -43,7 +45,7 @@
                                     </span>
                                     <div>
                                         <p class="title-part">Kota</p>
-                                        <p class="content-part">{{$data->city->name}}</p>
+                                        <p class="content-part">{{ $data->city->name }}</p>
                                     </div>
                                 </div>
 
@@ -55,7 +57,7 @@
                                     </span>
                                     <div>
                                         <p class="title-part">Provinsi</p>
-                                        <p class="content-part">{{$data->city->province->name}}</p>
+                                        <p class="content-part">{{ $data->city->province->name }}</p>
                                     </div>
                                 </div>
 
@@ -76,7 +78,7 @@
                                         </span>
                                         <div>
                                             <p class="title-part">Type Media</p>
-                                            <p class="content-part">{{$data->type->name}}</p>
+                                            <p class="content-part">{{ $data->type->name }}</p>
                                         </div>
                                     </div>
 
@@ -88,7 +90,7 @@
                                         </span>
                                         <div>
                                             <p class="title-part">Sisi</p>
-                                            <p class="content-part">{{$data->side}}</p>
+                                            <p class="content-part">{{ $data->side }}</p>
                                         </div>
                                     </div>
 
@@ -101,7 +103,7 @@
                                         </span>
                                         <div>
                                             <p class="title-part">Jumlah</p>
-                                            <p class="content-part">{{$data->address}}</p>
+                                            <p class="content-part">{{ $data->address }}</p>
                                         </div>
                                     </div>
 
@@ -114,7 +116,7 @@
                                         </span>
                                         <div>
                                             <p class="title-part">Posisi</p>
-                                            <p class="content-part">{{$data->position}}</p>
+                                            <p class="content-part">{{ $data->position }}</p>
                                         </div>
                                     </div>
 
@@ -126,7 +128,7 @@
                                         </span>
                                         <div>
                                             <p class="title-part">Panjang</p>
-                                            <p class="content-part">{{$data->width}}</p>
+                                            <p class="content-part">{{ $data->width }}</p>
                                         </div>
                                     </div>
 
@@ -138,7 +140,7 @@
                                         </span>
                                         <div>
                                             <p class="title-part">Tinggi</p>
-                                            <p class="content-part">{{$data->height}}</p>
+                                            <p class="content-part">{{ $data->height }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -149,7 +151,7 @@
                                         </span>
                                         <div>
                                             <p class="title-part">Trafik /hari</p>
-                                            <p class="content-part">{{$data->trafic}}</p>
+                                            <p class="content-part">{{ $data->trafic }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -159,32 +161,46 @@
                 </div>
             </div>
         </div>
+    </div>
 
+    <p class="title-content ">Titik Kami yang Lain di {{ $data->city->name }}</p>
 
-        <p class="title-content ">Titik Kami yang Lain di {{$data->city->name}}</p>
+    <div class="list-article">
 
-        <div class="list-article">
+        @foreach ($titik as $d)
+            <div class="card-article">
+                <img src="{{ $dom . $d->image2 }}" />
 
-            @foreach($titik as $d)
-                <div class="card-article">
-                    <img src="{{ $dom. $d->image3 }}" />
+                <div class="article-content">
+                    <div class="article-wrapper">
+                        <p class="title">{{ $d->address }}</p>
+                        <p class="time">{{ $d->city->province->name }}, {{ $d->city->name }}</p>
+                        <hr>
 
-                    <div class="article-content">
-                        <div class="article-wrapper">
-                            <p class="title">{{$d->address}}</p>
-                            <p class="time">{{$d->city->province->name}}, {{$d->city->name}}</p>
-                            <hr>
-
-                            <div class="btn-wrapper">
-                                <a href="/detailtitik/{{$d->slug}}"><span>Lihat Titik</span><span
-                                        class="material-symbols-outlined">
+                        <div class="btn-wrapper">
+                            <a href="/detailtitik/{{ $d->slug }}"><span>Lihat Titik</span><span
+                                    class="material-symbols-outlined">
                                     arrow_right_alt
                                 </span></a>
-                            </div>
                         </div>
                     </div>
                 </div>
-            @endforeach
+            </div>
+        @endforeach
 
-        </div>
-    @endsection
+    </div>
+@endsection
+
+@section('morejs')
+    <script>
+        var slideUp = {
+            distance: '50%',
+            origin: 'bottom',
+            delay: 300,
+        };
+        document.addEventListener('DOMContentLoaded', function() {
+            ScrollReveal().reveal('.g-hero', slideUp);
+            ScrollReveal().reveal('.detail-titik', slideUp);
+        });
+    </script>
+@endsection

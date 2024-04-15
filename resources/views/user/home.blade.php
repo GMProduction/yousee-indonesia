@@ -19,7 +19,7 @@
 
     <div class="g-info">
         <div class="info container ">
-            <span class="score">5</span>
+            <span class="score tahun-pengalaman">0</span>
             <div class="d-flex flex-column ">
                 <span class="definition">Tahun </span>
                 <span class="definition">Pengalaman </span>
@@ -27,7 +27,7 @@
         </div>
         <div class="line"></div>
         <div class="info container ">
-            <span class="score">2K+</span>
+            <span class="score  titikstrategis">0</span>
             <div class="d-flex flex-column ">
                 <span class="definition">Titik Iklan </span>
                 <span class="definition">Strategis </span>
@@ -35,7 +35,7 @@
         </div>
         <div class="line"></div>
         <div class="info container ">
-            <span class="score">8K+</span>
+            <span class="score happycustomer">0</span>
             <div class="d-flex flex-column ">
                 <span class="definition">Happy</span>
                 <span class="definition">Customer </span>
@@ -43,7 +43,7 @@
         </div>
         <div class="line"></div>
         <div class="info container ">
-            <span class="score">4,6</span>
+            <span class="score overalrating">0</span>
             <div class="d-flex flex-column ">
                 <span class="definition">Overal</span>
                 <span class="definition">Rating </span>
@@ -164,14 +164,16 @@
 
     {{-- ONE WEEK SERVICES --}}
     <div class="oneweek-services">
-        <img src={{ asset('images/local/calendar.jpg') }} />
+        <img src={{ asset('images/local/calendar.png') }} />
         <div>
             <p class="title">Pasang Iklan Billboard 1 Minggu Tetap Dilayani. Fleksibel!</p>
             <p class="text">Maksimalkan performa iklan Anda, kami rekomendasikan untuk memasang lebih dari 1 titik di
                 wilayah yang
                 berbeda dengan durasi yang sama. Dengan jangkauan lebih dari 10.000 titik iklan, pemasangan iklan
                 billboardmu bisa dimulai dengan durasi 1 minggu saja. Sebebas itu!</p>
-            <a class="btn-pasangiklan">
+            <a class="btn-pasangiklan"
+                href="https://api.whatsapp.com/send?phone={{ preg_replace('/^0/', '62', $profiles[0]->whatsapp) }}&text=Halo%2C%20saya%20mau%20konsultasi%20periklanan%20billboard"
+                target="_blank">
                 Konsultasi Gratis
             </a>
         </div>
@@ -211,15 +213,113 @@
         });
 
         splide.mount();
+    </script>
+    <script type="text/javascript">
+        window.onload = function() {
+            var itemWidth = window.innerWidth < 820 ? 110 : 210;
 
-        <
-        script type = "text/javascript" >
-            window.onload = function() {
-                var wookmark1 = new Wookmark("#wookmark1", {
-                    outerOffset: 10, // Optional, the distance to the containers border
-                    itemWidth: 210, // Optional, the width of a grid item
+            var wookmark1 = new Wookmark("#wookmark1", {
+                outerOffset: 10, // Optional, the distance to the containers border
+                itemWidth: itemWidth, // Optional, the width of a grid item
+            });
+        };
+
+        // Opsional: Mendengarkan perubahan ukuran jendela untuk mengatur ulang lebar item
+        window.addEventListener('resize', function() {
+            var newWidth = window.innerWidth < 820 ? 110 : 210;
+            if (newWidth !== itemWidth) {
+                itemWidth = newWidth;
+                wookmark1.updateOptions({
+                    itemWidth: itemWidth
                 });
-            }; <
-        />
+            }
+        });
+    </script>
+
+    <script>
+        var slideUp = {
+            distance: '50%',
+            origin: 'bottom',
+            delay: 300,
+        };
+        document.addEventListener('DOMContentLoaded', function() {
+            ScrollReveal().reveal('.g-hero', slideUp);
+            ScrollReveal().reveal('.g-info', slideUp);
+            ScrollReveal().reveal('.g-container-left', slideUp);
+            ScrollReveal().reveal('.g-container-clients', slideUp);
+            ScrollReveal().reveal('.g-container-testimoni', slideUp);
+            ScrollReveal().reveal('.g-portfolio', slideUp);
+            ScrollReveal().reveal('.oneweek-services', slideUp);
+            // Tambahkan lebih banyak elemen sesuai kebutuhan
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            // Fungsi animateValue seperti sebelumnya
+            function animateValue(obj, start, end, duration, suffix = '') {
+                let startTimestamp = null;
+                const step = (timestamp) => {
+                    if (!startTimestamp) startTimestamp = timestamp;
+                    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                    const value = Math.floor(progress * (end - start) + start);
+                    obj.innerHTML = (value >= 1000 ? Math.floor(value / 1000) + 'K' : value) + (progress === 1 ?
+                        suffix : ''); // Mengonversi nilai ke format K ketika lebih dari atau sama dengan 1000
+                    if (progress < 1) {
+                        window.requestAnimationFrame(step);
+                    }
+                };
+                window.requestAnimationFrame(step);
+            }
+
+            // Fungsi observer untuk menjalankan animasi
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+
+                        const tahunPengalamanElement = document.querySelector('.tahun-pengalaman');
+                        if (tahunPengalamanElement) {
+                            animateValue(tahunPengalamanElement, 0, 5, 1000); // Durasi 500ms
+                        }
+
+                        const titikstrategisElement = document.querySelector('.titikstrategis');
+                        if (titikstrategisElement) {
+                            animateValue(titikstrategisElement, 0, 2000,
+                                1000, '+'); // Durasi 1000ms, dari 0 ke 2000
+                        }
+
+                        const happycustomerElement = document.querySelector('.happycustomer');
+                        if (happycustomerElement) {
+                            animateValue(happycustomerElement, 0, 8000, 1000, '+'); // Durasi 500ms
+                        }
+
+                        const overalratingElement = document.querySelector('.overalrating');
+                        if (overalratingElement) {
+                            animateValue(overalratingElement, 0, 4, 1000, ',6'); // Durasi 500ms
+                        }
+
+                        observer.unobserve(target); // Stop observing target after animation
+                    }
+                });
+            }, {
+                threshold: 0.1 // Trigger when 10% of the element is in the viewport
+            });
+
+            // Menambahkan elemen yang ingin di-observe
+            document.querySelectorAll('.score').forEach((elem) => {
+                observer.observe(elem);
+            });
+        });
+
+        document.addEventListener("scroll", function() {
+            var scrolledHeight = window.pageYOffset;
+            var parallaxElement = document.querySelector('.oneweek-services'),
+                limit = parallaxElement.offsetTop + parallaxElement.offsetHeight;
+            if (scrolledHeight > parallaxElement.offsetTop && scrolledHeight <= limit) {
+                parallaxElement.style.backgroundPositionY = (scrolledHeight - parallaxElement.offsetTop) / 2 + "px";
+            } else {
+                parallaxElement.style.backgroundPositionY = "0";
+            }
+        });
     </script>
 @endsection
