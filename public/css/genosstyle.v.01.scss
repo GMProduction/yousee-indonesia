@@ -630,6 +630,8 @@ a {
     width: 500px;
     position: relative;
     z-index: 2;
+    object-fit: scale-down;
+    object-position: top;
   }
 
   .title {
