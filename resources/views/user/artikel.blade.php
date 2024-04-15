@@ -12,17 +12,21 @@
         <div class="article-headline">
             <div class="article-content">
                 <div class="article-wrapper">
-                    <p class="title">{{ $newArtikel->title }}</p>
-                    <p class="time">{{ date_format($newArtikel->created_at, 'd M Y H:m') }}</p>
+                    <p class="title">{{ $newArtikel->title ?? 'Belum ada artikel' }}</p>
+                    <p class="time">
+                        {{ $newArtikel != null ? date_format($newArtikel->created_at, 'd M Y H:m') : 'Tidak ada tanggal' }}
+                    </p>
                     <hr>
-                    <div class="isi">{!! $newArtikel->content !!}
+                    <div class="isi">{!! $newArtikel->content ?? 'Belum ada isi artikel' !!}
                     </div>
                 </div>
                 <div class="btn-wrapper">
-                    <a href="{{ route('article.detail', ['slug' => $newArtikel->slug]) }}">Baca Selengkapnya</a>
+                    @if ($newArtikel != null)
+                        <a href="{{ route('article.detail', ['slug' => $newArtikel->slug]) }}">Baca Selengkapnya</a>
+                    @endif
                 </div>
             </div>
-            <img src="{{ asset($newArtikel->image) }}" />
+            <img src="{{ asset($newArtikel->image ?? 'images/local/login.jpg') }}" />
         </div>
 
 
@@ -81,9 +85,9 @@
                 </div>
             @endforeach
         </div>
-     <div class="d-flex justify-content-center mt-4">
-         {{ $data->links() }}
-     </div>
+        <div class="d-flex justify-content-center mt-4">
+            {{ $data->links() }}
+        </div>
 
     </div>
 @endsection

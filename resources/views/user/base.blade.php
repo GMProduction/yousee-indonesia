@@ -14,7 +14,7 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
 
-
+    <script src="https://unpkg.com/scrollreveal"></script>
     {{-- BOOTSTRAP --}}
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -66,7 +66,7 @@
                     class="indicator"></span></a>
         </div>
         <div class="g-nav-social">
-            <a>
+            <a href="{{ $profiles[0]->instagram }}" target="_blank">
                 <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                     stroke-width="1.5" width="20" height="20">
                     <defs>
@@ -88,7 +88,7 @@
                     <circle class="cls-637b8512f95e86b59c57a11c-2" cx="18.2" cy="5.8" r="1.43"></circle>
                 </svg>
             </a>
-            <a>
+            <a href="{{ $profiles[0]->facebook }}" target="_blank">
                 <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                     stroke-width="1.5" width="20" height="20">
                     <defs>
@@ -104,7 +104,7 @@
                         d="M17.73,6.27V1.5h-1A7.64,7.64,0,0,0,9.14,9.14v.95H6.27v3.82H9.14V22.5h4.77V13.91h2.86V10.09H13.91V9.14a2.86,2.86,0,0,1,2.86-2.87Z">
                     </path>
                 </svg></a>
-            <a>
+            <a href="{{ $profiles[0]->tiktok }}" target="_blank">
                 <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                     stroke-width="1.5" width="20" height="20">
                     <defs>
@@ -134,11 +134,6 @@
 
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
 
-
-
-
-
-
             <li><a class="dropdown-item menu {{ Request::is('/') ? 'active' : '' }}" href="/">Home<span
                         class="indicator "></span></a></li>
             <li><a class="dropdown-item menu {{ Request::is('services') ? 'active' : '' }}"
@@ -155,6 +150,7 @@
             <hr />
             <li style="padding-left: 10px">
                 <div class="g-nav-social">
+
                     <a>
                         <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20">
@@ -206,6 +202,7 @@
                                         stroke-miterlimit: 10;
                                     }
                                 </style>
+
                             </defs>
                             <path class="cls-637b8512f95e86b59c57a137-1"
                                 d="M12.94,1.61V15.78a2.83,2.83,0,0,1-2.83,2.83h0a2.83,2.83,0,0,1-2.83-2.83h0a2.84,2.84,0,0,1,2.83-2.84h0V9.17h0A6.61,6.61,0,0,0,3.5,15.78h0a6.61,6.61,0,0,0,6.61,6.61h0a6.61,6.61,0,0,0,6.61-6.61V9.17l.2.1a8.08,8.08,0,0,0,3.58.84h0V6.33l-.11,0a4.84,4.84,0,0,1-3.67-4.7H12.94Z">
@@ -216,6 +213,7 @@
             </li>
         </ul>
     </nav>
+
     @yield('content')
 
     {{-- ONE TIME --}}
@@ -223,14 +221,18 @@
 
 
         <div class="content">
-            <p class="title">Dapatkan Harga Sewa Billboard dalam Satu Waktu. Praktis!</p>
+
+            <p class="title"> Dapatkan Harga Sewa Billboard dalam Satu Waktu. Praktis!
+            </p>
             <p class="text">Dapatkan paket penawaran dari beberapa lokasi billboard yang kamu inginkan. Siap
                 mennjangkau
                 audiens lebih
                 luas hingga di seluruh wilayah di Indonesia. Daftar harga sewa billboard langsung kami kirim secara
                 cepat,
                 tepat, akurat!</p>
-            <a class="btn-pasangiklan">
+            <a class="btn-pasangiklan"
+                href="https://api.whatsapp.com/send?phone={{ preg_replace('/^0/', '62', $profiles[0]->whatsapp) }}&text=Halo%2C%20saya%20mau%20tanya%20tentang%20harga%20pasang%20billboard"
+                target="_blank">
                 Dapatkan Harga Sewa
             </a>
         </div>
@@ -251,28 +253,26 @@
             <div class="col-lg-4 col-sm-12">
                 <p class="header">Contact Us</p>
                 <p class="text"><span><img class="icon-text"
-                            src="{{ asset('images/local/icon/home-address.png') }}" /></span>Jalan
-                    Balai Pustaka No.23,RW 6/RW 15, Rawamangun, Kecamatan Pulo Gadung, Kota Jakarta
-                    Timur, DKI
-                    Jakarta 13220 </p>
-                <p class="text"> <span style="min-width: 50px"></span>Jl. Yos Sudarso No.19B, Tj. Anom, Kwarasan,
-                    Kec.
-                    Grogol,
-                    Kab. Sukoharjo, Jawa Tengah
-                    57552</p>
+                            src="{{ asset('images/local/icon/home-address.png') }}" /></span>{{ $profiles[0]->head_office_address }}
+                </p>
+                <p class="text"> <span style="min-width: 50px"></span>{{ $profiles[0]->address }}</p>
                 <p class="text"><span><img class="icon-text"
-                            src="{{ asset('images/local/icon/phone.png') }}" /></span>0271-6008012</p>
+                            src="{{ asset('images/local/icon/phone.png') }}" /></span>{{ $profiles[0]->phone }}</p>
                 <p class="text"><span><img class="icon-text"
-                            src="{{ asset('images/local/icon/whatsapp.png') }}" /></span> 0812 2605 9817</p>
+                            src="{{ asset('images/local/icon/whatsapp.png') }}" /></span><a style="color: grey;"
+                        href="https://api.whatsapp.com/send?phone={{ preg_replace('/^0/', '62', $profiles[0]->whatsapp) }}&text=Halo%2C%20saya%20mau%20tanya%20tentang%20pasang%20billboard"
+                        target="_blank">
+                        {{ preg_replace('/^0/', '62', $profiles[0]->whatsapp) }}</a>
+                </p>
                 <p class="text"><span><img class="icon-text"
-                            src="{{ asset('images/local/icon/email.png') }}" /></span>official@yousee-indonesia.com
+                            src="{{ asset('images/local/icon/email.png') }}" /></span>{{ $profiles[0]->email }}
                 </p>
             </div>
 
             <div class="col-lg-4 col-sm-12">
                 <p class="header">Social Media</p>
                 <div class="g-nav-social">
-                    <a>
+                    <a href="{{ $profiles[0]->instagram }}" target="_blank">
                         <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20">
                             <defs>
@@ -296,7 +296,7 @@
                             </circle>
                         </svg>
                     </a>
-                    <a>
+                    <a href="{{ $profiles[0]->facebook }}" target="_blank">
                         <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20">
                             <defs>
@@ -312,7 +312,7 @@
                                 d="M17.73,6.27V1.5h-1A7.64,7.64,0,0,0,9.14,9.14v.95H6.27v3.82H9.14V22.5h4.77V13.91h2.86V10.09H13.91V9.14a2.86,2.86,0,0,1,2.86-2.87Z">
                             </path>
                         </svg></a>
-                    <a>
+                    <a href="{{ $profiles[0]->tiktok }}" target="_blank">
                         <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20">
                             <defs>

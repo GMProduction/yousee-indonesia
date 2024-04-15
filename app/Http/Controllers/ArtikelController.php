@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\FrontArticle;
+use App\Models\FrontProfile;
 use App\Models\FrontTags;
 
 class ArtikelController extends Controller
@@ -11,7 +12,8 @@ class ArtikelController extends Controller
     {
         $artikel = FrontArticle::latest()->paginate(12);
         $newArtikel = FrontArticle::latest()->first();
-        return view('user.artikel', ['data' => $artikel, 'newArtikel' => $newArtikel]);
+        $profiles = FrontProfile::get();
+        return view('user.artikel', ['data' => $artikel, 'newArtikel' => $newArtikel, 'profiles' => $profiles]);
     }
 
     public function detail($slug)
@@ -26,12 +28,12 @@ class ArtikelController extends Controller
         }
         $checkSlug['text_tag'] = $dTag;
         $article = FrontArticle::where(function ($q) use ($checkSlug) {
-            foreach ($checkSlug->tags as $t){
+            foreach ($checkSlug->tags as $t) {
                 $q->orWhereJsonContains('tags', $t);
             }
         })->latest()->paginate(12);
 
-        return view('user.detailartikel', ['article' => $checkSlug,'data' => $article]);
+        return view('user.detailartikel', ['article' => $checkSlug, 'data' => $article]);
     }
 
     public function byTag($tag)
