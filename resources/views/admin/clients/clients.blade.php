@@ -111,7 +111,7 @@
                     data: 'image',
                     name: 'image',
                     render: function(data, x, row) {
-                        return '<img  src="' + row.image + '" height="50" alt="img"/>'
+                        return '<img  src="' + {{ asset(row . image) }} + '" height="50" alt="img"/>'
                     }
                 },
                 {
