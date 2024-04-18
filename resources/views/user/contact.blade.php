@@ -67,7 +67,7 @@
                                             src="{{ asset('images/local/icon/phone.png') }}" /></span>{{ $profiles[0]->phone }}
                                 </p>
                                 <p class="text"><span><img class="icon-text"
-                                            src="{{ asset('images/local/icon/whatsapp.png') }}" /></span> <a
+                                            src="{{ asset('images/local/icon/whatsapp.png') }}" /></span> <a class="d-block"
                                         style="color: grey;"
                                         href="https://api.whatsapp.com/send?phone={{ preg_replace('/^0/', '62', $profiles[0]->whatsapp) }}&text=Halo%2C%20saya%20mau%20tanya%20tentang%20pasang%20billboard"
                                         target="_blank">
@@ -79,7 +79,7 @@
 
                             <div class="contact">
                                 <p class="header">Our Social Media</p>
-                                <div class="g-nav-social">
+                                <div class="g-nav-social d-flex ">
                                     <a href="{{ $profiles[0]->instagram }}" target="_blank">
                                         <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
                                             viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20">
