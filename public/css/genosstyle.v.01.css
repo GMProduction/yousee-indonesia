@@ -11,6 +11,10 @@ body {
   display: none !important;
 }
 
+.page-link {
+  height: auto;
+}
+
 .feather {
   width: 24px;
   height: 24px;
@@ -981,10 +985,10 @@ a:hover svg {
   line-height: 1.2rem;
   font-weight: bold;
   margin-bottom: 0px;
-  color: #333;
+  color: #3e9dd1;
 }
 .list-titik .card-article .article-content .article-wrapper .time {
-  color: #666;
+  color: #ffa500;
   font-size: 0.8rem;
   font-weight: bold;
   margin-bottom: 10px;

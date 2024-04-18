@@ -34,6 +34,9 @@ body {
   display: none !important;
 }
 
+.page-link {
+  height: auto;
+}
 .feather {
   width: 24px;
   height: 24px;
@@ -1125,10 +1128,10 @@ a {
           line-height: 1.2rem;
           font-weight: bold;
           margin-bottom: 0px; // Adjusted margin bottom
-          color: #333; // Darker text for better readability
+          color: #3e9dd1; // Darker text for better readability
         }
         .time {
-          color: #666; // Lighter text for contrast
+          color: #ffa500; // Lighter text for contrast
           font-size: 0.8rem;
           font-weight: bold;
           margin-bottom: 10px;
