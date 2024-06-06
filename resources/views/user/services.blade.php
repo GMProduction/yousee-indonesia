@@ -64,10 +64,38 @@
 @section('morejs')
     <script type="text/javascript">
         window.onload = function() {
+            var itemWidth = window.innerWidth < 820 ? 110 : 210;
+
             var wookmark1 = new Wookmark("#wookmark1", {
                 outerOffset: 10, // Optional, the distance to the containers border
-                itemWidth: 210, // Optional, the width of a grid item
+                itemWidth: itemWidth, // Optional, the width of a grid item
             });
         };
+
+        // Opsional: Mendengarkan perubahan ukuran jendela untuk mengatur ulang lebar item
+        window.addEventListener('resize', function() {
+            var newWidth = window.innerWidth < 820 ? 110 : 210;
+            if (newWidth !== itemWidth) {
+                itemWidth = newWidth;
+                wookmark1.updateOptions({
+                    itemWidth: itemWidth
+                });
+            }
+        });
+    </script>
+
+    <script>
+        var slideUp = {
+            distance: '50%',
+            origin: 'bottom',
+            delay: 300,
+        };
+        document.addEventListener('DOMContentLoaded', function() {
+            ScrollReveal().reveal('.g-hero', slideUp);
+            ScrollReveal().reveal('.g-services', slideUp);
+            ScrollReveal().reveal('.g-portfolio', slideUp);
+
+            // Tambahkan lebih banyak elemen sesuai kebutuhan
+        });
     </script>
 @endsection

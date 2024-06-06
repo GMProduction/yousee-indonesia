@@ -12,17 +12,23 @@
         <div class="article-headline">
             <div class="article-content">
                 <div class="article-wrapper">
-                    <p class="title">{{ $newArtikel->title }}</p>
-                    <p class="time">{{ date_format($newArtikel->created_at, 'd M Y H:m') }}</p>
+                    <p class="title">{{ $newArtikel->title ?? 'Belum ada artikel' }}</p>
+                    <p class="time">
+                        {{ $newArtikel != null ? date_format($newArtikel->created_at, 'd M Y H:m') : 'Tidak ada tanggal' }}
+                    </p>
                     <hr>
-                    <div class="isi">{!! $newArtikel->content !!}
+                    <div class="isi">{!! $newArtikel->content ?? 'Belum ada isi artikel' !!}
                     </div>
                 </div>
                 <div class="btn-wrapper">
-                    <a href="{{ route('article.detail', ['slug' => $newArtikel->slug]) }}">Baca Selengkapnya</a>
+                    @if ($newArtikel != null)
+                        <a href="{{ route('article.detail', ['slug' => $newArtikel->slug]) }}">Baca Selengkapnya</a>
+                    @endif
                 </div>
             </div>
-            <img src="{{ asset($newArtikel->image) }}" />
+            <img src="{{ asset($newArtikel->image) }}"
+                onerror="this.onerror=null;this.src='{{ asset('images/local/noimage.jpg') }}';" />
+
         </div>
 
 
@@ -40,48 +46,40 @@
 
         <div class="list-article">
 
-            {{--            @for ($i = 0; $i < 20; $i++) --}}
-            {{--                <div class="card-article"> --}}
-            {{--                    <img src="{{ asset('images/local/login.jpg') }}"/> --}}
-
-            {{--                    <div class="article-content"> --}}
-            {{--                        <div class="article-wrapper"> --}}
-            {{--                            <p class="title">Judul Artikel, Judul Artikel, Judul Artikel, </p> --}}
-            {{--                            <p class="time">12 Feb 2024 16:13</p> --}}
-            {{--                            <hr> --}}
-
-            {{--                            <div class="btn-wrapper"> --}}
-            {{--                                <a href="/detailartikel/slug-artikel"><span>Baca Selengkapnya</span><span --}}
-            {{--                                        class="material-symbols-outlined"> --}}
-            {{--                                        arrow_right_alt --}}
-            {{--                                    </span></a> --}}
-            {{--                            </div> --}}
-            {{--                        </div> --}}
-            {{--                    </div> --}}
-            {{--                </div> --}}
-            {{--            @endfor --}}
-
             @foreach ($data as $key => $d)
-                <div class="card-article">
-                    <img src="{{ asset($d->image) }}" />
+                <a class="card-article" href="{{ route('article.detail', ['slug' => $d->slug]) }}">
+                    <img src="{{ asset($d->image) }}"
+                        onerror="this.onerror=null;this.src='{{ asset('images/local/noimage.jpg') }}';" />
                     <div class="article-content">
                         <div class="article-wrapper">
                             <p class="title">{{ $d->title }}</p>
                             <p class="time">{{ date_format($d->created_at, 'd M Y H:m') }}</p>
                             <hr>
 
-                            <div class="btn-wrapper">
-                                <a href="{{ route('article.detail', ['slug' => $d->slug]) }}"><span>Baca
-                                        Selengkapnya</span><span class="material-symbols-outlined">
-                                        arrow_right_alt
-                                    </span></a>
-                            </div>
+
                         </div>
                     </div>
-                </div>
+                </a>
             @endforeach
         </div>
-        {{ $data->links() }}
+        <div class="d-flex justify-content-center mt-4">
+            {{ $data->links() }}
+        </div>
 
     </div>
+@endsection
+
+@section('morejs')
+    <script>
+        var slideUp = {
+            distance: '50%',
+            origin: 'bottom',
+            delay: 300,
+        };
+        document.addEventListener('DOMContentLoaded', function() {
+            ScrollReveal().reveal('.list-article', slideUp);
+            ScrollReveal().reveal('.g-hero', slideUp);
+            // Tambahkan lebih banyak elemen sesuai kebutuhan
+        });
+    </script>
 @endsection

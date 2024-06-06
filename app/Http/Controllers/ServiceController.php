@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\FrontPortofolio;
+use App\Models\FrontProfile;
 use App\Models\FrontService;
 
 class ServiceController extends Controller
@@ -11,6 +12,7 @@ class ServiceController extends Controller
     {
         $services = FrontService::get();
         $portfolios = FrontPortofolio::get();
-        return view('user.services', ['services' => $services, 'portfolios' => $portfolios]);
+        $profiles = FrontProfile::get();
+        return view('user.services', ['services' => $services, 'portfolios' => $portfolios, 'profiles' => $profiles]);
     }
 }

@@ -26,28 +26,40 @@
     </div>
 
     <p class="title-content text-center">Titik di Semarang</p>
-    <div class="list-article">
+    <div class="list-titik">
 
         @for ($i = 0; $i < 20; $i++)
-            <div class="card-article">
-                <img src="{{ asset('images/local/login.jpg') }}" />
-
+            <a class="card-article" href="/detailtitik/{{ $d->slug }}">
+                <img src="{{ $dom . $d->image2 }}" />
+                <div
+                    style="position: absolute; top: 50%; right: 0; transform: translateY(-50%); background-color: green; padding: 2px 10px; border-radius: 5px 0 0 5px; font-size: 0.8rem; color: white;">
+                    {{ $titik[0]->type->name }}</div>
                 <div class="article-content">
                     <div class="article-wrapper">
-                        <p class="title">Jl. Slamet Riyadi no 123 Banjarsari Surakarta</p>
-                        <p class="time">Jawa Tengah, Surakarta</p>
+                        <p class="title mt-2"> {{ $d->city->province->name }}</p>
+                        <p class="time">{{ $d->city->name }}</p>
+                        <p class="alamat">{{ $d->address }}</p>
                         <hr>
 
-                        <div class="btn-wrapper">
-                            <a href="/detailtitik/slug-titik"><span>Lihat Titik</span><span
-                                    class="material-symbols-outlined">
-                                    arrow_right_alt
-                                </span></a>
-                        </div>
+
                     </div>
                 </div>
-            </div>
+            </a>
         @endfor
 
     </div>
+@endsection
+
+@section('morejs')
+    <script>
+        var slideUp = {
+            distance: '50%',
+            origin: 'bottom',
+            delay: 300,
+        };
+        document.addEventListener('DOMContentLoaded', function() {
+            ScrollReveal().reveal('.g-hero', slideUp);
+            ScrollReveal().reveal('.list-titik', slideUp);
+        });
+    </script>
 @endsection

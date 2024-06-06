@@ -43,26 +43,26 @@
                     <div class="title-container">
                         <p class="title">Tambah Service</p>
                     </div>
-                    <input type="hidden" id="d-id" name="id" value="{{$data ? $data->id :""}}">
+                    <input type="hidden" id="d-id" name="id" value="{{ $data ? $data->id : '' }}">
 
                     <div class=" mb-3">
                         <label class="form-label">Service Icon</label>
 
-                        <input type="file" id="image1" name="image" class="image"
-                               data-min-height="10" data-heigh="400" accept="image/jpeg, image/jpg, image/png"
-                               data-allowed-file-extensions="jpg jpeg png"/>
+                        <input type="file" id="image1" name="image" class="image" data-min-height="10"
+                            data-heigh="400" accept="image/jpeg, image/jpg, image/png"
+                            data-allowed-file-extensions="jpg jpeg png" />
                     </div>
 
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="p-judulservice" name="name"  value="{{$data ? $data->name : ""}}"
-                               placeholder="Nama Service">
+                        <input type="text" class="form-control" id="p-judulservice" name="name"
+                            value="{{ $data ? $data->name : '' }}" placeholder="Nama Service">
                         <label for="p-namaservice" class="form-label">Nama Service</label>
                     </div>
 
 
-                    <div class="mb-3">
+                    <div class=" mb-3">
                         <label class="control-label" for="p-keteranganservice">Keterangan Service</label>
-                        <textarea id="p-keteranganservice" class="summernote" name="description">{{$data ? $data->description :""}}</textarea>
+                        <textarea class="form-control" style="min-height: 200px" id="p-keteranganservice" name="description">{{ $data ? $data->description : '' }}</textarea>
                     </div>
 
                     <button type="submit" class="bt-primary m-2 ms-auto">Simpan Perubahan</button>
@@ -78,7 +78,6 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-bs5.min.js"></script>
     <script>
-
         $('#p-tags').select2({
             theme: "bootstrap-5",
             width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
@@ -88,15 +87,15 @@
 
         $(document).ready(function() {
             $('.summernote').summernote();
-            @if($data && $data->image)
-            setImgDropify('image1', null, '{{$data->image}}');
+            @if ($data && $data->image)
+                setImgDropify('image1', null, '{{ $data->image }}');
             @else
-            setImgDropify('image1');
+                setImgDropify('image1');
             @endif
         });
 
         function saveForm() {
-            saveData('Simpan Service', 'form', '{{route('admin.service.data')}}', null,'image' )
+            saveData('Simpan Service', 'form', '{{ route('admin.service.data') }}', null, 'image')
             return false
         }
     </script>

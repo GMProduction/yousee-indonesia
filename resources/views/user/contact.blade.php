@@ -16,23 +16,30 @@
                         <div class="col-md-8  col-sm-12 p-sm-20 sm-mb-30">
                             <p class="title mb-0 text-start  ">Berikan Kami Pesan</p>
                             <p class="title mb-3 text-start  "> atau Kritik dan Saran</p>
+                            @if (session('message'))
+                                <div class="alert alert-success text-center" role="alert">
+                                    {{ session('message') }}
+                                </div>
+                            @endif
                             <div class="d-flex position-relative ">
 
-                                <form class="flex-grow-1 ">
+                                <form class="flex-grow-1 " method="POST">
+                                    @csrf
                                     <div class="form-floating mb-3">
-                                        <input type="text" class="form-control" id="p-nama" name="p-nama"
+                                        <input type="text" class="form-control" id="p-nama" name="name"
                                             placeholder="Nama">
                                         <label for="p-nama" class="form-label">Nama</label>
                                     </div>
 
                                     <div class="form-floating mb-3">
-                                        <input type="text" class="form-control" id="p-nowa" name="p-nowa"
-                                            placeholder="Nomor Whatsapp">
+                                        <input type="text" id="phone" name="phone" class="form-control"
+                                            pattern="[0-9\s]{11,14}" required />
+
                                         <label for="p-nowa" class="form-label">Nomor Whatsapp</label>
                                     </div>
 
                                     <div class="form-floating mb-3">
-                                        <textarea type="text" class="form-control" id="p-pesan" name="p-pesan" rows="5" placeholder="pesan"
+                                        <textarea type="text" class="form-control" id="p-pesan" name="message" rows="5" placeholder="pesan"
                                             style="min-height: 200px"></textarea>
                                         <label for="p-pesan" class="form-label">Pesan</label>
                                     </div>
@@ -53,29 +60,27 @@
 
                                 <p class="header">Contact Us</p>
                                 <p class="text"><span><img class="icon-text"
-                                            src="{{ asset('images/local/icon/home-address.png') }}" /></span>Jalan
-                                    Balai Pustaka No.23,RW 6/RW 15, Rawamangun, Kecamatan Pulo Gadung, Kota Jakarta
-                                    Timur, DKI
-                                    Jakarta 13220 </p>
-                                <p class="text"> <span style="min-width: 50px"></span>Jl. Yos Sudarso No.19B, Tj. Anom,
-                                    Kwarasan,
-                                    Kec.
-                                    Grogol,
-                                    Kab. Sukoharjo, Jawa Tengah
-                                    57552</p>
+                                            src="{{ asset('images/local/icon/home-address.png') }}" /></span>{{ $profiles[0]->head_office_address }}
+                                </p>
+                                <p class="text"> <span style="min-width: 50px"></span>{{ $profiles[0]->address }}</p>
                                 <p class="text"><span><img class="icon-text"
-                                            src="{{ asset('images/local/icon/phone.png') }}" /></span>0271-6008012</p>
+                                            src="{{ asset('images/local/icon/phone.png') }}" /></span>{{ $profiles[0]->phone }}
+                                </p>
                                 <p class="text"><span><img class="icon-text"
-                                            src="{{ asset('images/local/icon/whatsapp.png') }}" /></span> 0812 2605 9817</p>
+                                            src="{{ asset('images/local/icon/whatsapp.png') }}" /></span> <a class="d-block"
+                                        style="color: grey;"
+                                        href="https://api.whatsapp.com/send?phone={{ preg_replace('/^0/', '62', $profiles[0]->whatsapp) }}&text=Halo%2C%20saya%20mau%20tanya%20tentang%20pasang%20billboard"
+                                        target="_blank">
+                                        {{ preg_replace('/^0/', '62', $profiles[0]->whatsapp) }}</a></p>
                                 <p class="text"><span><img class="icon-text"
-                                            src="{{ asset('images/local/icon/email.png') }}" /></span>official@yousee-indonesia.com
+                                            src="{{ asset('images/local/icon/email.png') }}" /></span>{{ $profiles[0]->email }}
                                 </p>
                             </div>
 
                             <div class="contact">
                                 <p class="header">Our Social Media</p>
-                                <div class="g-nav-social">
-                                    <a>
+                                <div class="g-nav-social d-flex ">
+                                    <a href="{{ $profiles[0]->instagram }}" target="_blank">
                                         <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
                                             viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20">
                                             <defs>
@@ -101,7 +106,7 @@
                                             </circle>
                                         </svg>
                                     </a>
-                                    <a>
+                                    <a href="{{ $profiles[0]->facebook }}" target="_blank">
                                         <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
                                             viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20">
                                             <defs>
@@ -117,7 +122,7 @@
                                                 d="M17.73,6.27V1.5h-1A7.64,7.64,0,0,0,9.14,9.14v.95H6.27v3.82H9.14V22.5h4.77V13.91h2.86V10.09H13.91V9.14a2.86,2.86,0,0,1,2.86-2.87Z">
                                             </path>
                                         </svg></a>
-                                    <a>
+                                    <a href="{{ $profiles[0]->tiktok }}" target="_blank">
                                         <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
                                             viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20">
                                             <defs>
@@ -166,9 +171,9 @@
         </div>
 
         <div class="client-list">
-            @for ($i = 1; $i < 15; $i++)
-                <img class="client" loading="lazy" src="{{ asset('images/local/clients/' . $i . '.webp') }}" />
-            @endfor
+            @foreach ($clients as $client)
+                <img class="client" loading="lazy" src="{{ asset($client->image) }}" />
+            @endforeach
 
         </div>
     </div>
@@ -179,10 +184,30 @@
                 efektif
                 dan efisien </p>
             <div class="d-flex justify-content-center ">
-                <a class="btn-pasangiklan">
+                <a class="btn-pasangiklan"
+                    href="https://api.whatsapp.com/send?phone={{ preg_replace('/^0/', '62', $profiles[0]->whatsapp) }}&text=Halo%2C%20saya%20mau%20tanya%20tentang%20pasang%20billboard"
+                    target="_blank">
                     Pasang Iklan Sekarang
                 </a>
             </div>
         </div>
     </div>
+@endsection
+
+@section('morejs')
+    <script>
+        var slideUp = {
+            distance: '50%',
+            origin: 'bottom',
+            delay: 300,
+        };
+        document.addEventListener('DOMContentLoaded', function() {
+            ScrollReveal().reveal('.g-hero', slideUp);
+            ScrollReveal().reveal('.contact-map', slideUp);
+            ScrollReveal().reveal('.g-container-clients', slideUp);
+            ScrollReveal().reveal('.morethan10000', slideUp);
+
+            // Tambahkan lebih banyak elemen sesuai kebutuhan
+        });
+    </script>
 @endsection

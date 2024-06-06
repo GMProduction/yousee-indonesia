@@ -1,5 +1,15 @@
 @extends('user.base')
-
+@section('header')
+    <meta name="description"
+        content="sewa baliho, billboard, bando jalan, led banner, jpo, videotron, megatron di provinsi {{ strtolower(request('province')) }}">
+    <meta name="keyword" content="baliho, billboard, bando jalan, led banner, jpo, videotron, megatron">
+    <title>sewa baliho, billboard di provinsi {{ strtolower(request('province')) }}</title>
+    <meta name="og:image" content="">
+    <meta name="og:site_name" content="">
+    <meta name="og:description"
+        content="sewa baliho, billboard, bando jalan, led banner, jpo, videotron, megatron di provinsi {{ strtolower(request('province')) }}">
+    <meta name="og:title" content="sewa baliho, billboard di provinsi {{ strtolower(request('province')) }}">
+@endsection
 @section('morecss')
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
@@ -12,7 +22,7 @@
         <div class="pencarian-container">
             <div class="pencarian-content">
                 <div class="pencarian-wrapper">
-                    <p class="title mb-4 ">Titik Billboard di Jawa Tengah</p>
+                    <p class="title mb-4 ">Titik Billboard di {{ request('province') }}</p>
                     <p>Dengan memiliki titik billboard di seluruh Indonesia, Anda memiliki kesempatan luar biasa untuk
                         mencapai audiens yang luas dan beragam di seluruh negeri. Dari pantai-pantai eksotis di Bali hingga
                         jalan-jalan sibuk di Jakarta, dan dari pedesaan di Jawa hingga kota-kota kosmopolitan di Sumatera,
@@ -25,29 +35,45 @@
 
     </div>
 
-    <p class="title-content text-center">Titik di Jawa Tengah</p>
-    <div class="list-article">
+    <p class="title-content text-center">Titik di {{ request('province') }}</p>
+    <div class="list-titik">
 
-        @for ($i = 0; $i < 20; $i++)
-            <div class="card-article">
-                <img src="{{ asset('images/local/login.jpg') }}" />
-
+        @foreach ($titik as $d)
+            <a class="card-article" href="/detailtitik/{{ $d->slug }}">
+                <img src="{{ $dom . $d->image2 }}" />
+                <div
+                    style="position: absolute; top: 50%; right: 0; transform: translateY(-50%); background-color: green; padding: 2px 10px; border-radius: 5px 0 0 5px; font-size: 0.8rem; color: white;">
+                    {{ $titik[0]->type->name }}</div>
                 <div class="article-content">
                     <div class="article-wrapper">
-                        <p class="title">Jl. Slamet Riyadi no 123 Banjarsari Surakarta</p>
-                        <p class="time">Jawa Tengah, Surakarta</p>
+                        <p class="title mt-2"> {{ $d->city->province->name }}</p>
+                        <p class="time">{{ $d->city->name }}</p>
+                        <p class="alamat">{{ $d->address }}</p>
                         <hr>
 
-                        <div class="btn-wrapper">
-                            <a href="/detailtitik/slug-titik"><span>Lihat Titik</span><span
-                                    class="material-symbols-outlined">
-                                    arrow_right_alt
-                                </span></a>
-                        </div>
+
                     </div>
                 </div>
-            </div>
-        @endfor
+            </a>
+        @endforeach
 
     </div>
+    <div class="d-flex justify-content-center mt-4">
+        {{ $titik->links() }}
+    </div>
 @endsection
+
+@section('morejs')
+    <script>
+        var slideUp = {
+            distance: '50%',
+            origin: 'bottom',
+            delay: 300,
+        };
+        document.addEventListener('DOMContentLoaded', function() {
+            ScrollReveal().reveal('.g-hero', slideUp);
+            ScrollReveal().reveal('.list-titik', slideUp);
+        });
+    </script>
+@endsection
+

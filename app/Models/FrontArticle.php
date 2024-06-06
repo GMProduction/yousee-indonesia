@@ -17,6 +17,7 @@ class FrontArticle extends Model
         'image',
         'tags',
         'content',
-        'slug'
+        'slug',
+        'sort_desc'
     ];
 }

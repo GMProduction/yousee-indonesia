@@ -20,6 +20,14 @@ class DashboardController extends Controller
         ];
     }
 
+    public function getDataTitikPublic(){
+        $sql = 'SELECT COUNT(`id`) as count FROM `items` where `isShow` = true';
+        $allTitik = DB::select($sql);
+        return [
+            'titik' => $allTitik[0]->count
+        ];
+    }
+
     public function getDataArticle(){
         $sql = 'SELECT COUNT(`id`) as count FROM `front_articles`';
         $allTitik = DB::select($sql);
