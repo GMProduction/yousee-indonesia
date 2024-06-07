@@ -163,29 +163,21 @@
         </div>
     </div>
 
-    <p class="title-content ">Titik Kami yang Lain di {{ $data->city->name }}</p>
+    <p class="title-content text-center">Titik Kami yang Lain di {{ $data->city->name }}</p>
 
     <div class="list-article">
 
         @foreach ($titik as $d)
-            <div class="card-article">
+            <a class="card-article" href="/detailtitik/{{ $d->slug }}">
                 <img src="{{ $dom . $d->image2 }}" />
 
                 <div class="article-content">
                     <div class="article-wrapper">
                         <p class="title">{{ $d->address }}</p>
                         <p class="time">{{ $d->city->province->name }}, {{ $d->city->name }}</p>
-                        <hr>
-
-                        <div class="btn-wrapper">
-                            <a href="/detailtitik/{{ $d->slug }}"><span>Lihat Titik</span><span
-                                    class="material-symbols-outlined">
-                                    arrow_right_alt
-                                </span></a>
-                        </div>
                     </div>
                 </div>
-            </div>
+            </a>
         @endforeach
 
     </div>

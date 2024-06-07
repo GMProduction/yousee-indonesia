@@ -51,4 +51,14 @@ class TitikController extends Controller
         $profiles = FrontProfile::get();
         return view('user.titik_per_provinsi', ['titik' => $titik, 'dom' => $this->dom, 'profiles' => $profiles]);
     }
+
+    public function titikCity($city)
+    {
+        $titik = Item::where('isShow', '=', true)
+            ->whereHas('city', function ($q) use ($city) {
+                return $q->where('name', 'LIKE', '%' . $city . '%');
+            })->paginate(12);
+        $profiles = FrontProfile::get();
+        return view('user.titik_per_kota', ['titik' => $titik, 'dom' => $this->dom, 'profiles' => $profiles]);
+    }
 }

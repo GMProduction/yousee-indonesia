@@ -87,6 +87,7 @@ Route::get('/services', [\App\Http\Controllers\ServiceController::class, 'index'
 
 
 Route::get('/titik/{province}', [\App\Http\Controllers\TitikController::class, 'titikProvince']);
+Route::get('/titik-kota/{city}', [\App\Http\Controllers\TitikController::class, 'titikCity']);
 
 Route::get('/titik/{prvince}/{city}', function () {
     return view('user.titik_per_kota');

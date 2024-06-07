@@ -1,5 +1,15 @@
 @extends('user.base')
-
+@section('header')
+    <meta name="description"
+        content="sewa baliho, billboard, bando jalan, led banner, jpo, videotron, megatron di kota {{ strtolower(request('city')) }}">
+    <meta name="keyword" content="baliho, billboard, bando jalan, led banner, jpo, videotron, megatron">
+    <title>sewa baliho, billboard di Kota {{ strtolower(request('city')) }}</title>
+    <meta name="og:image" content="">
+    <meta name="og:site_name" content="">
+    <meta name="og:description"
+        content="sewa baliho, billboard, bando jalan, led banner, jpo, videotron, megatron di kota {{ strtolower(request('city')) }}">
+    <meta name="og:title" content="sewa baliho, billboard di kota {{ strtolower(request('city')) }}">
+@endsection
 @section('morecss')
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
@@ -12,7 +22,7 @@
         <div class="pencarian-container">
             <div class="pencarian-content">
                 <div class="pencarian-wrapper">
-                    <p class="title mb-4 ">Titik Billboard di Semarang</p>
+                    <p class="title mb-4 ">Titik Billboard di {{ request('city') }}</p>
                     <p>Dengan memiliki titik billboard di seluruh Indonesia, Anda memiliki kesempatan luar biasa untuk
                         mencapai audiens yang luas dan beragam di seluruh negeri. Dari pantai-pantai eksotis di Bali hingga
                         jalan-jalan sibuk di Jakarta, dan dari pedesaan di Jawa hingga kota-kota kosmopolitan di Sumatera,
@@ -25,10 +35,10 @@
 
     </div>
 
-    <p class="title-content text-center">Titik di Semarang</p>
+    <p class="title-content text-center">Titik di {{ request('city') }}</p>
     <div class="list-titik">
 
-        @for ($i = 0; $i < 20; $i++)
+        @foreach ($titik as $d)
             <a class="card-article" href="/detailtitik/{{ $d->slug }}">
                 <img src="{{ $dom . $d->image2 }}" />
                 <div
@@ -36,7 +46,7 @@
                     {{ $titik[0]->type->name }}</div>
                 <div class="article-content">
                     <div class="article-wrapper">
-                        <p class="title mt-2"> {{ $d->city->province->name }}</p>
+                        <p class="title mt-2"> {{ $d->city->name }}</p>
                         <p class="time">{{ $d->city->name }}</p>
                         <p class="alamat">{{ $d->address }}</p>
                         <hr>
@@ -45,8 +55,11 @@
                     </div>
                 </div>
             </a>
-        @endfor
+        @endforeach
 
+    </div>
+    <div class="d-flex justify-content-center mt-4">
+        {{ $titik->links() }}
     </div>
 @endsection
 
