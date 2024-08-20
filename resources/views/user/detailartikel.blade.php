@@ -68,9 +68,9 @@
                         </div>
                     </div>
                 </a>
-        </div>
-        @endforeach
+            @endforeach
 
+        </div>
     </div>
     <div class="d-flex justify-content-center mt-4">
         {{ $data->links() }}

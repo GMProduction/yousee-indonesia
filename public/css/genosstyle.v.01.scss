@@ -2129,4 +2129,123 @@ a {
     width: 90%;
     margin: 0 auto;
   }
+
+  .article-headline {
+    display: flex;
+    padding: 20px;
+    box-shadow: 4px 19px 41px 6px rgba(0, 0, 0, 0.1);
+    width: 900px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: -50px;
+    background-color: white;
+    z-index: 10;
+    position: relative;
+    height: 440px;
+    overflow-y: hidden;
+
+    .article-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      .article-wrapper {
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        height: 350px;
+        .title {
+          font-size: 1.7rem;
+          font-weight: bold;
+          margin-bottom: 0px;
+        }
+        .time {
+          color: grey;
+          font-size: 0.8rem;
+          font-weight: bold;
+          margin-bottom: 0px;
+        }
+        hr {
+          width: 100px;
+          margin-right: auto;
+          margin-left: auto;
+          margin-top: 5px;
+        }
+
+        .isi {
+          flex: 1;
+          overflow-y: hidden;
+          color: grey;
+        }
+      }
+
+      .btn-wrapper {
+        a {
+          all: unset;
+          padding: 5px 10px;
+          background-color: #f3b664;
+          color: white !important;
+          transition: all 0.3s ease-in-out;
+          cursor: pointer !important;
+          &:hover {
+            background-color: #f0bd7b;
+            padding: 10px 20px;
+          }
+        }
+      }
+    }
+
+    img {
+      width: 400px;
+      height: 400px;
+      object-fit: cover;
+    }
+  }
+
+  .list-article {
+    gap: 0;
+  }
+  // DETAIL ARTIKEL
+  .article-full {
+    width: 100%;
+
+    .article-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      img {
+        width: 100%;
+        margin-bottom: 30px;
+      }
+
+      .article-wrapper {
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        .title {
+          font-size: 1.7rem;
+          font-weight: bold;
+          margin-bottom: 0px;
+        }
+        .time {
+          color: grey;
+          font-size: 0.8rem;
+          font-weight: bold;
+          margin-bottom: 0px;
+        }
+        hr {
+          width: 100px;
+          margin-right: auto;
+          margin-left: auto;
+          margin-top: 5px;
+        }
+
+        .isi {
+          flex: 1;
+          overflow-y: hidden;
+          color: grey;
+        }
+      }
+    }
+  }
 }
