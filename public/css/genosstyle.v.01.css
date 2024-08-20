@@ -1886,6 +1886,9 @@ a:hover svg {
     -o-object-fit: cover;
        object-fit: cover;
   }
+  .list-article {
+    gap: 0;
+  }
   .article-full {
     width: 100%;
   }
