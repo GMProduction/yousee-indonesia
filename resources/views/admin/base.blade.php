@@ -221,7 +221,7 @@
                         </div>
                         <hr>
                         <div class="notif-container" id="notif">
-                            {{--                                                <div class="notif-item unread"> --}}
+                            {{-- <div class="notif-item unread"> --}}
                             {{--                                                    <div class="content-container"> --}}
                             {{--                                                        <p class="title-content">Bagus Want to buy something </p> --}}
                             {{--                                                        <p class="body-content">You Have new transaction from bagus yanuar, please check! --}}
@@ -229,7 +229,7 @@
                             {{--                                                    </div> --}}
                             {{--                                                    <hr> --}}
 
-                            {{--                                                </div> --}}
+                            {{-- </div> --}}
                             {{--                                                <div class="notif-item"> --}}
 
                             {{--                                                    <div class="content-container"> --}}

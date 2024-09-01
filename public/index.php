@@ -7,17 +7,17 @@ define('LARAVEL_START', microtime(true));
 
 /*
 |--------------------------------------------------------------------------
-| Check If Application Is Under Maintenance
+| Check If The Application Is Under Maintenance
 |--------------------------------------------------------------------------
 |
-| If the application is maintenance / demo mode via the "down" command we
-| will require this file so that any prerendered template can be shown
-| instead of starting the framework, which could cause an exception.
+| If the application is currently down for maintenance, we will load this file
+| so that any pre-rendered content can be shown instead of starting the
+| framework, which could cause an exception due to the database being down.
 |
 */
 
-if (file_exists(__DIR__.'/../storage/framework/maintenance.php')) {
-    require __DIR__.'/../storage/framework/maintenance.php';
+if (file_exists($maintenance = __DIR__ . '/../storage/framework/maintenance.php')) {
+    require $maintenance;
 }
 
 /*
@@ -26,30 +26,31 @@ if (file_exists(__DIR__.'/../storage/framework/maintenance.php')) {
 |--------------------------------------------------------------------------
 |
 | Composer provides a convenient, automatically generated class loader for
-| this application. We just need to utilize it! We'll simply require it
-| into the script here so we don't need to manually load our classes.
+| our application. We just need to utilize it! We'll require it into the
+| script here so that we don't have to manually load our classes later on.
 |
 */
 
-require __DIR__.'/../vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 /*
 |--------------------------------------------------------------------------
 | Run The Application
 |--------------------------------------------------------------------------
 |
-| Once we have the application, we can handle the incoming request using
-| the application's HTTP kernel. Then, we will send the response back
-| to this client's browser, allowing them to enjoy our application.
+| Once we have the application, we can handle the incoming request using the
+| application's HTTP kernel. Then, we will send the response back to
+| the client's browser, allowing them to enjoy the application we have
+| prepared for them.
 |
 */
 
-$app = require_once __DIR__.'/../bootstrap/app.php';
+$app = require_once __DIR__ . '/../bootstrap/app.php';
 
 $kernel = $app->make(Kernel::class);
 
-$response = tap($kernel->handle(
+$response = $kernel->handle(
     $request = Request::capture()
-))->send();
+)->send();
 
 $kernel->terminate($request, $response);
