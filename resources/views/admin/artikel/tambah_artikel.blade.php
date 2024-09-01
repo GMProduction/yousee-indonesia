@@ -2,17 +2,17 @@
 
 @section('morecss')
     {{-- DROPZONE --}}
-    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css"/>
+    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
     <!-- Styles -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
     <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css"/>
+        href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
     <!-- Or for RTL support -->
     <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.rtl.min.css"/>
+        href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.rtl.min.css" />
 
     <!-- include summernote css/js -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-bs5.min.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 @endsection
 
 
@@ -46,11 +46,11 @@
                     </div>
 
 
-                    <input type="hidden" id="d-id" name="id" value="{{$data ? $data->id :""}}">
+                    <input type="hidden" id="d-id" name="id" value="{{ $data ? $data->id : '' }}">
 
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="p-judulartikel" name="title" value="{{$data ? $data->title :""}}"
-                               placeholder="Judul Artikel">
+                        <input type="text" class="form-control" id="p-judulartikel" name="title"
+                            value="{{ $data ? $data->title : '' }}" placeholder="Judul Artikel">
                         <label for="p-judulartikel" class="form-label">Judul Artikel</label>
                     </div>
 
@@ -58,16 +58,17 @@
                     <div class=" mb-3">
                         <label class="form-label">Gambar Utama</label>
 
-                        <input type="file" id="image1" name="image" class="image"
-                               data-min-height="10" data-heigh="400" accept="image/jpeg, image/jpg, image/png"
-                               data-allowed-file-extensions="jpg jpeg png"/>
+                        <input type="file" id="image1" name="image" class="image" data-min-height="10"
+                            data-heigh="400" accept="image/jpeg, image/jpg, image/png"
+                            data-allowed-file-extensions="jpg jpeg png" />
                     </div>
 
 
                     <div class="row mb-3">
                         <div class="col-md-8 ">
                             <label for="p-tags" class="form-label">Tambahkan Tags</label>
-                            <select class="form-select" name="tags[]" id="p-tags" data-placeholder="Choose anything" multiple>
+                            <select class="form-select" name="tags[]" id="p-tags" data-placeholder="Choose anything"
+                                multiple>
                             </select>
                         </div>
                         <div class="col-md-4 d-flex gap-2">
@@ -77,28 +78,28 @@
                                         belum ada</label>
 
                                     <input type="text" class="form-control" style="height: 2.5rem;" id="p-newtags"
-                                           name="p-newtags" placeholder="tags baru">
+                                        name="p-newtags" placeholder="tags baru">
                                 </div>
 
                             </div>
                             <div>
                                 <label class="form-label">.</label>
                                 <button type="button" onclick="saveTags()"
-                                        class="btn-warning-sm text-nowrap d-flex align-items-center  justify-content-center "
-                                        style="height: 2.5rem;  padding-top: 0; padding-bottom: 0"><span
+                                    class="btn-warning-sm text-nowrap d-flex align-items-center  justify-content-center "
+                                    style="height: 2.5rem;  padding-top: 0; padding-bottom: 0"><span
                                         class="material-symbols-outlined">
-                                    save
-                                </span></button>
+                                        save
+                                    </span></button>
                             </div>
                         </div>
                     </div>
                     <div class="mb-3">
                         <label class="control-label" for="p-pendek">Deskripsi Pendek</label>
-                        <textarea id="p-pendek" class="form-control" maxlength="200" name="sort_desc">{{$data ? $data->sort_desc :''}}</textarea>
+                        <textarea id="p-pendek" class="form-control" maxlength="200" name="sort_desc">{{ $data ? $data->sort_desc : '' }}</textarea>
                     </div>
                     <div class="mb-3">
                         <label class="control-label" for="p-isiartikel">Isi Artikel</label>
-                        <textarea id="p-isiartikel" class="summernote" name="content">{{$data ? $data->content :''}}</textarea>
+                        <textarea id="p-isiartikel" class="summernote" name="content">{{ $data ? $data->content : '' }}</textarea>
                     </div>
 
                     <button type="submit" class="bt-primary m-2 ms-auto">Simpan Perubahan</button>
@@ -112,7 +113,7 @@
     <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-bs5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
     <script>
         // Note that the name "myDropzone" is the camelized
         // id of the form.
@@ -122,51 +123,64 @@
             width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
             placeholder: $(this).data('placeholder'),
             closeOnSelect: false,
-            multiple:true
+            multiple: true
         });
 
-        $(document).ready(function () {
+        $(document).ready(function() {
             getDataTags()
-            $('.summernote').summernote();
-            @if($data && $data->image)
-            setImgDropify('image1', null, '{{$data->image}}');
+            $('.summernote').summernote({
+                placeholder: 'Tuliskan deskripsi yang panjang disini',
+                tabsize: 2,
+                height: 120,
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'underline', 'clear']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link', 'picture', 'video']],
+                    ['view', ['fullscreen', 'codeview', 'help']]
+                ]
+            });
+            @if ($data && $data->image)
+                setImgDropify('image1', null, '{{ $data->image }}');
             @else
-            setImgDropify('image1');
+                setImgDropify('image1');
             @endif
         });
 
         async function getDataTags() {
-            await $.get('{{route('admin.tags')}}', function (res) {
+            await $.get('{{ route('admin.tags') }}', function(res) {
                 console.log('res', res)
                 let tag = $('#p-tags')
                 tag.empty();
-                $.each(res, function (k, v) {
+                $.each(res, function(k, v) {
                     tag.append('<option value="' + v.id + '">' + v.name + '</option>')
                 })
             })
-            @if($data)
-            var selectedValues = [];
-            @foreach($data->tags as $k => $t)
-                selectedValues[{{$k}}] = '{{$t}}'
-            @endforeach
-            console.log('asdasd', selectedValues)
-            // $('#p-tags').select2('val', [1,2]);
-            sel2.val(selectedValues).trigger('change');
+            @if ($data)
+                var selectedValues = [];
+                @foreach ($data->tags as $k => $t)
+                    selectedValues[{{ $k }}] = '{{ $t }}'
+                @endforeach
+                console.log('asdasd', selectedValues)
+                // $('#p-tags').select2('val', [1,2]);
+                sel2.val(selectedValues).trigger('change');
             @endif
 
         }
 
         function saveForm() {
-             saveData('Simpan Artikel', 'form', '{{route('admin.article.data')}}', null,'image' )
+            saveData('Simpan Artikel', 'form', '{{ route('admin.article.data') }}', null, 'image')
             return false
         }
 
         function saveTags() {
             let form = {
-                '_token': '{{csrf_token()}}',
+                '_token': '{{ csrf_token() }}',
                 'name': $('#p-newtags').val()
             }
-            saveDataObjectFormData('Simpan Tags', form, '{{route('admin.tags.add')}}', afterSave)
+            saveDataObjectFormData('Simpan Tags', form, '{{ route('admin.tags.add') }}', afterSave)
             return false
         }
 

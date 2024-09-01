@@ -76,7 +76,7 @@
 @section('morejs')
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-bs5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
     <script>
         $('#p-tags').select2({
             theme: "bootstrap-5",
@@ -86,7 +86,20 @@
         });
 
         $(document).ready(function() {
-            $('.summernote').summernote();
+            $('.summernote').summernote({
+                placeholder: 'Tuliskan deskripsi service',
+                tabsize: 2,
+                height: 120,
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'underline', 'clear']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link', 'picture', 'video']],
+                    ['view', ['fullscreen', 'codeview', 'help']]
+                ]
+            });
             @if ($data && $data->image)
                 setImgDropify('image1', null, '{{ $data->image }}');
             @else
