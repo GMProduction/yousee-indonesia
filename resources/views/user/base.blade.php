@@ -22,7 +22,7 @@
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
     {{-- CSS --}}
-    <link href="{{ asset('css/genosstyle.v.01.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/genosstyle.v.02.css') }}" rel="stylesheet" />
     <link href="{{ asset('css/main.css') }}" rel="stylesheet" />
 
     {{-- FONT --}}
@@ -247,7 +247,7 @@
     <footer class="footer">
         <div class="row gx-3 ">
             <div class="col-lg-4 col-sm-12 ">
-                <img class="footer-logo" src="{{ asset('images/local/logo-yousee.png') }}" />
+                <img class="footer-logo" src="{{ asset('images/local/logo-yousee2.png') }}" />
 
                 <p class="footer-tag">Pasang Iklan Billboard di Seluruh INDONESIA</p>
             </div>
