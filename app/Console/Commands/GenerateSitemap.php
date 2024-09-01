@@ -21,17 +21,16 @@ class GenerateSitemap extends Command
         $sitemap = Sitemap::create();
 
         // Menambahkan URL statis
-        $sitemap->add(Url::create('/')->setPriority(1.0)->setChangeFrequency('daily'));
-        $sitemap->add(Url::create('/')->setPriority(1.0)->setChangeFrequency('daily'));
-        $sitemap->add(Url::create('/titik-kami')->setPriority(1.0)->setChangeFrequency('daily'));
-        $sitemap->add(Url::create('/services')->setPriority(0.8)->setChangeFrequency('monthly'));
-        $sitemap->add(Url::create('/portfolio')->setPriority(0.8)->setChangeFrequency('monthly'));
-        $sitemap->add(Url::create('/contact')->setPriority(0.8)->setChangeFrequency('monthly'));
+        $sitemap->add(Url::create(url('/'))->setPriority(1.0)->setChangeFrequency('daily'));
+        $sitemap->add(Url::create(url('/titik-kami'))->setPriority(1.0)->setChangeFrequency('daily'));
+        $sitemap->add(Url::create(url('/services'))->setPriority(0.8)->setChangeFrequency('monthly'));
+        $sitemap->add(Url::create(url('/portfolio'))->setPriority(0.8)->setChangeFrequency('monthly'));
+        $sitemap->add(Url::create(url('/contact'))->setPriority(0.8)->setChangeFrequency('monthly'));
 
         // Menambahkan URL dinamis (contohnya dari database)
         $posts = \App\Models\FrontArticle::all();
         foreach ($posts as $post) {
-            $sitemap->add(Url::create("/artikel/{$post->slug}")
+            $sitemap->add(Url::create(url("/artikel/{$post->slug}"))
                 ->setLastModificationDate($post->updated_at)
                 ->setPriority(1)
                 ->setChangeFrequency('weekly'));
