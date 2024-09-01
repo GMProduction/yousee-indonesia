@@ -42,15 +42,6 @@
 
         <p class="title-content ">Baca Juga Artikel yang lain</p>
 
-        {{--        <div class="search-wrapper"> --}}
-        {{--            <div class="search-field"> --}}
-        {{--                <span class="material-symbols-outlined text-grey"> --}}
-        {{--                    search --}}
-        {{--                </span> --}}
-        {{--                <input type="text" placeholder="Pencarian Artikel" /> --}}
-
-        {{--            </div> --}}
-        {{--        </div> --}}
 
         <div class="list-article">
 
