@@ -782,6 +782,7 @@ a {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    flex: 1;
     .article-wrapper {
       padding: 20px;
       display: flex;
@@ -2141,7 +2142,6 @@ a {
     background-color: white;
     z-index: 10;
     position: relative;
-    height: 440px;
     overflow-y: hidden;
 
     .article-content {
@@ -2195,8 +2195,6 @@ a {
     }
 
     img {
-      width: 400px;
-      height: 400px;
       object-fit: cover;
     }
   }
