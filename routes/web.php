@@ -15,6 +15,28 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+
+Route::prefix('data')->group(
+    function () {
+        Route::get('province', [\App\Http\Controllers\ProvinceController::class, 'province']);
+        Route::get('province/{id}/city', [\App\Http\Controllers\ProvinceController::class, 'city']);
+        Route::get('city', [\App\Http\Controllers\ProvinceController::class, 'cityAll']);
+        Route::get('type', [\App\Http\Controllers\ItemController::class, 'getType']);
+        Route::prefix('item')->group(
+            function () {
+                Route::get('datatable', [\App\Http\Controllers\ItemController::class, 'datatable']);
+                Route::get('card', [\App\Http\Controllers\ItemController::class, 'cardItem']);
+                Route::post('delete/{id}', [\App\Http\Controllers\ItemController::class, 'delete']);
+                Route::post('post-item', [\App\Http\Controllers\ItemController::class, 'postItem']);
+                Route::get('url-street-view/{id}', [\App\Http\Controllers\ItemController::class, 'getUrlStreetView']);
+                Route::get('by-id/{id}', [\App\Http\Controllers\ItemController::class, 'getItemByID']);
+                Route::post('show-data', [\App\Http\Controllers\ItemController::class, 'changeShowLandingPage']);
+                Route::get('generate-slug', [\App\Http\Controllers\ItemController::class, 'generateSlug']);
+            }
+        );
+    }
+);
+
 Route::prefix('/admin')->middleware('auth')->group(function () {
     Route::get('', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('titik', [\App\Http\Controllers\Admin\DashboardController::class, 'getDataTitik'])->name('admin.dashboard.titik');
@@ -98,3 +120,10 @@ Route::match(['POST', 'GET'], '/contact', [\App\Http\Controllers\ContactControll
 
 Route::get('/portfolio', [\App\Http\Controllers\PortfolioController::class, 'index']);
 Route::get('/detailtitik/{slug}', [\App\Http\Controllers\TitikController::class, 'detail']);
+
+Route::get('/map/data', [\App\Http\Controllers\MapController::class, 'get_map_json']);
+Route::get('/map/data/{id}', [\App\Http\Controllers\MapController::class, 'get_map_by_id']);
+
+Route::get('/cek-map', [\App\Http\Controllers\MapController::class, 'index']);
+Route::get('/cek-map/data', [\App\Http\Controllers\MapController::class, 'get_map_json']);
+Route::get('/cek-map/data-detail/{id}', [\App\Http\Controllers\MapController::class, 'get_map_by_id']);

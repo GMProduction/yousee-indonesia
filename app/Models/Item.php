@@ -9,7 +9,7 @@ class Item extends Model
 {
     use HasFactory;
 
-    protected $with = ['city','type'];
+    protected $with = ['city', 'type'];
 
 
     public function city()
@@ -20,5 +20,16 @@ class Item extends Model
     public function type()
     {
         return $this->belongsTo(type::class)->withDefault(['name' => '']);
+    }
+
+
+    public function vendor()
+    {
+        return $this->belongsTo(Vendor::class, 'vendor_id');
+    }
+
+    public function vendorAll()
+    {
+        return $this->belongsTo(Vendor::class, 'vendor_id')->withDefault(['name' => ''])->withTrashed();
     }
 }

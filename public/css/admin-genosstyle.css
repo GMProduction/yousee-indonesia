@@ -587,9 +587,9 @@ body {
   color: white;
   transition: all 300ms ease-in-out;
   font-weight: bold;
-  display: flex;
   align-items: center;
   justify-content: center;
+  width: 300px;
 }
 .admin .btn-primary-sm:hover {
   background-color: #1dbde9;
