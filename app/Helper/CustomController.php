@@ -3,12 +3,46 @@
 namespace App\Helper;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use Ramsey\Uuid\Uuid;
 
 class CustomController extends Controller
 {
+
+    protected $validationRules = [];
+
+    protected $validationMessage = [];
+
+    /** @var Request $request */
+    protected $request;
+
+    /**
+     * CustomController constructor.
+     */
+    public function __construct()
+    {
+        $this->request = Request::createFromGlobals();
+    }
+
+    public function checkValidation(Request $request)
+    {
+        $data = $request->all();
+
+        return Validator::make($data, $this->getValidationRules(), $this->getValidationMessage());
+    }
+
+    public function isAuth($credentials = [])
+    {
+        if (count($credentials) > 0 && Auth::attempt($credentials)) {
+            return true;
+        }
+
+        return false;
+    }
 
     /**
      * @param $field
@@ -42,4 +76,18 @@ class CustomController extends Controller
         return Storage::disk($disk)->put($targetName, File::get($file));
     }
 
+
+    public function postJsonField()
+    {
+        return json_decode($this->request->getContent());
+    }
+
+    public function jsonResponse($msg = '', $status = 200, $data = null)
+    {
+        return response()->json([
+            'status' => $status,
+            'message' => $msg,
+            'payload' => $data
+        ], $status);
+    }
 }

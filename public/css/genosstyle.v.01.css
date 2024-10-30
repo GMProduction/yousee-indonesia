@@ -144,9 +144,6 @@ a svg {
   transition: all 0.3s ease-in-out;
   color: black !important;
 }
-a:hover {
-  background-color: #4fd0f3;
-}
 a:hover svg {
   color: white !important;
 }
@@ -393,6 +390,25 @@ a:hover svg {
   z-index: 2;
 }
 .btn-pasangiklan:hover {
+  background-color: rgb(226, 148, 2);
+}
+
+.btn-detail-item {
+  all: unset;
+  background-color: orange;
+  color: white;
+  font-weight: bold;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer !important;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.btn-detail-item:hover {
   background-color: rgb(226, 148, 2);
 }
 
@@ -932,7 +948,7 @@ a:hover svg {
 
 .list-titik {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 30px;
   justify-content: center;
   align-items: start;
@@ -1026,6 +1042,65 @@ a:hover svg {
   -webkit-box-orient: vertical;
 }
 
+.btn-utama {
+  all: unset;
+  cursor: pointer;
+  background-color: #4fd0f3; /* Ganti dengan variabel atau kode warna sesuai kebutuhan */
+  padding: 6px 12px; /* Atur padding sesuai keinginan untuk memperbesar area klik */
+  border-radius: 50px;
+  color: white;
+  transition: all 300ms ease-in-out;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: auto; /* Pastikan width mengikuti konten */
+}
+.btn-utama:hover {
+  background-color: #1dbde9;
+}
+
+.dropdown-menu.custom {
+  padding: 24px;
+}
+
+.pillsearch {
+  display: flex;
+  justify-content: center;
+}
+.pillsearch .pill {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f3b664; /* Ganti dengan variabel atau kode warna sesuai kebutuhan */
+  color: white;
+  padding: 5px 10px;
+  width: auto;
+  margin-right: 16px;
+}
+
+.loading-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #ffffff; /* Ubah ke putih tanpa transparansi */
+  padding: 30px;
+  border-radius: 8px;
+  z-index: 1000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Tambahkan shadow untuk memberi efek kedalaman */
+  text-align: center;
+}
+
+.progress-container {
+  text-align: center;
+}
+
+.loading-text {
+  font-size: 14px;
+  color: #333;
+}
+
 .pencarian-container {
   display: flex;
   padding: 20px;
@@ -1039,6 +1114,9 @@ a:hover svg {
   position: relative;
 }
 .pencarian-container.contact {
+  width: 1200px;
+}
+.pencarian-container.peta {
   width: 1200px;
 }
 .pencarian-container .pencarian-content {
@@ -1213,11 +1291,57 @@ a:hover svg {
   background-color: #4fd0f3;
 }
 
+#pagination {
+  display: flex;
+  justify-content: center; /* Pusatkan pagination */
+  margin: 20px 0; /* Tambahkan margin di atas dan bawah */
+}
+
+.page-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 5px; /* Spasi antar item */
+  padding: 10px 15px !important; /* Padding untuk area klik */
+  background-color: white; /* Warna latar belakang */
+  color: #4fd0f3; /* Warna teks */
+  border-radius: 5px; /* Sudut membulat */
+  border: 1px solid #ddd; /* Garis bawah */
+  text-decoration: none; /* Menghilangkan garis bawah */
+  transition: background-color 0.3s; /* Efek transisi */
+}
+
+.page-item:hover {
+  background-color: #4fd0f3; /* Warna untuk halaman aktif */
+  color: white;
+}
+
+.page-item.active {
+  background-color: #4fd0f3; /* Warna untuk halaman aktif */
+  color: white;
+}
+
+.prev-next {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px !important; /* Padding untuk tombol prev/next */
+  background-color: white; /* Warna latar belakang */
+  color: #4fd0f3; /* Warna teks */
+  border-radius: 5px; /* Sudut membulat */
+  margin: 0 5px; /* Spasi antar tombol */
+  text-decoration: none; /* Menghilangkan garis bawah */
+  border: 1px solid #ddd; /* Garis bawah */
+  transition: background-color 0.3s; /* Efek transisi */
+}
+
+.prev-next:hover {
+  background-color: #4fd0f3; /* Warna untuk halaman aktif */
+  color: white;
+}
+
 @media only screen and (min-width: 1300px) and (max-device-width: 1500px) {
   .list-article {
-    grid-template-columns: repeat(5, 1fr);
-  }
-  .list-titik {
     grid-template-columns: repeat(5, 1fr);
   }
 }
@@ -1225,23 +1349,14 @@ a:hover svg {
   .list-article {
     grid-template-columns: repeat(4, 1fr);
   }
-  .list-titik {
-    grid-template-columns: repeat(4, 1fr);
-  }
 }
 @media only screen and (min-width: 700px) and (max-device-width: 1000px) {
   .list-article {
     grid-template-columns: repeat(3, 1fr);
   }
-  .list-titik {
-    grid-template-columns: repeat(3, 1fr);
-  }
 }
 @media only screen and (min-width: 450px) and (max-device-width: 700px) {
   .list-article {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .list-titik {
     grid-template-columns: repeat(2, 1fr);
   }
 }
