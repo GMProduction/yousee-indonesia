@@ -811,15 +811,17 @@ a {
       flex-direction: column;
       height: 350px;
       .title {
-        font-size: 1.7rem;
+        font-size: 1.7rem !important;
         font-weight: bold;
         margin-bottom: 0px;
+        text-align: center !important;
       }
       .time {
         color: grey;
-        font-size: 0.8rem;
+        font-size: 0.8rem !important;
         font-weight: bold;
         margin-bottom: 0px;
+        text-align: center;
       }
       hr {
         width: 100px;
@@ -833,6 +835,12 @@ a {
         overflow-y: hidden;
         color: grey;
       }
+
+      p{font-size: 1rem !important;
+    }
+
+    span{font-size: 1rem !important;
+    }
     }
 
     .btn-wrapper {
@@ -2396,13 +2404,13 @@ a {
         flex-direction: column;
         height: 350px;
         .title {
-          font-size: 1.7rem;
+          font-size: 1.1rem !important;
           font-weight: bold;
           margin-bottom: 0px;
         }
         .time {
           color: grey;
-          font-size: 0.8rem;
+          font-size: 0.8rem !important;
           font-weight: bold;
           margin-bottom: 0px;
         }
@@ -2418,6 +2426,8 @@ a {
           overflow-y: hidden;
           color: grey;
         }
+
+
       }
 
       .btn-wrapper {
