@@ -76,7 +76,7 @@ function updateListTitik(titik) {
     paginatedItems.forEach(function(d) {
         listTitikContainer.append(`
             <a class="card-article" href="/detailtitik/${d.slug}">
-                <img src="${d.image2}" />
+                <img src="http://internal.yousee-indonesia.com${d.image2}" />
                 <div style="position: absolute; top: 50%; right: 0; transform: translateY(-50%); background-color: green; padding: 2px 10px; border-radius: 5px 0 0 5px; font-size: 0.8rem; color: white;">
                     ${d.type.name}
                 </div>
@@ -101,13 +101,17 @@ function updateListTitik(titik) {
         paginationContainer.append(`<a href="#" class="prev-next" id="prev-page">Prev</a>`);
     }
 
+    const isMobile = window.innerWidth <= 540;
+
+
+
     // Hitung halaman yang ditampilkan
-    const pageStart = Math.max(1, currentPage - 4); // Mulai dari halaman 1 atau currentPage-4
-    const pageEnd = Math.min(totalPages, pageStart + 8); // Akhiri di totalPages atau pageStart+8
+    isMobile ? pageStart = Math.max(1, currentPage - 2) : pageStart = Math.max(1, currentPage - 4); // Mulai dari halaman 1 atau currentPage-4
+    isMobile ? pageEnd = Math.min(totalPages, pageStart + 2) : pageEnd = Math.min(totalPages, pageStart + 4); // Akhiri di totalPages atau pageStart+8
 
     // Loop untuk menampilkan angka halaman
     for (let i = pageStart; i <= pageEnd; i++) {
-        const pageItem = $(`<a href="#" class="page-item ${i === currentPage ? 'active' : ''}">${i}</a>`);
+        const pageItem = $(`<a href="#" class="page-link ${i === currentPage ? 'active' : ''}">${i}</a>`);
         pageItem.on('click', function(e) {
             e.preventDefault();
             currentPage = i; // Set halaman saat ini

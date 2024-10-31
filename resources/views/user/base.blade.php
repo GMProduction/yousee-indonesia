@@ -64,6 +64,12 @@
 </head>
 
 <body>
+    <!-- Tombol WhatsApp dengan Tooltip -->
+    <a href="https://wa.me/6281393700771" class="whatsapp-float" target="_blank" data-tooltip="Chat via WhatsApp">
+        <img src="{{ asset('/images/local/whatsapp.png') }}" alt="WhatsApp Icon" class="whatsapp-icon">
+    </a>
+
+
     <nav class="g-navbar container nav-website">
         <img src="{{ asset('images/local/logo-yousee-panjang.png') }}" />
         <div class="g-nav-menu">

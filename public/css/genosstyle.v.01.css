@@ -131,8 +131,6 @@ body {
 }
 
 a {
-  width: 25px;
-  height: 25px;
   border-radius: 5px;
   transition: all 0.3s ease-in-out;
   display: flex;
@@ -733,7 +731,7 @@ a:hover svg {
 
 .article-full {
   display: flex;
-  padding: 20px;
+  padding: 0;
   box-shadow: 4px 19px 41px 6px rgba(0, 0, 0, 0.1);
   width: 900px;
   margin-right: auto;
@@ -762,12 +760,14 @@ a:hover svg {
   font-size: 1.7rem;
   font-weight: bold;
   margin-bottom: 0px;
+  text-align: center !important;
 }
 .article-full .article-content .article-wrapper .time {
   color: grey;
   font-size: 0.8rem;
   font-weight: bold;
   margin-bottom: 0px;
+  text-align: center !important;
 }
 .article-full .article-content .article-wrapper hr {
   width: 100px;
@@ -779,6 +779,14 @@ a:hover svg {
   flex: 1;
   overflow-y: hidden;
   color: grey;
+}
+.article-full .article-content .article-wrapper p {
+  font-size: 1rem !important;
+  text-align: justify;
+}
+.article-full .article-content .article-wrapper span {
+  font-size: 1rem !important;
+  text-align: justify;
 }
 
 .detail-titik {
@@ -835,7 +843,7 @@ a:hover svg {
 
 .list-article {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 30px;
   justify-content: center;
   align-items: start;
@@ -1241,6 +1249,52 @@ a:hover svg {
   z-index: 10;
 }
 
+/* Tombol WhatsApp */
+.whatsapp-float {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  border-radius: 50%;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  transition: transform 0.3s ease;
+}
+
+/* Gambar ikon WhatsApp */
+.whatsapp-icon {
+  width: 50px; /* Atur ukuran ikon */
+  height: 50px; /* Atur ukuran ikon */
+}
+
+/* Efek hover */
+.whatsapp-float:hover {
+  transform: scale(1.1);
+}
+
+/* Tooltip di sebelah kiri */
+.whatsapp-float[data-tooltip]:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: 50%;
+  right: calc(100% + 20px); /* Geser tooltip ke kiri tombol */
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.7); /* Warna latar tooltip */
+  color: #fff; /* Warna teks tooltip */
+  padding: 6px 10px;
+  border-radius: 5px;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 1001; /* Agar tooltip berada di atas tombol */
+}
+
+/* Animasi munculnya tooltip */
+.whatsapp-float[data-tooltip]:hover::after {
+  opacity: 1;
+}
+
 .search-wrapper {
   padding: 10px;
   position: sticky;
@@ -1295,9 +1349,40 @@ a:hover svg {
   display: flex;
   justify-content: center; /* Pusatkan pagination */
   margin: 20px 0; /* Tambahkan margin di atas dan bawah */
+  width: 100%;
 }
 
-.page-item {
+.pagination {
+  display: flex !important;
+  justify-content: center; /* Pusatkan pagination */
+  margin: 20px 0; /* Tambahkan margin di atas dan bawah */
+  --bs-pagination-padding-x: 0 !important;
+  --bs-pagination-padding-y: 0 !important;
+  --bs-pagination-font-size: 1rem;
+  --bs-pagination-color: var(--bs-link-color);
+  --bs-pagination-bg: var(--bs-body-bg);
+  --bs-pagination-border-width: none !important;
+  --bs-pagination-border-color: none !important;
+  --bs-pagination-border-radius: none !important;
+  --bs-pagination-hover-color: var(--bs-link-hover-color);
+  --bs-pagination-hover-bg: $primary-color;
+  --bs-pagination-hover-border-color: var(--bs-border-color);
+  --bs-pagination-focus-color: var(--bs-link-hover-color);
+  --bs-pagination-focus-bg: var(--bs-secondary-bg);
+  --bs-pagination-focus-box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  --bs-pagination-active-color: #fff;
+  --bs-pagination-active-bg: $primary-color;
+  --bs-pagination-active-border-color: $primary-color;
+  --bs-pagination-disabled-color: var(--bs-secondary-color);
+  --bs-pagination-disabled-bg: var(--bs-secondary-bg);
+  --bs-pagination-disabled-border-color: var(--bs-border-color);
+  display: flex;
+  padding-left: 0;
+  list-style: none;
+  width: 100%;
+}
+
+.page-link {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1311,14 +1396,19 @@ a:hover svg {
   transition: background-color 0.3s; /* Efek transisi */
 }
 
-.page-item:hover {
+.page-link:hover {
   background-color: #4fd0f3; /* Warna untuk halaman aktif */
   color: white;
 }
 
-.page-item.active {
-  background-color: #4fd0f3; /* Warna untuk halaman aktif */
-  color: white;
+.page-link.active {
+  background-color: #4fd0f3 !important; /* Warna untuk halaman aktif */
+  color: white !important;
+}
+
+.active > .page-link, .page-link.active {
+  background-color: #4fd0f3 !important; /* Warna untuk halaman aktif */
+  color: white !important;
 }
 
 .prev-next {
@@ -1402,6 +1492,9 @@ a:hover svg {
 @media only screen and (min-device-width: 820px) and (max-device-width: 1200px) {
   .nav-website {
     display: none;
+  }
+  .pencarian-container.peta {
+    width: 100%;
   }
   .g-navbar {
     height: 60px;
@@ -1923,6 +2016,12 @@ a:hover svg {
   }
 }
 @media only screen and (max-width: 900px) {
+  .pencarian-container.peta {
+    width: 100%;
+  }
+  .page-item .page-link {
+    padding: 2px 4px !important;
+  }
   .article-headline {
     width: 90%;
     flex-direction: column-reverse;
