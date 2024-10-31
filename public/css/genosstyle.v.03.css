@@ -689,13 +689,14 @@ a:hover svg {
   height: 350px;
 }
 .article-headline .article-content .article-wrapper .title {
-  font-size: 1.7rem;
+  font-size: 1.7rem !important;
   font-weight: bold;
   margin-bottom: 0px;
+  text-align: center !important;
 }
 .article-headline .article-content .article-wrapper .time {
   color: grey;
-  font-size: 0.8rem;
+  font-size: 0.8rem !important;
   font-weight: bold;
   margin-bottom: 0px;
   text-align: center;
@@ -713,11 +714,9 @@ a:hover svg {
 }
 .article-headline .article-content .article-wrapper p {
   font-size: 1rem !important;
-  text-align: justify;
 }
 .article-headline .article-content .article-wrapper span {
   font-size: 1rem !important;
-  text-align: justify;
 }
 .article-headline .article-content .btn-wrapper a {
   all: unset;
@@ -2068,13 +2067,13 @@ a:hover svg {
     height: 350px;
   }
   .article-headline .article-content .article-wrapper .title {
-    font-size: 1.7rem;
+    font-size: 1.1rem !important;
     font-weight: bold;
     margin-bottom: 0px;
   }
   .article-headline .article-content .article-wrapper .time {
     color: grey;
-    font-size: 0.8rem;
+    font-size: 0.8rem !important;
     font-weight: bold;
     margin-bottom: 0px;
   }
