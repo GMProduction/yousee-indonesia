@@ -131,8 +131,6 @@ body {
 }
 
 a {
-  width: 25px;
-  height: 25px;
   border-radius: 5px;
   transition: all 0.3s ease-in-out;
   display: flex;
@@ -143,9 +141,6 @@ a {
 a svg {
   transition: all 0.3s ease-in-out;
   color: black !important;
-}
-a:hover {
-  background-color: #4fd0f3;
 }
 a:hover svg {
   color: white !important;
@@ -393,6 +388,25 @@ a:hover svg {
   z-index: 2;
 }
 .btn-pasangiklan:hover {
+  background-color: rgb(226, 148, 2);
+}
+
+.btn-detail-item {
+  all: unset;
+  background-color: orange;
+  color: white;
+  font-weight: bold;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer !important;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.btn-detail-item:hover {
   background-color: rgb(226, 148, 2);
 }
 
@@ -666,6 +680,7 @@ a:hover svg {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  flex: 1;
 }
 .article-headline .article-content .article-wrapper {
   padding: 20px;
@@ -716,7 +731,7 @@ a:hover svg {
 
 .article-full {
   display: flex;
-  padding: 20px;
+  padding: 0;
   box-shadow: 4px 19px 41px 6px rgba(0, 0, 0, 0.1);
   width: 900px;
   margin-right: auto;
@@ -745,12 +760,14 @@ a:hover svg {
   font-size: 1.7rem;
   font-weight: bold;
   margin-bottom: 0px;
+  text-align: center !important;
 }
 .article-full .article-content .article-wrapper .time {
   color: grey;
   font-size: 0.8rem;
   font-weight: bold;
   margin-bottom: 0px;
+  text-align: center !important;
 }
 .article-full .article-content .article-wrapper hr {
   width: 100px;
@@ -762,6 +779,14 @@ a:hover svg {
   flex: 1;
   overflow-y: hidden;
   color: grey;
+}
+.article-full .article-content .article-wrapper p {
+  font-size: 1rem !important;
+  text-align: justify;
+}
+.article-full .article-content .article-wrapper span {
+  font-size: 1rem !important;
+  text-align: justify;
 }
 
 .detail-titik {
@@ -818,7 +843,7 @@ a:hover svg {
 
 .list-article {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 30px;
   justify-content: center;
   align-items: start;
@@ -931,7 +956,7 @@ a:hover svg {
 
 .list-titik {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 30px;
   justify-content: center;
   align-items: start;
@@ -1025,6 +1050,65 @@ a:hover svg {
   -webkit-box-orient: vertical;
 }
 
+.btn-utama {
+  all: unset;
+  cursor: pointer;
+  background-color: #4fd0f3; /* Ganti dengan variabel atau kode warna sesuai kebutuhan */
+  padding: 6px 12px; /* Atur padding sesuai keinginan untuk memperbesar area klik */
+  border-radius: 50px;
+  color: white;
+  transition: all 300ms ease-in-out;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: auto; /* Pastikan width mengikuti konten */
+}
+.btn-utama:hover {
+  background-color: #1dbde9;
+}
+
+.dropdown-menu.custom {
+  padding: 24px;
+}
+
+.pillsearch {
+  display: flex;
+  justify-content: center;
+}
+.pillsearch .pill {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f3b664; /* Ganti dengan variabel atau kode warna sesuai kebutuhan */
+  color: white;
+  padding: 5px 10px;
+  width: auto;
+  margin-right: 16px;
+}
+
+.loading-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #ffffff; /* Ubah ke putih tanpa transparansi */
+  padding: 30px;
+  border-radius: 8px;
+  z-index: 1000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Tambahkan shadow untuk memberi efek kedalaman */
+  text-align: center;
+}
+
+.progress-container {
+  text-align: center;
+}
+
+.loading-text {
+  font-size: 14px;
+  color: #333;
+}
+
 .pencarian-container {
   display: flex;
   padding: 20px;
@@ -1038,6 +1122,9 @@ a:hover svg {
   position: relative;
 }
 .pencarian-container.contact {
+  width: 1200px;
+}
+.pencarian-container.peta {
   width: 1200px;
 }
 .pencarian-container .pencarian-content {
@@ -1162,6 +1249,52 @@ a:hover svg {
   z-index: 10;
 }
 
+/* Tombol WhatsApp */
+.whatsapp-float {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  border-radius: 50%;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  transition: transform 0.3s ease;
+}
+
+/* Gambar ikon WhatsApp */
+.whatsapp-icon {
+  width: 50px; /* Atur ukuran ikon */
+  height: 50px; /* Atur ukuran ikon */
+}
+
+/* Efek hover */
+.whatsapp-float:hover {
+  transform: scale(1.1);
+}
+
+/* Tooltip di sebelah kiri */
+.whatsapp-float[data-tooltip]:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: 50%;
+  right: calc(100% + 20px); /* Geser tooltip ke kiri tombol */
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.7); /* Warna latar tooltip */
+  color: #fff; /* Warna teks tooltip */
+  padding: 6px 10px;
+  border-radius: 5px;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 1001; /* Agar tooltip berada di atas tombol */
+}
+
+/* Animasi munculnya tooltip */
+.whatsapp-float[data-tooltip]:hover::after {
+  opacity: 1;
+}
+
 .search-wrapper {
   padding: 10px;
   position: sticky;
@@ -1212,11 +1345,93 @@ a:hover svg {
   background-color: #4fd0f3;
 }
 
+#pagination {
+  display: flex;
+  justify-content: center; /* Pusatkan pagination */
+  margin: 20px 0; /* Tambahkan margin di atas dan bawah */
+  width: 100%;
+}
+
+.pagination {
+  display: flex !important;
+  justify-content: center; /* Pusatkan pagination */
+  margin: 20px 0; /* Tambahkan margin di atas dan bawah */
+  --bs-pagination-padding-x: 0 !important;
+  --bs-pagination-padding-y: 0 !important;
+  --bs-pagination-font-size: 1rem;
+  --bs-pagination-color: var(--bs-link-color);
+  --bs-pagination-bg: var(--bs-body-bg);
+  --bs-pagination-border-width: none !important;
+  --bs-pagination-border-color: none !important;
+  --bs-pagination-border-radius: none !important;
+  --bs-pagination-hover-color: var(--bs-link-hover-color);
+  --bs-pagination-hover-bg: $primary-color;
+  --bs-pagination-hover-border-color: var(--bs-border-color);
+  --bs-pagination-focus-color: var(--bs-link-hover-color);
+  --bs-pagination-focus-bg: var(--bs-secondary-bg);
+  --bs-pagination-focus-box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  --bs-pagination-active-color: #fff;
+  --bs-pagination-active-bg: $primary-color;
+  --bs-pagination-active-border-color: $primary-color;
+  --bs-pagination-disabled-color: var(--bs-secondary-color);
+  --bs-pagination-disabled-bg: var(--bs-secondary-bg);
+  --bs-pagination-disabled-border-color: var(--bs-border-color);
+  display: flex;
+  padding-left: 0;
+  list-style: none;
+  width: 100%;
+}
+
+.page-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 5px; /* Spasi antar item */
+  padding: 10px 15px !important; /* Padding untuk area klik */
+  background-color: white; /* Warna latar belakang */
+  color: #4fd0f3; /* Warna teks */
+  border-radius: 5px; /* Sudut membulat */
+  border: 1px solid #ddd; /* Garis bawah */
+  text-decoration: none; /* Menghilangkan garis bawah */
+  transition: background-color 0.3s; /* Efek transisi */
+}
+
+.page-link:hover {
+  background-color: #4fd0f3; /* Warna untuk halaman aktif */
+  color: white;
+}
+
+.page-link.active {
+  background-color: #4fd0f3 !important; /* Warna untuk halaman aktif */
+  color: white !important;
+}
+
+.active > .page-link, .page-link.active {
+  background-color: #4fd0f3 !important; /* Warna untuk halaman aktif */
+  color: white !important;
+}
+
+.prev-next {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px !important; /* Padding untuk tombol prev/next */
+  background-color: white; /* Warna latar belakang */
+  color: #4fd0f3; /* Warna teks */
+  border-radius: 5px; /* Sudut membulat */
+  margin: 0 5px; /* Spasi antar tombol */
+  text-decoration: none; /* Menghilangkan garis bawah */
+  border: 1px solid #ddd; /* Garis bawah */
+  transition: background-color 0.3s; /* Efek transisi */
+}
+
+.prev-next:hover {
+  background-color: #4fd0f3; /* Warna untuk halaman aktif */
+  color: white;
+}
+
 @media only screen and (min-width: 1300px) and (max-device-width: 1500px) {
   .list-article {
-    grid-template-columns: repeat(5, 1fr);
-  }
-  .list-titik {
     grid-template-columns: repeat(5, 1fr);
   }
 }
@@ -1224,23 +1439,14 @@ a:hover svg {
   .list-article {
     grid-template-columns: repeat(4, 1fr);
   }
-  .list-titik {
-    grid-template-columns: repeat(4, 1fr);
-  }
 }
 @media only screen and (min-width: 700px) and (max-device-width: 1000px) {
   .list-article {
     grid-template-columns: repeat(3, 1fr);
   }
-  .list-titik {
-    grid-template-columns: repeat(3, 1fr);
-  }
 }
 @media only screen and (min-width: 450px) and (max-device-width: 700px) {
   .list-article {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .list-titik {
     grid-template-columns: repeat(2, 1fr);
   }
 }
@@ -1286,6 +1492,9 @@ a:hover svg {
 @media only screen and (min-device-width: 820px) and (max-device-width: 1200px) {
   .nav-website {
     display: none;
+  }
+  .pencarian-container.peta {
+    width: 100%;
   }
   .g-navbar {
     height: 60px;
@@ -1807,6 +2016,12 @@ a:hover svg {
   }
 }
 @media only screen and (max-width: 900px) {
+  .pencarian-container.peta {
+    width: 100%;
+  }
+  .page-item .page-link {
+    padding: 2px 4px !important;
+  }
   .article-headline {
     width: 90%;
     flex-direction: column-reverse;
@@ -1825,14 +2040,11 @@ a:hover svg {
     display: flex;
     padding: 20px;
     box-shadow: 4px 19px 41px 6px rgba(0, 0, 0, 0.1);
-    width: 900px;
     margin-right: auto;
     margin-left: auto;
-    margin-top: -50px;
     background-color: white;
     z-index: 10;
     position: relative;
-    height: 440px;
     overflow-y: hidden;
   }
   .article-headline .article-content {
@@ -1881,8 +2093,6 @@ a:hover svg {
     padding: 10px 20px;
   }
   .article-headline img {
-    width: 400px;
-    height: 400px;
     -o-object-fit: cover;
        object-fit: cover;
   }
