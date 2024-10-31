@@ -55,14 +55,12 @@
                             <p class="title">{{ $d->title }}</p>
                             <p class="time">{{ date_format($d->created_at, 'd M Y H:m') }}</p>
                             <hr>
-
-
                         </div>
                     </div>
                 </a>
             @endforeach
         </div>
-        <div class="d-flex justify-content-center mt-4">
+        <div id="pagination">
             {{ $data->links() }}
         </div>
 
