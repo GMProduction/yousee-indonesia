@@ -43,12 +43,19 @@ async function generateGoogleMapData() {
         clearInterval(interval);
         progressBar.css('width', '100%').text('100%');
 
-        // Lanjutkan pemrosesan data
+        // Filter payload untuk hanya koordinat yang berada di Indonesia
+        let filteredPayload = payload.filter(item => {
+            let latitude = item.latitude;
+            let longitude = item.longitude;
+            return latitude >= -11.0 && latitude <= 6.1 && longitude >= 95.0 && longitude <= 141.0;
+        });
+
+        // Lanjutkan pemrosesan data hanya dengan koordinat yang valid
         removeMultiMarker();
-        if (payload.length > 0) {
+        if (filteredPayload.length > 0) {
             currentPage = 1;
-            createGoogleMapMarker(payload);
-            updateListTitik(payload);
+            createGoogleMapMarker(filteredPayload);
+            updateListTitik(filteredPayload);
         }
 
     } catch (e) {
@@ -58,6 +65,7 @@ async function generateGoogleMapData() {
         setTimeout(() => $('#loading').hide(), 500); // Delay sedikit agar 100% terlihat
     }
 }
+
 
 let currentPage = 1;
 const itemsPerPage = 12;
