@@ -51,7 +51,7 @@
     </style>
 
 
-    <script src="{{ asset('js/map-control.js?v=2') }}"></script>
+    <script src="{{ asset('js/map-control2.js?v=2') }}"></script>
 @endsection
 @section('content')
     <div class="g-hero">
