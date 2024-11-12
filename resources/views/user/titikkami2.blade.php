@@ -51,7 +51,7 @@
     </style>
 
 
-    <script src="{{ asset('js/map-control2.js?v=2') }}"></script>
+    <script src="{{ asset('js/map-control3.js?v=2') }}"></script>
 @endsection
 @section('content')
     <div class="g-hero">
@@ -156,7 +156,7 @@
         <div class="list-titik">
 
             {{-- @foreach ($titik as $d)
-            <a class="card-article" href="/detailtitik/{{ $d->slug }}">
+            <a class="card-article" href="/listing/{{ $d->slug }}">
 
                 <img src="{{ $dom . $d->image2 }}" />
                 <div

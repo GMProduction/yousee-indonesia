@@ -67,7 +67,7 @@
     <div class="list-titik">
 
         @foreach ($titik as $d)
-            <a class="card-article" href="/detailtitik/{{ $d->slug }}">
+            <a class="card-article" href="/listing/{{ $d->slug }}">
 
                 <img src="{{ $dom . $d->image2 }}" />
                 <div
@@ -98,7 +98,7 @@
         {{--                        <hr> --}}
 
         {{--                        <div class="btn-wrapper"> --}}
-        {{--                            <a href="/detailtitik/slug-titik"><span>Lihat Titik</span><span --}}
+        {{--                            <a href="/listing/slug-titik"><span>Lihat Titik</span><span --}}
         {{--                                    class="material-symbols-outlined"> --}}
         {{--                                    arrow_right_alt --}}
         {{--                                </span></a> --}}

@@ -29,6 +29,119 @@ body {
   background-color: #e5f1f9;
 }
 
+
+/* Tombol Keranjang dengan Badge */
+.cart-button {
+    position: fixed;
+    bottom: 100px;
+    right: 20px;
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    transition: right 0.3s ease;
+
+    &.shift-left {
+        right: 320px;  // Geser tombol ke kiri saat sidebar terbuka
+    }
+}
+
+.badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background-color: red;
+    color: #fff;
+    border-radius: 50%;
+    font-size: 14px;
+}
+
+/* Sidebar Keranjang */
+.cart-sidebar {
+    position: fixed;
+    top: 0;
+    right: -300px;
+    width: 300px;
+    height: 100%;
+    background-color: #f9f9f9;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    transition: right 0.3s ease;
+    z-index: 999;
+    overflow-y: auto;
+    max-height: 100%;
+}
+
+.cart-item {
+    display: flex;  // Menjadikan list item sebagai flex container
+    justify-content: space-between;  // Mengatur jarak antara alamat dan tombol hapus
+    align-items: center;  // Menyusun item secara vertikal pada tengah
+
+    .cart-item-address {
+        flex: 1;  // Membuat alamat mengambil ruang penuh
+        text-decoration: none;  // Menghilangkan underline pada link
+        color: inherit;  // Warna teks mengikuti warna default
+    }
+
+    .cart-item-delete {
+        background-color: transparent;  // Tombol hapus dengan latar belakang transparan
+        border: none;
+        cursor: pointer;
+        color: red;  // Warna tombol hapus merah
+        font-size: 16px;
+        margin-left: 10px;
+        transition: all 300ms;
+
+        &:hover {
+            background-color: red;
+            color: white;  // Mengubah warna teks menjadi merah tua saat hover
+        }
+    }
+}
+
+
+.backbutton {
+    background-color: transparent;  // Background transparan
+    border: none;  // Tidak ada border
+    color: inherit;  // Warna teks mengikuti default
+    font-size: 24px;  // Ukuran ikon (sesuaikan jika perlu)
+    cursor: pointer;  // Menambahkan pointer saat hover
+    padding: 10px;  // Padding untuk menambah ruang di sekitar ikon
+    transition: background-color 300ms ease, color 300ms ease;  // Transisi halus untuk background dan warna
+
+    &:hover {
+        background-color: $primary-color;  // Mengubah background menjadi warna utama saat hover
+        color: white;  // Mengubah warna teks menjadi putih saat hover
+    }
+}
+
+
+
+.cart-sidebar.open {
+    right: 0;
+}
+
+.cart-sidebar h3 {
+    margin-top: 0;
+}
+
+.cart-sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.cart-sidebar ul li {
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+
 .nav-website {
   display: block;
 }
@@ -1431,6 +1544,55 @@ a {
   }
 }
 
+.checkoutButtonContainer{
+    position: fixed;
+    bottom: 0;
+    display: flex;
+    width: 243px;
+    background-color: white;
+    padding: 10px;
+
+    .checkout-button {
+        background-color: #28a745;  // Warna hijau
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        width: 100%;
+        margin-bottom: 10px;
+        border: none;
+
+    }
+
+    .checkout-button:hover {
+        background-color: #218838;  // Warna hijau lebih gelap saat hover
+    }
+}
+
+#addToCartButton {
+    // Style untuk tombol dengan outline
+    &.btn-outline-primary {
+        background-color: orange; // Background berubah menjadi warna primer saat hover
+        color: white;
+        transition: background-color 0.3s ease, color 0.3s ease; // Transisi saat hover
+        border: none;
+    }
+
+    // Style untuk ikon di kiri tombol
+    .material-symbols-outlined {
+        font-size: 24px; // Ukuran ikon
+    }
+
+    // Hover effect
+    &:hover {
+        border: 2px solid orange; // Border menggunakan warna primer
+        color: orange; // Teks berwarna primer
+        background-color: transparent; //
+    }
+}
+
 /* Tombol WhatsApp */
 .whatsapp-float {
     position: fixed;
@@ -1439,7 +1601,11 @@ a {
     border-radius: 50%;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
     z-index: 1000;
-    transition: transform 0.3s ease;
+    transition: right 0.3s ease;
+
+    &.shift-left {
+        right: 320px;  // Geser tombol ke kiri saat sidebar terbuka
+    }
 }
 
 /* Gambar ikon WhatsApp */

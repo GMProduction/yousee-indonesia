@@ -39,7 +39,7 @@
     <div class="list-titik">
 
         @foreach ($titik as $d)
-            <a class="card-article" href="/detailtitik/{{ $d->slug }}">
+            <a class="card-article" href="/listing/{{ $d->slug }}">
                 <img src="{{ $dom . $d->image2 }}" />
                 <div
                     style="position: absolute; top: 50%; right: 0; transform: translateY(-50%); background-color: green; padding: 2px 10px; border-radius: 5px 0 0 5px; font-size: 0.8rem; color: white;">
@@ -76,4 +76,3 @@
         });
     </script>
 @endsection
-

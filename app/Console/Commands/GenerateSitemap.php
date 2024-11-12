@@ -36,17 +36,17 @@ class GenerateSitemap extends Command
                 ->setChangeFrequency('weekly'));
         }
 
-        // $titik_kami_posts = \App\Models\Item::all();
-        // foreach ($posts as $post) {
-        //     $sitemap->add(Url::create("/detailtitik/{$titik_kami_posts->slug}")
-        //         ->setLastModificationDate($titik_kami_posts->updated_at)
-        //         ->setPriority(1)
-        //         ->setChangeFrequency('weekly'));
-        // }
+        $titik_kami_posts = \App\Models\Item::all();
+        foreach ($titik_kami_posts as $post) {
+            $sitemap->add(Url::create("/listing/{$post->slug}")
+                ->setLastModificationDate($post->updated_at)
+                ->setPriority(1)
+                ->setChangeFrequency('weekly'));
+        }
 
         // $titik_kami_byprov = \App\Models\Province::all();
         // foreach ($posts as $post) {
-        //     $sitemap->add(Url::create("/detailtitik/{$titik_kami_byprov->slug}")
+        //     $sitemap->add(Url::create("/listing/{$titik_kami_byprov->slug}")
         //         ->setLastModificationDate($titik_kami_byprov->updated_at)
         //         ->setPriority(1)
         //         ->setChangeFrequency('weekly'));
@@ -54,7 +54,7 @@ class GenerateSitemap extends Command
 
         // $titik_kami_bycity = \App\Models\Item::all();
         // foreach ($posts as $post) {
-        //     $sitemap->add(Url::create("/detailtitik/{$titik_kami_bycity->slug}")
+        //     $sitemap->add(Url::create("/listing/{$titik_kami_bycity->slug}")
         //         ->setLastModificationDate($titik_kami_bycity->updated_at)
         //         ->setPriority(1)
         //         ->setChangeFrequency('weekly'));

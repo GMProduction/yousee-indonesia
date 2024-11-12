@@ -36,7 +36,9 @@ class TitikController extends Controller
     public function detail($slug)
     {
         $item  = Item::where('slug', $slug)->firstOrFail();
-        $titik = Item::where([['isShow', '=', true], ['city_id', $item->city_id], ['id', '!=', $item->id]])->paginate(8);
+        $titik = Item::where([['city_id', $item->city_id], ['id', '!=', $item->id]])
+            ->inRandomOrder() // Mengurutkan data secara acak
+            ->paginate(18);
         $profiles = FrontProfile::get();
 
         return view('user.detailtitik', ['titik' => $titik, 'data' => $item, 'dom' => $this->dom, 'profiles' => $profiles]);

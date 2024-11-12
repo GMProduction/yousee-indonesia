@@ -23,7 +23,10 @@
                 <div class="detailtitik-wrapper">
                     <img src="{{ $dom . $data->image2 }}" />
 
-                    <p class="title mb-3 ">{{ $data->address }}</p>
+                    <p class="title mb-3 ">Sewa {{ $data->type->name }}
+                        {{ ucfirst(strtolower(trim(str_replace(['KOTA ', 'KABUPATEN '], '', $data->city->name)))) }}
+                        <br> {{ $data->address }}
+                    </p>
 
                     <div class="p-3">
                         <div class="row">
@@ -151,12 +154,30 @@
                                         </span>
                                         <div>
                                             <p class="title-part">Trafik /hari</p>
-                                            <p class="content-part">{{ $data->trafic }}</p>
+                                            <p class="content-part">
+                                                @if ($data->trafic == 0 || $data->trafic === null)
+                                                    Proses Update
+                                                @else
+                                                    {{ $data->trafic }}
+                                                @endif
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="d-flex justify-content-end">
+                                    <button id="addToCartButton"
+                                        onclick="addToCart({{ $data->id }}, '{{ $data->address }}', '{{ $data->slug }}')"
+                                        class="btn btn-outline-primary d-flex align-items-center justify-content-center">
+                                        <i class="material-symbols-outlined me-3">shopping_cart</i>
+                                        <!-- Ikon keranjang di kiri -->
+                                        <span>Masukkan ke Keranjang</span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
+
+
                     </div>
                 </div>
             </div>
@@ -168,7 +189,7 @@
     <div class="list-article">
 
         @foreach ($titik as $d)
-            <a class="card-article" href="/detailtitik/{{ $d->slug }}">
+            <a class="card-article" href="/listing/{{ $d->slug }}">
                 <img src="{{ $dom . $d->image2 }}" />
 
                 <div class="article-content">
