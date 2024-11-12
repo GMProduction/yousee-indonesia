@@ -9,6 +9,31 @@ class Item extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'address',
+        'latitude',
+        'longitude',
+        'city_id',
+        'location',
+        'url',
+        'type_id',
+        'position',
+        'width',
+        'height',
+        'image1',
+        'image2',
+        'image3',
+        'created_by',
+        'last_update_by',
+        'vendor_id',
+        'qty',
+        'side',
+        'trafic',
+        'isShow',
+        'slug'
+    ];
+
     protected $with = ['city', 'type'];
 
 

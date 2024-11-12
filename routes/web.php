@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -119,7 +120,7 @@ Route::get('/titik-kami', [\App\Http\Controllers\TitikController::class, 'index'
 Route::match(['POST', 'GET'], '/contact', [\App\Http\Controllers\ContactController::class, 'index']);
 
 Route::get('/portfolio', [\App\Http\Controllers\PortfolioController::class, 'index']);
-Route::get('/detailtitik/{slug}', [\App\Http\Controllers\TitikController::class, 'detail']);
+Route::get('/listing/{slug}', [\App\Http\Controllers\TitikController::class, 'detail']);
 
 Route::get('/map/data', [\App\Http\Controllers\MapController::class, 'get_map_json']);
 Route::get('/map/data/{id}', [\App\Http\Controllers\MapController::class, 'get_map_by_id']);
@@ -127,3 +128,7 @@ Route::get('/map/data/{id}', [\App\Http\Controllers\MapController::class, 'get_m
 Route::get('/cek-map', [\App\Http\Controllers\MapController::class, 'index']);
 Route::get('/cek-map/data', [\App\Http\Controllers\MapController::class, 'get_map_json']);
 Route::get('/cek-map/data-detail/{id}', [\App\Http\Controllers\MapController::class, 'get_map_by_id']);
+
+Route::post('/add-to-cart', [CartController::class, 'addToCart']);
+Route::post('/remove-from-cart', [CartController::class, 'removeFromCart']);
+Route::get('/get-cart-items', [CartController::class, 'getCartItems']);

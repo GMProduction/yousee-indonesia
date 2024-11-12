@@ -9,7 +9,7 @@
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/admin-genosstyle.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('css/admin-genosstyle.v.02.css') }}" type="text/css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <!-- Styles -->
@@ -45,10 +45,11 @@
                             @csrf
                             <div class="mb-3">
                                 <label for="username" class="form-label">Username</label>
-                                <input type="text" class="form-control login" id="username" name="username" value="{{old('username')}}">
+                                <input type="text" class="form-control login" id="username" name="username"
+                                    value="{{ old('username') }}">
                                 @if ($errors->has('username'))
                                     <p class="text-danger" style="font-size: 0.8em">
-                                        {{ $errors->first('username')}}
+                                        {{ $errors->first('username') }}
                                     </p>
                                 @endif
                             </div>
@@ -57,7 +58,7 @@
                                 <input type="password" class="form-control login" id="password" name="password">
                                 @if ($errors->has('password'))
                                     <p class="text-danger" style="font-size: 0.8em">
-                                        {{ $errors->first('password')}}
+                                        {{ $errors->first('password') }}
                                     </p>
                                 @endif
                             </div>
@@ -72,7 +73,7 @@
             </div>
         </div>
     </div>
-    {{dump($errors)}}
+    {{ dump($errors) }}
 
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"

@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>Yousee Indonesia || Sewa Billboard, Media Iklan</title>
 
@@ -35,7 +35,7 @@
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
     {{-- CSS --}}
-    <link href="{{ asset('css/genosstyle.v.03.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/genosstyle.v.05.css') }}" rel="stylesheet" />
     <link href="{{ asset('css/main.css') }}" rel="stylesheet" />
 
     {{-- FONT --}}
@@ -69,6 +69,27 @@
         <img src="{{ asset('/images/local/whatsapp.png') }}" alt="WhatsApp Icon" class="whatsapp-icon">
     </a>
 
+    <!-- Tombol Keranjang dengan Badge -->
+    <div class="cart-button" onclick="toggleCart()">
+        <i class="cart-icon">🛒</i>
+        <span class="badge" id="cartBadge"><span>0</span></span>
+    </div>
+
+    <!-- List Keranjang yang Expand dari Kanan -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="d-flex justify-content-between align-items-center">
+            <h6>Titik Pilihan Anda</h6>
+            <button class="material-symbols-outlined backbutton" onclick="closeCart()">
+                arrow_forward
+            </button>
+        </div>
+        <ul id="cartItems">
+            <!-- Item keranjang akan ditampilkan di sini -->
+        </ul>
+
+        <div id="checkoutButtonContainer" class="checkoutButtonContainer">
+        </div>
+    </div>
 
     <nav class="g-navbar container nav-website">
         <img src="{{ asset('images/local/logo-yousee-panjang.png') }}" />
@@ -375,6 +396,8 @@
     <script src="{{ asset('js/wookmark.js') }}"></script>
     <script src="{{ asset('js/dialog.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="{{ asset('js/cartlist.js') }}"></script>
+
 
     @yield('morejs')
 </body>
