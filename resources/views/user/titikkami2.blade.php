@@ -136,12 +136,12 @@
                 </div>
 
                 <div class="mx-4">
-                    <p style="text-align: left" class="fw-bold">Keterangan :</p>
+                    <p style="text-align: left" class="fw-bold mt-3">Keterangan :</p>
                     <div class="row">
                         @foreach ($type as $d)
-                            <div class="col-3" style="text-align: left">
+                            <div class="col-lg-3 col-md-6 col-sm-6 col-sm-6 mb-3" style="text-align: left">
                                 <img src="{{ $dom . $d->icon }}" />
-                                <span class="mr-2"> {{ $d->name }}</span>
+                                <span class="ms-3"> {{ $d->name }}</span>
                             </div>
                         @endforeach
                     </div>
