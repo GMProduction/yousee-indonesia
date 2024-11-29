@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\FrontProfile;
 use App\Models\Item;
+use App\Models\type;
 use Illuminate\Support\Facades\Config;
 
 class TitikController extends Controller
@@ -29,8 +30,9 @@ class TitikController extends Controller
     public function index()
     {
         $titik = $this->dataTitik();
+        $type = type::get();
         $profiles = FrontProfile::get();
-        return view('user.titikkami2', ['titik' => $titik, 'dom' => $this->dom, 'profiles' => $profiles]);
+        return view('user.titikkami2', ['titik' => $titik, 'dom' => $this->dom, 'profiles' => $profiles, 'type' => $type]);
     }
 
     public function detail($slug)

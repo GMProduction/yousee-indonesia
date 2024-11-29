@@ -134,9 +134,23 @@
                     @include('user.item-modal')
 
                 </div>
+
+                <div class="mx-4">
+                    <p style="text-align: left" class="fw-bold">Keterangan :</p>
+                    <div class="row">
+                        @foreach ($type as $d)
+                            <div class="col-3" style="text-align: left">
+                                <img src="{{ $dom . $d->icon }}" />
+                                <span class="mr-2"> {{ $d->name }}</span>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
             </div>
+
+
+
         </div>
-    </div>
 
     </div>
 
