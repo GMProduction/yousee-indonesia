@@ -10,9 +10,8 @@
     <!-- Or for RTL support -->
     <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.rtl.min.css" />
-
-    <!-- include summernote css/js -->
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/ckeditor.css') }}">
+    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.3.1/ckeditor5.css" />
 @endsection
 
 
@@ -98,8 +97,13 @@
                         <textarea id="p-pendek" class="form-control" maxlength="200" name="sort_desc">{{ $data ? $data->sort_desc : '' }}</textarea>
                     </div>
                     <div class="mb-3">
-                        <label class="control-label" for="p-isiartikel">Isi Artikel</label>
-                        <textarea id="p-isiartikel" class="summernote" name="content">{{ $data ? $data->content : '' }}</textarea>
+                        <div class="main-container">
+                            <div class="editor-container editor-container_classic-editor" id="editor-container">
+                                <label class="control-label" for="p-isiartikel">Isi Artikel</label>
+                                <textarea id="p-isiartikel" class="editor-container__editor" name="content">
+                                    {{ $data ? $data->content : '' }}</textarea>
+                            </div>
+                        </div>
                     </div>
 
                     <button type="submit" class="bt-primary m-2 ms-auto">Simpan Perubahan</button>
@@ -113,7 +117,18 @@
     <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script type="importmap">
+		{
+			"imports": {
+				"ckeditor5": "https://cdn.ckeditor.com/ckeditor5/43.3.1/ckeditor5.js",
+				"ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/43.3.1/"
+			}
+		}
+		</script>
+    <script type="module" src="{{ asset('js/cdeditor.js') }}"></script>
+
+
     <script>
         // Note that the name "myDropzone" is the camelized
         // id of the form.
@@ -128,20 +143,7 @@
 
         $(document).ready(function() {
             getDataTags()
-            $('.summernote').summernote({
-                placeholder: 'Tuliskan deskripsi yang panjang disini',
-                tabsize: 2,
-                height: 120,
-                toolbar: [
-                    ['style', ['style']],
-                    ['font', ['bold', 'underline', 'clear']],
-                    ['color', ['color']],
-                    ['para', ['ul', 'ol', 'paragraph']],
-                    ['table', ['table']],
-                    ['insert', ['link', 'picture', 'video']],
-                    ['view', ['fullscreen', 'codeview', 'help']]
-                ]
-            });
+
             @if ($data && $data->image)
                 setImgDropify('image1', null, '{{ $data->image }}');
             @else

@@ -164,13 +164,13 @@
 
     {{-- ONE WEEK SERVICES --}}
     <div class="oneweek-services">
-        <img src={{ asset('images/local/calendar.png') }} />
+        <img src={{ asset('images/local/calendar2.png') }} />
         <div>
-            <p class="title">Pasang Iklan Billboard 1 Minggu Tetap Dilayani. Fleksibel!</p>
-            <p class="text">Maksimalkan performa iklan Anda, kami rekomendasikan untuk memasang lebih dari 1 titik di
-                wilayah yang
-                berbeda dengan durasi yang sama. Dengan jangkauan lebih dari 10.000 titik iklan, pemasangan iklan
-                billboardmu bisa dimulai dengan durasi 1 minggu saja. Sebebas itu!</p>
+            <p class="title">Butuh Billboard Cepat? Seminggu Saja, Kami Siap Layani.</p>
+            <p class="text">Dengan lebih dari 10.000 titik billboard strategis di seluruh Indonesia, kami hadir untuk
+                membantu bisnis Anda menjangkau pasar lebih luas. Atur sendiri harga sewa sesuai anggaran, pilih durasi
+                tayang yang fleksibel ,mulai mingguan atau bulanan. Tak perlu repot, kini memasang iklan di berbagai wilayah
+                jadi lebih mudah.</p>
             <a class="btn-pasangiklan"
                 href="https://api.whatsapp.com/send?phone={{ preg_replace('/^0/', '62', $profiles[0]->whatsapp) }}&text=Halo%2C%20saya%20mau%20konsultasi%20periklanan%20billboard"
                 target="_blank">
@@ -298,7 +298,7 @@
                             animateValue(overalratingElement, 0, 4, 1000, ',6'); // Durasi 500ms
                         }
 
-                        observer.unobserve(target); // Stop observing target after animation
+                        // observer.unobserve(target); // Stop observing target after animation
                     }
                 });
             }, {

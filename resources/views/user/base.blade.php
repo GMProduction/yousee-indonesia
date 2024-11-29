@@ -35,14 +35,17 @@
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
     {{-- CSS --}}
-    <link href="{{ asset('css/genosstyle.v.05.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/genosstyle.v.05.css?v=1.5.0') }}" rel="stylesheet" />
     <link href="{{ asset('css/main.css') }}" rel="stylesheet" />
 
     {{-- FONT --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Baloo+Thambi+2:wght@400;500;700;800&display=swap"
-        rel="stylesheet">
+    {{-- <link href="https://fonts.googleapis.com/css2?family=Baloo+Thambi+2:wght@400;500;700;800&display=swap"
+        rel="stylesheet"> --}}
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 
 
     {{-- DATA TABLES --}}
@@ -71,7 +74,9 @@
 
     <!-- Tombol Keranjang dengan Badge -->
     <div class="cart-button" onclick="toggleCart()">
-        <i class="cart-icon">🛒</i>
+        <span class="material-symbols-outlined">
+            shopping_cart
+        </span>
         <span class="badge" id="cartBadge"><span>0</span></span>
     </div>
 
@@ -163,6 +168,31 @@
                     </path>
                 </svg>
             </a>
+
+            <a href="https://www.youtube.com/@Yousee-Indonesia-Official" target="_blank">
+                <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                    stroke-width="1.5" width="30" height="20">
+                    <defs>
+                        <style>
+                            .cls-1 {
+                                fill: none;
+                                stroke: currentColor;
+                                stroke-miterlimit: 10;
+                            }
+
+                            .cls-2 {
+                                fill: currentColor;
+                            }
+                        </style>
+                    </defs>
+                    <!-- Kotak dasar dengan sudut melengkung -->
+                    <rect class="cls-1" x="1.5" y="1.5" width="21" height="21" rx="3.82">
+                    </rect>
+                    <!-- Segitiga simbol play -->
+                    <polygon class="cls-2" points="10 8 16 12 10 16 10 8"></polygon>
+                </svg>
+
+            </a>
         </div>
 
     </nav>
@@ -251,6 +281,49 @@
                             </path>
                         </svg>
                     </a>
+
+                    <a>
+                        <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20">
+                            <defs>
+                                <style>
+                                    .cls-637b8512f95e86b59c57a137-1 {
+                                        fill: none;
+                                        stroke: currentColor;
+                                        stroke-miterlimit: 10;
+                                    }
+                                </style>
+
+                            </defs>
+                            <path class="cls-637b8512f95e86b59c57a137-1"
+                                d="M12.94,1.61V15.78a2.83,2.83,0,0,1-2.83,2.83h0a2.83,2.83,0,0,1-2.83-2.83h0a2.84,2.84,0,0,1,2.83-2.84h0V9.17h0A6.61,6.61,0,0,0,3.5,15.78h0a6.61,6.61,0,0,0,6.61,6.61h0a6.61,6.61,0,0,0,6.61-6.61V9.17l.2.1a8.08,8.08,0,0,0,3.58.84h0V6.33l-.11,0a4.84,4.84,0,0,1-3.67-4.7H12.94Z">
+                            </path>
+                        </svg>
+                    </a>
+                    <a href="{{ $profiles[0]->tiktok }}" target="_blank">
+                        <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24" stroke-width="1.5" width="30" height="20">
+                            <defs>
+                                <style>
+                                    .cls-1 {
+                                        fill: none;
+                                        stroke: currentColor;
+                                        stroke-miterlimit: 10;
+                                    }
+
+                                    .cls-2 {
+                                        fill: currentColor;
+                                    }
+                                </style>
+                            </defs>
+                            <!-- Kotak dasar dengan sudut melengkung -->
+                            <rect class="cls-1" x="1.5" y="1.5" width="21" height="21" rx="3.82">
+                            </rect>
+                            <!-- Segitiga simbol play -->
+                            <polygon class="cls-2" points="10 8 16 12 10 16 10 8"></polygon>
+                        </svg>
+
+                    </a>
                 </div>
             </li>
         </ul>
@@ -279,7 +352,7 @@
             </a>
         </div>
 
-        <img class="imagefooter2" src="{{ asset('images/local/footerimage2.png') }}" />
+        <img class="imagefooter2" src="{{ asset('images/local/footerimage3.png') }}" />
 
 
     </div>
@@ -371,6 +444,31 @@
                                 d="M12.94,1.61V15.78a2.83,2.83,0,0,1-2.83,2.83h0a2.83,2.83,0,0,1-2.83-2.83h0a2.84,2.84,0,0,1,2.83-2.84h0V9.17h0A6.61,6.61,0,0,0,3.5,15.78h0a6.61,6.61,0,0,0,6.61,6.61h0a6.61,6.61,0,0,0,6.61-6.61V9.17l.2.1a8.08,8.08,0,0,0,3.58.84h0V6.33l-.11,0a4.84,4.84,0,0,1-3.67-4.7H12.94Z">
                             </path>
                         </svg>
+                    </a>
+
+                    <a href="https://www.youtube.com/@Yousee-Indonesia-Official" target="_blank">
+                        <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24" stroke-width="1.5" width="30" height="20">
+                            <defs>
+                                <style>
+                                    .cls-1 {
+                                        fill: none;
+                                        stroke: currentColor;
+                                        stroke-miterlimit: 10;
+                                    }
+
+                                    .cls-2 {
+                                        fill: currentColor;
+                                    }
+                                </style>
+                            </defs>
+                            <!-- Kotak dasar dengan sudut melengkung -->
+                            <rect class="cls-1" x="1.5" y="1.5" width="21" height="21" rx="3.82">
+                            </rect>
+                            <!-- Segitiga simbol play -->
+                            <polygon class="cls-2" points="10 8 16 12 10 16 10 8"></polygon>
+                        </svg>
+
                     </a>
                 </div>
             </div>
