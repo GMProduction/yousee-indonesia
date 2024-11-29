@@ -613,7 +613,7 @@ body {
   background-color: #97bdfe;
   display: flex;
   gap: 50px;
-  background-image: url("http://127.0.0.1:8000/images/local/yousee-blue-bg.png");
+  background-image: url("https://yousee-indonesia.com/images/local/yousee-blue-bg.png");
   background-size: cover; /* Mengatur ukuran gambar agar mencakup seluruh area latar belakang */
   background-position: center;
   position: relative;
@@ -625,7 +625,7 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.4);
   z-index: 1;
 }
 .oneweek-services img {

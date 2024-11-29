@@ -729,7 +729,7 @@ font-family: 'Lato', sans-serif;
   background-color: #97bdfe;
   display: flex;
   gap: 50px;
-  background-image: url("http://127.0.0.1:8000/images/local/yousee-blue-bg.png");
+  background-image: url("https://yousee-indonesia.com/images/local/yousee-blue-bg.png");
   background-size: cover; /* Mengatur ukuran gambar agar mencakup seluruh area latar belakang */
   background-position: center;
   position: relative;
@@ -740,7 +740,7 @@ font-family: 'Lato', sans-serif;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5); // Atur tingkat kegelapan di sini
+    background-color: rgba(0, 0, 0, 0.4); // Atur tingkat kegelapan di sini
     z-index: 1;
   }
 
