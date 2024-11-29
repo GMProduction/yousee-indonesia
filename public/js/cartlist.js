@@ -70,7 +70,7 @@ function displayCartItems(cartItems) {
 
         // Menampilkan tombol checkout
         const checkoutButton = document.createElement("button");
-        checkoutButton.textContent = "Checkout";
+        checkoutButton.textContent = "Tanya Ketersediaan titik";
         checkoutButton.className = "checkout-button";
         checkoutButton.onclick = () => {
             const whatsappLink = `https://wa.me/6281393700771?text=${encodeURIComponent(message)}`;
