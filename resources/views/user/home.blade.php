@@ -17,9 +17,7 @@
         <img class="hero-image mb-5" src="{{ asset('images/local/indonesiamaps.png') }}" />
 
         <br>
-        <a class="btn-pasangiklan mt-5"
-            href="https://api.whatsapp.com/send?phone={{ preg_replace('/^0/', '62', $profiles[0]->whatsapp) }}&text=Halo%2C%20saya%20mau%20konsultasi%20periklanan%20billboard"
-            target="_blank">
+        <a class="btn-pasangiklan mt-5" href="/titik-kami">
             Pilih Titik Iklan Sekarang
         </a>
     </div>
