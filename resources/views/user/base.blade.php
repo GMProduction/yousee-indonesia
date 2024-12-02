@@ -68,7 +68,8 @@
 
 <body>
     <!-- Tombol WhatsApp dengan Tooltip -->
-    <a href="https://wa.me/6281393700771" class="whatsapp-float" target="_blank" data-tooltip="Chat via WhatsApp">
+    <a href="https://api.whatsapp.com/send?phone={{ preg_replace('/^0/', '62', $profiles[0]->whatsapp) }}&text=Halo%2C%20Yousee-indonesia.com"
+        class="whatsapp-float" target="_blank" data-tooltip="Chat via WhatsApp">
         <img src="{{ asset('/images/local/whatsapp.png') }}" alt="WhatsApp Icon" class="whatsapp-icon">
     </a>
 
@@ -346,7 +347,7 @@
                 cepat,
                 tepat, akurat!</p>
             <a class="btn-pasangiklan"
-                href="https://api.whatsapp.com/send?phone={{ preg_replace('/^0/', '62', $profiles[0]->whatsapp) }}&text=Halo%2C%20saya%20mau%20tanya%20tentang%20harga%20pasang%20billboard"
+                href="https://api.whatsapp.com/send?phone={{ preg_replace('/^0/', '62', $profiles[0]->whatsapp) }}&text=Halo%2C%20Yousee-indonesia.com"
                 target="_blank">
                 Dapatkan Harga Sewa
             </a>
@@ -376,7 +377,7 @@
                 <p class="text"><span><img class="icon-text"
                             src="{{ asset('images/local/icon/whatsapp.png') }}" /></span><a class="d-block"
                         style="color: grey;"
-                        href="https://api.whatsapp.com/send?phone={{ preg_replace('/^0/', '62', $profiles[0]->whatsapp) }}&text=Halo%2C%20saya%20mau%20tanya%20tentang%20pasang%20billboard"
+                        href="https://api.whatsapp.com/send?phone={{ preg_replace('/^0/', '62', $profiles[0]->whatsapp) }}&text=Halo%2C%20Yousee-indonesia.com"
                         target="_blank">
                         {{ preg_replace('/^0/', '62', $profiles[0]->whatsapp) }}</a>
                 </p>
