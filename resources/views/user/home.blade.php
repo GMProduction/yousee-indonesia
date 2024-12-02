@@ -66,9 +66,7 @@
                 Anda,
                 pilih durasi tayang mulai dari mingguan ataupun bulanan.
             </p>
-            <a class="btn-pasangiklan"
-                href="https://api.whatsapp.com/send?phone=6281226059817&text=Halo%2C%20saya%20mau%20tanya%20tentang%20pasang%20billboard"
-                target="_blank">
+            <a class="btn-pasangiklan" href="https://wa.me/6281393700771?text=Halo,%20Yousee-indonesia.com" target="_blank">
                 Pasang Iklan Sekarang
             </a>
         </div>
@@ -176,9 +174,7 @@
                 membantu bisnis Anda menjangkau pasar lebih luas. Atur sendiri harga sewa sesuai anggaran, pilih durasi
                 tayang yang fleksibel ,mulai mingguan atau bulanan. Tak perlu repot, kini memasang iklan di berbagai wilayah
                 jadi lebih mudah.</p>
-            <a class="btn-pasangiklan"
-                href="https://api.whatsapp.com/send?phone={{ preg_replace('/^0/', '62', $profiles[0]->whatsapp) }}&text=Halo%2C%20saya%20mau%20konsultasi%20periklanan%20billboard"
-                target="_blank">
+            <a class="btn-pasangiklan" href="https://wa.me/6281393700771?text=Halo,%20Yousee-indonesia.com" target="_blank">
                 Konsultasi Gratis
             </a>
         </div>
