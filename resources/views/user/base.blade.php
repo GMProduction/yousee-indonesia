@@ -68,8 +68,8 @@
 
 <body>
     <!-- Tombol WhatsApp dengan Tooltip -->
-    <a href="https://api.whatsapp.com/send?phone={{ preg_replace('/^0/', '62', $profiles[0]->whatsapp) }}&text=Halo%2C%20Yousee-indonesia.com"
-        class="whatsapp-float" target="_blank" data-tooltip="Chat via WhatsApp">
+    <a href="https://wa.me/6281393700771?text=Halo,%20Yousee-indonesia.com" class="whatsapp-float" target="_blank"
+        data-tooltip="Chat via WhatsApp">
         <img src="{{ asset('/images/local/whatsapp.png') }}" alt="WhatsApp Icon" class="whatsapp-icon">
     </a>
 

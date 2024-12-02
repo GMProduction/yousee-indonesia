@@ -66,7 +66,7 @@
                                 <p class="text"><span><img class="icon-text"
                                             src="{{ asset('images/local/icon/whatsapp.png') }}" /></span> <a class="d-block"
                                         style="color: grey;"
-                                        href="https://api.whatsapp.com/send?phone={{ preg_replace('/^0/', '62', $profiles[0]->whatsapp) }}&text=Halo%2C%20saya%20mau%20tanya%20tentang%20pasang%20billboard"
+                                        href="https://wa.me/6281393700771?text=Halo,%20Yousee-indonesia.com"
                                         target="_blank">
                                         {{ preg_replace('/^0/', '62', $profiles[0]->whatsapp) }}</a></p>
                                 <p class="text"><span><img class="icon-text"
@@ -181,8 +181,7 @@
                 efektif
                 dan efisien </p>
             <div class="d-flex justify-content-center ">
-                <a class="btn-pasangiklan"
-                    href="https://api.whatsapp.com/send?phone={{ preg_replace('/^0/', '62', $profiles[0]->whatsapp) }}&text=Halo%2C%20saya%20mau%20tanya%20tentang%20pasang%20billboard"
+                <a class="btn-pasangiklan" href="https://wa.me/6281393700771?text=Halo,%20Yousee-indonesia.com"
                     target="_blank">
                     Pasang Iklan Sekarang
                 </a>
