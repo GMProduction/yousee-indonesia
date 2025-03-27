@@ -1,7 +1,10 @@
 <?php
 
 use App\Http\Controllers\CartController;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,8 +17,30 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('lang/{locale}', function ($locale) {
+    if (in_array($locale, ['en', 'id'])) {
+        Session::put('locale', $locale);
+    }
+    return redirect()->back();
+})->name('change.language');
 
+Route::match(['GET', 'POST'], '/login', [\App\Http\Controllers\Admin\LoginController::class, 'index'])->name('login');
+Route::get('/logout', [\App\Http\Controllers\Admin\LoginController::class, 'logout']);
+
+Route::get('/', function () {
+    return redirect('/en'); // Ganti dengan bahasa default
+});
+
+Route::get('/map/data', [\App\Http\Controllers\MapController::class, 'get_map_json']);
+Route::get('/map/data/{id}', [\App\Http\Controllers\MapController::class, 'get_map_by_id']);
+
+Route::get('/cek-map', [\App\Http\Controllers\MapController::class, 'index']);
+Route::get('/cek-map/data', [\App\Http\Controllers\MapController::class, 'get_map_json']);
+Route::get('/cek-map/data-detail/{id}', [\App\Http\Controllers\MapController::class, 'get_map_by_id']);
+
+Route::post('/add-to-cart', [CartController::class, 'addToCart']);
+Route::post('/remove-from-cart', [CartController::class, 'removeFromCart']);
+Route::get('/get-cart-items', [CartController::class, 'getCartItems']);
 
 Route::prefix('data')->group(
     function () {
@@ -37,6 +62,32 @@ Route::prefix('data')->group(
         );
     }
 );
+
+Route::group(['prefix' => '{locale}', 'where' => ['locale' => 'en|id']], function () {
+    Route::get('/', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+    Route::prefix('artikel')->group(function () {
+        Route::get('', [\App\Http\Controllers\ArtikelController::class, 'index']);
+        Route::get('{slug}', [\App\Http\Controllers\ArtikelController::class, 'detail'])->name('article.detail');
+        Route::get('tag/{tag}', [\App\Http\Controllers\ArtikelController::class, 'byTag'])->name('article.tag');
+    });
+
+    Route::get('/services', [\App\Http\Controllers\ServiceController::class, 'index']);
+
+
+    Route::get('/titik/{province}', [\App\Http\Controllers\TitikController::class, 'titikProvince']);
+    Route::get('/titik-kota/{city}', [\App\Http\Controllers\TitikController::class, 'titikCity']);
+
+    Route::get('/titik/{prvince}/{city}', function () {
+        return view('user.titik_per_kota');
+    });
+
+    Route::get('/titik-kami', [\App\Http\Controllers\TitikController::class, 'index']);
+    Route::match(['POST', 'GET'], '/contact', [\App\Http\Controllers\ContactController::class, 'index']);
+
+    Route::get('/portfolio', [\App\Http\Controllers\PortfolioController::class, 'index']);
+    Route::get('/listing/{slug}', [\App\Http\Controllers\TitikController::class, 'detail']);
+});
 
 Route::prefix('/admin')->middleware('auth')->group(function () {
     Route::get('', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin.dashboard');
@@ -94,41 +145,3 @@ Route::prefix('/admin')->middleware('auth')->group(function () {
         return view('admin.inbox.inbox');
     });
 });
-
-
-Route::match(['GET', 'POST'], '/login', [\App\Http\Controllers\Admin\LoginController::class, 'index'])->name('login');
-Route::get('/logout', [\App\Http\Controllers\Admin\LoginController::class, 'logout']);
-
-
-Route::prefix('artikel')->group(function () {
-    Route::get('', [\App\Http\Controllers\ArtikelController::class, 'index']);
-    Route::get('{slug}', [\App\Http\Controllers\ArtikelController::class, 'detail'])->name('article.detail');
-    Route::get('tag/{tag}', [\App\Http\Controllers\ArtikelController::class, 'byTag'])->name('article.tag');
-});
-
-Route::get('/services', [\App\Http\Controllers\ServiceController::class, 'index']);
-
-
-Route::get('/titik/{province}', [\App\Http\Controllers\TitikController::class, 'titikProvince']);
-Route::get('/titik-kota/{city}', [\App\Http\Controllers\TitikController::class, 'titikCity']);
-
-Route::get('/titik/{prvince}/{city}', function () {
-    return view('user.titik_per_kota');
-});
-
-Route::get('/titik-kami', [\App\Http\Controllers\TitikController::class, 'index']);
-Route::match(['POST', 'GET'], '/contact', [\App\Http\Controllers\ContactController::class, 'index']);
-
-Route::get('/portfolio', [\App\Http\Controllers\PortfolioController::class, 'index']);
-Route::get('/listing/{slug}', [\App\Http\Controllers\TitikController::class, 'detail']);
-
-Route::get('/map/data', [\App\Http\Controllers\MapController::class, 'get_map_json']);
-Route::get('/map/data/{id}', [\App\Http\Controllers\MapController::class, 'get_map_by_id']);
-
-Route::get('/cek-map', [\App\Http\Controllers\MapController::class, 'index']);
-Route::get('/cek-map/data', [\App\Http\Controllers\MapController::class, 'get_map_json']);
-Route::get('/cek-map/data-detail/{id}', [\App\Http\Controllers\MapController::class, 'get_map_by_id']);
-
-Route::post('/add-to-cart', [CartController::class, 'addToCart']);
-Route::post('/remove-from-cart', [CartController::class, 'removeFromCart']);
-Route::get('/get-cart-items', [CartController::class, 'getCartItems']);

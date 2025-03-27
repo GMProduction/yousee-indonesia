@@ -212,3 +212,4 @@ const editorConfig = {
 };
 
 ClassicEditor.create(document.querySelector('#p-isiartikel'), editorConfig);
+ClassicEditor.create(document.querySelector('#p-isiartikel2'), editorConfig);

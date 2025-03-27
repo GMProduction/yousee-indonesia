@@ -79,11 +79,12 @@ function updateListTitik(titik) {
     const start = (currentPage - 1) * itemsPerPage;
     const end = start + itemsPerPage;
     const paginatedItems = titik.slice(start, end); // Ambil item untuk halaman saat ini
+    let currentLocale = window.location.pathname.split('/')[1]; // Ambil locale dari URL
 
     // Loop melalui setiap item dan tambahkan ke kontainer
     paginatedItems.forEach(function(d) {
         listTitikContainer.append(`
-            <a class="card-article" href="/listing/${d.slug}">
+            <a class="card-article" href="/${currentLocale}/listing/${d.slug}">
                 <img src="http://internal.yousee-indonesia.com${d.image2}" />
                 <div style="position: absolute; top: 50%; right: 0; transform: translateY(-50%); background-color: green; padding: 2px 10px; border-radius: 5px 0 0 5px; font-size: 0.8rem; color: white;">
                     ${d.type.name}
@@ -200,12 +201,14 @@ function createGoogleMapMarker(payload = []) {
 
 
 function windowContent(data, key, role = 'presence') {
+    let pathSegments = window.location.pathname.split('/');
+    let lang = pathSegments[1];
 
-    return '<div class="d-flex flex-column">' +
-        '<p class="fw-bold">' + data['location'] + '</p>' +
-        '<p>' + data['address'] + '</p>'  +
-        '<a  href="/listing/'+data['slug']+'" style="font-size: 10px;" class="btn-detail-item" data-id="' + data['id'] + '">Lihat Detail</a>' +
-        '</div>';
+return '<div class="d-flex flex-column">' +
+    '<p class="fw-bold">' + data['location'] + '</p>' +
+    '<p>' + data['address'] + '</p>' +
+    '<a href="/' + lang + '/listing/' + data['slug'] + '" style="font-size: 10px;" class="btn-detail-item" data-id="' + data['id'] + '">Lihat Detail</a>' +
+    '</div>';
 
 }
 

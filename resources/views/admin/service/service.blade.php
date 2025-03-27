@@ -22,32 +22,35 @@
             <div class="menu overflow-hidden">
                 <div class="title-container">
                     <p class="title">Data Service</p>
-                    <a class="btn-primary-sm" href="{{route('admin.service.data')}}">Tambah Data Service</a>
+                    <a class="btn-primary-sm" href="{{ route('admin.service.data') }}">Tambah Data Service</a>
                 </div>
                 <div class="table-responsive">
 
                     <table id="tabel" class="table table-striped">
                         <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Icon</th>
-                            <th>Nama Service</th>
-                            {{-- slug otomatis ambil dari judul --}}
-                            <th>Keterangan</th>
-                            <th style="width: 100px">Action</th>
-                            {{-- detail, ubah status pesanan --}}
-                        </tr>
+                            <tr>
+                                <th>#</th>
+                                <th>Icon</th>
+                                <th>Nama Service (Indo)</th>
+                                <th>Nama Service (English)</th>
+                                {{-- slug otomatis ambil dari judul --}}
+                                <th>Keterangan (Indo)</th>
+                                <th>Keterangan (English)</th>
+                                <th style="width: 100px">Action</th>
+                                {{-- detail, ubah status pesanan --}}
+                            </tr>
                         </thead>
                         <tfoot>
-                        <tr>
-                            <th>#</th>
-                            <th>Icon</th>
-                            <th>Nama Service</th>
-                            {{-- slug otomatis ambil dari judul --}}
-                            <th>Keterangan</th>
-                            <th>Action</th>
-                            {{-- detail, ubah status pesanan --}}
-                        </tr>
+                            <tr>
+                                <th>#</th>
+                                <th>Icon</th>
+                                <th>Nama Service (Indo)</th>
+                                <th>Nama Service (English)</th>
+                                {{-- slug otomatis ambil dari judul --}}
+                                <th>Keterangan (Indo)</th>
+                                <th>Keterangan (English)</th>
+                                {{-- detail, ubah status pesanan --}}
+                            </tr>
                         </tfoot>
                     </table>
                 </div>
@@ -58,8 +61,8 @@
 
 @section('morejs')
     <script>
-        $(document).ready(function () {
-            $(".deletebutton").click(function () {
+        $(document).ready(function() {
+            $(".deletebutton").click(function() {
                 Swal.fire({
                     title: "Are you sure?",
                     text: "You won't be able to revert this!",
@@ -83,8 +86,7 @@
         show_datatable();
 
         function show_datatable() {
-            let colums = [
-                {
+            let colums = [{
                     className: "text-center",
                     orderable: false,
                     defaultContent: "",
@@ -92,41 +94,59 @@
                 },
                 {
                     // data: 'public_health_center.name', name: 'public_health_center.name'
-                    data: 'image', name: 'image',
-                    render: function (data, x, row) {
+                    data: 'image',
+                    name: 'image',
+                    render: function(data, x, row) {
                         return '<img  src="' + row.image + '" height="50" alt="img"/>'
                     }
                 },
                 {
-                    data: 'name', name: 'name',
+                    data: 'name_id',
+                    name: 'name_id',
                 },
                 {
-                    data: 'des', name: 'des',
-                    render: function (data) {
+                    data: 'name_en',
+                    name: 'name_en',
+                },
+                {
+                    data: 'description_id',
+                    name: 'description_id',
+                    render: function(data) {
+                        return '<span class="pv-archiveText">' + data + '</span>'
+                    }
+                },
+                {
+                    data: 'description_en',
+                    name: 'description_en',
+                    render: function(data) {
                         return '<span class="pv-archiveText">' + data + '</span>'
                     }
                 },
                 {
                     className: "text-center",
-                    data: 'id', name: 'id', orderable: false, searchable: false,
-                    render: function (data, x, row) {
+                    data: 'id',
+                    name: 'id',
+                    orderable: false,
+                    searchable: false,
+                    render: function(data, x, row) {
                         return '<div class="d-flex justify-content-between gap-1">' +
                             '       <a class="btn-primary-sm">Lihat</a>' +
                             '       <a class="btn-warning-sm" href="/admin/service/data?q=' + data + '">Ubah</a>' +
-                            '       <a class="btn-danger-sm deletebutton" id="deleteData" data-name="' + row.title + '" data-id="' + data + '">Hapus</a>' +
+                            '       <a class="btn-danger-sm deletebutton" id="deleteData" data-name="' + row.title +
+                            '" data-id="' + data + '">Hapus</a>' +
                             '</div>'
                     }
                 },
             ];
-            datatable('tabel', '{{route('admin.service.datatable')}}', colums)
+            datatable('tabel', '{{ route('admin.service.datatable') }}', colums)
         }
 
-        $(document).on('click', '#deleteData', function () {
+        $(document).on('click', '#deleteData', function() {
             let form = {
-                '_token': '{{csrf_token()}}',
+                '_token': '{{ csrf_token() }}',
                 'id': $(this).data('id')
             }
-            deleteData('artikel ' + $(this).data('name'), form, '{{route('admin.service.delete')}}')
+            deleteData('artikel ' + $(this).data('name'), form, '{{ route('admin.service.delete') }}')
             return false
         })
     </script>

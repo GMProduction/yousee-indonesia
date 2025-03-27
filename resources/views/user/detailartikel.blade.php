@@ -10,6 +10,10 @@
 @endsection
 
 @section('content')
+    @php
+        $locale = app()->getLocale();
+    @endphp
+
     <div class="g-hero">
         <div class="hero-text">
             <img src="{{ asset('images/local/youseeartikel.png') }}" />
@@ -20,16 +24,17 @@
             <div class="article-wrapper">
                 <img src="{{ $article->image }}" />
 
-                <h3 class="title">{{ $article->title }}</h3>
+                <h3 class="title">{{ $locale == 'id' ? $article->title_id : $article->title_en }}</h3>
                 <p class="time">{{ date_format($article->created_at, 'd M Y H:m') }}</p>
                 <hr>
-                <p class="isi">{!! $article->content !!}
+                <p class="isi">{!! $locale == 'id' ? $article->content_id : $article->content_en !!}
                 </p>
 
                 <p class="text-start mt-5 fw-bold">Tags: </p>
                 <div class="tag-wrapper">
                     @foreach ($article->text_tag as $d)
-                        <a class="tag-artikel" href="{{ route('article.tag', ['tag' => $d]) }}">{{ $d }}</a>
+                        <a class="tag-artikel"
+                            href="{{ route('article.tag', ['locale' => app()->getLocale(), 'tag' => $d]) }}">{{ $d }}</a>
                     @endforeach
                 </div>
             </div>
@@ -38,18 +43,19 @@
     </div>
 
 
-    <p class="title-content ">Baca Juga Artikel yang lain</p>
+    <p class="title-content ">{{ trans('messages.baca_artikel_lain') }}</p>
 
 
     <div class="list-article">
 
         @foreach ($data as $key => $d)
-            <a class="card-article" href="{{ route('article.detail', ['slug' => $d->slug]) }}">
+            <a class="card-article"
+                href="{{ route('article.detail', ['locale' => app()->getLocale(), 'slug' => $d->slug]) }}">
                 <img src="{{ asset($d->image) }}"
                     onerror="this.onerror=null;this.src='{{ asset('images/local/noimage.jpg') }}';" />
                 <div class="article-content">
                     <div class="article-wrapper">
-                        <p class="title">{{ $d->title }}</p>
+                        <p class="title">{{ $locale == 'id' ? $d->title_id : $d->title_en }}</p>
                         <p class="time">{{ date_format($d->created_at, 'd M Y H:m') }}</p>
                         <hr>
 

@@ -26,5 +26,6 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         Paginator::useBootstrap();
+        app()->useLangPath(base_path('lang'));
     }
 }

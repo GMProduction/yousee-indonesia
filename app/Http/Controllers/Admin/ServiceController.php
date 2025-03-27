@@ -13,11 +13,11 @@ class ServiceController extends CustomController
         $data = FrontService::query();
 
         return DataTables::of($data)
-                         ->addColumn('des', function ($data) {
-                             return $data->description;
-                         })
-                         ->rawColumns(['des'])
-                         ->make(true);
+            ->addColumn('des', function ($data) {
+                return $data->description;
+            })
+            ->rawColumns(['des'])
+            ->make(true);
     }
 
     public function index()
@@ -38,19 +38,28 @@ class ServiceController extends CustomController
     public function postData()
     {
         request()->validate([
-            'name'        => 'required',
-            'description' => 'required',
+            'name_id'        => 'required',
+            'name_en'        => 'required',
+            'description_id' => 'required',
+            'description_en' => 'required',
         ], [
-            'name.required' => 'Nama service harus di isi',
-            'description.required' => 'Deskripsi service harus di isi',
+            'name_id.required' => 'Nama (indo) service harus di isi',
+            'name_en.required' => 'Nama (english) service harus di isi',
+            'description_id.required' => 'Deskripsi (indo) service harus di isi',
+            'description_en.required' => 'Deskripsi (english) service harus di isi',
         ]);
 
         $form = request()->all();
+
+        // Set name dan description berdasarkan bahasa default (id)
+        $form['name'] = $form['name_id'];
+        $form['description'] = $form['description_id'];
+
         $image = null;
 
         if (request('image')) {
             $image     = $this->generateImageName('image');
-            $stringImg = '/images/service/'.$image;
+            $stringImg = '/images/service/' . $image;
             $this->uploadImage('image', $image, 'serviceImage');
             $form['image'] = $stringImg;
         }
@@ -58,9 +67,9 @@ class ServiceController extends CustomController
         $id = request('id');
         if ($id) {
             $data = FrontService::find($id);
-            if ($image && $data->image){
-                if (file_exists('../public'.$data->image)) {
-                    unlink('../public'.$data->image);
+            if ($image && $data->image) {
+                if (file_exists('../public' . $data->image)) {
+                    unlink('../public' . $data->image);
                 }
             }
             $data->update($form);
@@ -76,11 +85,12 @@ class ServiceController extends CustomController
         );
     }
 
-    public function delete(){
+    public function delete()
+    {
         $data = FrontService::find(request('id'));
-        if ($data->image){
-            if (file_exists('../public'.$data->image)) {
-                unlink('../public'.$data->image);
+        if ($data->image) {
+            if (file_exists('../public' . $data->image)) {
+                unlink('../public' . $data->image);
             }
         }
 
@@ -94,5 +104,3 @@ class ServiceController extends CustomController
         );
     }
 }
-
-

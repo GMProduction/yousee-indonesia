@@ -64,6 +64,19 @@
 
     @yield('morecss')
 
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NXWCYV1B2R"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'G-NXWCYV1B2R');
+    </script>
 </head>
 
 <body>
@@ -84,7 +97,7 @@
     <!-- List Keranjang yang Expand dari Kanan -->
     <div class="cart-sidebar" id="cartSidebar">
         <div class="d-flex justify-content-between align-items-center">
-            <h6>Titik Pilihan Anda</h6>
+            <h6>{{ trans('messages.titik_pilihan_anda') }}</h6>
             <button class="material-symbols-outlined backbutton" onclick="closeCart()">
                 arrow_forward
             </button>
@@ -100,18 +113,24 @@
     <nav class="g-navbar container nav-website">
         <img src="{{ asset('images/local/logo-yousee-panjang.png') }}" />
         <div class="g-nav-menu">
-            <a class="menu {{ Request::is('/') ? 'active' : '' }}" href="/">Home<span
-                    class="indicator "></span></a>
-            <a class="menu {{ Request::is('services*') ? 'active' : '' }}" href="/services">Services<span
-                    class="indicator "></span></a>
-            <a class="menu {{ Request::is('titik-kami*') ? 'active' : '' }}" href="/titik-kami">Titik Kami<span
+            @php
+                $locale = app()->getLocale();
+            @endphp
+            <a class="menu {{ Request::is($locale) ? 'active' : '' }}"
+                href="{{ url($locale) }}">{{ __('messages.home') }}<span class="indicator"></span></a>
+            <a class="menu {{ Request::is($locale . '/services*') ? 'active' : '' }}"
+                href="{{ url($locale . '/services') }}">{{ __('messages.services') }}<span
                     class="indicator"></span></a>
-            <a class="menu {{ Request::is('portfolio*') ? 'active' : '' }}" href="/portfolio">Portfolio<span
+            <a class="menu {{ Request::is($locale . '/titik-kami*') ? 'active' : '' }}"
+                href="{{ url($locale . '/titik-kami') }}">{{ __('messages.titik_kami') }}<span
                     class="indicator"></span></a>
-            <a class="menu {{ Request::is('artikel*') ? 'active' : '' }}" href="/artikel">Artikel<span
+            <a class="menu {{ Request::is($locale . '/portfolio*') ? 'active' : '' }}"
+                href="{{ url($locale . '/portfolio') }}">{{ __('messages.portfolio') }}<span
                     class="indicator"></span></a>
-            <a class="menu {{ Request::is('contact*') ? 'active' : '' }}" href="/contact">Contact<span
-                    class="indicator"></span></a>
+            <a class="menu {{ Request::is($locale . '/artikel*') ? 'active' : '' }}"
+                href="{{ url($locale . '/artikel') }}">{{ __('messages.artikel') }}<span class="indicator"></span></a>
+            <a class="menu {{ Request::is($locale . '/contact*') ? 'active' : '' }}"
+                href="{{ url($locale . '/contact') }}">{{ __('messages.contact') }}<span class="indicator"></span></a>
         </div>
         <div class="g-nav-social">
             <a href="{{ $profiles[0]->instagram }}" target="_blank">
@@ -207,19 +226,24 @@
 
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
 
-            <li><a class="dropdown-item menu {{ Request::is('/') ? 'active' : '' }}" href="/">Home<span
-                        class="indicator "></span></a></li>
-            <li><a class="dropdown-item menu {{ Request::is('services') ? 'active' : '' }}"
-                    href="/services">Services<span class="indicator "></span></a></li>
-            <li><a class="dropdown-item menu {{ Request::is('titik-kami') ? 'active' : '' }}"
-                    href="/titik-kami">Titik
-                    Kami<span class="indicator"></span></a></li>
-            <li><a class="dropdown-item menu {{ Request::is('portfolio') ? 'active' : '' }}"
-                    href="/portfolio">Portfolio<span class="indicator"></span></a></li>
-            <li><a class="dropdown-item menu {{ Request::is('artikel') ? 'active' : '' }}"
-                    href="/artikel">Artikel<span class="indicator"></span></a></li>
-            <li> <a class="dropdown-item menu {{ Request::is('contact') ? 'active' : '' }}"
-                    href="/contact">Contact<span class="indicator"></span></a></li>
+            <li><a class="dropdown-item menu {{ Request::is($locale) ? 'active' : '' }}"
+                    href="{{ url($locale) }}">{{ __('messages.home') }}<span class="indicator"></span></a></li>
+            <li><a class="dropdown-item menu {{ Request::is($locale . '/services') ? 'active' : '' }}"
+                    href="{{ url($locale . '/services') }}">{{ __('messages.services') }}<span
+                        class="indicator"></span></a></li>
+            <li><a class="dropdown-item menu {{ Request::is($locale . '/titik-kami') ? 'active' : '' }}"
+                    href="{{ url($locale . '/titik-kami') }}">{{ __('messages.titik_kami') }}<span
+                        class="indicator"></span></a></li>
+            <li><a class="dropdown-item menu {{ Request::is($locale . '/portfolio') ? 'active' : '' }}"
+                    href="{{ url($locale . '/portfolio') }}">{{ __('messages.portfolio') }}<span
+                        class="indicator"></span></a></li>
+            <li><a class="dropdown-item menu {{ Request::is($locale . '/artikel') ? 'active' : '' }}"
+                    href="{{ url($locale . '/artikel') }}">{{ __('messages.artikel') }}<span
+                        class="indicator"></span></a></li>
+            <li><a class="dropdown-item menu {{ Request::is($locale . '/contact') ? 'active' : '' }}"
+                    href="{{ url($locale . '/contact') }}">{{ __('messages.contact') }}<span
+                        class="indicator"></span></a></li>
+
             <hr />
             <li style="padding-left: 10px">
                 <div class="g-nav-social">
@@ -338,18 +362,13 @@
 
         <div class="content">
 
-            <p class="title"> Dapatkan Harga Sewa Billboard dalam Satu Waktu. Praktis!
+            <p class="title"> {{ trans('messages.dapatkan_harga_sewa') }}
             </p>
-            <p class="text">Dapatkan paket penawaran dari beberapa lokasi billboard yang kamu inginkan. Siap
-                mennjangkau
-                audiens lebih
-                luas hingga di seluruh wilayah di Indonesia. Daftar harga sewa billboard langsung kami kirim secara
-                cepat,
-                tepat, akurat!</p>
+            <p class="text">{{ trans('messages.dapatkan_harga_sewa_description') }}</p>
             <a class="btn-pasangiklan"
                 href="https://api.whatsapp.com/send?phone={{ preg_replace('/^0/', '62', $profiles[0]->whatsapp) }}&text=Halo%2C%20Yousee-indonesia.com"
                 target="_blank">
-                Dapatkan Harga Sewa
+                {{ trans('messages.dapatkan_harga_sewa_button') }}
             </a>
         </div>
 
@@ -364,7 +383,7 @@
             <div class="col-lg-4 col-sm-12 ">
                 <img class="footer-logo" src="{{ asset('images/local/logo-yousee2.png') }}" />
 
-                <p class="footer-tag">Pasang Iklan Billboard di Seluruh INDONESIA</p>
+                <p class="footer-tag">{{ trans('messages.pasang_iklan_seluruh_indonesia') }}</p>
             </div>
             <div class="col-lg-4 col-sm-12">
                 <p class="header">Contact Us</p>
@@ -478,14 +497,19 @@
         <hr>
         <div class="d-flex justify-content-between  ">
             <p>
-                © 2024 Yousee Indonesia, All Rights Reserved
+                © 2025 PT SUKMA SETIAWAN INDONESIA - Yousee Indonesia
             </p>
 
 
         </div>
     </footer>
 
-
+    <script>
+        window.translations = {
+            tanya_ketersediaan_titik: @json(trans('messages.tanya_ketersediaan_titik')),
+            keranjang_kosong: @json(trans('messages.keranjang_kosong')),
+        };
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 

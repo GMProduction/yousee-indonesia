@@ -12,6 +12,11 @@ class FrontPortofolio extends Model
     protected $fillable = [
         'image',
         'name',
-        'description'
+        'description',
+        'name_id',
+        'name_en',
+        'description',
+        'description_id',
+        'description_en',
     ];
 }

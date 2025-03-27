@@ -35,15 +35,20 @@ class TitikController extends Controller
         return view('user.titikkami2', ['titik' => $titik, 'dom' => $this->dom, 'profiles' => $profiles, 'type' => $type]);
     }
 
-    public function detail($slug)
+    public function detail($locale, $slug)
     {
-        $item  = Item::where('slug', $slug)->firstOrFail();
+        $item = Item::where('slug', $slug)->firstOrFail();
         $titik = Item::where([['city_id', $item->city_id], ['id', '!=', $item->id]])
-            ->inRandomOrder() // Mengurutkan data secara acak
+            ->inRandomOrder()
             ->paginate(18);
         $profiles = FrontProfile::get();
 
-        return view('user.detailtitik', ['titik' => $titik, 'data' => $item, 'dom' => $this->dom, 'profiles' => $profiles]);
+        return view('user.detailtitik', [
+            'titik' => $titik,
+            'data' => $item,
+            'dom' => $this->dom,
+            'profiles' => $profiles
+        ]);
     }
 
     public function titikProvince($province)

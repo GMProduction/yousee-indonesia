@@ -31,9 +31,11 @@
                             <tr>
                                 <th>#</th>
                                 <th>Gambar</th>
-                                <th>Nama portfolio</th>
+                                <th>Nama portfolio (Indo)</th>
+                                <th>Nama portfolio (English)</th>
                                 {{-- slug otomatis ambil dari nama --}}
-                                <th>Keterangan</th>
+                                <th>Keterangan (Indo)</th>
+                                <th>Keterangan (English)</th>
                                 {{-- keterangan bisa kosong --}}
                                 <th style="width: 100px;">Action</th>
                                 {{-- detail, ubah status pesanan --}}
@@ -43,9 +45,11 @@
                             <tr>
                                 <th>#</th>
                                 <th>Gambar</th>
-                                <th>Nama portfolio</th>
+                                <th>Nama portfolio (Indo)</th>
+                                <th>Nama portfolio (English)</th>
                                 {{-- slug otomatis ambil dari nama --}}
-                                <th>Keterangan</th>
+                                <th>Keterangan (Indo)</th>
+                                <th>Keterangan (English)</th>
                                 {{-- keterangan bisa kosong --}}
                                 <th>Action</th>
                                 {{-- detail, ubah status pesanan --}}
@@ -82,12 +86,23 @@
                     }
                 },
                 {
-                    data: 'name',
-                    name: 'name',
+                    data: 'name_id',
+                    name: 'name_id',
                 },
                 {
-                    data: 'des',
-                    name: 'des',
+                    data: 'name_en',
+                    name: 'name_en',
+                },
+                {
+                    data: 'description_id',
+                    name: 'description_id',
+                    render: function(data) {
+                        return '<span class="pv-archiveText">' + data + '</span>'
+                    }
+                },
+                {
+                    data: 'description_en',
+                    name: 'description_en',
                     render: function(data) {
                         return '<span class="pv-archiveText">' + data + '</span>'
                     }

@@ -1,6 +1,7 @@
 // Ambil data keranjang dari session Laravel
 // Mengambil data keranjang dari session dan mengonversinya ke format JavaScript
 
+
 $(document).ready(function () {
     $.ajax({
         url: "/get-cart-items", // URL yang sudah dibuat di route
@@ -70,7 +71,7 @@ function displayCartItems(cartItems) {
 
         // Menampilkan tombol checkout
         const checkoutButton = document.createElement("button");
-        checkoutButton.textContent = "Tanya Ketersediaan titik";
+        checkoutButton.textContent = window.translations.tanya_ketersediaan_titik;
         checkoutButton.className = "checkout-button";
         checkoutButton.onclick = () => {
             const whatsappLink = `https://wa.me/6281393700771?text=${encodeURIComponent(message)}`;
@@ -84,7 +85,7 @@ function displayCartItems(cartItems) {
     } else {
         // Tampilkan pesan jika keranjang kosong
         const emptyMessage = document.createElement("li");
-        emptyMessage.textContent = "Keranjang kosong.";
+        emptyMessage.textContent = window.translations.keranjang_kosong;
         cartList.appendChild(emptyMessage);
 
         // Sembunyikan tombol checkout jika keranjang kosong

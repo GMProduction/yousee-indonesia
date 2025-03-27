@@ -48,11 +48,16 @@
                     <input type="hidden" id="d-id" name="id" value="{{ $data ? $data->id : '' }}">
 
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="p-judulartikel" name="title"
-                            value="{{ $data ? $data->title : '' }}" placeholder="Judul Artikel">
-                        <label for="p-judulartikel" class="form-label">Judul Artikel</label>
+                        <input type="text" class="form-control" id="p-judulartikel_id" name="title_id"
+                            value="{{ $data ? $data->title_id : '' }}" placeholder="Judul Artikel">
+                        <label for="p-judulartikel_id" class="form-label">Judul Artikel (Indo)</label>
                     </div>
 
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="p-judulartikel_en" name="title_en"
+                            value="{{ $data ? $data->title_en : '' }}" placeholder="Judul Artikel">
+                        <label for="p-judulartikel_en" class="form-label">Judul Artikel (English)</label>
+                    </div>
 
                     <div class=" mb-3">
                         <label class="form-label">Gambar Utama</label>
@@ -93,15 +98,28 @@
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label class="control-label" for="p-pendek">Deskripsi Pendek</label>
-                        <textarea id="p-pendek" class="form-control" maxlength="200" name="sort_desc">{{ $data ? $data->sort_desc : '' }}</textarea>
+                        <label class="control-label" for="p-sort_desc_id">Deskripsi Pendek (Indo)</label>
+                        <textarea id="p-sort_desc_id" class="form-control" maxlength="200" name="sort_desc_id">{{ $data ? $data->sort_desc_id : '' }}</textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="control-label" for="p-sort_desc_en">Deskripsi Pendek (English)</label>
+                        <textarea id="p-sort_desc_en" class="form-control" maxlength="200" name="sort_desc_en">{{ $data ? $data->sort_desc_en : '' }}</textarea>
                     </div>
                     <div class="mb-3">
                         <div class="main-container">
                             <div class="editor-container editor-container_classic-editor" id="editor-container">
-                                <label class="control-label" for="p-isiartikel">Isi Artikel</label>
-                                <textarea id="p-isiartikel" class="editor-container__editor" name="content">
-                                    {{ $data ? $data->content : '' }}</textarea>
+                                <label class="control-label" for="p-isiartikel">Isi Artikel (Indo)</label>
+                                <textarea id="p-isiartikel" class="editor-container__editor" name="content_id">
+                                    {{ $data ? $data->content_id : '' }}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="main-container">
+                            <div class="editor-container editor-container_classic-editor" id="editor-container2">
+                                <label class="control-label" for="p-isiartikel2">Isi Artikel (English)</label>
+                                <textarea id="p-isiartikel2" class="editor-container__editor" name="content_en">
+                                    {{ $data ? $data->content_en : '' }}</textarea>
                             </div>
                         </div>
                     </div>
