@@ -43,7 +43,7 @@
     </div>
 
 
-    <p class="title-content ">{{ trans('messages.baca_artikel_lain') }}</p>
+    <p class="title-content text-center">{{ trans('messages.baca_artikel_lain') }}</p>
 
 
     <div class="list-article">
