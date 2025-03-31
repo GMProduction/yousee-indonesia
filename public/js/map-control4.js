@@ -38,7 +38,21 @@ async function generateGoogleMapData() {
         }, 300); // Update setiap 300ms
 
         // Request data
-        let response = await $.get('/map/data?province=' + localStorage.getItem('s_provinsi') + '&city=' + localStorage.getItem('s_kota') + '&type=' + localStorage.getItem('s_tipe') + '&position=' + localStorage.getItem('s_posisi'));
+        // let response = await $.get('/map/data?province=' + localStorage.getItem('s_provinsi') + '&city=' + localStorage.getItem('s_kota') + '&type=' + localStorage.getItem('s_tipe') + '&position=' + localStorage.getItem('s_posisi'));
+
+        let params = {
+            province: localStorage.getItem('s_provinsi') || '',
+            city: localStorage.getItem('s_kota') || '',
+            type: localStorage.getItem('s_tipe') || '',
+            position: localStorage.getItem('s_posisi') || ''
+        };
+
+        // Konversi objek params ke query string
+        let queryString = $.param(params);
+
+        // Request data dengan query string yang sudah diperbaiki
+        let response = await $.get('/map/data?' + queryString);
+
         let payload = response['payload'];
 
         // Setelah data didapatkan, set progress ke 100% dan sembunyikan
