@@ -106,6 +106,49 @@ body {
   border-bottom: 1px solid #ddd;
 }
 
+.lang-dropdown {
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  position: relative;
+}
+
+.lang-dropdown .icon {
+  margin-right: 8px;
+  font-size: 18px;
+}
+
+.lang-dropdown .selected-lang {
+  flex-grow: 1;
+}
+
+/* Gunakan class berbeda agar tidak bentrok dengan Bootstrap */
+.lang-dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 35px;
+  left: 0;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+.lang-dropdown-menu div {
+  padding: 8px 10px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.lang-dropdown-menu div:hover {
+  background: #007bff;
+  color: white;
+}
+
 .nav-website {
   display: block;
 }

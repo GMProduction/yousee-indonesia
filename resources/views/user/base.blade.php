@@ -132,7 +132,20 @@
             <a class="menu {{ Request::is($locale . '/contact*') ? 'active' : '' }}"
                 href="{{ url($locale . '/contact') }}">{{ __('messages.contact') }}<span class="indicator"></span></a>
         </div>
-        <div class="g-nav-social">
+
+
+
+        <div class="g-nav-social ">
+            <div class="lang-dropdown me-3">
+                <span class="material-symbols-outlined me-2">
+                    language
+                </span>
+                <span class="selected-lang">ID</span>
+                <div class="lang-dropdown-menu">
+                    <div data-lang="id">ID</div>
+                    <div data-lang="en">EN</div>
+                </div>
+            </div>
             <a href="{{ $profiles[0]->instagram }}" target="_blank">
                 <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                     stroke-width="1.5" width="20" height="20">
@@ -245,10 +258,14 @@
                         class="indicator"></span></a></li>
 
             <hr />
+
+
+
+
             <li style="padding-left: 10px">
                 <div class="g-nav-social">
 
-                    <a>
+                    <a href="{{ $profiles[0]->instagram }}">
                         <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20">
                             <defs>
@@ -272,7 +289,7 @@
                             </circle>
                         </svg>
                     </a>
-                    <a>
+                    <a href="{{ $profiles[0]->facebook }}">
                         <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20">
                             <defs>
@@ -307,24 +324,7 @@
                         </svg>
                     </a>
 
-                    <a>
-                        <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20">
-                            <defs>
-                                <style>
-                                    .cls-637b8512f95e86b59c57a137-1 {
-                                        fill: none;
-                                        stroke: currentColor;
-                                        stroke-miterlimit: 10;
-                                    }
-                                </style>
 
-                            </defs>
-                            <path class="cls-637b8512f95e86b59c57a137-1"
-                                d="M12.94,1.61V15.78a2.83,2.83,0,0,1-2.83,2.83h0a2.83,2.83,0,0,1-2.83-2.83h0a2.84,2.84,0,0,1,2.83-2.84h0V9.17h0A6.61,6.61,0,0,0,3.5,15.78h0a6.61,6.61,0,0,0,6.61,6.61h0a6.61,6.61,0,0,0,6.61-6.61V9.17l.2.1a8.08,8.08,0,0,0,3.58.84h0V6.33l-.11,0a4.84,4.84,0,0,1-3.67-4.7H12.94Z">
-                            </path>
-                        </svg>
-                    </a>
                     <a href="{{ $profiles[0]->tiktok }}" target="_blank">
                         <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24" stroke-width="1.5" width="30" height="20">
@@ -351,7 +351,21 @@
                     </a>
                 </div>
             </li>
+            <li>
+                <div class="lang-dropdown mt-3">
+                    <span class="material-symbols-outlined me-2">
+                        language
+                    </span>
+                    <span class="selected-lang">ID</span>
+                    <div class="lang-dropdown-menu">
+                        <div data-lang="id">ID</div>
+                        <div data-lang="en">EN</div>
+                    </div>
+                </div>
+
+            </li>
         </ul>
+
     </nav>
 
     @yield('content')
@@ -520,6 +534,60 @@
     <script src="{{ asset('js/dialog.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="{{ asset('js/cartlist.js?v=1.1') }}"></script>
+    <script>
+        $(document).ready(function() {
+            // Ambil locale dari URL atau localStorage
+            var currentLang = getLocaleFromURL() || localStorage.getItem("lang") || "id";
+            updateSelectedLang(currentLang);
+
+            // Klik untuk menampilkan dropdown bahasa (tidak bentrok dengan Bootstrap)
+            $(".lang-dropdown").click(function(event) {
+                $(".lang-dropdown-menu").toggle();
+                event.stopPropagation();
+            });
+
+            // Klik opsi bahasa
+            $(".lang-dropdown-menu div").click(function() {
+                var selectedLang = $(this).attr("data-lang");
+                updateSelectedLang(selectedLang);
+                localStorage.setItem("lang", selectedLang);
+                $(".lang-dropdown-menu").hide();
+                updateURLLocale(selectedLang);
+            });
+
+            // Klik di luar dropdown untuk menutup
+            $(document).click(function() {
+                $(".lang-dropdown-menu").hide();
+            });
+
+            // Fungsi update tampilan teks
+            function updateSelectedLang(lang) {
+                var langText = lang === "id" ? "ID" : "EN";
+                $(".selected-lang").text(langText);
+            }
+
+            // Fungsi ambil locale dari URL
+            function getLocaleFromURL() {
+                var path = window.location.pathname.split('/');
+                return (path[1] === "id" || path[1] === "en") ? path[1] : null;
+            }
+
+            // Fungsi update locale di URL tanpa double
+            function updateURLLocale(lang) {
+                var pathArray = window.location.pathname.split('/');
+                if (pathArray[1] === "id" || pathArray[1] === "en") {
+                    pathArray[1] = lang;
+                } else {
+                    pathArray.splice(1, 0, lang);
+                }
+
+                var newPath = pathArray.join('/');
+                var newURL = window.location.origin + newPath;
+                window.location.href = newURL;
+            }
+        });
+    </script>
+
 
 
     @yield('morejs')
