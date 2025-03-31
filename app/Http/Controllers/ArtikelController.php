@@ -47,21 +47,28 @@ class ArtikelController extends Controller
      * @param string $slug Slug artikel yang akan ditampilkan
      * @return \Illuminate\View\View
      */
-    public function detail($slug)
+    public function detail($locale, $slug)
     {
         // Mengambil artikel berdasarkan slug
-        $checkSlug = FrontArticle::with('tags')->where('slug', $slug)->first();
-        Log::info('Artikel berdasarkan slug diambil:', ['slug' => $slug, 'checkSlug' => $checkSlug]);
 
-        // Mendapatkan nama tag dari ID tag yang terkait dengan artikel
+        Log::info('Locale:', ['locale' => $locale]);
+        Log::info('Slug yang diterima:', ['slug' => $slug]);
+
+        $checkSlug = FrontArticle::where('slug', $slug)->first();
+        if (!$checkSlug) {
+            Log::error("Artikel dengan slug '$slug' tidak ditemukan.");
+            abort(404, 'Artikel tidak ditemukan');
+        }
+
         $dTag = [];
-        foreach ($checkSlug->tags as $key => $t) {
-            $tag = FrontTags::find($t);
-            if ($tag) {
-                $dTag[$key] = $tag->name;
+        if (!empty($checkSlug->tags)) {
+            foreach ($checkSlug->tags as $key => $tagId) {
+                $tag = FrontTags::find($tagId);
+                if ($tag) {
+                    $dTag[$key] = $tag->name;
+                }
             }
         }
-        // Menambahkan nama tag ke artikel
         $checkSlug['text_tag'] = $dTag;
 
         // Mengambil artikel lain yang memiliki tag yang sama dengan artikel yang ditampilkan
@@ -88,8 +95,9 @@ class ArtikelController extends Controller
      * @param string $tag Nama tag yang akan dicari
      * @return \Illuminate\View\View
      */
-    public function byTag($tag)
+    public function byTag($locale, $tag)
     {
+        Log::info('Locale:', ['locale' => $locale]);
         // Mengambil ID tag berdasarkan nama tag
         $tagData = FrontTags::where('name', $tag)->first();
 
@@ -106,7 +114,7 @@ class ArtikelController extends Controller
         return view('user.artikelbytag', [
             'article' => $article,
             'newArtikel' => $newArtikel,
-            'profiles' => $profiles
+            'profiles' => $profiles,
         ]);
     }
 }

@@ -70,5 +70,7 @@ return [
     'keranjang_kosong' => 'Cart is empty',
     'semua_artikel_yang_kami_sajikan' => 'All Articles We Present',
 
-    'baca_artikel_lain' => 'Read Other Article'
+    'baca_artikel_lain' => 'Read Other Article',
+
+    'semua_artikel_dengan_tag' => 'Articles with Tag',
 ];

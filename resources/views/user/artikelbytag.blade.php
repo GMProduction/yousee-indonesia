@@ -30,7 +30,7 @@
 
         </div>
 
-        <p class="title-content ">Semua Artikel dengan Tag ({{ request('tag') }})</p>
+        <p class="title-content ">{{ trans('messages.semua_artikel_dengan_tag') }} ({{ request('tag') }})</p>
 
         {{--        <div class="search-wrapper"> --}}
         {{--            <div class="search-field"> --}}
@@ -44,7 +44,8 @@
 
         <div class="list-article">
             @foreach ($article as $d)
-                <a class="card-article" href="{{ route('article.detail', ['slug' => $d->slug]) }}">
+                <a class="card-article"
+                    href="{{ route('article.detail', ['locale' => app()->getLocale(), 'slug' => $d->slug]) }}">
                     <img src="{{ asset($d->image) }}"
                         onerror="this.onerror=null;this.src='{{ asset('images/local/noimage.jpg') }}';" />
                     <div class="article-content">

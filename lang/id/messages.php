@@ -73,9 +73,9 @@ return [
     // ARTIKEL
     'semua_artikel_yang_kami_sajikan' => 'Semua Artikel yang Kami Sajikan',
 
-    'baca_artikel_lain' => 'Baca Juga Artikel yang lain'
+    'baca_artikel_lain' => 'Baca Juga Artikel yang lain',
 
-
+    'semua_artikel_dengan_tag' => 'Semua Artikel dengan Tag',
 
 
 ];
