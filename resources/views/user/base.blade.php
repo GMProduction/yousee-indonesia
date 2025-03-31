@@ -522,6 +522,9 @@
         window.translations = {
             tanya_ketersediaan_titik: @json(trans('messages.tanya_ketersediaan_titik')),
             keranjang_kosong: @json(trans('messages.keranjang_kosong')),
+            semua_provinsi: @json(trans('messages.semua_provinsi')),
+            semua_kota: @json(trans('messages.semua_kota')),
+            semua_tipe: @json(trans('messages.semua_tipe')),
         };
     </script>
 

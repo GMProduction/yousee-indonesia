@@ -43,7 +43,7 @@
                         </div>
                         <!-- Kolom 3 -->
                         <div class="col">
-                            <a id="addToCartButton" href="/titik-kami"
+                            <a id="addToCartButton" href="{{ url(app()->getLocale() . '/titik-kami') }}"
                                 class="btn btn-third d-flex align-items-center justify-content-center">
                                 <!-- Ikon keranjang di kiri -->
                                 <span>{{ trans('messages.lihat_titik_lain') }}</span>
