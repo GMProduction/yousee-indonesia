@@ -287,24 +287,56 @@ function deleteData(text, data,url, resposeSuccess) {
     return false;
 }
 
-function getSelect(id, url, nameValue = 'name', idValue, text = null) {
+function getSelect(id, url, nameValue = 'name', localStorageKey = null, text = null) {
     var select = $('#' + id);
     select.empty();
-    if (text){
-        select.append('<option value="" selected>'+text+'</option>')
-    }else {
-        select.append('<option value="" disabled selected>Pilih Data</option>')
+
+    // Jika localStorageKey tidak diberikan, gunakan id sebagai default
+    var storageKey = localStorageKey || id;
+
+    // Ambil data terakhir yang dipilih dari LocalStorage
+    var savedValue = localStorage.getItem(storageKey);
+
+    if (text) {
+        select.append('<option value="">' + text + '</option>');
+    } else {
+        select.append('<option value="" disabled selected>Pilih Data</option>');
     }
-    $.get(url, function (data) {
-        $.each(data, function (key, value) {
-            if (idValue === value['id']) {
-                select.append('<option value="' + value['id'] + '" selected>' + value[nameValue] + '</option>')
-            } else {
-                select.append('<option value="' + value['id'] + '">' + value[nameValue] + '</option>')
-            }
-        })
-    })
+
+    // Cek apakah data sudah ada di LocalStorage
+    var storedData = localStorage.getItem(url);
+    if (storedData) {
+        // Gunakan data dari LocalStorage
+        populateSelect(select, JSON.parse(storedData), nameValue, savedValue);
+    } else {
+        // Fetch data jika belum tersimpan di LocalStorage
+        $.get(url, function (data) {
+            localStorage.setItem(url, JSON.stringify(data)); // Simpan ke LocalStorage
+            populateSelect(select, data, nameValue, savedValue);
+        });
+    }
+
+    // Simpan pilihan user ke LocalStorage saat berubah
+    select.on("change", function () {
+        localStorage.setItem(storageKey, this.value);
+    });
 }
+
+// Fungsi untuk mengisi dropdown dari data
+function populateSelect(select, data, nameValue, selectedValue) {
+    $.each(data, function (key, value) {
+        var isSelected = selectedValue && selectedValue == value['id'] ? 'selected' : '';
+        select.append('<option value="' + value['id'] + '" ' + isSelected + '>' + value[nameValue] + '</option>');
+    });
+
+    // Set nilai yang sudah disimpan di LocalStorage jika ada
+    if (selectedValue) {
+        select.val(selectedValue);
+    }
+}
+
+
+
 
 function currency(field) {
     $('#' + field).on({

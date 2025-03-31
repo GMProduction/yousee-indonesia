@@ -49,7 +49,7 @@
     </style>
 
 
-    <script src="{{ asset('js/map-control3.js?v=2') }}"></script>
+    <script src="{{ asset('js/map-control4.js?v=2') }}"></script>
 @endsection
 @section('content')
     <div class="g-hero">
@@ -230,17 +230,18 @@
     {{-- @include('admin.map', ['data' => 'script']) --}}
 
     {{-- <script src="{{ asset('js/map-control.js') }}"></script> --}}
-    <script src="{{ asset('js/item2.js?v=5') }}"></script>
+    <script src="{{ asset('js/item3.js?v=5') }}"></script>
 
     <script>
         $("#simple-modal-detail").on("shown.bs.modal", function() {
 
         });
         // datatableItem();
-        getSelect('f-provinsi', '/data/province', 'name', null, 'Semua Provinsi');
-        getSelect('type', '/data/type')
-        getSelect('f-tipe', '/data/type', 'name', null, 'Semua Type');
-        getSelect('f-kota', '/data/city', 'name', null, 'Semua Kota');
+        getSelect('f-provinsi', '/data/province', 'name', 's_provinsi', window.translations.semua_provinsi);
+        getSelect('f-kota', '/data/city', 'name', 's_kota', window.translations.semua_kota);
+        getSelect('f-tipe', '/data/type', 'name', 's_tipe', window.translations.semua_tipe);
+        // getSelect('f-posisi', '/data/position', 'name', 'posisi', "All Position");
+
 
         setImgDropify('image1');
         setImgDropify('image2');
@@ -257,6 +258,29 @@
 
         $('#vendor').select2({
             dropdownParent: $("#modaltambahtitik")
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+
+            let t_posisi = localStorage.getItem('t_posisi');
+            let t_tipe = localStorage.getItem('t_tipe');
+            let t_kota = localStorage.getItem('t_kota');
+            let t_provinsi = localStorage.getItem('t_provinsi');
+
+            if (t_posisi !== null && t_posisi !== 'null' && t_posisi.trim() !== '') {
+                pillSearch("posisi", t_posisi);
+            }
+            if (t_tipe !== null && t_tipe !== 'null' && t_tipe.trim() !== '') {
+                pillSearch("tipe", t_tipe);
+            }
+            if (t_kota !== null && t_kota !== 'null' && t_kota.trim() !== '') {
+                pillSearch("kota", t_kota);
+            }
+            if (t_provinsi !== null && t_provinsi !== 'null' && t_provinsi.trim() !== '') {
+                pillSearch("provinsi", t_provinsi);
+            }
         });
     </script>
 @endsection
