@@ -10,47 +10,46 @@
             <div class="pencarian-content w-100">
                 <div class="pencarian-wrapper ">
                     <div class="row ">
-                        <div class="col-md-8  col-sm-12 p-sm-20 sm-mb-30">
-                            <p class="title mb-0 text-start  ">Berikan Kami Pesan</p>
-                            <p class="title mb-3 text-start  "> atau Kritik dan Saran</p>
+                        <div class="col-md-8 col-sm-12 p-sm-20 sm-mb-30">
+                            <p class="title mb-0 text-start">{{ __('messages.Berikan_Kami_Pesan') }}</p>
+                            <p class="title mb-3 text-start">{{ __('messages.atau_Kritik_dan_Saran') }}</p>
+
                             @if (session('message'))
                                 <div class="alert alert-success text-center" role="alert">
                                     {{ session('message') }}
                                 </div>
                             @endif
-                            <div class="d-flex position-relative ">
 
-                                <form class="flex-grow-1 " method="POST">
+                            <div class="d-flex position-relative">
+                                <form class="flex-grow-1" method="POST">
                                     @csrf
                                     <div class="form-floating mb-3">
                                         <input type="text" class="form-control" id="p-nama" name="name"
-                                            placeholder="Nama">
-                                        <label for="p-nama" class="form-label">Nama</label>
+                                            placeholder="{{ __('messages.nama') }}">
+                                        <label for="p-nama" class="form-label">{{ __('messages.nama') }}</label>
                                     </div>
 
                                     <div class="form-floating mb-3">
                                         <input type="text" id="phone" name="phone" class="form-control"
                                             pattern="[0-9\s]{11,14}" required />
-
-                                        <label for="p-nowa" class="form-label">Nomor Whatsapp</label>
+                                        <label for="p-nowa" class="form-label">{{ __('messages.no_wa') }}</label>
                                     </div>
 
                                     <div class="form-floating mb-3">
-                                        <textarea type="text" class="form-control" id="p-pesan" name="message" rows="5" placeholder="pesan"
-                                            style="min-height: 200px"></textarea>
-                                        <label for="p-pesan" class="form-label">Pesan</label>
+                                        <textarea type="text" class="form-control" id="p-pesan" name="message" rows="5"
+                                            placeholder="{{ __('messages.pesan') }}" style="min-height: 200px"></textarea>
+                                        <label for="p-pesan" class="form-label">{{ __('messages.pesan') }}</label>
                                     </div>
 
-
-                                    <div class="w-100 d-flex  justify-content-start  ">
-                                        <button type="submit" class="btn btn-primary  ">Submit</button>
-
+                                    <div class="w-100 d-flex justify-content-start">
+                                        <button type="submit" class="btn btn-primary">Submit</button>
                                     </div>
                                 </form>
-                                <div class="me-3 ms-3 sm-none " style="width: 1px; border : 1px solid #eee"></div>
-                            </div>
 
+                                <div class="me-3 ms-3 sm-none" style="width: 1px; border: 1px solid #eee"></div>
+                            </div>
                         </div>
+
 
                         <div class="col-md-4 col-sm-12">
                             <div class="contact">
@@ -64,8 +63,8 @@
                                             src="{{ asset('images/local/icon/phone.png') }}" /></span>{{ $profiles[0]->phone }}
                                 </p>
                                 <p class="text"><span><img class="icon-text"
-                                            src="{{ asset('images/local/icon/whatsapp.png') }}" /></span> <a class="d-block"
-                                        style="color: grey;"
+                                            src="{{ asset('images/local/icon/whatsapp.png') }}" /></span> <a
+                                        class="d-block" style="color: grey;"
                                         href="https://wa.me/6281393700771?text=Halo,%20Yousee-indonesia.com"
                                         target="_blank">
                                         {{ preg_replace('/^0/', '62', $profiles[0]->whatsapp) }}</a></p>
@@ -156,10 +155,7 @@
     <div class="g-container-clients">
         <div class="content">
             <p class="title">Our Happy Clients</p>
-            <p class="text">Sebagai perusahaan billboard, kami telah dipercaya untuk mengerjakan pemasangan iklan
-                dengan berbagai macam media seperti billboard, baliho, LED Banner, JPO, Bando Jalan & Videotron. Mulai
-                dari brand multinasional hingga institusi pemerintahan sudah mempercayakan kebutuhan iklan luar ruang
-                kepada kami.
+            <p class="text">{{ trans('messages.happy_client_description') }}
 
 
             </p>
@@ -177,13 +173,11 @@
     <div class="morethan10000">
         <img src="{{ asset('images/local/city.jpg') }}" />
         <div class="d-flex flex-column justify-content-center align-items-center h-100">
-            <p>Tersedia lebih dari 10.000 titik billboard, menjangkau beragam target audiens di seluruh wilayah dengan
-                efektif
-                dan efisien </p>
+            <p>{{ trans('messages.10.000_titik_billboard_strategi') }} </p>
             <div class="d-flex justify-content-center ">
                 <a class="btn-pasangiklan" href="https://wa.me/6281393700771?text=Halo,%20Yousee-indonesia.com"
                     target="_blank">
-                    Pasang Iklan Sekarang
+                    {{ trans('messages.pasang_sekarang') }}
                 </a>
             </div>
         </div>

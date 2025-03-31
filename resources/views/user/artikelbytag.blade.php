@@ -19,7 +19,9 @@
                 </div>
                 <div class="btn-wrapper">
                     @if ($newArtikel != null)
-                        <a href="{{ route('article.detail', ['slug' => $newArtikel->slug]) }}">Baca Selengkapnya</a>
+                        <a
+                            href="{{ route('article.detail', ['locale' => app()->getLocale(), 'slug' => $newArtikel->slug]) }}">Baca
+                            Selengkapnya</a>
                     @endif
                 </div>
             </div>

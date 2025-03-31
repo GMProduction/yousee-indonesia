@@ -17,21 +17,21 @@ class ArticleController extends CustomController
         $data = FrontArticle::query();
 
         return DataTables::of($data)
-                         ->addColumn('des', function ($data) {
-                             return $data->content;
-                         })
-                         ->addColumn('tag', function ($data) {
-                             $dTag = [];
-                             foreach ($data->tags as $key => $t){
-                                 $tag = FrontTags::find($t);
-                                 if ($tag){
-                                     $dTag[$key] = $tag->name;
-                                 }
-                             }
-                             return $dTag;
-                         })
-                         ->rawColumns(['des','tag'])
-                         ->make(true);
+            ->addColumn('des', function ($data) {
+                return $data->content;
+            })
+            ->addColumn('tag', function ($data) {
+                $dTag = [];
+                foreach ($data->tags as $key => $t) {
+                    $tag = FrontTags::find($t);
+                    if ($tag) {
+                        $dTag[$key] = $tag->name;
+                    }
+                }
+                return $dTag;
+            })
+            ->rawColumns(['des', 'tag'])
+            ->make(true);
     }
 
     public function index()
@@ -55,24 +55,31 @@ class ArticleController extends CustomController
     public function postData()
     {
         request()->validate([
-            'title'   => 'required',
-            'content' => 'required',
+            'title_id'   => 'required',
+            'title_en'   => 'required',
+            'content_id' => 'required',
+            'content_en' => 'required',
         ], [
             'title.required'   => 'Judul artikel harus di isi',
             'content.required' => 'Isi artikel harus di isi',
         ]);
 
         $form = request()->all();
+
+        $form['title'] = $form['title_id'];
+        $form['content'] = $form['content_id'];
+        $form['sort_desc'] = $form['sort_desc_id'];
+
         $image = null;
         $form['slug'] = Str::slug($form['title']);
         $id = request('id');
-        if ($id){
-            $checkSlug = FrontArticle::where([['slug', $form['slug']],['id','!=',$id]])->first();
-        }else{
+        if ($id) {
+            $checkSlug = FrontArticle::where([['slug', $form['slug']], ['id', '!=', $id]])->first();
+        } else {
             $checkSlug = FrontArticle::where('slug', $form['slug'])->first();
         }
 
-        if ($checkSlug){
+        if ($checkSlug) {
             return response()->json(
                 [
                     'msg' => 'Judul artikel sudah ada',
@@ -83,7 +90,7 @@ class ArticleController extends CustomController
 
         if (request('image')) {
             $image     = $this->generateImageName('image');
-            $stringImg = '/images/article/'.$image;
+            $stringImg = '/images/article/' . $image;
             $this->uploadImage('image', $image, 'articleImage');
             $form['image'] = $stringImg;
         }
@@ -91,9 +98,9 @@ class ArticleController extends CustomController
 
         if ($id) {
             $data = FrontArticle::find($id);
-            if ($image && $data->image){
-                if (file_exists('../public'.$data->image)) {
-                    unlink('../public'.$data->image);
+            if ($image && $data->image) {
+                if (file_exists('../public' . $data->image)) {
+                    unlink('../public' . $data->image);
                 }
             }
             $data->update($form);
@@ -110,11 +117,12 @@ class ArticleController extends CustomController
     }
 
 
-    public function delete(){
+    public function delete()
+    {
         $data = FrontArticle::find(request('id'));
-        if ($data->image){
-            if (file_exists('../public'.$data->image)) {
-                unlink('../public'.$data->image);
+        if ($data->image) {
+            if (file_exists('../public' . $data->image)) {
+                unlink('../public' . $data->image);
             }
         }
 
@@ -127,5 +135,4 @@ class ArticleController extends CustomController
             200
         );
     }
-
 }

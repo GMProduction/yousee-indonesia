@@ -2,12 +2,12 @@
 
 @section('morecss')
 @endsection
+
 @section('content')
     <div class="g-hero">
         <div class="hero-text">
             <img src="{{ asset('images/local/portfolio.png') }}" />
         </div>
-
     </div>
 
     {{-- PORTFOLIO --}}
@@ -16,14 +16,17 @@
             <!-- These are our grid blocks -->
             @foreach ($portfolios as $portfolio)
                 <li>
-                    <div class="g-portfolio-card ">
+                    <div class="g-portfolio-card">
                         <img src="{{ asset($portfolio->image) }}" />
-                        <p class="title">{{ $portfolio->name }}</p>
-                        <p class="description">{{ $portfolio->description }}</p>
+                        <p class="title">
+                            {{ app()->getLocale() === 'id' ? $portfolio->name_id : $portfolio->name_en }}
+                        </p>
+                        <p class="description">
+                            {{ app()->getLocale() === 'id' ? $portfolio->description_id : $portfolio->description_en }}
+                        </p>
                     </div>
                 </li>
             @endforeach
-
         </ul>
     </div>
 @endsection

@@ -12,13 +12,15 @@
     <div class="g-hero">
         <img class="hero-logo" src="{{ asset('images/local/logo-yousee.png') }}" />
         <div class="hero-text">
-            <img src="{{ asset('images/local/titikseluruhindonesia.png') }}" class="img-titikseluruhindonesia" />
+            <img src="{{ asset('images/local/titikseluruhindonesia' . (app()->getLocale() === 'en' ? '_engver' : '') . '.png') }}"
+                class="img-titikseluruhindonesia" />
+
         </div>
         <img class="hero-image mb-5" src="{{ asset('images/local/indonesiamaps.png') }}" />
 
         <br>
         <a class="btn-pasangiklan mt-5" href="/titik-kami">
-            Pilih Titik Iklan Sekarang
+            {{ trans('messages.pilih_titik_sekarang') }}
         </a>
     </div>
 
@@ -26,16 +28,16 @@
         <div class="info container ">
             <span class="score tahun-pengalaman">0</span>
             <div class="d-flex flex-column ">
-                <span class="definition">Tahun </span>
-                <span class="definition">Pengalaman </span>
+                <span class="definition">{{ trans('messages.tahun') }} </span>
+                <span class="definition">{{ trans('messages.pengalaman') }} </span>
             </div>
         </div>
         <div class="line"></div>
         <div class="info container ">
             <span class="score  titikstrategis">0</span>
             <div class="d-flex flex-column ">
-                <span class="definition">Titik Iklan </span>
-                <span class="definition">Strategis </span>
+                <span class="definition">{{ trans('messages.home_titik_iklan') }} </span>
+                <span class="definition">{{ trans('messages.home_strategis') }} </span>
             </div>
         </div>
         <div class="line"></div>
@@ -59,15 +61,18 @@
     <div class="mb-5"></div>
     <div class="g-container-left">
         <div class="content">
-            <p class="title">Titik Strategis Tersebar di Seluruh Indonesia</p>
-            <p class="text">Menyediakan lebih dari 10.000 titik iklan billboard. Sebaran titik iklan yang luas, mampu
-                menjangkau hingga
-                seluruh kota di Indonesia. Kemudahan dalam sewa billboard berbeda wilayah. Atur harga sewa billboard
-                Anda,
-                pilih durasi tayang mulai dari mingguan ataupun bulanan.
+            {{-- <h1>{{ trans('messages.about') }}</h1>
+            <a href="{{ route('change.language', 'en') }}">English</a> |
+            <a href="{{ route('change.language', 'id') }}">Indonesia</a>
+            @php
+                dump(App::getLocale());
+                dump(lang_path('id/messages.php'));
+            @endphp --}}
+            <p class="title">{{ trans('messages.titik_tersebar_indonesia') }}</p>
+            <p class="text">{{ trans('messages.10000_titik') }}
             </p>
             <a class="btn-pasangiklan" href="https://wa.me/6281393700771?text=Halo,%20Yousee-indonesia.com" target="_blank">
-                Pasang Iklan Sekarang
+                {{ trans('messages.pasang_sekarang') }}
             </a>
         </div>
 
@@ -78,10 +83,7 @@
     <div class="g-container-clients">
         <div class="content">
             <p class="title">Our Happy Clients</p>
-            <p class="text">Sebagai perusahaan billboard, kami telah dipercaya untuk mengerjakan pemasangan iklan
-                dengan berbagai macam media seperti billboard, baliho, LED Banner, JPO, Bando Jalan & Videotron. Mulai
-                dari brand multinasional hingga institusi pemerintahan sudah mempercayakan kebutuhan iklan luar ruang
-                kepada kami.
+            <p class="text">{{ trans('messages.happy_client_description') }}
 
 
             </p>
@@ -100,14 +102,9 @@
 
     {{-- TESTIMONIES --}}
     <div class="g-container-testimoni">
-
-
-
-
         <section class="splide" aria-label="Splide Basic HTML Example">
             <div class="title-container">
-                <p class="title">Pelanggan Kami
-                    yang Puas</p>
+                <p class="title">{{ trans('messages.pelanggan_puas') }}</p>
                 <div class="arrow-container splide__arrows">
                     <button class="arrow splide__arrow--prev">
                         <img src="{{ asset('images/local/icon/chevron_left.png') }}" />
@@ -151,7 +148,7 @@
     <div class="mb-5"></div>
     {{-- PORTFOLIO --}}
     <div class="g-portfolio">
-        <p class="title mb-0">Portfolio Kami</p>
+        <p class="title mb-0">{{ trans('messages.portfolio_kami') }}</p>
     </div>
     <div role="main">
         <ul class="tiles-wrap animated" id="wookmark1">
@@ -169,13 +166,10 @@
     <div class="oneweek-services">
         <img src={{ asset('images/local/calendar2.png') }} />
         <div>
-            <p class="title">Butuh Billboard Cepat? Seminggu Saja, Kami Siap Layani.</p>
-            <p class="text">Dengan lebih dari 10.000 titik billboard strategis di seluruh Indonesia, kami hadir untuk
-                membantu bisnis Anda menjangkau pasar lebih luas. Atur sendiri harga sewa sesuai anggaran, pilih durasi
-                tayang yang fleksibel ,mulai mingguan atau bulanan. Tak perlu repot, kini memasang iklan di berbagai wilayah
-                jadi lebih mudah.</p>
+            <p class="title">{{ trans('messages.billboard_cepat') }}</p>
+            <p class="text">{{ trans('messages.10.000_titik_billboard_strategi') }}</p>
             <a class="btn-pasangiklan" href="https://wa.me/6281393700771?text=Halo,%20Yousee-indonesia.com" target="_blank">
-                Konsultasi Gratis
+                {{ trans('messages.konsultasi_gratis') }}
             </a>
         </div>
     </div>

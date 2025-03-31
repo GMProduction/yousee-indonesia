@@ -12,6 +12,10 @@ class FrontService extends Model
     protected $fillable = [
         'image',
         'name',
+        'name_id',
+        'name_en',
         'description',
+        'description_id',
+        'description_en',
     ];
 }

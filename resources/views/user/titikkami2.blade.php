@@ -54,12 +54,13 @@
 @section('content')
     <div class="g-hero">
         <div class="hero-text">
-            <img src="{{ asset('images/local/carititik.png') }}" />
+            <img src="{{ asset('images/local/carititik' . (app()->getLocale() === 'en' ? '_engver' : '') . '.png') }}"
+                class="img-titikseluruhindonesia" />
         </div>
         <div class="pencarian-container peta">
             <div class="pencarian-content w-100">
                 <div class="pencarian-wrapper ">
-                    <p class="title">Tersedia titik diseluruh INDONESIA</p>
+                    <p class="title">{{ trans('messages.tersedia_titik_seluruh_indonesia') }}</p>
                     <!-- Progress Bar dan Pesan Loading -->
                     <div id="loading" class="loading-overlay" style="display: none;">
                         <div class="progress-container">
@@ -68,49 +69,55 @@
                                 style="height: 20px; width: 250px;">
                                 0%
                             </div>
-                            <p class="loading-text mt-2">Mohon tunggu sebentar, sedang menyiapkan titik yang kamu cari.</p>
+                            <p class="loading-text mt-2">{{ trans('messages.mohon_tunggu_sebentar') }}</p>
                         </div>
                     </div>
 
                     <div>
 
                         <div class="d-flex justify-content-center ">
-                            <a class="btn-utama mb-3" href="#" role="button" id="dropSearch"
+                            <a class="btn-utama mb-3 mt-3" href="#" role="button" id="dropSearch"
                                 data-bs-toggle="dropdown" aria-expanded="false">
-                                Cari titik billboard di sini
+                                {{ trans('messages.cari_billboard_disini') }}
                                 <i class="material-symbols-outlined menu-icon ms-2 text-white">search</i>
                             </a>
 
                             <ul id="dropSearchList" class="dropdown-menu custom" aria-labelledby="dropSearch">
                                 <div class="filter-panel">
                                     <div class="form-group">
-                                        <label for="f-provinsi" class="form-label">Provinsi</label>
+                                        <label for="f-provinsi" class="form-label">{{ trans('messages.provinsi') }}</label>
                                         <select class="form-select mb-3" aria-label="Default select example" id="f-provinsi"
                                             name="f-provinsi">
-
+                                            <option selected value="">
+                                                {{ trans('messages.semua_provinsi') }}
+                                            </option>
                                         </select>
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="f-kota" class="form-label">Kota</label>
+                                        <label for="f-kota" class="form-label">{{ trans('messages.kota') }}</label>
                                         <select class="form-select mb-3" aria-label="Default select example" id="f-kota"
                                             name="f-kota">
-                                            <option selected value="">Semua Kota</option>
+                                            <option selected value="">{{ trans('messages.semua_kota') }}
+                                            </option>
                                         </select>
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="f-tipe" class="form-label">Tipe</label>
+                                        <label for="f-tipe" class="form-label">{{ trans('messages.tipe') }}</label>
                                         <select class="form-select mb-3" aria-label="Default select example" id="f-tipe"
                                             name="f-tipe">
+                                            <option selected value="">{{ trans('messages.semua_tipe') }}
+                                            </option>
                                         </select>
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="f-posisi" class="form-label">Posisi</label>
+                                        <label for="f-posisi" class="form-label">{{ trans('messages.posisi') }}</label>
                                         <select class="form-select mb-3" aria-label="Default select example" id="f-posisi"
                                             name="f-posisi">
-                                            <option selected value="">Semua Posisi</option>
+                                            <option selected value="">{{ trans('messages.semua_posisi') }}
+                                            </option>
                                             <option value="Horizontal">Horizontal</option>
                                             <option value="Vertical">Vertical</option>
                                         </select>
@@ -136,7 +143,7 @@
                 </div>
 
                 <div class="mx-4">
-                    <p style="text-align: left" class="fw-bold mt-3">Keterangan :</p>
+                    <p style="text-align: left" class="fw-bold mt-3"> {{ trans('messages.keterangan') }} :</p>
                     <div class="row">
                         @foreach ($type as $d)
                             <div class="col-lg-3 col-md-6 col-sm-6 col-sm-6 mb-3" style="text-align: left">
@@ -154,12 +161,9 @@
 
     </div>
 
-    <p class="title-content text-center">Titik Kami</p>
+    <p class="title-content text-center"> {{ trans('messages.titik_kami') }}</p>
     <div class="section-description ">
-        <p>Kami bangga memiliki jaringan titik yang luas dan beragam, mencakup seluruh wilayah Indonesia. Dengan titik-titik
-            kami yang tersebar di berbagai provinsi, kami siap membantu Anda menjangkau audiens Anda dimanapun mereka
-            berada. Keberadaan titik kami yang banyak dan strategis ini memungkinkan kami untuk memberikan layanan terbaik
-            bagi kebutuhan promosi dan informasi Anda.
+        <p> {{ trans('messages.kami_bangga_memiliki_jaringan') }}
         </p>
 
 

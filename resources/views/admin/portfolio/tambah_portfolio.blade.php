@@ -54,18 +54,26 @@
                     </div>
 
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="p-judulportfolio" name="name"
-                            value="{{ $data ? $data->name : '' }}" placeholder="Nama Portfolio">
-                        <label for="p-namaportfolio" class="form-label">Nama Portfolio</label>
+                        <input type="text" class="form-control" id="p-judulportfolio_id" name="name_id"
+                            value="{{ $data ? $data->name_id : '' }}" placeholder="Nama Portfolio">
+                        <label for="p-judulportfolio_id" class="form-label">Nama Portfolio (Indo)</label>
                     </div>
 
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="p-judulportfolio_en" name="name_en"
+                            value="{{ $data ? $data->name_en : '' }}" placeholder="Nama Portfolio">
+                        <label for="p-judulportfolio_en" class="form-label">Nama Portfolio (English)</label>
+                    </div>
 
                     <div class="mb-3">
-                        <label class="control-label" for="p-keteranganportfolio">Keterangan Portfolio</label>
-                        <textarea id="p-keteranganportfolio" class="form-control" style="min-height: 200px" name="description">{{ $data ? $data->description : '' }}</textarea>
+                        <label class="control-label" for="p-keteranganportfolio_id">Keterangan Portfolio (Indo)</label>
+                        <textarea id="p-keteranganportfolio_id" class="form-control" style="min-height: 200px" name="description_id">{{ $data ? $data->description_id : '' }}</textarea>
                     </div>
 
-
+                    <div class="mb-3">
+                        <label class="control-label" for="p-keteranganportfolio_en">Keterangan Portfolio (English)</label>
+                        <textarea id="p-keteranganportfolio_en" class="form-control" style="min-height: 200px" name="description_en">{{ $data ? $data->description_en : '' }}</textarea>
+                    </div>
 
                     <button type="submit" class="bt-primary m-2 ms-auto">Simpan Perubahan</button>
 

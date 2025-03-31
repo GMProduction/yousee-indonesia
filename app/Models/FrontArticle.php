@@ -14,10 +14,16 @@ class FrontArticle extends Model
     ];
     protected $fillable = [
         'title',
+        'title_id',
+        'title_en',
         'image',
         'tags',
         'content',
+        'content_id',
+        'content_en',
         'slug',
-        'sort_desc'
+        'sort_desc',
+        'sort_desc_id',
+        'sort_desc_en'
     ];
 }

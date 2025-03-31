@@ -38,7 +38,7 @@
                                 class="btn btn-secondary d-flex align-items-center justify-content-center">
                                 <i class="material-symbols-outlined me-3">shopping_cart</i>
                                 <!-- Ikon keranjang di kiri -->
-                                <span>Masukkan ke Keranjang</span>
+                                <span>{{ trans('messages.masukan_keranjang') }}</span>
                             </button>
                         </div>
                         <!-- Kolom 3 -->
@@ -46,7 +46,7 @@
                             <a id="addToCartButton" href="/titik-kami"
                                 class="btn btn-third d-flex align-items-center justify-content-center">
                                 <!-- Ikon keranjang di kiri -->
-                                <span>Lihat Titik Lain</span>
+                                <span>{{ trans('messages.lihat_titik_lain') }}</span>
                             </a>
                         </div>
                     </div>
@@ -54,7 +54,7 @@
 
                     <div class="collapse" id="collapseExample">
 
-                        <p class="title mb-3 ">Sewa {{ $data->type->name }}
+                        <p class="title mb-3 ">{{ trans('messages.sewa') }} {{ $data->type->name }}
                             {{ ucfirst(strtolower(trim(str_replace(['KOTA ', 'KABUPATEN '], '', $data->city->name)))) }}
                             <br> {{ $data->address }}
                         </p>
@@ -67,7 +67,7 @@
                                             location_on
                                         </span>
                                         <div>
-                                            <p class="title-part">Lokasi Titik</p>
+                                            <p class="title-part">{{ trans('messages.lokasi_titik') }}</p>
                                             <p class="content-part">{{ $data->location }}</p>
                                         </div>
                                     </div>
@@ -78,7 +78,7 @@
                                             location_city
                                         </span>
                                         <div>
-                                            <p class="title-part">Kota</p>
+                                            <p class="title-part">{{ trans('messages.kota') }}</p>
                                             <p class="content-part">{{ $data->city->name }}</p>
                                         </div>
                                     </div>
@@ -90,7 +90,7 @@
                                             area_chart
                                         </span>
                                         <div>
-                                            <p class="title-part">Provinsi</p>
+                                            <p class="title-part">{{ trans('messages.provinsi') }}</p>
                                             <p class="content-part">{{ $data->city->province->name }}</p>
                                         </div>
                                     </div>
@@ -102,7 +102,7 @@
 
                             <div class=" border rounded position-relative ">
                                 <div class="w-100 d-flex justify-content-start pt-3 mb-3 ">
-                                    <span class="spesifikasi">Spesifikasi</span>
+                                    <span class="spesifikasi">{{ trans('messages.spesifikasi') }}</span>
                                 </div>
                                 <div class="row p-3">
                                     <div class="col-md-4 col-sm-6">
@@ -111,7 +111,7 @@
                                                 mms
                                             </span>
                                             <div>
-                                                <p class="title-part">Type Media</p>
+                                                <p class="title-part">{{ trans('messages.type_media') }}</p>
                                                 <p class="content-part">{{ $data->type->name }}</p>
                                             </div>
                                         </div>
@@ -123,7 +123,7 @@
                                                 output_circle
                                             </span>
                                             <div>
-                                                <p class="title-part">Sisi</p>
+                                                <p class="title-part">{{ trans('messages.sisi') }}</p>
                                                 <p class="content-part">{{ $data->side }}</p>
                                             </div>
                                         </div>
@@ -136,7 +136,7 @@
                                                 decimal_increase
                                             </span>
                                             <div>
-                                                <p class="title-part">Jumlah</p>
+                                                <p class="title-part">{{ trans('messages.alamat') }}</p>
                                                 <p class="content-part">{{ $data->address }}</p>
                                             </div>
                                         </div>
@@ -149,7 +149,7 @@
                                                 move_selection_left
                                             </span>
                                             <div>
-                                                <p class="title-part">Posisi</p>
+                                                <p class="title-part">{{ trans('messages.posisi') }}</p>
                                                 <p class="content-part">{{ $data->position }}</p>
                                             </div>
                                         </div>
@@ -161,7 +161,7 @@
                                                 trending_flat
                                             </span>
                                             <div>
-                                                <p class="title-part">Panjang</p>
+                                                <p class="title-part">{{ trans('messages.panjang') }}</p>
                                                 <p class="content-part">{{ $data->width }}</p>
                                             </div>
                                         </div>
@@ -173,7 +173,7 @@
                                                 arrow_upward
                                             </span>
                                             <div>
-                                                <p class="title-part">Tinggi</p>
+                                                <p class="title-part">{{ trans('messages.tinggi') }}</p>
                                                 <p class="content-part">{{ $data->height }}</p>
                                             </div>
                                         </div>
@@ -184,7 +184,7 @@
                                                 traffic
                                             </span>
                                             <div>
-                                                <p class="title-part">Trafik /hari</p>
+                                                <p class="title-part">{{ trans('messages.trafik') }}</p>
                                                 <p class="content-part">
                                                     @if ($data->trafic == 0 || $data->trafic === null)
                                                         Proses Update
@@ -208,12 +208,12 @@
         </div>
     </div>
 
-    <p class="title-content text-center">Titik Kami yang Lain di {{ $data->city->name }}</p>
+    <p class="title-content text-center">{{ trans('messages.titik_kami_yang_lain') }} {{ $data->city->name }}</p>
 
     <div class="list-article">
 
         @foreach ($titik as $d)
-            <a class="card-article" href="/listing/{{ $d->slug }}">
+            <a class="card-article" href="/{{ app()->getLocale() }}/listing/{{ $d->slug }}">
                 <img src="{{ $dom . $d->image2 }}" />
 
                 <div class="article-content">

@@ -50,7 +50,7 @@ class ArtikelController extends Controller
     public function detail($slug)
     {
         // Mengambil artikel berdasarkan slug
-        $checkSlug = FrontArticle::where('slug', $slug)->first();
+        $checkSlug = FrontArticle::with('tags')->where('slug', $slug)->first();
         Log::info('Artikel berdasarkan slug diambil:', ['slug' => $slug, 'checkSlug' => $checkSlug]);
 
         // Mendapatkan nama tag dari ID tag yang terkait dengan artikel
