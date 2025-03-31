@@ -49,7 +49,7 @@
     </style>
 
 
-    <script src="{{ asset('js/map-control4.js?v=2') }}"></script>
+    <script src="{{ asset('js/map-control4.js?v=3') }}"></script>
 @endsection
 @section('content')
     <div class="g-hero">
