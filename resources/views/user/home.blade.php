@@ -9,6 +9,9 @@
 @endsection
 
 @section('content')
+    @php
+        $locale = app()->getLocale();
+    @endphp
     <div class="g-hero">
         <img class="hero-logo" src="{{ asset('images/local/logo-yousee.png') }}" />
         <div class="hero-text">
