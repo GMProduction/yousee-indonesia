@@ -19,7 +19,7 @@
         <img class="hero-image mb-5" src="{{ asset('images/local/indonesiamaps.png') }}" />
 
         <br>
-        <a class="btn-pasangiklan mt-5" href="/titik-kami">
+        <a class="btn-pasangiklan mt-5" href="{{ url($locale . '/titik-kami') }}">
             {{ trans('messages.pilih_titik_sekarang') }}
         </a>
     </div>
