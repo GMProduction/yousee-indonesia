@@ -2,66 +2,73 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
+use Illuminate\Console\Command;
+use App\Models\FrontArticle;
+use App\Models\Item;
 
 class GenerateSitemap extends Command
 {
     protected $signature = 'sitemap:generate';
-    protected $description = 'Generate the sitemap for the website';
-
-    public function __construct()
-    {
-        parent::__construct();
-    }
+    protected $description = 'Generate multilingual sitemap';
 
     public function handle()
     {
-        $sitemap = Sitemap::create();
+        $languages = ['id', 'en']; // Menambahkan bahasa yang digunakan
 
-        // Menambahkan URL statis
-        $sitemap->add(Url::create(url('/'))->setPriority(1.0)->setChangeFrequency('daily'));
-        $sitemap->add(Url::create(url('/titik-kami'))->setPriority(1.0)->setChangeFrequency('daily'));
-        $sitemap->add(Url::create(url('/services'))->setPriority(0.8)->setChangeFrequency('monthly'));
-        $sitemap->add(Url::create(url('/portfolio'))->setPriority(0.8)->setChangeFrequency('monthly'));
-        $sitemap->add(Url::create(url('/contact'))->setPriority(0.8)->setChangeFrequency('monthly'));
+        foreach ($languages as $lang) {
+            $sitemap = Sitemap::create();
 
-        // Menambahkan URL dinamis (contohnya dari database)
-        $posts = \App\Models\FrontArticle::all();
-        foreach ($posts as $post) {
-            $sitemap->add(Url::create(url("/artikel/{$post->slug}"))
-                ->setLastModificationDate($post->updated_at)
-                ->setPriority(1)
-                ->setChangeFrequency('weekly'));
+            // ✅ URL statis
+            $staticPages = [
+                '/' => 1.0,
+                '/titik-kami' => 1.0,
+                '/services' => 0.8,
+                '/portfolio' => 0.8,
+                '/contact' => 0.8,
+            ];
+
+            foreach ($staticPages as $path => $priority) {
+                // Menambahkan bahasa di depan URL
+                $sitemap->add(
+                    Url::create(url("/{$lang}{$path}"))
+                        ->setPriority($priority)
+                        ->setChangeFrequency('monthly')
+                );
+            }
+
+            // ✅ Artikel dari database
+            $posts = FrontArticle::all();
+            foreach ($posts as $post) {
+                // Menggunakan slug standar, tidak perlu `slug_id` atau `slug_en`
+                $slug = $post->slug;
+                $path = $lang === 'id' ? 'artikel' : 'article'; // Menyesuaikan dengan nama path per bahasa
+
+                $sitemap->add(
+                    Url::create(url("/{$lang}/{$path}/{$slug}"))
+                        ->setLastModificationDate($post->updated_at)
+                        ->setPriority(1)
+                        ->setChangeFrequency('weekly')
+                );
+            }
+
+            // ✅ Titik Kami (listing)
+            $items = Item::all();
+            foreach ($items as $item) {
+                // Menggunakan slug standar untuk listing
+                $slug = $item->slug;
+                $sitemap->add(
+                    Url::create(url("/{$lang}/listing/{$slug}"))
+                        ->setLastModificationDate($item->updated_at)
+                        ->setPriority(1)
+                        ->setChangeFrequency('weekly')
+                );
+            }
+
+            // ✅ Simpan ke file
+            $sitemap->writeToFile(public_path("sitemap-{$lang}.xml"));
+            $this->info("✔ sitemap-{$lang}.xml berhasil dibuat!");
         }
-
-        $titik_kami_posts = \App\Models\Item::all();
-        foreach ($titik_kami_posts as $post) {
-            $sitemap->add(Url::create("/listing/{$post->slug}")
-                ->setLastModificationDate($post->updated_at)
-                ->setPriority(1)
-                ->setChangeFrequency('weekly'));
-        }
-
-        // $titik_kami_byprov = \App\Models\Province::all();
-        // foreach ($posts as $post) {
-        //     $sitemap->add(Url::create("/listing/{$titik_kami_byprov->slug}")
-        //         ->setLastModificationDate($titik_kami_byprov->updated_at)
-        //         ->setPriority(1)
-        //         ->setChangeFrequency('weekly'));
-        // }
-
-        // $titik_kami_bycity = \App\Models\Item::all();
-        // foreach ($posts as $post) {
-        //     $sitemap->add(Url::create("/listing/{$titik_kami_bycity->slug}")
-        //         ->setLastModificationDate($titik_kami_bycity->updated_at)
-        //         ->setPriority(1)
-        //         ->setChangeFrequency('weekly'));
-        // }
-        // Simpan sitemap ke public/sitemap.xml
-        $sitemap->writeToFile(public_path('sitemap.xml'));
-
-        $this->info('Sitemap generated successfully!');
     }
 }
