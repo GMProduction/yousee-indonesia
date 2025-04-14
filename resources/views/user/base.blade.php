@@ -66,7 +66,7 @@
 
 
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NXWCYV1B2R"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-16906346745"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
 
@@ -75,7 +75,7 @@
         }
         gtag('js', new Date());
 
-        gtag('config', 'G-NXWCYV1B2R');
+        gtag('config', 'AW-16906346745');
     </script>
 </head>
 
