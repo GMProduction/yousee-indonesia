@@ -28,7 +28,7 @@ Route::match(['GET', 'POST'], '/login', [\App\Http\Controllers\Admin\LoginContro
 Route::get('/logout', [\App\Http\Controllers\Admin\LoginController::class, 'logout']);
 
 Route::get('/', function () {
-    return redirect('/en'); // Ganti dengan bahasa default
+    return redirect('/id'); // Ganti dengan bahasa default
 });
 
 Route::get('/map/data', [\App\Http\Controllers\MapController::class, 'get_map_json']);
