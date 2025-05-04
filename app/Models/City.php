@@ -11,7 +11,8 @@ class City extends Model
 
     protected $with = 'province';
 
-    public function province(){
-        return $this->belongsTo(Province::class);
+    public function province()
+    {
+        return $this->belongsTo(Province::class, 'province_id');
     }
 }
