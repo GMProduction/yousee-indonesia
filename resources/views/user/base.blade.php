@@ -11,6 +11,27 @@
     @yield('header')
 
 
+
+
+    <!-- Google Tag Manager -->
+    <script>
+        (function(w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({
+                'gtm.start': new Date().getTime(),
+                event: 'gtm.js'
+            });
+            var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s),
+                dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src =
+                'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-TPJ8G3QQ');
+    </script>
+    <!-- End Google Tag Manager -->
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
@@ -22,7 +43,7 @@
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
     {{-- CSS --}}
-    <link href="{{ asset('css/genosstyle.v.06.css?v=1.5.1') }}" rel="stylesheet" />
+    <link href="{{ asset('css/genosstyle.v.06.css?v=1.5.2') }}" rel="stylesheet" />
     <link href="{{ asset('css/main.css') }}" rel="stylesheet" />
 
     {{-- FONT --}}
@@ -52,6 +73,7 @@
     @yield('morecss')
 
 
+
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=AW-16906346745"></script>
     <script>
@@ -64,6 +86,7 @@
 
         gtag('config', 'AW-16906346745');
     </script>
+
 </head>
 
 <body>
@@ -80,7 +103,6 @@
         </span>
         <span class="badge" id="cartBadge"><span>0</span></span>
     </div>
-
     <!-- List Keranjang yang Expand dari Kanan -->
     <div class="cart-sidebar" id="cartSidebar">
         <div class="d-flex justify-content-between align-items-center">
@@ -252,7 +274,9 @@
             <li style="padding-left: 10px">
                 <div class="g-nav-social">
 
-                    <a href="{{ $profiles[0]->instagram }}">
+
+                    <a href="{{ $profiles[0]->instagram }}" target="_blank">
+
                         <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20">
                             <defs>
@@ -276,7 +300,9 @@
                             </circle>
                         </svg>
                     </a>
-                    <a href="{{ $profiles[0]->facebook }}">
+
+                    <a href="{{ $profiles[0]->facebook }}" target="_blank">
+
                         <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20">
                             <defs>
@@ -292,7 +318,10 @@
                                 d="M17.73,6.27V1.5h-1A7.64,7.64,0,0,0,9.14,9.14v.95H6.27v3.82H9.14V22.5h4.77V13.91h2.86V10.09H13.91V9.14a2.86,2.86,0,0,1,2.86-2.87Z">
                             </path>
                         </svg></a>
-                    <a>
+
+
+
+                    <a href="{{ $profiles[0]->tiktok }}" target="_blank">
                         <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20">
                             <defs>
@@ -310,9 +339,7 @@
                             </path>
                         </svg>
                     </a>
-
-
-                    <a href="{{ $profiles[0]->tiktok }}" target="_blank">
+                    <a href="https://www.youtube.com/@Yousee-Indonesia-Official" target="_blank">
                         <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24" stroke-width="1.5" width="30" height="20">
                             <defs>
@@ -581,6 +608,22 @@
 
 
     @yield('morejs')
+
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+        var Tawk_API = Tawk_API || {},
+            Tawk_LoadStart = new Date();
+        (function() {
+            var s1 = document.createElement("script"),
+                s0 = document.getElementsByTagName("script")[0];
+            s1.async = true;
+            s1.src = 'https://embed.tawk.to/67f356cd11ba26190ebbbad8/1io78m5a6';
+            s1.charset = 'UTF-8';
+            s1.setAttribute('crossorigin', '*');
+            s0.parentNode.insertBefore(s1, s0);
+        })();
+    </script>
+    <!--End of Tawk.to Script-->
 </body>
 
 </html>
