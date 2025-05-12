@@ -87,6 +87,12 @@
         gtag('config', 'AW-16906346745');
     </script>
 
+    <style>
+        .crisp-client .cc-cs {
+            display: none !important;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -609,21 +615,71 @@
 
     @yield('morejs')
 
-    <!--Start of Tawk.to Script-->
+    <!-- Custom Chat Button -->
+    <button id="custom-crisp-chat"
+        style="
+position: fixed;
+bottom: 20px;
+right: 50px;
+background: none;
+border: none;
+cursor: pointer;
+z-index: 9999;
+animation: pulseChat 2s infinite ease-in-out;">
+        <img src="http://127.0.0.1:8000/images/local/livechat.png" alt="Chat" style="height: 25px"
+            id="chat-icon">
+    </button>
+
+    <style>
+        @keyframes pulseChat {
+            0% {
+                transform: scale(1);
+                filter: hue-rotate(0deg);
+            }
+
+            50% {
+                transform: scale(1.1);
+                filter: hue-rotate(30deg);
+                /* efek warna agak oranye */
+            }
+
+            100% {
+                transform: scale(1);
+                filter: hue-rotate(0deg);
+            }
+        }
+    </style>
+
+    <script>
+        function openCrispChat() {
+            if (typeof $crisp !== "undefined") {
+                $crisp.push(["do", "chat:open"]);
+            } else {
+                console.warn("Crisp belum siap. Mencoba lagi dalam 500ms...");
+                setTimeout(openCrispChat, 500);
+            }
+        }
+
+        document.getElementById("custom-crisp-chat").addEventListener("click", openCrispChat);
+    </script>
+
+
+
+
+
+    <!-- Crisp Chat Script -->
     <script type="text/javascript">
-        var Tawk_API = Tawk_API || {},
-            Tawk_LoadStart = new Date();
+        window.$crisp = [];
+        window.CRISP_WEBSITE_ID = "074bf6e0-302e-4749-a6ef-4ed6704a532a";
         (function() {
-            var s1 = document.createElement("script"),
-                s0 = document.getElementsByTagName("script")[0];
-            s1.async = true;
-            s1.src = 'https://embed.tawk.to/67f356cd11ba26190ebbbad8/1io78m5a6';
-            s1.charset = 'UTF-8';
-            s1.setAttribute('crossorigin', '*');
-            s0.parentNode.insertBefore(s1, s0);
+            var d = document,
+                s = d.createElement("script");
+            s.src = "https://client.crisp.chat/l.js";
+            s.async = 1;
+            d.getElementsByTagName("head")[0].appendChild(s);
         })();
     </script>
-    <!--End of Tawk.to Script-->
+
 </body>
 
 </html>
