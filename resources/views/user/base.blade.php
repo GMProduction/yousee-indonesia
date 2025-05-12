@@ -626,7 +626,7 @@ border: none;
 cursor: pointer;
 z-index: 9999;
 animation: pulseChat 2s infinite ease-in-out;">
-        <img src="http://127.0.0.1:8000/images/local/livechat.png" alt="Chat" style="height: 25px"
+        <img src="http://www.yousee-indonesia.com/images/local/livechat.png" alt="Chat" style="height: 25px"
             id="chat-icon">
     </button>
 
