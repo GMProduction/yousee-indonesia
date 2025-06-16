@@ -64,7 +64,8 @@ Route::prefix('data')->group(
 );
 
 Route::group(['prefix' => '{locale}', 'where' => ['locale' => 'en|id']], function () {
-    Route::get('/', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/', [\App\Http\Controllers\TitikController::class, 'index'])->name('titik-kami');
+    Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
     Route::prefix('artikel')->group(function () {
         Route::get('', [\App\Http\Controllers\ArtikelController::class, 'index']);
