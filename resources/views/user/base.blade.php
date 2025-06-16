@@ -131,7 +131,7 @@
             @php
                 $locale = app()->getLocale();
             @endphp
-            <a class="menu {{ Request::is($locale) ? 'active' : '' }}"
+            <a class="menu {{ Request::is($locale . '/home*') ? 'active' : '' }}"
                 href="{{ url($locale) }}/home">{{ __('messages.home') }}<span class="indicator"></span></a>
             <a class="menu {{ Request::is($locale . '/services*') ? 'active' : '' }}"
                 href="{{ url($locale . '/services') }}">{{ __('messages.services') }}<span
@@ -254,7 +254,7 @@
 
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
 
-            <li><a class="dropdown-item menu {{ Request::is($locale) ? 'active' : '' }}"
+            <li><a class="dropdown-item menu {{ Request::is($locale . '/home*') ? 'active' : '' }}"
                     href="{{ url($locale) }}/home">{{ __('messages.home') }}<span class="indicator"></span></a>
             </li>
             <li><a class="dropdown-item menu {{ Request::is($locale . '/services') ? 'active' : '' }}"
