@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\CalonVendorController;
 use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
+use App\Http\Controllers\UserAffiliateController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +44,17 @@ Route::post('/add-to-cart', [CartController::class, 'addToCart']);
 Route::post('/remove-from-cart', [CartController::class, 'removeFromCart']);
 Route::get('/get-cart-items', [CartController::class, 'getCartItems']);
 
+
+Route::get('/useraffiliate', [UserAffiliateController::class, 'index'])->name('useraffiliate.index');
+Route::get('/useraffiliate/create', [UserAffiliateController::class, 'create'])->name('useraffiliate.create');
+Route::post('/useraffiliate', [UserAffiliateController::class, 'store'])->name('useraffiliate.store');
+
+Route::get('/calon-vendor', [CalonVendorController::class, 'create'])->name('calon-vendor.create');
+Route::post('/calon-vendor', [CalonVendorController::class, 'store'])->name('calon-vendor.store');
+
+Route::get('/daftar_mitra/{id}', [CalonVendorController::class, 'show'])->name('mitra.form');
+Route::post('/daftar_mitra/store', [CalonVendorController::class, 'storeFromPendaftaran'])->name('calonvendor.storependaftaran');
+
 Route::prefix('data')->group(
     function () {
         Route::get('province', [\App\Http\Controllers\ProvinceController::class, 'province']);
@@ -66,6 +79,7 @@ Route::prefix('data')->group(
 Route::group(['prefix' => '{locale}', 'where' => ['locale' => 'en|id']], function () {
     Route::get('/', [\App\Http\Controllers\TitikController::class, 'index'])->name('titik-kami');
     Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/become-partner', [\App\Http\Controllers\BecomePartnerController::class, 'index'])->name('become-partner');
 
     Route::prefix('artikel')->group(function () {
         Route::get('', [\App\Http\Controllers\ArtikelController::class, 'index']);

@@ -48,7 +48,7 @@ function displayCartItems(cartItems) {
 
             // Membuat elemen <a>
             const link = document.createElement("a");
-            link.href = `https://yousee-indonesia.com/listing/${item.slug}`;
+            link.href = `https://yousee-indonesia.com/id/listing/${item.slug}`;
             link.textContent = item.address;
             link.className = "cart-item-address";  // Kelas untuk styling alamat
 
@@ -66,7 +66,7 @@ function displayCartItems(cartItems) {
             cartList.appendChild(listItem);
 
             // Menambahkan item ke dalam pesan WhatsApp
-            message += `- ${item.address} (https://yousee-indonesia.com/listing/${item.slug})\n`;
+            message += `- ${item.address} (https://yousee-indonesia.com/id/listing/${item.slug})\n`;
         });
 
         // Menampilkan tombol checkout
@@ -98,15 +98,24 @@ function displayCartItems(cartItems) {
 function toggleCart() {
     const cartSidebar = document.getElementById("cartSidebar");
     const cartButton = document.querySelector(".cart-button");
+    const livechat = document.querySelector(".crips-float");
+    const livechat2  = document.querySelector(".cc-157aw");
+    const livechat3  = document.querySelector(".cc-1brb6");
     const wa = document.querySelector(".whatsapp-float ");
     cartSidebar.classList.toggle("open");
 
     if (cartSidebar.classList.contains("open")) {
         cartButton.classList.add("shift-left");
         wa.classList.add("shift-left");
+        livechat.classList.add("shift-left");
+        livechat2.classList.add("shift-left");
+        livechat3.classList.add("shift-left");
     } else {
         cartButton.classList.remove("shift-left");
         wa.classList.remove("shift-left");
+        livechat.classList.remove("shift-left");
+        livechat2.classList.remove("shift-left");
+        livechat3.classList.remove("shift-left");
     }
 
 }

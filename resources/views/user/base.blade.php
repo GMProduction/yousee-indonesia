@@ -109,6 +109,12 @@
         </span>
         <span class="badge" id="cartBadge"><span>0</span></span>
     </div>
+
+    <button id="custom-crisp-chat" class="crips-float">
+        <img src="http://www.yousee-indonesia.com/images/local/livechat.png" alt="Chat" style="height: 25px"
+            id="chat-icon">
+    </button>
+
     <!-- List Keranjang yang Expand dari Kanan -->
     <div class="cart-sidebar" id="cartSidebar">
         <div class="d-flex justify-content-between align-items-center">
@@ -241,6 +247,8 @@
                 </svg>
 
             </a>
+
+            <a class="bt-gabungmitra" href="{{ url($locale) }}/become-partner">Gabung Mitra</a>
         </div>
 
     </nav>
@@ -617,19 +625,7 @@
     @yield('morejs')
 
     <!-- Custom Chat Button -->
-    <button id="custom-crisp-chat"
-        style="
-position: fixed;
-bottom: 20px;
-right: 50px;
-background: none;
-border: none;
-cursor: pointer;
-z-index: 9999;
-animation: pulseChat 2s infinite ease-in-out;">
-        <img src="http://www.yousee-indonesia.com/images/local/livechat.png" alt="Chat" style="height: 25px"
-            id="chat-icon">
-    </button>
+
 
     <style>
         @keyframes pulseChat {
