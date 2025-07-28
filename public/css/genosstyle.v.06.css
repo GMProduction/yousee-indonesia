@@ -562,6 +562,22 @@ body {
   gap: 10px;
   justify-content: center;
   margin-bottom: 10px;
+  width: 1200px;
+}
+@media (max-width: 1200px) {
+  .g-services .g-menu {
+    width: 100%;
+    padding: 0 20px;
+    flex-wrap: nowrap;
+    justify-content: center;
+  }
+}
+@media (max-width: 768px) {
+  .g-services .g-menu {
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 8px;
+  }
 }
 .g-services .g-menu .menu {
   all: unset;
@@ -1470,6 +1486,38 @@ body {
   right: 320px;
 }
 
+.crips-float {
+  position: fixed;
+  bottom: 20px;
+  right: 50px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 9999;
+  animation: pulseChat 2s infinite ease-in-out;
+}
+.crips-float.shift-left {
+  right: 320px;
+}
+
+.cc-157aw {
+  position: fixed !important;
+  bottom: 20px;
+  right: 50px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 9999;
+  animation: pulseChat 2s infinite ease-in-out;
+}
+.cc-157aw.shift-left {
+  margin-right: 320px !important;
+}
+
+.cc-1brb6.shift-left {
+  margin-right: 320px !important;
+}
+
 /* Gambar ikon WhatsApp */
 .whatsapp-icon {
   width: 50px; /* Atur ukuran ikon */
@@ -1503,6 +1551,18 @@ body {
 /* Animasi munculnya tooltip */
 .whatsapp-float[data-tooltip]:hover::after {
   opacity: 1;
+}
+
+.bt-gabungmitra {
+  color: white;
+  font-weight: bold;
+  background-color: #4fd0f3;
+  padding: 5px 10px;
+  border-radius: 100px !important;
+  font-size: 0.8rem;
+}
+.bt-gabungmitra:hover {
+  background-color: primary-color;
 }
 
 .search-wrapper {
@@ -1616,7 +1676,8 @@ body {
   color: white !important;
 }
 
-.active > .page-link, .page-link.active {
+.active > .page-link,
+.page-link.active {
   background-color: #4fd0f3 !important; /* Warna untuk halaman aktif */
   color: white !important;
 }
