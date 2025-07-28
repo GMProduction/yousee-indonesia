@@ -43,7 +43,7 @@
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
     {{-- CSS --}}
-    <link href="{{ asset('css/genosstyle.v.06.css?v=1.5.2') }}" rel="stylesheet" />
+    <link href="{{ asset('css/genosstyle.v.07.css?v=1.5.2') }}" rel="stylesheet" />
     <link href="{{ asset('css/main.css') }}" rel="stylesheet" />
 
     {{-- FONT --}}
