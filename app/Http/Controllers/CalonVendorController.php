@@ -59,8 +59,15 @@ class CalonVendorController extends Controller
             if ($request->hasFile('titik_file')) {
                 $file = $request->file('titik_file');
                 $filename = time() . '_' . $file->getClientOriginalName();
-                $file->storeAs('titik_file', $filename, 'public');
-                $vendor->titik_file = $filename;
+
+                // Simpan langsung ke folder public/titik_file
+                $destinationPath = public_path('titik_file');
+                if (!file_exists($destinationPath)) {
+                    mkdir($destinationPath, 0755, true);
+                }
+                $file->move($destinationPath, $filename);
+
+                $vendor->titik_file = 'titik_file/' . $filename;
             }
 
             $vendor->update([
