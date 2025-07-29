@@ -281,17 +281,13 @@
                     href="{{ url($locale . '/contact') }}">{{ __('messages.contact') }}<span
                         class="indicator"></span></a></li>
 
+            <li><a class="dropdown-item menu" href="{{ url($locale) }}/become-partner">Gabung Mitra</a></li>
             <hr />
-
-
 
 
             <li style="padding-left: 10px">
                 <div class="g-nav-social">
-
-
                     <a href="{{ $profiles[0]->instagram }}" target="_blank">
-
                         <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24" stroke-width="1.5" width="20" height="20">
                             <defs>
