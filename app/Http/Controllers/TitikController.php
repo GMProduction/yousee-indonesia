@@ -32,7 +32,7 @@ class TitikController extends Controller
         $titik = $this->dataTitik();
         $type = type::get();
         $profiles = FrontProfile::get();
-        return view('user.titikkami2', ['titik' => $titik, 'dom' => $this->dom, 'profiles' => $profiles, 'type' => $type]);
+        return view('user.titikkami3', ['titik' => $titik, 'dom' => $this->dom, 'profiles' => $profiles, 'type' => $type]);
     }
 
     public function detail($locale, $slug)
