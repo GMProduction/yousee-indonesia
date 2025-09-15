@@ -915,7 +915,7 @@
 
             document.querySelectorAll('#filter-chips .chip-btn').forEach(btn => {
                 const isSemua = (btn.dataset.type || '') === '' || (btn.textContent || '').trim()
-                .toLowerCase() === 'semua';
+                    .toLowerCase() === 'semua';
                 btn.classList.toggle('active', isSemua);
             });
 
@@ -1088,6 +1088,6 @@
     <script src="{{ asset('js/currency.js') }}"></script>
     <script src="{{ asset('js/item3.js?v=5') }}"></script>
     <script
-        src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google_maps.key') }}&callback=initMap&v=weekly"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCalUboAfIDg9Ku8QznTpkw5Txad7ESiBU&callback=initMap&v=weekly"
         async defer></script>
 @endsection
