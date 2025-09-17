@@ -312,7 +312,8 @@
         }, window.translations || {});
     </script>
 
-    <script src="{{ asset('js/map-control6.js') }}"></script>
+    <script src="{{ asset('js/map-control6.js') }}?v=2"></script>
+
 
     <script>
         window.MAP_FILTERS = window.MAP_FILTERS || {
