@@ -1080,9 +1080,9 @@
                 ].filter(Boolean).join(', ');
                 document.getElementById('searchInput').value = q;
 
-                document.getElementById('radiusSlider').value = 5;
-                document.getElementById('radiusNumber').value = 5;
-                window.SEARCH_RADIUS_KM = 5;
+                document.getElementById('radiusSlider').value = 30;
+                document.getElementById('radiusNumber').value = 30;
+                window.SEARCH_RADIUS_KM = 30;
                 showRadiusUI();
 
                 if (typeof datatableItem === 'function') datatableItem();
@@ -1109,7 +1109,7 @@
 
             document.getElementById('addPointBtn').addEventListener('click', () => {
                 const q = (document.getElementById('searchInput').value || '').trim();
-                const radius = parseFloat(document.getElementById('radiusSlider').value || '5');
+                const radius = parseFloat(document.getElementById('radiusSlider').value || '30');
                 const state = {
                     q,
                     radius,
