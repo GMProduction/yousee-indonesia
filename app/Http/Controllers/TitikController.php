@@ -18,7 +18,7 @@ class TitikController extends Controller
 
     public function dataTitik($num = 12, $non = null)
     {
-        $titik = Item::where('isShow', '=', true);
+        $titik = Item::where('isShow', '=', true)->whereNull('deleted_at');;
         if ($non) {
             $titik = $titik->where('id', '!=', $non);
         }
@@ -37,7 +37,7 @@ class TitikController extends Controller
 
     public function detail($locale, $slug)
     {
-        $item = Item::where('slug', $slug)->firstOrFail();
+        $item = Item::where('slug', $slug)->whereNull('deleted_at')->firstOrFail();
         $titik = Item::where([['city_id', $item->city_id], ['id', '!=', $item->id]])
             ->inRandomOrder()
             ->paginate(18);
@@ -53,7 +53,7 @@ class TitikController extends Controller
 
     public function titikProvince($province)
     {
-        $titik = Item::where('isShow', '=', true)
+        $titik = Item::where('isShow', '=', true)->whereNull('deleted_at')
             ->whereHas('city.province', function ($q) use ($province) {
                 return $q->where('name', 'LIKE', '%' . $province . '%');
             })->paginate(12);
@@ -63,7 +63,7 @@ class TitikController extends Controller
 
     public function titikCity($city)
     {
-        $titik = Item::where('isShow', '=', true)
+        $titik = Item::where('isShow', '=', true)->whereNull('deleted_at')
             ->whereHas('city', function ($q) use ($city) {
                 return $q->where('name', 'LIKE', '%' . $city . '%');
             })->paginate(12);
