@@ -25,7 +25,7 @@ class ItemController extends CustomController
         $city     = \request('city');
         $type     = \request('type');
         $position = \request('position');
-        $item     = Item::with(['vendorAll', 'city', 'itemRent']);
+        $item     = Item::with(['vendorAll', 'city', 'itemRent'])->whereNull('deleted_at');
 
         if ($city) {
             $item = $item->where('city_id', $city);
@@ -49,7 +49,7 @@ class ItemController extends CustomController
             $item = $item->where('created_by', '=', auth()->id());
         }
 
-//        $item = $item->get()->append(['status_on_rent']);
+        //        $item = $item->get()->append(['status_on_rent']);
         return DataTables::of($item)->make(true);
     }
 
@@ -65,7 +65,7 @@ class ItemController extends CustomController
                 function ($q) use ($param) {
                     return $q->where('name', $param);
                 }
-            )->count('*');
+            )->whereNull('deleted_at')->count('*');
             $typeItem = [
                 'name'  => $param,
                 'icon'  => $icon,
@@ -114,40 +114,40 @@ class ItemController extends CustomController
 
         if ($image1) {
             $image     = $this->generateImageName('image1');
-            $stringImg = '/images/item/'.$image;
+            $stringImg = '/images/item/' . $image;
             $this->uploadImage('image1', $image, 'imageItem');
             Arr::set($data, 'image1', $stringImg);
         }
         if ($image2) {
             $image     = $this->generateImageName('image2');
-            $stringImg = '/images/item/'.$image;
+            $stringImg = '/images/item/' . $image;
             $this->uploadImage('image2', $image, 'imageItem');
             Arr::set($data, 'image2', $stringImg);
         }
         if ($image3) {
             $image     = $this->generateImageName('image3');
-            $stringImg = '/images/item/'.$image;
+            $stringImg = '/images/item/' . $image;
             $this->uploadImage('image3', $image, 'imageItem');
             Arr::set($data, 'image3', $stringImg);
         }
 
         if (\request('id')) {
-            $item = Item::find(\request('id'));
+            $item = Item::whereNull('deleted_at')->find(\request('id'));
             Arr::set($data, 'last_update_by', auth()->id());
 
             if ($image1 && $item->image1) {
-                if (file_exists('../public'.$item->image1)) {
-                    unlink('../public'.$item->image1);
+                if (file_exists('../public' . $item->image1)) {
+                    unlink('../public' . $item->image1);
                 }
             }
             if ($image1 && $item->image2) {
-                if (file_exists('../public'.$item->image2)) {
-                    unlink('../public'.$item->image2);
+                if (file_exists('../public' . $item->image2)) {
+                    unlink('../public' . $item->image2);
                 }
             }
             if ($image1 && $item->image3) {
-                if (file_exists('../public'.$item->image3)) {
-                    unlink('../public'.$item->image3);
+                if (file_exists('../public' . $item->image3)) {
+                    unlink('../public' . $item->image3);
                 }
             }
             $item->update($data);
@@ -169,7 +169,7 @@ class ItemController extends CustomController
 
     public function getUrlStreetView($id)
     {
-        $item = Item::findOrFail($id);
+        $item = Item::whereNull('deleted_at')->findOrFail($id);
 
         return $item->url;
     }
@@ -183,13 +183,13 @@ class ItemController extends CustomController
 
     public function getItemByID($id)
     {
-        return Item::findOrFail($id);
+        return Item::whereNull('deleted_at')->findOrFail($id);
     }
 
     public function changeShowLandingPage()
     {
         $id   = \request('id');
-        $item = Item::find($id);
+        $item = Item::whereNull('deleted_at')->find($id);
         $item->update([
             'isShow' => ! $item->isShow,
         ]);
@@ -201,18 +201,18 @@ class ItemController extends CustomController
     {
         DB::beginTransaction();
         try {
-            $item = Item::all();
+            $item = Item::whereNull('deleted_at')->get();
             foreach ($item as $d) {
                 $address = Str::slug($d->address);
                 $type    = Str::slug($d->type->name);
-                $slug    = $type.'-'.$address.'-'.$d->id;
+                $slug    = $type . '-' . $address . '-' . $d->id;
                 $d->update(['slug' => $slug]);
             }
             DB::commit();
             return 'success';
-        }catch (\Exception $er){
+        } catch (\Exception $er) {
             DB::rollBack();
-            return 'error: '.$er->getMessage();
+            return 'error: ' . $er->getMessage();
         }
     }
 }

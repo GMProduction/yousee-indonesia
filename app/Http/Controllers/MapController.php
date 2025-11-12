@@ -26,7 +26,7 @@ class MapController extends CustomController
             $city = \request('city');
             $type = \request('type');
             $position = \request('position');
-            $item = Item::with('vendorAll');
+            $item = Item::with('vendorAll')->whereNull('deleted_at');
             if ($city && $city !== 'undefined') {
                 $item = $item->where('city_id', $city);
             }
@@ -71,7 +71,7 @@ class MapController extends CustomController
     public function get_map_by_id($id)
     {
         try {
-            $item = Item::with('vendorAll')->find($id);
+            $item = Item::with('vendorAll')->whereNull('deleted_at')->find($id);
             return $this->jsonResponse('success', 200, $item);
         } catch (\Exception $e) {
             return $this->jsonResponse('failed ' . $e->getMessage(), 500);
