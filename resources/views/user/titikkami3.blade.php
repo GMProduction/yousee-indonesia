@@ -803,7 +803,7 @@
                 return;
             }
 
-            const initR = (window.SEARCH_RADIUS_KM ?? 5);
+            const initR = (window.SEARCH_RADIUS_KM ?? 30);
             document.getElementById('radiusSlider').value = initR;
             document.getElementById('radiusNumber').value = initR;
             showRadiusUI();
