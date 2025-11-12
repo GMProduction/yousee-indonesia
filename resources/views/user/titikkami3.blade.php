@@ -192,7 +192,16 @@
         <div class="pencarian-container peta">
             <div class="pencarian-content w-100">
                 <div class="pencarian-wrapper">
-                    <p class="title">{{ trans('messages.tersedia_titik_seluruh_indonesia') }}</p>
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <p class="title">{{ trans('messages.tersedia_titik_seluruh_indonesia') }}</p>
+                        <button type="button" class="btn-detail-item d-flex align-items-center btn-cara-pesan"
+                            data-bs-toggle="modal" data-bs-target="#caraPesanModal">
+                            Cara Pesan <span class="material-symbols-outlined ms-1">help_outline</span>
+                        </button>
+                    </div>
+
+
 
                     <div id="loading" class="loading-overlay">
                         <div class="progress-container">
@@ -299,6 +308,25 @@
         <div id="list-container"></div>
         <div id="pagination"></div>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="caraPesanModal" tabindex="-1" aria-labelledby="caraPesanLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl"> <!-- ubah ke xl biar lebih besar -->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="caraPesanLabel">Cara Pesan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                </div>
+                <div class="modal-body text-center p-0"> <!-- hilangkan padding agar video penuh -->
+                    <div class="ratio ratio-16x9">
+                        <iframe id="caraPesanVideo" src="https://www.youtube.com/embed/x1fvbSEYFho?si=JEhSS9MgYvKhMKKv"
+                            title="Cara Pesan" allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('morejs')
@@ -313,6 +341,19 @@
     </script>
 
     <script src="{{ asset('js/map-control6.js') }}?v=2"></script>
+
+    <script>
+        document.addEventListener('hidden.bs.modal', function(event) {
+            if (event.target.id === 'caraPesanModal') {
+                const iframe = document.getElementById('caraPesanVideo');
+                if (iframe) {
+                    const src = iframe.src;
+                    iframe.src = ''; // kosongkan dulu
+                    iframe.src = src; // lalu kembalikan untuk reload (berhenti otomatis)
+                }
+            }
+        });
+    </script>
 
 
     <script>
