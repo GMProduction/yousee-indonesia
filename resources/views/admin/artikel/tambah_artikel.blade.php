@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="{{ asset('css/ckeditor.css') }}">
     <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.3.1/ckeditor5.css" />
 
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 @endsection
 
 
@@ -135,7 +135,7 @@
 
 @section('morejs')
     <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
@@ -155,12 +155,25 @@
 
     <script>
         $(document).ready(function() {
-            $('#p-isiartikel').summernote({
-                height: 200
-            });
-
-            $('#p-isiartikel2').summernote({
-                height: 200
+            $('#p-isiartikel, #p-isiartikel2').summernote({
+                height: 300,
+                tabsize: 2,
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'underline', 'clear']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']], // ul & ol ini untuk bullet/numbering
+                    ['table', ['table']],
+                    ['insert', ['link', 'picture']],
+                    ['view', ['fullscreen', 'codeview', 'help']]
+                ],
+                // Opsi tambahan untuk menangani Paste dari Word agar lebih bersih (Optional)
+                callbacks: {
+                    onPaste: function(e) {
+                        // Summernote defaultnya sudah handle, tapi bisa dicustom disini jika perlu
+                        console.log('Paste event detected!');
+                    }
+                }
             });
         });
     </script>
