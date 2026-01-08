@@ -12,6 +12,8 @@
         href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.rtl.min.css" />
     <link rel="stylesheet" href="{{ asset('css/ckeditor.css') }}">
     <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.3.1/ckeditor5.css" />
+
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 @endsection
 
 
@@ -133,10 +135,12 @@
 
 @section('morejs')
     <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script type="importmap">
+    {{--  <script type="importmap">
 		{
 			"imports": {
 				"ckeditor5": "https://cdn.ckeditor.com/ckeditor5/43.3.1/ckeditor5.js",
@@ -144,7 +148,22 @@
 			}
 		}
 		</script>
-    <script type="module" src="{{ asset('js/cdeditor.js') }}"></script>
+    <script type="module" src="{{ asset('js/cdeditor.js') }}"></script> --}}
+
+
+
+
+    <script>
+        $(document).ready(function() {
+            $('#p-isiartikel').summernote({
+                height: 200
+            });
+
+            $('#p-isiartikel2').summernote({
+                height: 200
+            });
+        });
+    </script>
 
 
     <script>
@@ -201,6 +220,7 @@
                 'name': $('#p-newtags').val()
             }
             saveDataObjectFormData('Simpan Tags', form, '{{ route('admin.tags.add') }}', afterSave)
+            console.log('form', form);
             return false
         }
 

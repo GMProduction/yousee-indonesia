@@ -70,6 +70,8 @@ class ArticleController extends CustomController
         $form['content'] = $form['content_id'];
         $form['sort_desc'] = $form['sort_desc_id'];
 
+        // dd($form);
+
         $image = null;
         $form['slug'] = Str::slug($form['title']);
         $id = request('id');
