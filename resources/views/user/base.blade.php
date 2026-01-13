@@ -10,7 +10,18 @@
 
     @yield('header')
 
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NXWCYV1B2R"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
 
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'G-NXWCYV1B2R');
+    </script>
 
 
     <!-- Google Tag Manager -->
