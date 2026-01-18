@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AnalyticsController;
 use App\Http\Controllers\CalonVendorController;
 use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\App;
@@ -156,6 +157,18 @@ Route::prefix('/admin')->middleware('auth')->group(function () {
         Route::post('data', [\App\Http\Controllers\Admin\TestimoniController::class, 'pageAdd'])->name('admin.testimoni.data');
         Route::post('delete', [\App\Http\Controllers\Admin\TestimoniController::class, 'delete'])->name('admin.testimoni.delete');
     });
+
+    Route::prefix('analytics')->group(function () {
+        Route::get('', [\App\Http\Controllers\Admin\AnalyticsController::class, 'index'])->name('admin.analytics');
+
+        // Route API untuk AJAX (Data Grafik)
+        Route::get('/data/monthly', [AnalyticsController::class, 'getMonthlyData'])->name('analytics.monthly');
+        Route::get('/data/daily', [AnalyticsController::class, 'getDailyData'])->name('analytics.daily');
+        Route::get('/data/content', [AnalyticsController::class, 'getTopContentData'])->name('analytics.content');
+        Route::get('/data/city-date', [AnalyticsController::class, 'getCityDataByDate'])->name('analytics.city-date');
+        Route::get('/data/city-month', [AnalyticsController::class, 'getCityDataByMonth'])->name('analytics.city-month');
+    });
+
     Route::get('inbox', function () {
         return view('admin.inbox.inbox');
     });

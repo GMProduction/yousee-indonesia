@@ -1,4 +1,5 @@
 @extends('user.base')
+@section('title', $data->address)
 @section('header')
     <meta name="description"
         content="{{ $data ? $data->type->name . ' - ' . $data->address . ' - ' . $data->location : '' }}">
