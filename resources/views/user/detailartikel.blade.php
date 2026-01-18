@@ -1,5 +1,7 @@
 @extends('user.base')
 
+@section('title', app()->getLocale() == 'id' ? $article->title_id : $article->title_en)
+
 @section('header')
     <meta name="description" content="{{ $article ? $article->title : '' }}">
     <meta name="keyword" content="baliho, billboard, videtron">

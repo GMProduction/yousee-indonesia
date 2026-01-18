@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Yousee Indonesia || Sewa Billboard, Media Iklan</title>
+    <title>
+        @yield('title', 'Indonesia || Sewa Billboard, Media Iklan')
+    </title>
 
     @yield('header')
 
@@ -54,7 +56,8 @@
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
     {{-- CSS --}}
-    <link href="{{ asset('css/genosstyle.v.07.css?v=1.5.3') }}" rel="stylesheet" />
+    <link href="{{ asset('css/genosstyle.css') }}?v={{ filemtime(public_path('css/genosstyle.css')) }}"
+        rel="stylesheet" />
     <link href="{{ asset('css/main.css') }}" rel="stylesheet" />
 
     {{-- FONT --}}
@@ -541,14 +544,56 @@
 
                     </a>
                 </div>
+
+                <p class="header pt-5">Total Visitors</p>
+                <div class="col-md-6 text-center text-md-end">
+                    <div
+                        class="d-inline-flex align-items-center gap-4 px-4 py-3 bg-white rounded-4 shadow-sm border-0">
+
+                        <div class="text-center">
+                            <small class="d-block text-muted fw-bold text-uppercase"
+                                style="font-size: 0.65rem; letter-spacing: 1px;">Today</small>
+                            <span class="d-block fw-bolder text-primary h5 mb-0 mt-1">
+                                <i class="bi bi-graph-up-arrow me-1 text-success small"></i>
+                                {{ $visitorStats['today'] }}
+                            </span>
+                        </div>
+
+                        <div class="vr bg-secondary opacity-25" style="height: 30px;"></div>
+
+                        <div class="text-center">
+                            <small class="d-block text-muted fw-bold text-uppercase text-nowrap"
+                                style="font-size: 0.65rem; letter-spacing: 1px;">This Month</small>
+                            <span class="d-block fw-bolder text-dark h5 mb-0 mt-1">
+                                {{ $visitorStats['month'] }}
+                            </span>
+                        </div>
+
+                        <div class="vr bg-secondary opacity-25" style="height: 30px;"></div>
+
+                        <div class="text-center">
+                            <small class="d-block text-muted fw-bold text-uppercase text-nowrap"
+                                style="font-size: 0.65rem; letter-spacing: 1px; ">All Times</small>
+                            {{-- <small class="d-block text-muted fw-bold text-uppercase text-nowrap"
+                                style="font-size: 0.65rem; letter-spacing: 1px; ">(start from 2026)</small> --}}
+                            <span class="d-block fw-bolder text-dark h5 mb-0 mt-1">
+                                {{ number_format($visitorStats['total']) }}
+                            </span>
+                        </div>
+
+                    </div>
+                </div>
             </div>
+
+
 
         </div>
         <hr>
         <div class="d-flex justify-content-between  ">
             <p>
-                © 2025 PT SUKMA SETIAWAN INDONESIA - Yousee Indonesia
+                © 2026 PT SUKMA SETIAWAN INDONESIA - Yousee Indonesia
             </p>
+
 
 
         </div>

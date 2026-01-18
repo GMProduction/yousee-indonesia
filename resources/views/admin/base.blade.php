@@ -72,6 +72,17 @@
                         </a>
                     </li>
 
+                    <li>
+                        <a class=" menu {{ Request::is('admin/analytics') ? 'active' : '' }} tooltip"
+                            href="/admin/analytics"><span class="material-symbols-outlined">
+                                <span class="material-symbols-outlined">
+                                    chart_data
+                                </span>
+                            </span>
+                            <span class="text-menu"> Analytics</span>
+                            <span class="tooltiptext">Analytics</span>
+                        </a>
+                    </li>
 
                     <li>
                         <a class="menu tooltip {{ Request::is('admin/profile') ? 'active' : '' }}"
@@ -334,6 +345,8 @@
     </script>
     @yield('morejs')
     <script type="text/javascript" src="{{ asset('js/debounceDefault.js') }}"></script>
+
+    @stack('scripts')
 
 </body>
 
