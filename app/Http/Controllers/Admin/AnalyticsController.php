@@ -322,4 +322,83 @@ class AnalyticsController extends Controller
             }
         });
     }
+
+    public function getTrafficSources()
+    {
+        try {
+            $client = new BetaAnalyticsDataClient(['credentials' => $this->credentials_path]);
+
+            // Request: sessionSourceMedium (Untuk membedakan Organic vs CPC/Ads)
+            $response = $client->runReport(new RunReportRequest([
+                'property' => 'properties/' . $this->property_id,
+                'date_ranges' => [new DateRange(['start_date' => '30daysAgo', 'end_date' => 'today'])],
+                'dimensions' => [new Dimension(['name' => 'sessionSourceMedium'])],
+                'metrics' => [new Metric(['name' => 'activeUsers'])],
+                'limit' => 15,
+                'order_bys' => [new OrderBy(['desc' => true, 'metric' => new OrderBy\MetricOrderBy(['metric_name' => 'activeUsers'])])]
+            ]));
+
+            $data = [];
+            $totalAll = 0;
+
+            // 1. Parsing Data Mentah
+            foreach ($response->getRows() as $row) {
+                $fullString = $row->getDimensionValues()[0]->getValue(); // Ex: "google / cpc"
+                $users = (int) $row->getMetricValues()[0]->getValue();
+
+                // Pecah Source dan Medium
+                // "google / organic" -> parts[0]="google", parts[1]="organic"
+                $parts = explode('/', $fullString);
+                $sourceName = trim($parts[0] ?? 'Direct');
+                $medium = isset($parts[1]) ? trim($parts[1]) : '';
+
+                // Deteksi Icon & Warna (Logic Backend)
+                $icon = 'bi-globe';
+                $color = 'text-muted';
+                if (str_contains($sourceName, 'google')) {
+                    $icon = 'bi-google';
+                    $color = 'text-danger';
+                } elseif (str_contains($sourceName, 'facebook') || str_contains($sourceName, 'fb')) {
+                    $icon = 'bi-facebook';
+                    $color = 'text-primary';
+                } elseif (str_contains($sourceName, 'instagram') || str_contains($sourceName, 'ig')) {
+                    $icon = 'bi-instagram';
+                    $color = 'text-danger';
+                } elseif (str_contains($sourceName, 'tiktok')) {
+                    $icon = 'bi-tiktok';
+                    $color = 'text-dark';
+                } elseif (str_contains($sourceName, 'direct')) {
+                    $icon = 'bi-link-45deg';
+                    $color = 'text-secondary';
+                }
+
+                // Deteksi Iklan
+                $isAd = in_array(strtolower($medium), ['cpc', 'ppc', 'paid']);
+
+                $data[] = [
+                    'name' => ucfirst($sourceName),
+                    'medium' => $medium, // organic, cpc, referral
+                    'users' => $users,
+                    'is_ad' => $isAd,
+                    'icon' => $icon,
+                    'color' => $color
+                ];
+
+                $totalAll += $users;
+            }
+
+            // 2. Hitung Persentase & Finalisasi
+            $finalResult = array_map(function ($item) use ($totalAll) {
+                $item['percent'] = $totalAll > 0 ? round(($item['users'] / $totalAll) * 100) : 0;
+                return $item;
+            }, $data);
+
+            return response()->json([
+                'status' => 'success',
+                'data' => $finalResult
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
+        }
+    }
 }

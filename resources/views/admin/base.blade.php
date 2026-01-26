@@ -18,7 +18,10 @@
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
     {{-- CSS --}}
-    <link href="{{ asset('css/admin-genosstyle.v.02.css') }}" rel="stylesheet" />
+    <link
+        href="{{ asset('css/admin-genosstyle.v.02.css') }}?v={{ filemtime(public_path('css/admin-genosstyle.v.02.css')) }}"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     {{-- FONT --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">

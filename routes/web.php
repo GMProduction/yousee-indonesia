@@ -167,6 +167,7 @@ Route::prefix('/admin')->middleware('auth')->group(function () {
         Route::get('/data/content', [AnalyticsController::class, 'getTopContentData'])->name('analytics.content');
         Route::get('/data/city-date', [AnalyticsController::class, 'getCityDataByDate'])->name('analytics.city-date');
         Route::get('/data/city-month', [AnalyticsController::class, 'getCityDataByMonth'])->name('analytics.city-month');
+        Route::get('/sources', [AnalyticsController::class, 'getTrafficSources'])->name('analytics.sources');
     });
 
     Route::get('inbox', function () {
