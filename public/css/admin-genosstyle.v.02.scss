@@ -1106,3 +1106,103 @@ input.form-control {
         }
     }
 }
+
+/* --- ANALYTICS TABLE WIDGET --- */
+.analytics-card {
+    background: #fff;
+    border: none;
+    border-radius: 16px; // Sudut lebih membulat
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04); // Shadow sangat halus
+    overflow: hidden; // Agar radius tidak tertembus anak elemen
+    height: 100%;
+
+    .card-header {
+        background: #fff;
+        padding: 20px 25px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+
+        h6 {
+            font-weight: 700;
+            color: #2c3e50;
+            letter-spacing: -0.5px;
+        }
+    }
+
+    /* Container Tabel agar bisa di-scroll terpisah */
+    .table-responsive {
+        max-height: 500px; // Tinggi maksimal widget (biar Top 15 gak kepanjang)
+        overflow-y: auto; // Scroll vertikal aktif
+
+        /* Custom Scrollbar yang cantik (Chrome/Safari/Edge) */
+        &::-webkit-scrollbar {
+            width: 6px;
+        }
+        &::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        &::-webkit-scrollbar-thumb {
+            background: #d1d5db;
+            border-radius: 10px;
+        }
+        &::-webkit-scrollbar-thumb:hover {
+            background: #9ca3af;
+        }
+    }
+
+    table {
+        margin-bottom: 0;
+
+        thead th {
+            /* Sticky Header Logic */
+            position: sticky;
+            top: 0;
+            background-color: #f8f9fa; /* Warna background header */
+            z-index: 10;
+
+            /* Styling Text Header */
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+            color: #6c757d;
+            padding: 15px 25px;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.03);
+            border-top: none;
+        }
+
+        tbody td {
+            padding: 15px 25px;
+            vertical-align: middle;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+        }
+
+        /* Hover Row Effect */
+        tbody tr {
+            transition: all 0.2s ease;
+            &:hover {
+                background-color: #f8faff; // Biru sangat muda saat hover
+                transform: scale(1.005); // Efek zoom in mikro (opsional)
+            }
+        }
+    }
+
+    /* Styling Icon Bulat */
+    .icon-wrapper {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px; // Rounded kotak (squircle)
+        background-color: #f8f9fa;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.25rem;
+        transition: transform 0.2s ease;
+    }
+
+    // Saat row dihover, icon ikut gerak dikit
+    tbody tr:hover .icon-wrapper {
+        transform: rotate(10deg);
+        background-color: #fff;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+}

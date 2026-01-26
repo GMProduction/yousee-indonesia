@@ -49,6 +49,8 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
     <script src="https://unpkg.com/scrollreveal@4.0.9/dist/scrollreveal.js"></script>
     {{-- BOOTSTRAP --}}
 
@@ -456,6 +458,44 @@
                 <p class="text"><span><img class="icon-text"
                             src="{{ asset('images/local/icon/email.png') }}" /></span>{{ $profiles[0]->email }}
                 </p>
+
+                {{-- LOGO PENDUKUNG --}}
+                <p class="header">Sertifikasi</p>
+                <div class="d-flex gap-2 flex-wrap">
+                    <a class="card-sertifikasi shadow-sm" target="_blank"
+                        href="https://www.certinesia.com/sertifikat/status/CGS-IDN-2601003-26010002-pt-sukma-setiawan-indonesia">
+                        <img src="{{ asset('images/local/iso37001.jpg') }}" />
+                    </a>
+
+                    <a class="card-sertifikasi shadow-sm"
+                        href="https://www.certinesia.com/sertifikat/status/CGS-IDN-2601002-26010002-pt-sukma-setiawan-indonesia"
+                        target="_blank">
+                        <img src="{{ asset('images/local/iso45001.jpg') }}" />
+                    </a>
+
+                    <a class="card-sertifikasi shadow-sm"
+                        href="https://www.certinesia.com/sertifikat/status/CGS-IDN-2601001-26010002-pt-sukma-setiawan-indonesia"
+                        target="_blank">
+                        <img src="{{ asset('images/local/iso9001.jpg') }}" />
+                    </a>
+
+                    <a class="card-sertifikasi shadow-sm" target="_blank" href="https://spse.inaproc.id">
+                        <img src="{{ asset('images/local/Logo_LPSE.png') }}" />
+                    </a>
+
+                    <a class="card-sertifikasi shadow-sm" target="_blank" href="https://siplah.blibli.com/">
+                        <img src="{{ asset('images/local/siplah.png') }}" />
+                    </a>
+
+                    <a class="card-sertifikasi shadow-sm" target="_blank" href="https://e-katalog.lkpp.go.id/">
+                        <img src="{{ asset('images/local/ecatalogue.webp') }}" />
+                    </a>
+
+                    <a class="card-sertifikasi shadow-sm" target="_blank"
+                        href="https://www.mbizmarket.co.id/p/pt-ss-indonesia-yousee-indonesia-nnaRr/catalog?page=1">
+                        <img src="{{ asset('images/local/mbizmarket.jpg') }}" />
+                    </a>
+                </div>
             </div>
 
             <div class="col-lg-4 col-sm-12">
@@ -554,7 +594,7 @@
                             <small class="d-block text-muted fw-bold text-uppercase"
                                 style="font-size: 0.65rem; letter-spacing: 1px;">Today</small>
                             <span class="d-block fw-bolder text-primary h5 mb-0 mt-1">
-                                <i class="bi bi-graph-up-arrow me-1 text-success small"></i>
+
                                 {{ $visitorStats['today'] }}
                             </span>
                         </div>
@@ -583,6 +623,8 @@
 
                     </div>
                 </div>
+
+
             </div>
 
 

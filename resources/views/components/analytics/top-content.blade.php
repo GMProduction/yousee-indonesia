@@ -4,7 +4,7 @@
     $componentId = 'topContent_' . Str::random(8);
 @endphp
 <div class="menu-container">
-    <div class="menu">
+    <div class="menu overflow-hidden">
         <div class="card-header bg-white border-0 py-3 d-flex align-items-center gap-2">
             <div class="bg-light p-2 rounded text-primary">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"

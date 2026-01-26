@@ -2517,3 +2517,53 @@ body {
 .cursor-pointer {
   cursor: pointer;
 }
+
+.card-sertifikasi {
+  /* Layout: Inline Flex agar lebar container mengikuti lebar isinya (gambar) */
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  /* HEIGHT FIXED (Desktop) */
+  height: 75px;
+  /* Width Auto agar fleksibel mengikuti gambar */
+  width: auto;
+  /* Styling Card */
+  background-color: white;
+  border-radius: 20px;
+  padding: 10px; /* Jarak aman antara batas card dan gambar */
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.3s ease;
+  overflow: hidden; /* Mencegah gambar keluar saat animasi */
+  /* HOVER EFFECT */
+  /* MEDIA QUERY: MOBILE */
+}
+.card-sertifikasi img {
+  /* KUNCI UTAMA DISINI: */
+  height: 100%; /* Tinggi gambar memenuhi area konten (dikurangi padding) */
+  width: auto; /* Lebar otomatis menyesuaikan rasio asli gambar */
+  display: block;
+  -o-object-fit: contain;
+     object-fit: contain;
+  transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transform: scale(1);
+}
+.card-sertifikasi:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+.card-sertifikasi:hover img {
+  /* Zoom out isi gambarnya saja */
+  transform: scale(0.85);
+}
+@media (max-width: 576px) {
+  .card-sertifikasi {
+    /* Tinggi diperkecil untuk mobile */
+    height: 70px;
+    border-radius: 12px;
+    padding: 8px;
+    /* Max-width dihapus/diatur auto agar tidak gepeng */
+    max-width: none;
+  }
+}

@@ -36,6 +36,9 @@
                     apiUrl="{{ route('analytics.content', ['filter' => '/listing/']) }}" />
             </div>
 
+            <div class="col-lg-12">
+                <x-analytics.top-sources />
+            </div>
         </div>
         <x-analytics.detail-modal />
 

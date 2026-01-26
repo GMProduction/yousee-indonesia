@@ -29,6 +29,8 @@
             @endforeach
         </ul>
     </div>
+
+    <x-sertifikasi.sertifikasi-section></x-sertifikasi.sertifikasi-section>
 @endsection
 
 @section('morejs')
