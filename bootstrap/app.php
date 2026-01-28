@@ -16,7 +16,11 @@ $app = new Illuminate\Foundation\Application(
 );
 
 // GANTI PUBLIC
+
+// PROD
 $app->usePublicPath($app->basePath('../public_html'));
+
+// DEV
 // $app->usePublicPath($app->basePath('/public'));
 
 /*

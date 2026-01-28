@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\UserAffiliateController;
-use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,15 +43,6 @@ Route::get('/cek-map/data-detail/{id}', [\App\Http\Controllers\MapController::cl
 
 Route::post('/add-to-cart', [CartController::class, 'addToCart']);
 Route::post('/remove-from-cart', [CartController::class, 'removeFromCart']);
-
-// --- SECURED ANALYTICS ACCESS ---
-Route::middleware(['auth'])->group(function () {
-    Route::get('/geospasial-public', function () {
-        return view('admin.geospasial');
-    });
-    // Location Intelligence Report (Secured)
-    Route::get('/location-intelligence/{id}', [\App\Http\Controllers\TitikController::class, 'printLocation']);
-});
 Route::get('/get-cart-items', [CartController::class, 'getCartItems']);
 
 
@@ -183,95 +173,4 @@ Route::prefix('/admin')->middleware('auth')->group(function () {
     Route::get('inbox', function () {
         return view('admin.inbox.inbox');
     });
-
-    Route::get('/geospasial', function () {
-        return view('geospasial');
-    })->name('admin.geospasial');
 });
-
-
-
-// =======
-
-
-
-Route::get('/mockup', function () {
-    // daftar field yang dipakai oleh user.base (footer + sosmed)
-    $defaults = [
-        'head_office_address' => '',
-        'address'   => '',
-        'phone'     => '',
-        'whatsapp'  => '',
-        'email'     => '',
-        'instagram' => '#',
-        'facebook'  => '#',
-        'linkedin'  => '#',
-        'twitter'   => '#',
-        'tiktok'    => '#',
-        'youtube'   => '#',
-        'website'   => '#',
-    ];
-
-    try {
-        if (class_exists(\App\Models\FrontProfile::class)) {
-            // Jika model ada, pakai Eloquent
-            $row = \App\Models\FrontProfile::orderBy('id')->first();
-            $dataArr = $row ? $row->toArray() : [];
-        } else {
-            // Fallback kalau model belum ada
-            $row = DB::table('profiles')->orderBy('id')->first(); // bisa null kalau tabel kosong
-            $dataArr = $row ? (array) $row : [];
-        }
-
-        // gabungkan dengan default agar semua key selalu ada
-        $first = array_merge($defaults, $dataArr);
-        // bungkus ke bentuk array/collection seperti yang diharapkan base.blade => $profiles[0]->...
-        $profiles = collect([(object) $first]);
-    } catch (\Throwable $e) {
-        // kalau table belum ada atau error lain, tetap kirim dummy agar blade aman
-        $profiles = collect([(object) $defaults]);
-    }
-
-    return view('user.mockup', [
-        'data'     => null,
-        'profiles' => $profiles,
-    ]);
-})->name('mockup');
-
-Route::get('/image-proxy', function (\Illuminate\Http\Request $request) {
-    $url = $request->query('url');
-    if (!$url) {
-        return response('URL missing', 400);
-    }
-
-    try {
-        // Simple fetch using file_get_contents
-        // Suppress errors with @
-        $context = stream_context_create([
-            'http' => [
-                'header' => "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64)\r\n"
-            ],
-            'ssl' => [
-                'verify_peer' => false,
-                'verify_peer_name' => false,
-            ]
-        ]);
-
-        $content = @file_get_contents($url, false, $context);
-
-        if ($content === false) {
-            return response('Failed to fetch image', 404);
-        }
-
-        $finfo = new finfo(FILEINFO_MIME_TYPE);
-        $mime = $finfo->buffer($content);
-
-        return response($content)
-            ->header('Content-Type', $mime)
-            ->header('Access-Control-Allow-Origin', '*');
-    } catch (\Exception $e) {
-        return response('Error: ' . $e->getMessage(), 500);
-    }
-})->name('image.proxy');
-
-Route::get('/traffic/{id}/check', [\App\Http\Controllers\TitikController::class, 'checkTraffic'])->name('traffic.check');
