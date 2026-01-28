@@ -340,7 +340,7 @@
         }, window.translations || {});
     </script>
 
-    <script src="{{ asset('js/map-control7.js') }}?v=2"></script>
+    <script src="{{ asset('js/map-control6.js') }}?v=2"></script>
 
     <script>
         document.addEventListener('hidden.bs.modal', function(event) {
@@ -673,28 +673,9 @@
             return 2 * R * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         }
 
-        function renderRadiusResults(itemsInput, center, radiusKm, displayName) {
+        function renderRadiusResults(items, center, radiusKm, displayName) {
             const meta = document.getElementById('searchMeta');
             const results = document.getElementById('results');
-
-            // 1. SMART SORTING
-            const items = [...itemsInput].sort((a, b) => {
-                const getScore = (item) => {
-                    let typeScore = 1.0;
-                    const tName = item.type && item.type.name ? item.type.name.toLowerCase() : '';
-                    if (tName.includes('videotron') || tName.includes('megatron') || tName.includes('led')) typeScore = 2.5;
-                    else if (tName.includes('billboard')) typeScore = 1.8;
-                    
-                    let sizeScore = 1.0;
-                    const area = (parseFloat(item.width) || 0) * (parseFloat(item.height) || 0);
-                    if (area > 100) sizeScore = 1.5;
-                    else if (area > 50) sizeScore = 1.25;
-                    
-                    return typeScore * sizeScore;
-                };
-                return getScore(b) - getScore(a);
-            });
-
             if (meta) {
                 meta.classList.remove('d-none');
                 meta.textContent = `Lokasi: ${displayName || '-'} • Radius: ${radiusKm} km • Ditemukan: ${items.length}`;
@@ -705,78 +686,46 @@
                 return;
             }
 
-            const html = items.slice(0, 200).map((d, i) => {
-                 // Badge Logic
-                 const badgeHtml = i < 3 
-                    ? `<div class="position-absolute top-0 end-0 mt-3 me-3 badge rounded-pill shadow-sm" style="background: linear-gradient(135deg, #FFD700, #FFA500); color: #fff; font-size: 10px; font-weight: 600; padding: 6px 10px; z-index: 2; border: 1px solid rgba(255,255,255,0.3);">
-                         <i class="bi bi-patch-check-fill me-1"></i>REKOMENDASI
-                       </div>` 
-                    : '';
-
-                 const typeName = d.type && d.type.name ? d.type.name : 'Billboard';
-                 const sizeText = `${d.width}m x ${d.height}m`;
-
-                 return `
-                    <div class="card border-0 shadow-sm rounded-4 mb-3 overflow-hidden transition-all hover-shadow-md" style="background: #fff; border: 1px solid #f1f5f9;">
-                      <div class="card-body p-3 pt-4 position-relative">
-                        ${badgeHtml}
-                        
-                        <div class="d-flex flex-column align-items-center text-center mb-3">
-                            <div class="d-flex align-items-center justify-content-center bg-light rounded-circle mb-2" style="width: 48px; height: 48px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                                <i class="bi bi-geo-alt text-primary fs-4"></i>
-                            </div>
-                            <div class="w-100 px-2">
-                                <h6 class="fw-bold text-dark mb-1 text-break lh-sm" style="font-size: 14px;">${d.location || d.name || 'Lokasi Tanpa Nama'}</h6>
-                                <div class="text-muted small d-flex justify-content-center align-items-center mt-1" style="font-size: 11px;">
-                                    <span class="d-block text-break">${d.address || 'Alamat tidak tersedia'}</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="d-flex justify-content-center gap-2 mb-3 flex-wrap">
-                             <span class="px-2 py-1 bg-blue-50 text-primary rounded-pill border border-blue-100 fw-bold" style="font-size: 10px;">
-                                <i class="bi bi-easel me-1"></i>${typeName}
-                             </span>
-                             <span class="px-2 py-1 bg-slate-50 text-secondary rounded-pill border border-slate-100 fw-bold" style="font-size: 10px;">
-                                <i class="bi bi-aspect-ratio me-1"></i>${sizeText}
-                             </span>
-                        </div>
-
-                        <div class="d-flex gap-2 border-top pt-3 border-light">
-                            <button type="button" class="btn btn-sm btn-light text-secondary border flex-fill d-flex align-items-center justify-content-center gap-2 rounded-3" data-go="${i}" style="font-size: 12px; font-weight: 500;">
-                                <i class="bi bi-map text-muted"></i> Pergi ke Lokasi
-                            </button>
-                            <a class="btn btn-sm btn-primary text-white flex-fill d-flex align-items-center justify-content-center gap-2 rounded-3 shadow-sm" target="_blank" rel="noopener noreferrer" href="/${(window.location.pathname.split('/')[1]||'id')}/listing/${d.slug}" style="background: linear-gradient(to right, #2563eb, #1d4ed8); border:none; font-size: 12px; font-weight: 600;">
-                                <i class="bi bi-eye-fill"></i> Lihat Detail
-                            </a>
-                        </div>
-                      </div>
-                    </div>
-                  `;
-            }).join('');
+            const html = items.slice(0, 200).map((d, i) => `
+    <div class="border rounded-3 p-3 mb-2">
+      <div class="fw-semibold">${d.location || d.name || '-'}</div>
+      <div class="text-muted small">${d.address || ''}</div>
+      <div class="mt-2 d-flex justify-content-center gap-2 flex-wrap">
+        <button type="button" class="btn btn-sm btn-outline-secondary" data-go="${i}">Pergi ke Lokasi</button>
+        <a class="btn btn-sm btn-primary" target="_blank" rel="noopener noreferrer" href="/${(window.location.pathname.split('/')[1]||'id')}/listing/${d.slug}">Lihat Detail</a>
+      </div>
+    </div>
+  `).join('');
             results.innerHTML = html;
-            
-            // Re-attach listeners
+
             results.querySelectorAll('[data-go]').forEach(btn => {
                 btn.addEventListener('click', e => {
                     const idx = +e.currentTarget.getAttribute('data-go');
                     const d = items[idx];
                     if (!d || !window.map_container) return;
 
-                    const marker = getMarkerForItem(d); // getMarkerForItem must be defined in scope or globally
+                    const marker = getMarkerForItem(d);
                     if (marker) {
-                         // ... marker logic ...
-                         // SIMPLIFIED MARKER LOGIC for cleanliness
-                        try { if (!marker.getMap()) marker.setMap(window.map_container); } catch (_) {}
-                        const pos = marker.getPosition ? marker.getPosition() : new google.maps.LatLng(d.latitude, d.longitude);
-                        
-                        if (window.__OPEN_INFO_WINDOW) { try { window.__OPEN_INFO_WINDOW.close(); } catch (e) {} }
+                        try {
+                            if (!marker.getMap()) marker.setMap(window.map_container);
+                        } catch (_) {}
+                        const pos = marker.getPosition ? marker.getPosition() : new google.maps.LatLng(d
+                            .latitude, d.longitude);
+
+                        if (window.__OPEN_INFO_WINDOW) {
+                            try {
+                                window.__OPEN_INFO_WINDOW.close();
+                            } catch (e) {}
+                        }
 
                         window.map_container.setCenter(pos);
                         window.map_container.setZoom(16);
                         google.maps.event.trigger(marker, 'click');
                     } else {
-                        window.map_container.setCenter({ lat: parseFloat(d.latitude), lng: parseFloat(d.longitude) });
+                        window.map_container.setCenter({
+                            lat: d.latitude,
+                            lng: d.longitude
+                        });
                         window.map_container.setZoom(16);
                     }
                 });
@@ -1181,6 +1130,6 @@
     <script src="{{ asset('js/currency.js') }}"></script>
     <script src="{{ asset('js/item3.js?v=5') }}"></script>
     <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKgDP4LOkniDYckfr3FuRW45G56yVhnnI&libraries=places&callback=initMap&v=weekly"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAs_QwyMszHel8sTA19mwfeVYgvvBPK0-0&callback=initMap&v=weekly"
         async defer></script>
 @endsection
