@@ -55,6 +55,7 @@ return [
     'masukan_keranjang' => 'Masukan ke Keranjang',
     'lihat_titik_lain' => 'Lihat Titik Lain',
     'titik_kami_yang_lain' => 'Titik Kami yang Lain di',
+    'coba_mockup' => 'Coba Mockup',
     'lokasi_titik' => 'Lokasi Titik',
     'type_media' => "Tipe Media",
     'sisi' => "Sisi",
