@@ -185,7 +185,7 @@ Route::prefix('/admin')->middleware('auth')->group(function () {
     });
 
     Route::get('/geospasial', function () {
-        return view('geospasial');
+        return view('admin.geospasial');
     })->name('admin.geospasial');
 });
 
