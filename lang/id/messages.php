@@ -4,8 +4,8 @@ return [
     // HOME
     'jenis_iklan' => 'Jenis Iklan',
     'pilih_titik_sekarang' => 'Pilih Titik Iklan Sekarang',
-    'tahun' => 'Pilih Titik Iklan Sekarang',
-    'pengalaman' => 'Pilih Titik Iklan Sekarang',
+    'tahun' => 'Tahun',
+    'pengalaman' => 'Pengalaman',
     'home_titik_iklan' => 'Titik Iklan ',
     'home_strategis' => 'Strategis',
     'titik_tersebar_indonesia' => 'Titik Strategis Tersebar di Seluruh Indonesia',
