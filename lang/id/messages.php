@@ -2,6 +2,7 @@
 
 return [
     // HOME
+    'jenis_iklan' => 'Jenis Iklan',
     'pilih_titik_sekarang' => 'Pilih Titik Iklan Sekarang',
     'tahun' => 'Pilih Titik Iklan Sekarang',
     'pengalaman' => 'Pilih Titik Iklan Sekarang',

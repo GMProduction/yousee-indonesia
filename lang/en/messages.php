@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'jenis_iklan' => 'Type of Advertising',
     'pilih_titik_sekarang' => 'Choose Ad Spot Now',
     'tahun' => 'Years of',
     'pengalaman' => 'Experience',
