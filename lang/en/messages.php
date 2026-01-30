@@ -54,6 +54,7 @@ return [
     'masukan_keranjang' => 'Add to Cart',
     'lihat_titik_lain' => 'See Other Locations',
     'titik_kami_yang_lain' => 'Our Other Locations in',
+    'coba_mockup' => 'Try Mockup',
     'lokasi_titik' => 'Ad Location',
     'type_media' => 'Media Type',
     'sisi' => 'Side',
