@@ -682,14 +682,15 @@
                 const getScore = (item) => {
                     let typeScore = 1.0;
                     const tName = item.type && item.type.name ? item.type.name.toLowerCase() : '';
-                    if (tName.includes('videotron') || tName.includes('megatron') || tName.includes('led')) typeScore = 2.5;
+                    if (tName.includes('videotron') || tName.includes('megatron') || tName.includes('led'))
+                        typeScore = 2.5;
                     else if (tName.includes('billboard')) typeScore = 1.8;
-                    
+
                     let sizeScore = 1.0;
                     const area = (parseFloat(item.width) || 0) * (parseFloat(item.height) || 0);
                     if (area > 100) sizeScore = 1.5;
                     else if (area > 50) sizeScore = 1.25;
-                    
+
                     return typeScore * sizeScore;
                 };
                 return getScore(b) - getScore(a);
@@ -706,21 +707,21 @@
             }
 
             const html = items.slice(0, 200).map((d, i) => {
-                 // Badge Logic
-                 const badgeHtml = i < 3 
-                    ? `<div class="position-absolute top-0 end-0 mt-3 me-3 badge rounded-pill shadow-sm" style="background: linear-gradient(135deg, #FFD700, #FFA500); color: #fff; font-size: 10px; font-weight: 600; padding: 6px 10px; z-index: 2; border: 1px solid rgba(255,255,255,0.3);">
+                // Badge Logic
+                const badgeHtml = i < 3 ?
+                    `<div class="position-absolute top-0 end-0 mt-3 me-3 badge rounded-pill shadow-sm" style="background: linear-gradient(135deg, #FFD700, #FFA500); color: #fff; font-size: 10px; font-weight: 600; padding: 6px 10px; z-index: 2; border: 1px solid rgba(255,255,255,0.3);">
                          <i class="bi bi-patch-check-fill me-1"></i>REKOMENDASI
-                       </div>` 
-                    : '';
+                       </div>` :
+                    '';
 
-                 const typeName = d.type && d.type.name ? d.type.name : 'Billboard';
-                 const sizeText = `${d.width}m x ${d.height}m`;
+                const typeName = d.type && d.type.name ? d.type.name : 'Billboard';
+                const sizeText = `${d.width}m x ${d.height}m`;
 
-                 return `
+                return `
                     <div class="card border-0 shadow-sm rounded-4 mb-3 overflow-hidden transition-all hover-shadow-md" style="background: #fff; border: 1px solid #f1f5f9;">
                       <div class="card-body p-3 pt-4 position-relative">
                         ${badgeHtml}
-                        
+
                         <div class="d-flex flex-column align-items-center text-center mb-3">
                             <div class="d-flex align-items-center justify-content-center bg-light rounded-circle mb-2" style="width: 48px; height: 48px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
                                 <i class="bi bi-geo-alt text-primary fs-4"></i>
@@ -755,7 +756,7 @@
                   `;
             }).join('');
             results.innerHTML = html;
-            
+
             // Re-attach listeners
             results.querySelectorAll('[data-go]').forEach(btn => {
                 btn.addEventListener('click', e => {
@@ -763,20 +764,31 @@
                     const d = items[idx];
                     if (!d || !window.map_container) return;
 
-                    const marker = getMarkerForItem(d); // getMarkerForItem must be defined in scope or globally
+                    const marker = getMarkerForItem(
+                    d); // getMarkerForItem must be defined in scope or globally
                     if (marker) {
-                         // ... marker logic ...
-                         // SIMPLIFIED MARKER LOGIC for cleanliness
-                        try { if (!marker.getMap()) marker.setMap(window.map_container); } catch (_) {}
-                        const pos = marker.getPosition ? marker.getPosition() : new google.maps.LatLng(d.latitude, d.longitude);
-                        
-                        if (window.__OPEN_INFO_WINDOW) { try { window.__OPEN_INFO_WINDOW.close(); } catch (e) {} }
+                        // ... marker logic ...
+                        // SIMPLIFIED MARKER LOGIC for cleanliness
+                        try {
+                            if (!marker.getMap()) marker.setMap(window.map_container);
+                        } catch (_) {}
+                        const pos = marker.getPosition ? marker.getPosition() : new google.maps.LatLng(d
+                            .latitude, d.longitude);
+
+                        if (window.__OPEN_INFO_WINDOW) {
+                            try {
+                                window.__OPEN_INFO_WINDOW.close();
+                            } catch (e) {}
+                        }
 
                         window.map_container.setCenter(pos);
                         window.map_container.setZoom(16);
                         google.maps.event.trigger(marker, 'click');
                     } else {
-                        window.map_container.setCenter({ lat: parseFloat(d.latitude), lng: parseFloat(d.longitude) });
+                        window.map_container.setCenter({
+                            lat: parseFloat(d.latitude),
+                            lng: parseFloat(d.longitude)
+                        });
                         window.map_container.setZoom(16);
                     }
                 });
@@ -1181,6 +1193,6 @@
     <script src="{{ asset('js/currency.js') }}"></script>
     <script src="{{ asset('js/item3.js?v=5') }}"></script>
     <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKgDP4LOkniDYckfr3FuRW45G56yVhnnI&libraries=places&callback=initMap&v=weekly"
+        src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google.maps_key') }}&libraries=places&callback=initMap&v=weekly"
         async defer></script>
 @endsection
