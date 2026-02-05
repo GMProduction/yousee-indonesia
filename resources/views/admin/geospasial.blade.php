@@ -1,173 +1,96 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Billboard Dashboard</title>
-
+    
     <!-- Tailwind CSS (Desain) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Chart.js (Grafik) -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+    
     <!-- FontAwesome (Ikon) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- FontAwesome (Ikon) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #F8FAFC;
-        }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #F8FAFC; }
+    
 
+        
         /* Animasi Halus */
-        .fade-in {
-            animation: fadeIn 0.4s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(5px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+        .fade-in { animation: fadeIn 0.4s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
         /* Card Hover Effect */
-        .stats-card {
-            transition: all 0.3s ease;
-        }
-
-        .stats-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-        }
+        .stats-card { transition: all 0.3s ease; }
+        .stats-card:hover { transform: translateY(-4px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); }
 
         /* Indikator Live Berdenyut */
         .pulse-dot {
-            width: 8px;
-            height: 8px;
-            background-color: #ef4444;
-            border-radius: 50%;
+            width: 8px; height: 8px; background-color: #ef4444; border-radius: 50%;
             box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
             animation: pulse-red 2s infinite;
         }
-
         @keyframes pulse-red {
-            0% {
-                transform: scale(0.95);
-                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
-            }
-
-            70% {
-                transform: scale(1);
-                box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
-            }
-
-            100% {
-                transform: scale(0.95);
-                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
-            }
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
         }
 
         /* Navigasi Aktif */
-        .nav-item.active {
-            background-color: #EFF6FF;
-            color: #1D4ED8;
-        }
-
-        .nav-item.active i {
-            color: #1D4ED8;
-        }
-
+        .nav-item.active { background-color: #EFF6FF; color: #1D4ED8; }
+        .nav-item.active i { color: #1D4ED8; }
+        
         /* Hide sections by default */
-        .view-section {
-            display: none;
-        }
-
-        .view-section.active {
-            display: block;
-        }
+        .view-section { display: none; }
+        .view-section.active { display: block; }
     </style>
-</head>
 
+</head>
 <body class="flex h-screen overflow-hidden text-slate-800">
 
     <style>
         /* SKELETON LOADER ANIMATIONS */
         @keyframes shimmer {
-            0% {
-                background-position: -1000px 0;
-            }
-
-            100% {
-                background-position: 1000px 0;
-            }
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
         }
-
+        
         .skeleton {
             animation: shimmer 2s infinite linear;
             background: linear-gradient(to right, #f1f5f9 4%, #e2e8f0 25%, #f1f5f9 36%);
             background-size: 1000px 100%;
         }
 
-        .skeleton-text {
-            height: 12px;
-            margin-bottom: 8px;
-            border-radius: 4px;
-        }
-
-        .skeleton-rect {
-            width: 100%;
-            height: 100%;
-            border-radius: 8px;
-        }
-
-        .skeleton-circle {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-        }
+        .skeleton-text { height: 12px; margin-bottom: 8px; border-radius: 4px; }
+        .skeleton-rect { width: 100%; height: 100%; border-radius: 8px; }
+        .skeleton-circle { width: 100%; height: 100%; border-radius: 50%; }
 
         /* Hide sections by default */
-        .view-section {
-            display: none;
-        }
-
-        .view-section.active {
-            display: block;
-        }
+        .view-section { display: none; }
+        .view-section.active { display: block; }
     </style>
 
     <!-- 1. SIDEBAR NAVIGATION -->
-    <aside class="w-64 bg-white border-r border-slate-200 hidden md:flex flex-col z-10">
+    <aside id="main-sidebar" class="w-64 bg-white border-r border-slate-200 hidden md:flex flex-col z-10">
         <div class="p-6 flex items-center gap-3">
-            <div
-                class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold shadow-lg shadow-blue-500/30">
+            <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold shadow-lg shadow-blue-500/30">
                 <i class="fa-solid fa-layer-group"></i>
             </div>
             <span class="text-xl font-bold tracking-tight text-slate-900">Geospasial</span>
         </div>
 
         <nav class="flex-1 px-4 space-y-2 mt-4">
-            <p class="px-4 text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Menu Utama</p>
-
-            <button onclick="switchView('dashboard')" id="nav-dashboard"
-                class="nav-item active w-full flex items-center gap-3 px-4 py-3 text-slate-500 hover:bg-slate-50 hover:text-slate-900 rounded-xl font-medium transition-colors text-left">
+            <p class="px-4 text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">MENU UTAMA</p>
+            
+            <button onclick="switchView('dashboard')" id="nav-dashboard" class="nav-item active w-full flex items-center gap-3 px-4 py-3 text-slate-500 hover:bg-slate-50 hover:text-slate-900 rounded-xl font-medium transition-colors text-left">
                 <i class="fa-solid fa-chart-pie w-5"></i> Dashboard
             </button>
-            <button onclick="switchView('map')" id="nav-map"
-                class="nav-item w-full flex items-center gap-3 px-4 py-3 text-slate-500 hover:bg-slate-50 hover:text-slate-900 rounded-xl font-medium transition-colors text-left">
+            <button onclick="switchView('map')" id="nav-map" class="nav-item w-full flex items-center gap-3 px-4 py-3 text-slate-500 hover:bg-slate-50 hover:text-slate-900 rounded-xl font-medium transition-colors text-left">
                 <i class="fa-solid fa-map-location-dot w-5"></i> Peta Lokasi
             </button>
             <!-- Hidden temporarily as per request
@@ -178,14 +101,13 @@
         </nav>
 
         <div class="p-4 border-t border-slate-100">
-            <a href="/admin"
-                class="flex items-center gap-3 p-2 bg-slate-50 rounded-xl border border-slate-100 cursor-pointer hover:bg-slate-100 transition text-decoration-none">
+            <a href="/admin" class="flex items-center gap-3 p-2 bg-slate-50 rounded-xl border border-slate-100 cursor-pointer hover:bg-slate-100 transition text-decoration-none">
                 <div class="w-9 h-9 rounded-full bg-slate-200 flex items-center justify-center text-slate-500">
                     <i class="fa-solid fa-arrow-left"></i>
                 </div>
                 <div class="flex-1">
                     <p class="text-sm font-bold text-slate-700">Kembali ke Admin</p>
-                    <p class="text-[10px] text-slate-400">Main Dashboard</p>
+                    <p class="text-[10px] text-slate-400">Dashboard Utama</p>
                 </div>
             </a>
         </div>
@@ -193,77 +115,69 @@
 
     <!-- 2. MAIN CONTENT WRAPPER -->
     <main class="flex-1 flex flex-col overflow-y-auto bg-[#F8FAFC]">
-
+        
         <!-- Top Bar -->
-        <header
-            class="bg-white/80 backdrop-blur-md sticky top-0 z-20 border-b border-slate-200 px-8 py-4 flex justify-between items-center">
+        <header class="bg-white/80 backdrop-blur-md sticky top-0 z-20 border-b border-slate-200 px-8 py-4 flex justify-between items-center">
             <div>
-                <h1 class="text-2xl font-bold text-slate-800" id="page-title">Traffic Overview</h1>
+                <h1 class="text-2xl font-bold text-slate-800" id="page-title">Smart Billboard Dashboard</h1>
                 <p class="text-sm text-slate-500 flex items-center gap-2">
                     <!-- Removed Live Monitoring -->
                 </p>
             </div>
             <div class="flex gap-3">
+
                 <!-- Buttons removed as per request -->
             </div>
         </header>
 
         <!-- VIEW 1: DASHBOARD (Default) -->
         <div id="view-dashboard" class="view-section active p-8 max-w-[1600px] mx-auto w-full fade-in space-y-8">
-
+            
             <!-- KPI CARDS (Hidden by default, shown via 'Lihat Analisis') -->
             <!-- KPI CARDS (Hidden by default, shown via 'Lihat Analisis') -->
             <div id="analysis-panel" class="grid grid-cols-1 md:grid-cols-3 gap-6 fade-in" style="display: none;">
                 <!-- Card 1: Traffic -->
-                <div
-                    class="stats-card bg-white p-6 rounded-2xl border border-slate-100 shadow-sm relative overflow-hidden group">
+                <div class="stats-card bg-white p-6 rounded-2xl border border-slate-100 shadow-sm relative overflow-hidden group">
                     <div class="absolute right-0 top-0 p-4 opacity-10 group-hover:scale-110 transition-transform">
                         <i class="fa-solid fa-car text-6xl text-blue-600"></i>
                     </div>
-                    <p class="text-sm font-semibold text-slate-400 uppercase tracking-wide">TRAFFIC</p>
+                    <p class="text-sm font-semibold text-slate-400 uppercase tracking-wide">TRAFFIC VIEW</p>
                     <h3 class="text-3xl font-bold text-slate-800 mt-2" id="kpi-volume">0 View/Day</h3>
                     <div class="flex items-center gap-2 mt-4 text-sm">
-                        <span id="kpi-trend-badge"
-                            class="bg-green-100 text-green-600 px-2 py-0.5 rounded-full font-bold text-xs"><i
-                                class="fa-solid fa-arrow-up"></i> 12%</span>
-                        <span class="text-slate-400 text-xs" id="kpi-trend-text">Update: Today</span>
+                        <span id="kpi-trend-badge" class="bg-green-100 text-green-600 px-2 py-0.5 rounded-full font-bold text-xs"><i class="fa-solid fa-arrow-up"></i> 12%</span>
+                        <span class="text-slate-400 text-xs" id="kpi-trend-text">Update Hari Ini</span>
                     </div>
                 </div>
 
                 <!-- Card 2: AI Score -->
-                <div
-                    class="stats-card bg-gradient-to-br from-indigo-600 to-purple-700 p-6 rounded-2xl shadow-lg shadow-indigo-500/20 text-white relative overflow-hidden">
+                <div class="stats-card bg-gradient-to-br from-indigo-600 to-purple-700 p-6 rounded-2xl shadow-lg shadow-indigo-500/20 text-white relative overflow-hidden">
                     <div class="absolute -right-6 -top-6 w-24 h-24 bg-white/10 rounded-full blur-xl"></div>
                     <div class="flex justify-between items-start z-10 relative">
                         <div>
-                            <p class="text-xs font-bold text-indigo-100 uppercase tracking-wide">AI Location Score</p>
-                            <h3 class="text-4xl font-bold mt-1" id="kpi-score">9.2<span
-                                    class="text-lg font-normal text-indigo-200">/10</span></h3>
+                            <p class="text-xs font-bold text-indigo-100 uppercase tracking-wide">AI SCORE</p>
+                            <h3 class="text-4xl font-bold mt-1" id="kpi-score">9.2<span class="text-lg font-normal text-indigo-200">/10</span></h3>
                         </div>
                         <i class="fa-solid fa-wand-magic-sparkles text-yellow-300 text-xl"></i>
                     </div>
-                    <p class="text-xs text-indigo-100 mt-4 bg-white/10 inline-block px-2 py-1 rounded">Sangat Strategis
-                    </p>
+                    <p class="text-xs text-indigo-100 mt-4 bg-white/10 inline-block px-2 py-1 rounded">Lokasi Sangat Strategis</p>
                 </div>
                 <!-- Card 3: Audience -->
                 <div class="stats-card bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
-                    <p class="text-sm font-semibold text-slate-400 uppercase tracking-wide">Dominasi Audiens</p>
+                    <p class="text-sm font-semibold text-slate-400 uppercase tracking-wide">DOMINASI AUDIENCE</p>
                     <div class="mt-3 flex items-center gap-3">
                         <!-- Icon User -->
-                        <div
-                            class="w-12 h-12 rounded-full bg-indigo-50 flex items-center justify-center border-2 border-white shadow-sm">
+                        <div class="w-12 h-12 rounded-full bg-indigo-50 flex items-center justify-center border-2 border-white shadow-sm">
                             <i class="fa-solid fa-user-group text-indigo-600 text-lg"></i>
                         </div>
                         <div>
-                            <p class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Rentang Usia</p>
-                            <h4 class="font-bold text-slate-900 text-lg leading-tight" id="kpi-audience">25 - 40 Tahun
-                            </h4>
+                            <p class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">RENTANG USIA</p>
+                            <h4 class="font-bold text-slate-900 text-lg leading-tight" id="kpi-audience">25 - 40 Tahun</h4>
                         </div>
                     </div>
                     <div class="w-full bg-slate-100 h-1.5 mt-4 rounded-full overflow-hidden">
                         <div class="bg-slate-800 h-full rounded-full" style="width: 75%"></div>
                     </div>
-                    <p class="text-xs text-right text-slate-400 mt-1">75% Kecocokan</p>
+                    <p class="text-xs text-right text-slate-400 mt-1">75% Kecocokan Profile</p>
                 </div>
             </div>
 
@@ -273,11 +187,10 @@
                 <div class="lg:col-span-2 bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="font-bold text-lg text-slate-800 flex items-center gap-2">
-                            <i class="fa-solid fa-trophy text-yellow-500"></i> Top 5 Titik Potensial
+                            <i class="fa-solid fa-trophy text-yellow-500"></i> Top 5 Lokasi Potensial
                         </h3>
                         <div class="flex items-center gap-2">
-                            <select id="filter-province" onchange="applyProvinceFilter()"
-                                class="text-xs bg-slate-50 border border-slate-200 text-slate-600 rounded-lg px-2 py-1 font-bold focus:ring-2 focus:ring-blue-500 outline-none cursor-pointer">
+                             <select id="filter-province" onchange="applyProvinceFilter()" class="text-xs bg-slate-50 border border-slate-200 text-slate-600 rounded-lg px-2 py-1 font-bold focus:ring-2 focus:ring-blue-500 outline-none cursor-pointer">
                                 <option value="all">Semua Provinsi</option>
                             </select>
                         </div>
@@ -287,39 +200,37 @@
                             <thead class="text-xs text-slate-400 uppercase bg-slate-50 rounded-lg">
                                 <tr>
                                     <th class="px-3 py-2 rounded-l-lg">Lokasi</th>
-                                    <th class="px-3 py-2">Traffic</th>
-                                    <th class="px-3 py-2 text-center">AI Score</th>
+                                    <th class="px-3 py-2">TRAFFIC VIEW</th>
+                                    <th class="px-3 py-2 text-center">AI SCORE</th>
                                     <th class="px-3 py-2 rounded-r-lg text-right">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody id="top-spots-table" class="divide-y divide-slate-100">
                                 <!-- Skeleton Loading State -->
-                                <tr class="animate-pulse">
-                                    <td colspan="4" class="p-4">
-                                        <div class="flex flex-col gap-4">
-                                            <div class="flex justify-between">
-                                                <div class="h-4 bg-slate-100 rounded w-1/3 skeleton"></div>
-                                                <div class="h-4 bg-slate-100 rounded w-1/4 skeleton"></div>
-                                            </div>
-                                            <div class="flex justify-between">
-                                                <div class="h-4 bg-slate-100 rounded w-1/3 skeleton"></div>
-                                                <div class="h-4 bg-slate-100 rounded w-1/4 skeleton"></div>
-                                            </div>
-                                            <div class="flex justify-between">
-                                                <div class="h-4 bg-slate-100 rounded w-1/3 skeleton"></div>
-                                                <div class="h-4 bg-slate-100 rounded w-1/4 skeleton"></div>
-                                            </div>
-                                            <div class="flex justify-between">
-                                                <div class="h-4 bg-slate-100 rounded w-1/3 skeleton"></div>
-                                                <div class="h-4 bg-slate-100 rounded w-1/4 skeleton"></div>
-                                            </div>
-                                            <div class="flex justify-between">
-                                                <div class="h-4 bg-slate-100 rounded w-1/3 skeleton"></div>
-                                                <div class="h-4 bg-slate-100 rounded w-1/4 skeleton"></div>
-                                            </div>
+                                <tr class="animate-pulse"><td colspan="4" class="p-4">
+                                    <div class="flex flex-col gap-4">
+                                        <div class="flex justify-between">
+                                            <div class="h-4 bg-slate-100 rounded w-1/3 skeleton"></div>
+                                            <div class="h-4 bg-slate-100 rounded w-1/4 skeleton"></div>
                                         </div>
-                                    </td>
-                                </tr>
+                                        <div class="flex justify-between">
+                                            <div class="h-4 bg-slate-100 rounded w-1/3 skeleton"></div>
+                                            <div class="h-4 bg-slate-100 rounded w-1/4 skeleton"></div>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <div class="h-4 bg-slate-100 rounded w-1/3 skeleton"></div>
+                                            <div class="h-4 bg-slate-100 rounded w-1/4 skeleton"></div>
+                                        </div>
+                                         <div class="flex justify-between">
+                                            <div class="h-4 bg-slate-100 rounded w-1/3 skeleton"></div>
+                                            <div class="h-4 bg-slate-100 rounded w-1/4 skeleton"></div>
+                                        </div>
+                                         <div class="flex justify-between">
+                                            <div class="h-4 bg-slate-100 rounded w-1/3 skeleton"></div>
+                                            <div class="h-4 bg-slate-100 rounded w-1/4 skeleton"></div>
+                                        </div>
+                                    </div>
+                                </td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -332,8 +243,7 @@
                         <h3 class="font-bold text-slate-800 mb-4 text-sm">Jenis Kendaraan</h3>
                         <div class="relative h-[180px] flex justify-center items-center">
                             <!-- Skeleton Overlay -->
-                            <div id="vehicleChart-skeleton"
-                                class="absolute inset-0 z-10 bg-white flex items-center justify-center">
+                            <div id="vehicleChart-skeleton" class="absolute inset-0 z-10 bg-white flex items-center justify-center">
                                 <div class="w-32 h-32 rounded-full border-4 border-slate-100 skeleton"></div>
                             </div>
                             <canvas id="vehicleChart"></canvas>
@@ -344,7 +254,7 @@
                         </div>
                         <!-- Custom Legend with Percentages -->
                         <div id="vehicle-legend" class="mt-4 space-y-2">
-                            <!-- Populated by JS -->
+                             <!-- Populated by JS -->
                         </div>
                     </div>
                 </div>
@@ -352,19 +262,18 @@
 
             <!-- ANALYTICS SECTION 2: TOP SPOTS & GEOGRAPHIC -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 pb-8">
-
+                
                 <!-- WIDGET 1: TOP 5 POTENTIAL SPOTS -->
                 <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
                     <div class="flex justify-between items-center mb-6">
                         <div>
                             <h3 class="font-bold text-lg text-slate-800">Grafik Keramaian Lokasi</h3>
-                            <p class="text-sm text-slate-500">Statistik traffic 5 titik teratas</p>
+                            <p class="text-sm text-slate-500">Statistik Top 5 Spot</p>
                         </div>
                     </div>
                     <div class="h-[300px] w-full relative">
                         <!-- Skeleton Overlay -->
-                        <div id="trafficChart-skeleton"
-                            class="absolute inset-0 z-10 bg-white flex items-end gap-4 p-4">
+                         <div id="trafficChart-skeleton" class="absolute inset-0 z-10 bg-white flex items-end gap-4 p-4">
                             <div class="w-full h-[30%] bg-slate-100 rounded-t-lg skeleton"></div>
                             <div class="w-full h-[60%] bg-slate-100 rounded-t-lg skeleton"></div>
                             <div class="w-full h-[40%] bg-slate-100 rounded-t-lg skeleton"></div>
@@ -383,11 +292,11 @@
                     <div class="h-[250px] w-full relative">
                         <!-- Skeleton Overlay -->
                         <div id="geoChart-skeleton" class="absolute inset-0 z-10 bg-white flex flex-col gap-3 p-4">
-                            <div class="w-full h-8 bg-slate-100 rounded skeleton"></div>
-                            <div class="w-3/4 h-8 bg-slate-100 rounded skeleton"></div>
-                            <div class="w-5/6 h-8 bg-slate-100 rounded skeleton"></div>
-                            <div class="w-2/4 h-8 bg-slate-100 rounded skeleton"></div>
-                            <div class="w-full h-8 bg-slate-100 rounded skeleton"></div>
+                             <div class="w-full h-8 bg-slate-100 rounded skeleton"></div>
+                             <div class="w-3/4 h-8 bg-slate-100 rounded skeleton"></div>
+                             <div class="w-5/6 h-8 bg-slate-100 rounded skeleton"></div>
+                             <div class="w-2/4 h-8 bg-slate-100 rounded skeleton"></div>
+                             <div class="w-full h-8 bg-slate-100 rounded skeleton"></div>
                         </div>
                         <canvas id="geoChart"></canvas>
                     </div>
@@ -397,62 +306,76 @@
 
         <!-- VIEW 2: PETA LOKASI -->
         <div id="view-map" class="view-section h-full relative fade-in">
+            
+            <!-- FLOATING SEARCH BAR -->
+            <div class="absolute top-6 left-6 z-[550] w-[85%] max-w-[380px] md:max-w-[420px]">
+                <div class="relative group">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <i class="fa-solid fa-magnifying-glass text-slate-400 group-focus-within:text-blue-500 transition-colors"></i>
+                    </div>
+                    <input type="text" id="map-search-input" 
+                        onkeyup="handleMapSearch(this.value)"
+                        class="block w-full pl-11 pr-10 py-3.5 border-0 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] bg-white/95 backdrop-blur-sm text-sm font-semibold text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-blue-100 transition-all" 
+                        placeholder="Cari lokasi, jalan, atau area..."
+                        autocomplete="off">
+                    
+                    <!-- Clear Button -->
+                    <button id="map-search-clear" onclick="clearMapSearch()" class="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-300 hover:text-red-500 hidden cursor-pointer transition-colors">
+                        <i class="fa-solid fa-circle-xmark"></i>
+                    </button>
+                </div>
 
+                <!-- Results Dropdown -->
+                <div id="map-search-results" class="hidden absolute top-full left-0 mt-3 w-full bg-white rounded-2xl shadow-[0_10px_40px_rgb(0,0,0,0.12)] overflow-hidden border border-slate-100 max-h-[400px] overflow-y-auto custom-scrollbar animate-in fade-in slide-in-from-top-2 duration-200">
+                    <!-- Results List -->
+                </div>
+            </div>
 
             <!-- Map Container -->
             <div id="map-container" class="w-full h-full bg-slate-200 relative"></div>
-
+            
             <!-- Loading Overlay -->
-            <div id="map-loading"
-                class="absolute inset-0 bg-white/80 backdrop-blur-sm z-[500] flex flex-col items-center justify-center pointer-events-none transition-opacity duration-500">
+            <div id="map-loading" class="absolute inset-0 bg-white/80 backdrop-blur-sm z-[500] flex flex-col items-center justify-center pointer-events-none transition-opacity duration-500">
                 <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mb-3"></div>
-                <p class="text-sm font-semibold text-slate-600 animate-pulse">Memuat Data Lokasi...</p>
+                <p class="text-sm font-semibold text-slate-600 animate-pulse">Memuat Peta...</p>
             </div>
         </div>
 
         <!-- FLOATING ANALYSIS CARD (Map View) -->
-        <div id="map-analysis-card"
-            class="absolute top-24 right-4 bottom-4 w-[350px] bg-white rounded-xl shadow-2xl z-[600] transform translate-x-[120%] transition-transform duration-300 flex flex-col pointer-events-auto border border-slate-200">
+        <div id="map-analysis-card" class="absolute top-24 right-4 bottom-4 w-[350px] bg-white rounded-xl shadow-2xl z-[600] transform translate-x-[120%] transition-transform duration-300 flex flex-col pointer-events-auto border border-slate-200">
             <!-- Header -->
             <div class="p-4 border-b border-slate-100 flex justify-between items-start bg-slate-50 rounded-t-xl">
                 <div>
-                    <span
-                        class="text-[10px] font-bold text-blue-600 uppercase tracking-wider bg-blue-50 px-2 py-0.5 rounded border border-blue-100 mb-3 inline-block">Analysis
-                        Mode</span>
+                    <span class="text-[10px] font-bold text-blue-600 uppercase tracking-wider bg-blue-50 px-2 py-0.5 rounded border border-blue-100 mb-3 inline-block">ANALYSIS MODE</span>
                     <h3 class="font-bold text-slate-800 leading-tight text-sm" id="map-card-title">Billboard A88</h3>
-                    <p class="text-[10px] text-slate-500 truncate w-[220px]" id="map-card-address">Jl. Jend. Sudirman
-                        No. 1</p>
+                    <p class="text-[10px] text-slate-500 truncate w-[220px]" id="map-card-address">Jl. Jend. Sudirman No. 1</p>
                 </div>
-                <button onclick="closeMapAnalysis()"
-                    class="w-7 h-7 flex items-center justify-center rounded-full bg-slate-200 text-slate-500 hover:bg-red-50 hover:text-red-500 transition shadow-sm">
+                <button onclick="closeMapAnalysis()" class="w-7 h-7 flex items-center justify-center rounded-full bg-slate-200 text-slate-500 hover:bg-red-50 hover:text-red-500 transition shadow-sm">
                     <i class="fa-solid fa-xmark text-xs"></i>
                 </button>
             </div>
-
+            
             <!-- Floating Action Button for Report -->
             <div class="absolute top-4 right-14">
-                <button id="btn-generate-report"
-                    class="bg-gray-900 hover:bg-black text-white text-[10px] font-bold px-3 py-1.5 rounded-lg shadow-md flex items-center gap-2 transition-transform hover:scale-105">
-                    <i class="fa-solid fa-image"></i> Lihat Data
+                <button id="btn-generate-report" class="bg-gray-900 hover:bg-black text-white text-[10px] font-bold px-3 py-1.5 rounded-lg shadow-md flex items-center gap-2 transition-transform hover:scale-105">
+                    <i class="fa-solid fa-image"></i> Lihat Detail
                 </button>
             </div>
-
+            
             <!-- Content (Scrollable) -->
             <div class="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar">
-
+                
                 <!-- KPI 1: Traffic -->
                 <div class="bg-blue-50 p-4 rounded-xl border border-blue-100">
                     <div class="flex justify-between items-center mb-1">
-                        <span class="text-[10px] text-blue-600 font-bold uppercase">Avg. Views/Day</span>
+                        <span class="text-[10px] text-blue-600 font-bold uppercase">AVG. VIEWS</span>
                         <i class="fa-solid fa-eye text-blue-400"></i>
                     </div>
                     <p class="text-2xl font-bold text-slate-800" id="map-card-traffic">12,500</p>
                     <div class="flex items-center gap-2 mt-1">
-                        <span class="text-[10px] bg-white px-1.5 py-0.5 rounded border border-blue-100 text-slate-500"
-                            id="map-card-updated-box">
-                            <i class="fa-regular fa-clock mr-1"></i><span id="map-card-updated-text">Updated:
-                                Today</span>
-                        </span>
+                         <span class="text-[10px] bg-white px-1.5 py-0.5 rounded border border-blue-100 text-slate-500" id="map-card-updated-box">
+                            <i class="fa-regular fa-clock mr-1"></i><span id="map-card-updated-text">Updated</span>
+                         </span>
                     </div>
                 </div>
 
@@ -460,18 +383,17 @@
                 <div class="grid grid-cols-2 gap-3">
                     <!-- KPI 2: AI Score -->
                     <div class="bg-indigo-50 p-3 rounded-xl border border-indigo-100">
-                        <span class="text-[10px] text-indigo-600 font-bold uppercase block mb-1">AI Score</span>
-                        <p class="text-xl font-bold text-slate-800" id="map-card-score">8.5</p>
-                        <div class="flex text-[8px] text-yellow-500 mt-1">
-                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
-                                class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                        </div>
+                         <span class="text-[10px] text-indigo-600 font-bold uppercase block mb-1">{{ __('geospasial.kpi.ai_score') }}</span>
+                         <p class="text-xl font-bold text-slate-800" id="map-card-score">8.5</p>
+                         <div class="flex text-[8px] text-yellow-500 mt-1">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                         </div>
                     </div>
-                    <!-- KPI 3: Audience -->
+                     <!-- KPI 3: Audience -->
                     <div class="bg-purple-50 p-3 rounded-xl border border-purple-100">
-                        <span class="text-[10px] text-purple-600 font-bold uppercase block mb-1">Audience</span>
-                        <p class="text-sm font-bold text-slate-800" id="map-card-audience">25-34 Thn</p>
-                        <p class="text-[10px] text-slate-500 mt-0.5">Dominasi</p>
+                         <span class="text-[10px] text-purple-600 font-bold uppercase block mb-1">Audience</span>
+                         <p class="text-sm font-bold text-slate-800" id="map-card-audience">25-34 Thn</p>
+                         <p class="text-[10px] text-slate-500 mt-0.5">Dominasi</p>
                     </div>
                 </div>
 
@@ -481,9 +403,9 @@
                         <i class="fa-solid fa-car-side text-slate-400"></i> Jenis Kendaraan
                     </h4>
                     <div class="h-[140px] relative w-full">
-                        <canvas id="mapVehicleChart"></canvas>
+                         <canvas id="mapVehicleChart"></canvas>
                     </div>
-                    <!-- Micro Legend -->
+                     <!-- Micro Legend -->
                     <div class="flex justify-center gap-3 mt-3 text-[10px] text-slate-500" id="vehicle-legend-map">
                         <!-- Populated by JS -->
                     </div>
@@ -494,23 +416,201 @@
             </div>
         </div>
 
+
+        <!-- VIEW 4: DETAILED ANALYSIS (Replica of User Image) -->
+        <div id="view-analysis" class="view-section p-6 max-w-[1600px] mx-auto w-full fade-in pb-20">
+            <!-- Back Button -->
+            <button onclick="switchView('map')" class="mb-4 flex items-center gap-2 text-slate-500 hover:text-slate-800 transition font-medium text-sm">
+                <i class="fa-solid fa-arrow-left"></i> Kembali ke Peta
+            </button>
+
+            <!-- DOUBLE POSTER CONTAINER -->
+            <div class="flex flex-wrap justify-center gap-6 pb-20 items-stretch">
+                
+                <!-- 1. LEFT POSTER: VISUALS (Reconstructed Reference Style - Image Only) -->
+                <div class="bg-white rounded-[2rem] shadow-xl border border-slate-200 p-6 w-full lg:w-[48%] max-w-[700px] flex flex-col relative overflow-hidden h-full">
+                    
+                    <!-- Main Image (Full Height of Container) -->
+                    <div class="relative w-full h-full bg-slate-50 rounded-lg overflow-hidden border border-slate-100">
+                        <img id="poster-image" src="" class="w-full h-full object-contain">
+                    </div>
+                </div>
+
+                <!-- 2. RIGHT POSTER: LOCATION INTELLIGENCE (A4 Landscape) -->
+                <div class="bg-white rounded-[2rem] shadow-xl border border-slate-200 p-6 lg:p-8 w-full lg:w-[48%] max-w-[700px] relative overflow-hidden flex flex-col h-full">
+                <!-- Decorative Top Border -->
+                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400"></div>
+
+                <!-- Title Section -->
+                <div class="mb-6 flex justify-between items-end">
+                    <div>
+                        <h2 class="text-xl font-extrabold text-slate-800 tracking-tight">Location Intelligence Overview</h2>
+                      
+                    </div>
+
+                </div>
+
+                <!-- Grid Layout (Tighter Gap) -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                    
+                    <!-- TOP LEFT: LOCATION & TRAFFIC -->
+                    <div class="bg-slate-50/50 p-5 rounded-2xl border border-slate-100 space-y-4">
+                         <!-- Location Name -->
+                         <div>
+                            <label class="text-[9px] font-bold text-purple-400 uppercase tracking-wider mb-1.5 block">AREA NAME</label>
+                            <div class="bg-white p-3 rounded-xl border border-slate-100 shadow-sm text-slate-700 font-bold text-sm leading-snug" id="detail-area-name">
+                                 -
+                            </div>
+                         </div>
+
+                         <!-- Lat/Long -->
+                         <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="text-[9px] font-bold text-purple-400 uppercase tracking-wider mb-1.5 block">LATITUDE</label>
+                                <div class="bg-white p-2.5 rounded-xl border border-slate-100 shadow-sm text-slate-600 font-bold text-xs font-mono" id="detail-lat">
+                                     -
+                                </div>
+                            </div>
+                             <div>
+                                <label class="text-[9px] font-bold text-purple-400 uppercase tracking-wider mb-1.5 block">LONGITUDE</label>
+                                <div class="bg-white p-2.5 rounded-xl border border-slate-100 shadow-sm text-slate-600 font-bold text-xs font-mono" id="detail-lng">
+                                     -
+                                </div>
+                            </div>
+                         </div>
+
+                         <!-- Avg Views -->
+                         <div class="bg-white p-5 rounded-xl border border-purple-100 shadow-sm mt-3 relative overflow-hidden group hover:border-purple-200 transition">
+                            <div class="absolute right-0 top-0 w-16 h-16 bg-purple-50 rounded-bl-full -mr-4 -mt-4 transition group-hover:bg-purple-100"></div>
+                            <div class="relative z-10">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <div class="w-5 h-5 rounded-full bg-purple-100 flex items-center justify-center text-purple-600">
+                                        <i class="fa-solid fa-eye text-[10px]"></i>
+                                    </div>
+                                    <span class="text-[9px] font-bold text-slate-400 uppercase">AVG. VIEWS/DAY</span>
+                                </div>
+                                <h2 class="text-4xl font-extrabold text-slate-800 tracking-tight" id="detail-avg-views">0</h2>
+                                <div class="mt-1 text-[10px] font-bold text-green-500 flex items-center gap-1">
+                                    <i class="fa-solid fa-arrow-trend-up"></i> Consistent Growth
+                                </div>
+                            </div>
+                         </div>
+                    </div>
+
+                    <!-- TOP RIGHT: IMPRESSIONS & TECH SPECS -->
+                    <div class="bg-slate-50/50 p-5 rounded-2xl border border-slate-100 flex flex-col justify-between">
+                         <!-- Impressions -->
+                         <div class="bg-white p-5 rounded-xl border border-pink-100 shadow-sm mb-4 relative overflow-hidden group hover:border-pink-200 transition">
+                            <div class="absolute right-0 top-0 w-16 h-16 bg-pink-50 rounded-bl-full -mr-4 -mt-4 transition group-hover:bg-pink-100"></div>
+                            <div class="relative z-10">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <i class="fa-solid fa-award text-pink-500 text-lg"></i>
+                                    <span class="text-[9px] font-bold text-slate-400 uppercase">TOTAL IMPRESSIONS (MO)</span>
+                                </div>
+                                <h2 class="text-4xl font-extrabold text-slate-800 tracking-tight" id="detail-impressions">0</h2>
+                                <p class="text-[10px] text-slate-400 mt-1">Estimated monthly exposure</p>
+                            </div>
+                         </div>
+
+                         <!-- Tech Specs List -->
+                         <div class="bg-white p-5 rounded-xl border border-slate-100 shadow-sm space-y-3">
+                            <div class="flex justify-between items-center border-b border-slate-50 pb-2">
+                                 <span class="text-xs font-medium text-slate-500">Media Type</span>
+                                 <span class="text-xs font-bold text-slate-800" id="detail-type">-</span>
+                            </div>
+                             <div class="flex justify-between items-center border-b border-slate-50 pb-2">
+                                 <span class="text-xs font-medium text-slate-500">Size (WxH)</span>
+                                 <span class="text-xs font-bold text-slate-800" id="detail-size">-</span>
+                            </div>
+                            <div class="flex justify-between items-center border-b border-slate-50 pb-2">
+                                 <span class="text-xs font-medium text-slate-500">Orientation</span>
+                                 <span class="text-xs font-bold text-slate-800" id="detail-orientation">Vertical / 1 Sisi</span>
+                            </div>
+                             <div class="flex justify-between items-center text-indigo-600 pt-1">
+                                 <span class="text-xs font-bold flex items-center gap-2"><i class="fa-solid fa-wand-sparkles"></i> AI Score</span>
+                                 <span class="text-xl font-extrabold" id="detail-ai-score">-</span>
+                            </div>
+                         </div>
+                    </div>
+
+                    <!-- MIDDLE LEFT: PLACES NEAR LOCATION -->
+                    <div class="bg-white p-5 rounded-xl border border-slate-100">
+                        <h3 class="font-bold text-xs text-slate-500 uppercase tracking-wide mb-4 flex items-center gap-2">
+                            <i class="fa-solid fa-location-crosshairs text-blue-500"></i> Place Near Location
+                        </h3>
+                        <div class="space-y-2.5 max-h-[250px] overflow-y-auto pr-2 custom-scrollbar" id="detail-places-list">
+                             <div class="animate-pulse space-y-2">
+                                 <div class="h-8 bg-slate-50 rounded-lg w-full"></div>
+                                 <div class="h-8 bg-slate-50 rounded-lg w-full"></div>
+                             </div>
+                        </div>
+                    </div>
+
+                    <!-- MIDDLE RIGHT: AUDIENCE PROFILE -->
+                    <div class="bg-white p-5 rounded-xl border border-slate-100">
+                         <h3 class="font-bold text-xs text-slate-500 uppercase tracking-wide mb-4 flex items-center gap-2">
+                            <i class="fa-solid fa-users-viewfinder text-purple-500"></i> Audience Profile
+                        </h3>
+                        
+                        <div class="bg-slate-50 p-3 rounded-lg flex justify-between items-center mb-5 border border-slate-100">
+                            <span class="text-slate-500 font-medium text-xs">Dominant Age</span>
+                            <span class="bg-white px-3 py-1 rounded-md font-bold text-slate-800 border border-slate-200 shadow-sm text-xs" id="detail-dominant-age">18-24 Thn</span>
+                        </div>
+
+                        <!-- Gender Bar -->
+                        <div class="mb-1.5 flex justify-between text-[9px] text-slate-400 font-bold uppercase tracking-wider">
+                            <span>Male</span><span>Female</span>
+                        </div>
+                        <div class="w-full h-3 bg-red-100 rounded-full overflow-hidden flex mb-1.5">
+                            <div class="h-full bg-blue-500" style="width: 55%"></div>
+                            <div class="h-full bg-pink-400" style="width: 45%"></div>
+                        </div>
+                         <div class="flex justify-between text-[10px] font-bold text-slate-700">
+                            <span>55%</span><span>45%</span>
+                        </div>
+                        
+
+                    </div>
+
+                    <!-- BOTTOM LEFT: VEHICLE DISTRIBUTION CHART -->
+                    <div class="bg-white p-5 rounded-xl border border-slate-100 h-[260px] flex flex-col">
+                        <h3 class="font-bold text-xs text-slate-500 uppercase tracking-wide mb-2">VEHICLE DISTRIBUTION</h3>
+                        <div class="flex-1 relative flex items-center justify-center">
+                            <div class="h-48 w-full relative">
+                                <canvas id="detailVehicleChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BOTTOM RIGHT: VEHICLE DATA DETAIL -->
+                     <div class="bg-white p-5 rounded-xl border border-slate-100 h-[260px] overflow-y-auto custom-scrollbar">
+                        <h3 class="font-bold text-xs text-slate-500 uppercase tracking-wide mb-4">VEHICLE DATA DETAIL</h3>
+                        <div class="space-y-5" id="detail-vehicle-list">
+                             <!-- Filled by JS -->
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
         <!-- VIEW 3: LAPORAN -->
         <div id="view-reports" class="view-section p-8 max-w-[1200px] mx-auto w-full fade-in">
             <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
                 <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
                     <div>
-                        <h3 class="font-bold text-lg text-slate-800">Arsip Laporan Bulanan</h3>
-                        <p class="text-sm text-slate-500">Unduh laporan performa iklan dalam format PDF.</p>
+                        <h3 class="font-bold text-lg text-slate-800">Pusat Laporan</h3>
+                        <p class="text-sm text-slate-500">Unduh laporan detail per lokasi.</p>
                     </div>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-sm text-left">
                         <thead class="text-xs text-slate-500 uppercase bg-slate-50 border-b border-slate-100">
                             <tr>
-                                <th class="px-6 py-4">Periode Laporan</th>
+                                <th class="px-6 py-4">Periode</th>
                                 <th class="px-6 py-4">Lokasi</th>
-                                <th class="px-6 py-4">Total Impresi</th>
-                                <th class="px-6 py-4">Tanggal Generate</th>
+                                <th class="px-6 py-4">Impressions</th>
+                                <th class="px-6 py-4">Tanggal Laporan</th>
                                 <th class="px-6 py-4">Aksi</th>
                             </tr>
                         </thead>
@@ -521,9 +621,7 @@
                                 <td class="px-6 py-4 text-blue-600 font-semibold">1,240,500</td>
                                 <td class="px-6 py-4 text-slate-500">01 Des 2024</td>
                                 <td class="px-6 py-4">
-                                    <button
-                                        class="text-blue-600 hover:text-blue-800 font-bold flex items-center gap-2"><i
-                                            class="fa-solid fa-download"></i> PDF</button>
+                                    <button class="text-blue-600 hover:text-blue-800 font-bold flex items-center gap-2"><i class="fa-solid fa-download"></i> PDF</button>
                                 </td>
                             </tr>
                             <tr class="hover:bg-slate-50 transition">
@@ -532,20 +630,16 @@
                                 <td class="px-6 py-4 text-blue-600 font-semibold">1,105,200</td>
                                 <td class="px-6 py-4 text-slate-500">01 Nov 2024</td>
                                 <td class="px-6 py-4">
-                                    <button
-                                        class="text-blue-600 hover:text-blue-800 font-bold flex items-center gap-2"><i
-                                            class="fa-solid fa-download"></i> PDF</button>
+                                    <button class="text-blue-600 hover:text-blue-800 font-bold flex items-center gap-2"><i class="fa-solid fa-download"></i> PDF</button>
                                 </td>
                             </tr>
-                            <tr class="hover:bg-slate-50 transition">
+                             <tr class="hover:bg-slate-50 transition">
                                 <td class="px-6 py-4 font-bold text-slate-800">September 2024</td>
                                 <td class="px-6 py-4">Simpang Sudirman</td>
                                 <td class="px-6 py-4 text-blue-600 font-semibold">980,000</td>
                                 <td class="px-6 py-4 text-slate-500">01 Okt 2024</td>
                                 <td class="px-6 py-4">
-                                    <button
-                                        class="text-blue-600 hover:text-blue-800 font-bold flex items-center gap-2"><i
-                                            class="fa-solid fa-download"></i> PDF</button>
+                                    <button class="text-blue-600 hover:text-blue-800 font-bold flex items-center gap-2"><i class="fa-solid fa-download"></i> PDF</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -558,9 +652,7 @@
 
     <!-- SCRIPTS -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script
-        src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google.maps_key') }}&libraries=places&v=weekly"
-        async defer></script>
+
     <script>
         // --- NAVIGASI LOGIC ---
         let mapInitialized = false;
@@ -570,14 +662,28 @@
 
         function switchView(viewName) {
             const titles = {
-                'dashboard': 'Traffic Overview',
+                'dashboard': 'Smart Billboard Dashboard',
                 'map': 'Peta Sebaran Lokasi',
-                'reports': 'Pusat Laporan'
+                'reports': 'Pusat Laporan',
+                'analysis': 'Detail Lokasi Intelligence'
             };
+            
 
             // Auto-close floating map analysis if switching away or even within, just to be safe/clean
-            if (typeof closeMapAnalysis === 'function') {
+            if(typeof closeMapAnalysis === 'function') {
                 closeMapAnalysis();
+            }
+
+            // SIDEBAR TOGGLE LOGIC
+            const sidebar = document.getElementById('main-sidebar');
+            if (sidebar) {
+                if (viewName === 'analysis') {
+                    sidebar.classList.add('hidden');
+                    sidebar.classList.remove('md:flex');
+                } else {
+                    sidebar.classList.remove('hidden');
+                    sidebar.classList.add('md:flex');
+                }
             }
 
             document.getElementById('page-title').innerText = titles[viewName];
@@ -586,78 +692,36 @@
             document.getElementById('view-' + viewName).classList.add('active');
 
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-            document.getElementById('nav-' + viewName).classList.add('active');
+            const navItem = document.getElementById('nav-' + viewName);
+            if(navItem) navItem.classList.add('active');
 
             if (viewName === 'map') {
                 setTimeout(() => {
                     if (!mapInitialized) {
-                        // Init Map (Google Maps handles its own loading, but we call our init logic if script is ready)
-                        if (typeof google !== 'undefined' && google.maps) {
-                            initMap();
-                            mapInitialized = true;
+                        // Init Map using the Modern Init function
+                        if (typeof initMap === 'function') {
+                             initMap();
+                             mapInitialized = true;
                         }
-                    }
-                    // Google Maps doesn't need invalidateSize like Leaflet, but we might want to trigger a resize event
-                    if (mapInstance) {
-                        google.maps.event.trigger(mapInstance, "resize");
+                    } 
+                    // Trigger Resize
+                    if(mapInstance) {
+                         google.maps.event.trigger(mapInstance, "resize");
                     }
                 }, 100);
-            }
-        }
-
-        // --- GOOGLE MAPS LOGIC --
-        async function initMap() {
-            // Default Center (Indonesia)
-            const centerIndonesia = {
-                lat: -2.5489,
-                lng: 118.0149
-            };
-
-            mapInstance = new google.maps.Map(document.getElementById('map-container'), {
-                zoom: 5,
-                center: centerIndonesia,
-                mapTypeId: google.maps.MapTypeId.ROADMAP,
-                streetViewControl: true, // Enable Street View per user request
-                mapTypeControl: true,
-                mapTypeControlOptions: {
-                    style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-                    position: google.maps.ControlPosition.TOP_left
-                }
-            });
-
-            // ENABLE TRAFFIC LAYER (Visual Foundation)
-            // This overlays real-time traffic colors (Green/Orange/Red) from Google
-            const trafficLayer = new google.maps.TrafficLayer();
-            trafficLayer.setMap(mapInstance);
-
-            infoWindow = new google.maps.InfoWindow();
-
-
-            // Check if data is already loaded by Dashboard
-            if (window.mapData && window.mapData.length > 0) {
-                renderMarkers(window.mapData);
-                // Force remove loading if data exists because fetchAndProcessData won't trigger finally block here
-                const loadingEl = document.getElementById('map-loading');
-                if (loadingEl) {
-                    loadingEl.style.opacity = '0';
-                    setTimeout(() => loadingEl.remove(), 500);
-                }
-            } else {
-                // If accessed directly or data not ready, fetch it
-                await fetchAndProcessData(true);
             }
         }
 
         // --- UNIFIED DATA FETCHING ---
         // 'renderMap': boolean, true if we should also create map markers
         async function fetchAndProcessData(renderMap = false) {
-            try {
+             try {
                 const response = await fetch('/cek-map/data');
                 const result = await response.json();
-
+                
                 if (result.status === 200 && result.payload) {
                     window.mapData = result.payload;
-
+                    
                     // 1. UPDATE ANALYTICS (Dashboard)
                     updateAnalytics(window.mapData);
 
@@ -670,32 +734,29 @@
                 console.error("Error loading data:", error);
             } finally {
                 // Hide loading if exists
-                const loadingEl = document.getElementById('map-loading');
-                if (loadingEl && renderMap) {
+                 const loadingEl = document.getElementById('map-loading');
+                 if (loadingEl && renderMap) {
                     loadingEl.style.opacity = '0';
                     setTimeout(() => loadingEl.remove(), 500);
-                }
+                 }
             }
         }
 
         function renderMarkers(data) {
-            const bounds = new google.maps.LatLngBounds();
-            const IMG_BASE = 'https://internal.yousee-indonesia.com';
+             const bounds = new google.maps.LatLngBounds();
+             const IMG_BASE = 'https://internal.yousee-indonesia.com';
 
-            data.forEach(item => {
-                // Robust parsing
-                let lat = item.latitude;
-                let lng = item.longitude;
+             data.forEach(item => {
+                 // Robust parsing
+                 let lat = item.latitude;
+                 let lng = item.longitude;
+                 
+                 if(typeof lat === 'string') lat = parseFloat(lat.replace(',', '.'));
+                 if(typeof lng === 'string') lng = parseFloat(lng.replace(',', '.'));
 
-                if (typeof lat === 'string') lat = parseFloat(lat.replace(',', '.'));
-                if (typeof lng === 'string') lng = parseFloat(lng.replace(',', '.'));
-
-                if (lat && lng && !isNaN(lat) && !isNaN(lng)) {
-                    const position = {
-                        lat: lat,
-                        lng: lng
-                    };
-
+                 if (lat && lng && !isNaN(lat) && !isNaN(lng)) {
+                    const position = { lat: lat, lng: lng };
+                    
                     // Determine Icon URL
                     let iconUrl = item.type && item.type.icon ? item.type.icon : null;
                     if (iconUrl) {
@@ -732,7 +793,7 @@
 
         // AUTO-FETCH ON LOAD (For Dashboard Analytics)
         document.addEventListener('DOMContentLoaded', () => {
-            fetchAndProcessData(false);
+             fetchAndProcessData(false);
         });
 
         // --- HELPER: Robust Float Parsing ---
@@ -759,7 +820,7 @@
 
 
 
-
+        
         function escapeHtml(str) {
             if (str == null) return "";
             return String(str)
@@ -772,112 +833,103 @@
 
         // --- SMART LOCATION INTELLIGENCE PROFILING ---
         function calculateSmartProfile(item, numericOnly = false) {
-            // Base Traffic (Minimum daily views for any billboard)
-            let baseTraffic = 15000;
+             // Base Traffic (Minimum daily views for any billboard)
+             let baseTraffic = 15000;
+             
+             // 1. FACTOR: MEDIA TYPE (Premium media is usually in busier spots)
+             let typeMult = 1.0;
+             const typeName = item.type && item.type.name ? item.type.name.toLowerCase() : '';
+             if (typeName.includes('videotron') || typeName.includes('megatron') || typeName.includes('led')) {
+                 typeMult = 2.5; // High traffic density usually
+             } else if (typeName.includes('billboard')) {
+                 typeMult = 1.8;
+             }
 
-            // 1. FACTOR: MEDIA TYPE (Premium media is usually in busier spots)
-            let typeMult = 1.0;
-            const typeName = item.type && item.type.name ? item.type.name.toLowerCase() : '';
-            if (typeName.includes('videotron') || typeName.includes('megatron') || typeName.includes('led')) {
-                typeMult = 2.5; // High traffic density usually
-            } else if (typeName.includes('billboard')) {
-                typeMult = 1.8;
-            }
+             // 2. FACTOR: SIZE (Larger media = Wider visibility range)
+             let sizeMult = 1.0;
+             const area = (parseFloat(item.width) || 0) * (parseFloat(item.height) || 0);
+             if (area > 100) sizeMult = 1.5;
+             else if (area > 50) sizeMult = 1.25;
 
-            // 2. FACTOR: SIZE (Larger media = Wider visibility range)
-            let sizeMult = 1.0;
-            const area = (parseFloat(item.width) || 0) * (parseFloat(item.height) || 0);
-            if (area > 100) sizeMult = 1.5;
-            else if (area > 50) sizeMult = 1.25;
+             // 3. FACTOR: LOCATION KEYWORDS (Simple heuristic)
+             let locMult = 1.0;
+             const address = (item.address || '').toLowerCase() + ' ' + (item.location || '').toLowerCase();
+             if (address.includes('sudirman') || address.includes('thamrin') || address.includes('gatot')) locMult = 2.0; 
+             else if (address.includes('tol') || address.includes('arteri')) locMult = 1.5;
+             else if (address.includes('alun')) locMult = 1.3;
 
-            // 3. FACTOR: LOCATION KEYWORDS (Simple heuristic)
-            let locMult = 1.0;
-            const address = (item.address || '').toLowerCase() + ' ' + (item.location || '').toLowerCase();
-            if (address.includes('sudirman') || address.includes('thamrin') || address.includes('gatot')) locMult = 2.0;
-            else if (address.includes('tol') || address.includes('arteri')) locMult = 1.5;
-            else if (address.includes('alun')) locMult = 1.3;
+             // CALCULATION
+             let aiScore = (typeMult * sizeMult * locMult * 1.5); // Base Score
+             if (aiScore > 10) aiScore = 9.8; 
+             if (aiScore < 4) aiScore = 4.2;
+             
+             // 4. DAILY FLUCTUATION (Simulate Day-of-Week)
+             const today = new Date();
+             const day = today.getDay(); // 0=Sun, 6=Sat
+             let dayFactor = 1.0;
+             if (day === 6) dayFactor = 1.15; // Saturday busy
+             if (day === 0) dayFactor = 0.85; // Sunday quiet
+             
+             // Daily Random Noise (Consistent for the day)
+             // Create a simple hash from date string + itemID to have consistent daily "randomness"
+             const dateStr = today.toISOString().split('T')[0];
+             const seed = dateStr.split('').reduce((a,b)=>a+b.charCodeAt(0),0) + (item.id || 0);
+             const randomFactor = 0.9 + ((seed % 20) / 100); // 0.90 to 1.10
 
-            // CALCULATION
-            let aiScore = (typeMult * sizeMult * locMult * 1.5); // Base Score
-            if (aiScore > 10) aiScore = 9.8;
-            if (aiScore < 4) aiScore = 4.2;
+             // Use DB Traffic if available (Priority), else Calculate
+             const finalTraffic = (item.trafic && parseInt(item.trafic) > 0) 
+                ? parseInt(item.trafic) 
+                : Math.floor(baseTraffic * typeMult * sizeMult * locMult * dayFactor * randomFactor);
+             
+             if(numericOnly) return finalTraffic;
 
-            // 4. DAILY FLUCTUATION (Simulate Day-of-Week)
-            const today = new Date();
-            const day = today.getDay(); // 0=Sun, 6=Sat
-            let dayFactor = 1.0;
-            if (day === 6) dayFactor = 1.15; // Saturday busy
-            if (day === 0) dayFactor = 0.85; // Sunday quiet
-
-            // Daily Random Noise (Consistent for the day)
-            // Create a simple hash from date string + itemID to have consistent daily "randomness"
-            const dateStr = today.toISOString().split('T')[0];
-            const seed = dateStr.split('').reduce((a, b) => a + b.charCodeAt(0), 0) + (item.id || 0);
-            const randomFactor = 0.9 + ((seed % 20) / 100); // 0.90 to 1.10
-
-            // Use DB Traffic if available (Priority), else Calculate
-            const finalTraffic = (item.trafic && parseInt(item.trafic) > 0) ?
-                parseInt(item.trafic) :
-                Math.floor(baseTraffic * typeMult * sizeMult * locMult * dayFactor * randomFactor);
-
-            if (numericOnly) return finalTraffic;
-
-            // Format Score for Display
-            return aiScore.toFixed(1) + "/10";
-        }
+             // Format Score for Display
+             return aiScore.toFixed(1) + "/10";
+         }
 
         function getInfoWindowContent(item) {
             const aiScore = calculateSmartProfile(item); // Returns string "9.2/10"
             const scoreVal = parseFloat(aiScore.split('/')[0]);
-
+            
             // CONTEXT HELPERS
             function getAreaContext(addr) {
-                if (!addr) return 'General Area';
+                if(!addr) return "Kawasan Umum";
                 const a = addr.toLowerCase();
-                if (a.includes('mall') || a.includes('plaza') || a.includes('pasar')) return 'Shopping District';
-                if (a.includes('sekolah') || a.includes('kampus') || a.includes('univ')) return 'Education Zone';
-                if (a.includes('kantor') || a.includes('office') || a.includes('center')) return 'Business District';
-                if (a.includes('tol') || a.includes('stasiun') || a.includes('bandara')) return 'Transit Hub';
-                if (a.includes('perum') || a.includes('warga') || a.includes('residence')) return 'Residential';
-                return 'Urban Road Network';
+                if(a.includes('mall') || a.includes('plaza') || a.includes('pasar')) return "Pusat Perbelanjaan";
+                if(a.includes('sekolah') || a.includes('kampus') || a.includes('univ')) return "Zona Pendidikan";
+                if(a.includes('kantor') || a.includes('office') || a.includes('center')) return "Kawasan Bisnis";
+                if(a.includes('tol') || a.includes('stasiun') || a.includes('bandara')) return "Hub Transportasi";
+                if(a.includes('perum') || a.includes('warga') || a.includes('residence')) return "Permukiman";
+                return "Jalan Perkotaan";
             }
 
             function getAudienceSegment(addr, type) {
                 const a = (addr || '').toLowerCase();
                 const t = (type || '').toLowerCase();
-                if (a.includes('sekolah') || a.includes('kampus')) return 'Gen Z & Students';
-                if (a.includes('mall') || a.includes('plaza')) return 'Shoppers & Family';
-                if (a.includes('kantor') || t.includes('videotron')) return 'Professionals & Execs';
-                if (a.includes('tol') || a.includes('bypass')) return 'Commuters / Travelers';
-                return 'General Mobile Public';
+                if(a.includes('sekolah') || a.includes('kampus')) return "Gen Z (Pelajar)";
+                if(a.includes('mall') || a.includes('plaza')) return "Shoppers & Family";
+                if(a.includes('kantor') || t.includes('videotron')) return "Profesional & Eksekutif";
+                if(a.includes('tol') || a.includes('bypass')) return "Commuters (Pekerja)";
+                return "Masyarakat Umum";
             }
 
-            // Estimate Views (Re-using global logic for display consistency or simple fallback)
-            // Note: calculateSmartProfile(item, true) gives raw number
+            // Estimate Views
             const views = calculateSmartProfile(item, true).toLocaleString();
 
-            // Title Logic: Prioritize 'location' (View description) as per user request
-            // Fallback to name, then address.
+            // Title Logic
             let title = item.location;
             if (!title || title === '-' || title === 'null') title = item.name;
             if (!title || title === '-' || title === 'null') title = item.address;
             title = title || 'Lokasi Tanpa Nama';
 
-
-
-            // Trigger Async Data Fetch - REMOVED per user request
-            // setTimeout(function () {
-            //      fetchRealPlaces(item, 'places-list-' + item.id);
-            // }, 100);
-
-            return `
+                return `
                 <div class="p-0 w-[280px] font-sans">
                     <!-- Adjusted for Vertical Scroll: h-[200px], overflow-y-auto, h-auto image -->
                     <div class="relative w-full h-[200px] bg-slate-100 rounded-t-lg group">
-
+                        
                         <div class="w-full h-full overflow-y-auto no-scrollbar relative">
-                             <img src="${item.image2 ? (item.image2.startsWith('http') ? item.image2 : 'https://internal.yousee-indonesia.com/' + item.image2) : (item.image1 ? (item.image1.startsWith('http') ? item.image1 : 'https://internal.yousee-indonesia.com/' + item.image1) : 'https://placehold.co/400x300?text=No+Image')}"
-                                class="w-full h-auto"
+                             <img src="${item.image2 ? (item.image2.startsWith('http') ? item.image2 : 'https://internal.yousee-indonesia.com/' + item.image2) : (item.image1 ? (item.image1.startsWith('http') ? item.image1 : 'https://internal.yousee-indonesia.com/' + item.image1) : 'https://placehold.co/400x300?text=No+Image')}" 
+                                class="w-full h-auto" 
                                 onerror="this.src='https://placehold.co/400x300?text=Image+Error'">
                         </div>
 
@@ -890,7 +942,7 @@
                             <i class="fa-solid fa-eye mr-1"></i> ${title}
                         </div>
                     </div>
-
+                    
                     <div class="p-3 bg-white">
                         <div class="mb-3">
                             <h3 class="font-bold text-slate-800 text-sm leading-tight mb-1 line-clamp-2">${title}</h3>
@@ -900,15 +952,13 @@
                             </p>
                         </div>
 
-
-
                         <div class="grid grid-cols-2 gap-2 mb-4">
                             <div class="bg-blue-50 p-2 rounded-lg border border-blue-100 text-center">
-                                <p class="text-[10px] text-blue-400 uppercase font-bold mb-0.5">Est. Views/Hari</p>
+                                <p class="text-[10px] text-blue-400 uppercase font-bold mb-0.5">EST. VIEWS</p>
                                 <p class="text-sm font-bold text-blue-700">${views}</p>
                             </div>
                             <div class="bg-indigo-50 p-2 rounded-lg border border-indigo-100 text-center">
-                                <p class="text-[10px] text-indigo-400 uppercase font-bold mb-0.5">AI Score</p>
+                                <p class="text-[10px] text-indigo-400 uppercase font-bold mb-0.5">AI SCORE</p>
                                 <div class="flex items-center justify-center gap-1">
                                     <span class="text-sm font-bold text-indigo-700">${aiScore}</span>
                                     <div class="flex text-[8px] text-yellow-400">
@@ -928,7 +978,7 @@
                             <span class="flex items-center bg-slate-50 px-2 py-1 rounded border border-slate-100"><i class="fa-solid fa-tv mr-1.5 text-blue-400"></i>${item.side || '1'} Sisi</span>
                         </div>
 
-                        <button onclick="showMapAnalysis(${item.id})"
+                        <button onclick="showMapAnalysis(${item.id})" 
                             class="w-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold py-2.5 px-3 rounded-lg transition shadow-lg shadow-blue-600/20 flex items-center justify-center gap-2 group">
                             <span>Lihat Analisis Detail</span>
                             <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
@@ -957,7 +1007,7 @@
             const volumeEl = document.querySelector('.stats-card h3.text-3xl');
             if (volumeEl) {
                 // Remove factor 1000 multiplication as backend now returns full integer
-                let baseVolume = item.trafic ? parseInt(item.trafic) : Math.floor(Math.random() * 20000) + 5000;
+                let baseVolume = item.trafic ? parseInt(item.trafic) : Math.floor(Math.random() * 20000) + 5000; 
                 volumeEl.innerText = baseVolume.toLocaleString();
             }
 
@@ -970,22 +1020,16 @@
             }
 
             switchView('dashboard');
-
+            
             // Scroll to the "Live Monitoring" section smoothly so user sees the change
             const liveHeader = document.getElementById('live-loc-name');
-            if (liveHeader) {
-                liveHeader.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'center'
-                });
+            if(liveHeader) {
+                liveHeader.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 // Highlight effect
                 liveHeader.parentElement.classList.add('bg-blue-50', 'transition-colors', 'duration-1000');
                 setTimeout(() => liveHeader.parentElement.classList.remove('bg-blue-50'), 1000);
             } else {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             }
 
             // 5. Trigger Real-time Verification (Hybrid Strategy)
@@ -997,40 +1041,39 @@
         async function checkSmartTraffic(itemId) {
             // Update UI to "Checking" state
             const statusEl = document.getElementById('live-loc-name').parentElement;
-
+            
             let badgeContainer = document.getElementById('rt-status-badge');
-            if (!badgeContainer) {
+            if(!badgeContainer) {
                 badgeContainer = document.createElement('div');
                 badgeContainer.id = 'rt-status-badge';
                 badgeContainer.className = 'mt-1';
                 statusEl.appendChild(badgeContainer);
             }
-
-            badgeContainer.innerHTML =
-                '<span class="inline-flex items-center gap-2 text-blue-600 bg-blue-50 px-2 py-1 rounded text-xs font-medium border border-blue-100"><svg class="animate-spin h-3 w-3 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Memeriksa Trafik (Smart Check)...</span>';
+            
+            badgeContainer.innerHTML = '<span class="inline-flex items-center gap-2 text-blue-600 bg-blue-50 px-2 py-1 rounded text-xs font-medium border border-blue-100"><svg class="animate-spin h-3 w-3 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Memeriksa Trafik (Smart Check)...</span>';
 
             try {
                 const response = await fetch(`/traffic/${itemId}/check`);
                 const data = await response.json();
-
+                
                 // Score logic: 1000 = Normal. >1400 = Macet.
                 const score = parseInt(data.score) || 1000;
-
+                
                 // Update Volume/Traffic Numbers & Local Cache
                 if (data.traffic) {
                     const newTraffic = parseInt(data.traffic);
-
+                    
                     // 1. Update Local Map Data Cache
                     const localItem = window.mapData.find(i => i.id == itemId);
                     if (localItem) {
                         localItem.trafic = newTraffic;
                         localItem.traffic_last_updated = new Date().toISOString();
-
+                        
                         // 2. Refresh Popup Content (if open)
                         if (infoWindow && infoWindow.getMap()) {
-                            // Force redraw content with new data
-                            const content = getInfoWindowContent(localItem);
-                            infoWindow.setContent(content);
+                             // Force redraw content with new data
+                             const content = getInfoWindowContent(localItem);
+                             infoWindow.setContent(content);
                         }
                     }
 
@@ -1038,7 +1081,7 @@
                     const volumeEl = document.querySelector('.stats-card h3.text-3xl');
                     if (volumeEl) {
                         volumeEl.innerText = newTraffic.toLocaleString();
-
+                        
                         // Flash effect
                         volumeEl.classList.add('text-green-600');
                         setTimeout(() => volumeEl.classList.remove('text-green-600'), 1000);
@@ -1046,23 +1089,19 @@
 
                     // 4. Update "Updated At" Text
                     const updatedTextEl = document.getElementById('map-card-updated-text');
-                    if (updatedTextEl) {
-                        const timeStr = new Date().toLocaleTimeString('id-ID', {
-                            hour: '2-digit',
-                            minute: '2-digit'
-                        });
+                    if(updatedTextEl) {
+                        const timeStr = new Date().toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'});
                         updatedTextEl.innerText = `Updated: Hari ini ${timeStr}`;
-
+                        
                         // Flash badge
                         const box = document.getElementById('map-card-updated-box');
-                        if (box) {
+                        if(box) {
                             box.classList.add('bg-green-50', 'text-green-600', 'border-green-200');
-                            setTimeout(() => box.classList.remove('bg-green-50', 'text-green-600', 'border-green-200'),
-                                1000);
+                            setTimeout(() => box.classList.remove('bg-green-50', 'text-green-600', 'border-green-200'), 1000);
                         }
                     }
                 }
-
+                
                 let trafficStatus = 'LANCAR (FLUID)';
                 let colorClass = 'text-green-700 bg-green-50 border-green-200';
                 let icon = '<i class="fa-solid fa-check-circle text-green-600"></i>';
@@ -1078,9 +1117,9 @@
                 }
 
                 // Info Source (Cache/Live)
-                const sourceBadge = data.source === 'cache' ?
-                    '<span class="text-[10px] text-slate-400 ml-1" title="Data Cache (Hemat Biaya)"><i class="fa-solid fa-database"></i></span>' :
-                    '<span class="text-[10px] text-blue-400 ml-1" title="Live Update Google API"><i class="fa-solid fa-bolt"></i></span>';
+                const sourceBadge = data.source === 'cache' 
+                    ? '<span class="text-[10px] text-slate-400 ml-1" title="Data Cache (Hemat Biaya)"><i class="fa-solid fa-database"></i></span>' 
+                    : '<span class="text-[10px] text-blue-400 ml-1" title="Live Update Google API"><i class="fa-solid fa-bolt"></i></span>';
 
                 const badge = `
                     <div class="${colorClass} inline-flex items-center gap-2 px-3 py-1 rounded-full border text-xs font-bold transition-all shadow-sm">
@@ -1099,14 +1138,34 @@
 
         // --- ANALYTICS LOGIC ---
         let geoChartInstance = null;
-
+        
         function updateAnalytics(data) {
             if (!data || data.length === 0) return;
 
             // 1. UPDATE KPI CARDS (Dynamic Data)
             // Total Volume (Sum of all traffic)
-            const totalTraffic = data.reduce((sum, item) => sum + (parseInt(item.trafic || 0)), 0);
-            document.querySelector('.stats-card h3.text-3xl').innerText = totalTraffic.toLocaleString();
+            let totalTraffic = 0;
+            let totalScore = 0;
+            let i = 0;
+
+            data.forEach(item => {
+                const traffic = parseInt(item.trafic || item._displayTraffic || calculateSmartProfile(item, true));
+                totalTraffic += traffic;
+                const score = parseFloat(calculateSmartProfile(item).split('/')[0]);
+                totalScore += score;
+                i++;
+            });
+
+            const kpiVolume = document.getElementById('kpi-volume');
+            if(kpiVolume) kpiVolume.innerText = `${totalTraffic.toLocaleString()} View/Day`;
+            
+            const avgScore = i > 0 ? (totalScore / i).toFixed(1) : '0.0';
+            const kpiScore = document.getElementById('kpi-score');
+            if(kpiScore) kpiScore.innerHTML = `${avgScore}<span class="text-lg font-normal text-indigo-200">/10</span>`;
+
+            // Audience Dominance (Mock for Aggregate)
+            const kpiAudience = document.getElementById('kpi-audience');
+            if (kpiAudience) kpiAudience.innerText = "25 - 40 Tahun";
 
             // 2. POPULATE TOP 5 TABLE
             renderTopSpots(data);
@@ -1114,7 +1173,7 @@
 
             // 3. GEO CHART (Province Distribution)
             renderGeoChart(data);
-
+            
             // 4. VEHICLE CHART
             renderVehicleChart(data);
 
@@ -1122,13 +1181,13 @@
             // Add slight transparency transition for smoothness
             const smoothRemove = (id) => {
                 const el = document.getElementById(id);
-                if (el) {
+                if(el) {
                     el.style.transition = 'opacity 0.5s ease';
                     el.style.opacity = '0';
                     setTimeout(() => el.remove(), 500);
                 }
             };
-
+            
             ['vehicleChart-skeleton', 'trafficChart-skeleton', 'geoChart-skeleton'].forEach(smoothRemove);
         }
 
@@ -1140,7 +1199,7 @@
 
             // Extract unique provinces
             const provinces = [...new Set(data.map(item => item.city?.province?.name).filter(Boolean))].sort();
-
+            
             provinces.forEach(prov => {
                 const option = document.createElement('option');
                 option.value = prov;
@@ -1154,42 +1213,38 @@
         function applyProvinceFilter() {
             const select = document.getElementById('filter-province');
             const selectedProv = select.value;
-
+            
             let filteredData = window.mapData;
             if (selectedProv !== 'all') {
                 filteredData = window.mapData.filter(item => item.city?.province?.name === selectedProv);
             }
-
+            
             renderTopSpots(filteredData);
             renderGeoChart(filteredData);
             renderVehicleChart(filteredData);
         }
 
         function renderTopSpots(data) {
-            // Sort by traffic desc
-            // UPDATE: Use Display Traffic for sorting (Real OR Estimated) ensures consistency
-            const enrichedData = data.map(item => {
+             // Sort by traffic desc
+             // UPDATE: Use Display Traffic for sorting (Real OR Estimated) ensures consistency
+             const enrichedData = data.map(item => {
                 let showTraffic = parseInt(item.trafic || 0);
                 if (showTraffic === 0) {
                     showTraffic = calculateSmartProfile(item, true); // Use estimated if real is 0
                 }
-                return {
-                    ...item,
-                    _displayTraffic: showTraffic
-                };
-            });
+                return { ...item, _displayTraffic: showTraffic };
+             });
 
             const sortedByTraffic = enrichedData.sort((a, b) => b._displayTraffic - a._displayTraffic).slice(0, 5);
-
+            
             // Render Dynamic Chart
             renderTrafficChart(sortedByTraffic);
 
             const tableBody = document.getElementById('top-spots-table');
-
+            
             if (tableBody) {
                 if (sortedByTraffic.length === 0) {
-                    tableBody.innerHTML =
-                        '<tr><td colspan="4" class="text-center py-4 text-slate-400 text-xs">Tidak ada data untuk filter ini</td></tr>';
+                    tableBody.innerHTML = '<tr><td colspan="4" class="text-center py-4 text-slate-400 text-xs">Tidak ada data untuk filter ini</td></tr>';
                     return;
                 }
 
@@ -1222,14 +1277,13 @@
                             </button>
                         </td>
                     </tr>
-                `
-                }).join('');
+                `}).join('');
             }
         }
 
         function renderGeoChart(data) {
             // 3. GEO CHART (Province vs City Distribution)
-
+            
             // Check current filter context
             const selectedProv = document.getElementById('filter-province').value;
             const isProvinceLevel = (selectedProv === 'all');
@@ -1248,14 +1302,14 @@
                 }
                 counts[key] = (counts[key] || 0) + 1;
             });
-
+            
             // Prepare Chart Data
             // Sort by count desc for better visualization
-            const sortedKeys = Object.keys(counts).sort((a, b) => counts[b] - counts[a]);
+            const sortedKeys = Object.keys(counts).sort((a,b) => counts[b] - counts[a]);
             const labels = sortedKeys.slice(0, 5).map(label => {
-                // Truncate long city/province names for X-Axis
-                return label.length > 12 ? label.substring(0, 10) + '..' : label;
-            });
+                 // Truncate long city/province names for X-Axis
+                 return label.length > 12 ? label.substring(0, 10) + '..' : label;
+            }); 
             const values = sortedKeys.slice(0, 5).map(k => counts[k]);
 
             const ctxGeo = document.getElementById('geoChart').getContext('2d');
@@ -1277,10 +1331,8 @@
                     indexAxis: 'x', // Vertical
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
+                    plugins: { 
+                        legend: { display: false },
                         tooltip: {
                             callbacks: {
                                 title: function(context) {
@@ -1291,31 +1343,20 @@
                         },
                         title: {
                             display: true,
-                            text: isProvinceLevel ? 'Sebaran per Provinsi (Top 5)' :
-                                `Sebaran di ${selectedProv} (Top 5)`,
+                            text: isProvinceLevel ? 'Sebaran per Provinsi (Top 5)' : `Sebaran di ${selectedProv} (Top 5)`,
                             align: 'start',
-                            font: {
-                                size: 12,
-                                weight: 'normal'
-                            },
+                            font: { size: 12, weight: 'normal' },
                             color: '#64748b'
                         }
                     },
-                    scales: {
-                        y: {
-                            grid: {
-                                borderDash: [4, 4],
-                                color: '#f1f5f9'
-                            },
-                            ticks: {
-                                precision: 0
-                            }
-                        },
-                        x: {
-                            grid: {
-                                display: false
-                            }
-                        }
+                    scales: { 
+                        y: { 
+                            grid: { borderDash: [4, 4], color: '#f1f5f9' },
+                            ticks: { precision: 0 } 
+                        }, 
+                        x: { 
+                            grid: { display: false } 
+                        } 
                     }
                 }
             });
@@ -1326,16 +1367,13 @@
             switchView('map');
             const item = window.mapData.find(i => i.id == id);
             if (item && mapInstance) {
-                mapInstance.setCenter({
-                    lat: parseFloat(item.latitude),
-                    lng: parseFloat(item.longitude)
-                });
+                mapInstance.setCenter({ lat: parseFloat(item.latitude), lng: parseFloat(item.longitude) });
                 mapInstance.setZoom(15);
                 // Trigger popup
                 // Fix: Find marker by ID instead of approximate coordinates
                 const targetMarker = markers.find(m => m._id == id);
                 if (targetMarker) {
-                    google.maps.event.trigger(targetMarker, 'click');
+                     google.maps.event.trigger(targetMarker, 'click');
                 }
             }
         }
@@ -1347,153 +1385,125 @@
         function predictLocalPlaces(item) {
             const text = ((item.address || '') + ' ' + (item.location || '') + ' ' + (item.name || '')).toLowerCase();
             let places = [];
-            const getDist = () => (0.2 + Math.random() * 0.8).toFixed(1) + ' km';
-
+            const getDist = () => (0.2 + Math.random() * 0.8).toFixed(1) + ' km'; 
+            
             // Use specific City/Area names if available for "Fake Realism"
             const cityName = item.city && item.city.name ? item.city.name : 'Sekitar';
-
+            
             // 1. LIFESTYLE (Mall/Pasar)
             if (text.includes('mall') || text.includes('plaza')) {
-                places.push({
-                    name: 'Pusat Perbelanjaan Utama',
-                    types: ['shopping_mall'],
-                    dist: getDist()
-                });
+                places.push({ name: 'Pusat Perbelanjaan Utama', types: ['shopping_mall'], dist: getDist() });
             } else {
-                places.push({
-                    name: `Pusat Bisnis ${cityName}`,
-                    types: ['shopping_mall'],
-                    dist: getDist()
-                });
+                 places.push({ name: `Pusat Bisnis ${cityName}`, types: ['shopping_mall'], dist: getDist() });
             }
 
             // 2. TRANSPORT
             if (text.includes('stasiun')) {
-                places.push({
-                    name: 'Stasiun Kota',
-                    types: ['train_station'],
-                    dist: getDist()
-                });
+                places.push({ name: 'Stasiun Kota', types: ['train_station'], dist: getDist() });
             }
-
+            
             // 3. PUBLIC
-            places.push({
-                name: `Alun-Alun ${cityName}`,
-                types: ['park'],
-                dist: getDist()
-            });
-            places.push({
-                name: 'Fasilitas KesehatanTerdekat',
-                types: ['hospital'],
-                dist: getDist()
-            });
+            places.push({ name: `Alun-Alun ${cityName}`, types: ['park'], dist: getDist() });
+            places.push({ name: 'Fasilitas KesehatanTerdekat', types: ['hospital'], dist: getDist() });
 
             return places.slice(0, 4);
         }
 
         // --- REAL-TIME PLACES API (Restored & Fixed) ---
         async function fetchRealPlaces(item, containerId, displayMode = 'dashboard') {
-            const container = document.getElementById(containerId);
-            if (!container) return;
+             const container = document.getElementById(containerId);
+             if (!container) return;
 
-            const cacheKey = `places_real_${item.id}`; // Clean key
+             const cacheKey = `places_real_${item.id}`; // Clean key
 
-            // 1. Check Cache
-            if (window.placesCache[cacheKey]) {
-                renderPlaces(window.placesCache[cacheKey], container, displayMode);
-                return;
-            }
-
-            // 2. SHOW SCANNING STATE
-            container.innerHTML = `
+             // 1. Check Cache
+             if (window.placesCache[cacheKey]) {
+                 renderPlaces(window.placesCache[cacheKey], container, displayMode);
+                 return;
+             }
+             
+             // 2. SHOW SCANNING STATE
+             container.innerHTML = `
                 <div class="flex items-center gap-3 text-slate-500 text-xs py-2 animate-pulse">
                     <i class="fa-solid fa-satellite-dish fa-spin text-blue-500"></i>
                     <span class="font-medium">Mencari lokasi strategis (Real-Time)...</span>
                 </div>
              `;
+             
+             // 3. API FETCH
+             // Ensure Library is Loaded
+             let PlacesService;
+             try {
+                 const lib = await google.maps.importLibrary("places");
+                 PlacesService = lib.PlacesService;
+             } catch (e) {
+                 console.error("Maps lib failed", e);
+                 renderFallback(container);
+                 return;
+             }
 
-            // 3. API FETCH
-            // Ensure Library is Loaded
-            let PlacesService;
-            try {
-                const lib = await google.maps.importLibrary("places");
-                PlacesService = lib.PlacesService;
-            } catch (e) {
-                console.error("Maps lib failed", e);
-                renderFallback(container);
-                return;
-            }
+             const dummyMap = document.createElement('div');
+             const service = new PlacesService(dummyMap);
+             
+             // Smart Context
+             let searchContext = item.location || item.address || (item.city ? item.city.name : '') || '';
+             if (searchContext.toLowerCase().includes('tol') || searchContext.toLowerCase().includes('highway')) {
+                 searchContext = item.city && item.city.name ? item.city.name : 'Sekitar';
+             }
+             
+             const query = `landmark, hospital, mall, school, university, office, bank, market near ${searchContext}`;
+             
+             // CRITICAL FIX: Parse Coordinates Robustly
+             const lat = safeFloat(item.latitude);
+             const lng = safeFloat(item.longitude);
+             
+             if (!lat || !lng) {
+                  renderFallback(container);
+                  return;
+             }
 
-            const dummyMap = document.createElement('div');
-            const service = new PlacesService(dummyMap);
+             const latlng = { lat: lat, lng: lng };
+             const request = {
+                 query: query,
+                 location: latlng,
+                 radius: 2500, // 2.5 KM
+             };
+             
+             // Note: textSearch is legacy but effective. 
+             // If PlacesService is available, textSearch should work.
+             service.textSearch(request, (results, status) => {
+                 if (status === google.maps.places.PlacesServiceStatus.OK && results.length > 0) {
+                     const maxRadius = 2.5; 
+                     const validPlaces = results.map(p => {
+                         const placeLoc = p.geometry.location;
+                         const distKm = haversineDistance(
+                             latlng.lat, latlng.lng, 
+                             placeLoc.lat(), placeLoc.lng()
+                         );
+                         p._realDistance = distKm;
+                         return p;
+                     }).filter(p => p._realDistance <= maxRadius);
 
-            // Smart Context
-            let searchContext = item.location || item.address || (item.city ? item.city.name : '') || '';
-            if (searchContext.toLowerCase().includes('tol') || searchContext.toLowerCase().includes('highway')) {
-                searchContext = item.city && item.city.name ? item.city.name : 'Sekitar';
-            }
-
-            const query = `landmark, hospital, mall, school, university, office, bank, market near ${searchContext}`;
-
-            // CRITICAL FIX: Parse Coordinates Robustly
-            const lat = safeFloat(item.latitude);
-            const lng = safeFloat(item.longitude);
-
-            if (!lat || !lng) {
-                renderFallback(container);
-                return;
-            }
-
-            const latlng = {
-                lat: lat,
-                lng: lng
-            };
-            const request = {
-                query: query,
-                location: latlng,
-                radius: 2500, // 2.5 KM
-            };
-
-            // Note: textSearch is legacy but effective.
-            // If PlacesService is available, textSearch should work.
-            service.textSearch(request, (results, status) => {
-                if (status === google.maps.places.PlacesServiceStatus.OK && results.length > 0) {
-                    const maxRadius = 2.5;
-                    const validPlaces = results.map(p => {
-                        const placeLoc = p.geometry.location;
-                        const distKm = haversineDistance(
-                            latlng.lat, latlng.lng,
-                            placeLoc.lat(), placeLoc.lng()
-                        );
-                        p._realDistance = distKm;
-                        return p;
-                    }).filter(p => p._realDistance <= maxRadius);
-
-                    if (validPlaces.length > 0) {
+                     if (validPlaces.length > 0) {
                         const topPlaces = validPlaces
-                            .filter(p => p.user_ratings_total > 5)
-                            .sort((a, b) => b.user_ratings_total - a.user_ratings_total)
-                            .slice(0, 6);
-
-                        const payload = {
-                            places: topPlaces,
-                            latlng: latlng,
-                            isPrediction: false
-                        };
+                             .filter(p => p.user_ratings_total > 5)
+                             .sort((a,b) => b.user_ratings_total - a.user_ratings_total)
+                             .slice(0, 6);
+                        
+                        const payload = { places: topPlaces, latlng: latlng, isPrediction: false };
                         window.placesCache[cacheKey] = payload;
                         renderPlaces(payload, container, displayMode);
-                    } else {
-                        renderFallback(container);
-                    }
-                } else {
-                    renderFallback(container);
-                }
-            });
+                     } else {
+                         renderFallback(container);
+                     }
+                 } else {
+                     renderFallback(container);
+                 }
+             });
         }
 
         function renderFallback(container) {
-            container.innerHTML =
-                '<span class="text-xs text-slate-400 italic pl-1">Tidak ada lokasi strategis utama dalam radius 2.5 km.</span>';
+             container.innerHTML = '<span class="text-xs text-slate-400 italic pl-1">Tidak ada lokasi strategis utama dalam radius 2.5 km.</span>';
         }
 
         // --- HELPER: Haversine Distance (KM) ---
@@ -1501,278 +1511,213 @@
         function haversineDistance(lat1, lon1, lat2, lon2) {
             const R = 6371; // Earth Radius in KM
             const dLat = (lat2 - lat1) * (Math.PI / 180);
-            const dLon = (lon2 - lon1) * (Math.PI / 180);
-            const a =
-                Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
-                Math.sin(dLon / 2) * Math.sin(dLon / 2);
-            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-            return R * c;
+            const dLon = (lon2 - lon1) * (Math.PI / 180); 
+            const a = 
+                Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) * 
+                Math.sin(dLon/2) * Math.sin(dLon/2); 
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+            return R * c; 
         }
 
 
         // --- FALLBACK LOGIC (Shared) ---
         function renderFallback(item, containerId) {
-            const container = document.getElementById(containerId);
-            if (!container) return;
-
-            const text = ((item.address || '') + ' ' + (item.location || '') + ' ' + (item.city && item.city.name ? item
-                .city.name : '')).toLowerCase();
-            let fallbacks = [];
-
-            const keywords = [{
-                    key: 'tol',
-                    label: 'Akses Jalan Tol',
-                    icon: 'fa-road'
-                },
-                {
-                    key: 'terminal',
-                    label: 'Terminal Bus',
-                    icon: 'fa-bus'
-                },
-                {
-                    key: 'stasiun',
-                    label: 'Stasiun Kereta',
-                    icon: 'fa-train'
-                },
-                {
-                    key: 'pasar',
-                    label: 'Pasar',
-                    icon: 'fa-basket-shopping'
-                },
-                {
-                    key: 'mall',
-                    label: 'Pusat Perbelanjaan',
-                    icon: 'fa-bag-shopping'
-                },
-                {
-                    key: 'plaza',
-                    label: 'Pusat Perbelanjaan',
-                    icon: 'fa-bag-shopping'
-                },
-                {
-                    key: 'kampus',
-                    label: 'Kawasan Pendidikan',
-                    icon: 'fa-graduation-cap'
-                },
-                {
-                    key: 'univ',
-                    label: 'Kawasan Pendidikan',
-                    icon: 'fa-graduation-cap'
-                },
-                {
-                    key: 'sekolah',
-                    label: 'Area Sekolah',
-                    icon: 'fa-school'
-                },
-                {
-                    key: 'rs',
-                    label: 'Fasilitas Kesehatan',
-                    icon: 'fa-hospital'
-                },
-                {
-                    key: 'sakit',
-                    label: 'Fasilitas Kesehatan',
-                    icon: 'fa-hospital'
-                }
-            ];
-
-            // 1. Keyword Extraction
-            keywords.forEach(k => {
-                if (text.includes(k.key)) {
-                    // Check duplicate
-                    if (!fallbacks.find(f => f.name === k.label)) {
-                        fallbacks.push({
-                            name: k.label,
-                            dist: 'Area Sekitar',
-                            isFallback: true,
-                            type: 'generic'
-                        });
-                    }
-                }
-            });
-
-            // 2. City Context (Always add if under limit)
-            if (item.city && item.city.name) {
-                fallbacks.push({
-                    name: `Pusat Kota ${item.city.name}`,
-                    dist: '2-5 km',
-                    isFallback: true,
-                    type: 'city'
-                });
-                if (fallbacks.length < 3) {
-                    fallbacks.push({
-                        name: `Area Bisnis ${item.city.name}`,
-                        dist: 'Area Strategis',
-                        isFallback: true,
-                        type: 'city'
-                    });
-                }
-            }
-
-            // Default if really nothing
-            if (fallbacks.length === 0) {
-                fallbacks.push({
-                    name: `Area Strategis`,
-                    dist: 'Area Sekitar',
-                    isFallback: true,
-                    type: 'generic'
-                });
-            }
-
-            // Render Fallback Items (Top 3)
-            const html = fallbacks.slice(0, 3).map(p => `
+             const container = document.getElementById(containerId);
+             if(!container) return;
+             
+             const text = ((item.address || '') + ' ' + (item.location || '') + ' ' + (item.city && item.city.name ? item.city.name : '')).toLowerCase();
+             let fallbacks = [];
+             
+             const keywords = [
+                { key: 'tol', label: 'Akses Jalan Tol', icon: 'fa-road' },
+                { key: 'terminal', label: 'Terminal Bus', icon: 'fa-bus' },
+                { key: 'stasiun', label: 'Stasiun Kereta', icon: 'fa-train' },
+                { key: 'pasar', label: 'Pasar', icon: 'fa-basket-shopping' },
+                { key: 'mall', label: 'Pusat Perbelanjaan', icon: 'fa-bag-shopping' },
+                { key: 'plaza', label: 'Pusat Perbelanjaan', icon: 'fa-bag-shopping' },
+                { key: 'kampus', label: 'Kawasan Pendidikan', icon: 'fa-graduation-cap' },
+                { key: 'univ', label: 'Kawasan Pendidikan', icon: 'fa-graduation-cap' },
+                { key: 'sekolah', label: 'Area Sekolah', icon: 'fa-school' },
+                { key: 'rs', label: 'Fasilitas Kesehatan', icon: 'fa-hospital' },
+                { key: 'sakit', label: 'Fasilitas Kesehatan', icon: 'fa-hospital' }
+             ];
+             
+             // 1. Keyword Extraction
+             keywords.forEach(k => {
+                 if (text.includes(k.key)) {
+                     // Check duplicate
+                     if(!fallbacks.find(f => f.name === k.label)) {
+                        fallbacks.push({ name: k.label, dist: 'Area Sekitar', isFallback: true, type: 'generic' });
+                     }
+                 }
+             });
+             
+             // 2. City Context (Always add if under limit)
+             if (item.city && item.city.name) {
+                 fallbacks.push({ name: `Pusat Kota ${item.city.name}`, dist: '2-5 km', isFallback: true, type: 'city' });
+                 if(fallbacks.length < 3) {
+                    fallbacks.push({ name: `Area Bisnis ${item.city.name}`, dist: 'Area Strategis', isFallback: true, type: 'city' });
+                 }
+             }
+             
+             // Default if really nothing
+             if (fallbacks.length === 0) {
+                 fallbacks.push({ name: `Area Strategis`, dist: 'Area Sekitar', isFallback: true, type: 'generic' });
+             }
+             
+             // Render Fallback Items (Top 3)
+             const html = fallbacks.slice(0, 3).map(p => `
                  <div style="display:flex; align-items:center; gap:6px; background:#f8fafc; padding:6px; border-radius:4px; border:1px solid #e2e8f0;">
                          <span style="color:#94a3b8; font-size:10px;">📍</span>
                          <span style="font-size:10px; font-weight:600; color:#475569; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; flex:1;">${p.name}</span>
                          <span style="font-size:9px; color:#94a3b8;">${p.dist}</span>
                  </div>
              `).join('');
-            container.innerHTML = html;
+             container.innerHTML = html;
         }
 
         // --- REAL-TIME PLACES API (Robust) ---
         function fetchRealPlaces(item, containerId, displayMode) {
-            const container = document.getElementById(containerId);
-            if (!container) return;
+             const container = document.getElementById(containerId);
+             if (!container) return;
 
-            // Loading State
-            container.innerHTML = `
+             // Loading State
+             container.innerHTML = `
                  <div style="display:flex; align-items:center; gap:6px; color:#64748b; font-size:10px; padding:4px 0;">
                      <i class="fa-solid fa-circle-notch fa-spin" style="color:#3b82f6;"></i> Loading Data...
                  </div>
              `;
+             
+             // Service Setup
+             const dummyMap = document.createElement('div');
+             const service = new google.maps.places.PlacesService(dummyMap);
+             
+             // Context & Query
+             const searchContext = item.location || item.address || (item.city && item.city.name) || '';
+             const query = `landmark, hospital, mall, school, university, office, bank, market near ${searchContext}`;
+             const latlng = { lat: parseFloat(item.latitude), lng: parseFloat(item.longitude) };
+             
+             // 1. Request 2.5 KM
+             const request = { query: query, location: latlng, radius: 2500 };
+             
+             service.textSearch(request, (results, status) => {
+                 let validPlaces = [];
+                 
+                 const processResults = (res) => {
+                     return res.map(p => {
+                          const placeLoc = p.geometry.location;
+                          const distKm = haversineDistance(latlng.lat, latlng.lng, placeLoc.lat(), placeLoc.lng());
+                          p._realDistance = distKm;
+                          p.dist = distKm.toFixed(1) + ' km'; 
+                          return p;
+                      }).sort((a,b) => b.user_ratings_total - a.user_ratings_total);
+                 };
 
-            // Service Setup
-            const dummyMap = document.createElement('div');
-            const service = new google.maps.places.PlacesService(dummyMap);
+                 if (status === google.maps.places.PlacesServiceStatus.OK && results.length > 0) {
+                      validPlaces = processResults(results).filter(p => p._realDistance <= 4.0).slice(0, 3);
+                 }
+                 
+                 // RETRY LOGIC (Chain of Responsibilities)
+                 // If we have enough data (3), done. If not, expand radius.
+                 
+                 const finalize = () => {
+                     // 3. FILLER FALLBACK (If still < 3 after all attempts)
+                     if (validPlaces.length < 3) {
+                         const existingNames = validPlaces.map(p => p.name);
+                         const fallbacks = [
+                            { name: `Pusat Bisnis ${item.city ? item.city.name : ''}`, types: ['office'], dist: '0.8 km' },
+                            { name: `Area Komersial & Ruko`, types: ['store'], dist: '0.4 km' },
+                            { name: `Akses Jalan Utama`, types: ['route'], dist: '0.2 km' },
+                            { name: `Pemukiman Warga`, types: ['neighborhood'], dist: '0.5 km' },
+                            { name: `Minimarket Terdekat`, types: ['convenience_store'], dist: '0.3 km' }
+                         ];
 
-            // Context & Query
-            const searchContext = item.location || item.address || (item.city && item.city.name) || '';
-            const query = `landmark, hospital, mall, school, university, office, bank, market near ${searchContext}`;
-            const latlng = {
-                lat: parseFloat(item.latitude),
-                lng: parseFloat(item.longitude)
-            };
+                         for (let f of fallbacks) {
+                             if (validPlaces.length >= 3) break;
+                             if (!existingNames.includes(f.name)) {
+                                 validPlaces.push({
+                                     name: f.name,
+                                     types: f.types,
+                                     dist: f.dist, // Static distance
+                                     user_ratings_total: 100,
+                                     isFallback: true // Flag to prevent recalc
+                                     // No geometry to avoid Haversine of (0,0)
+                                 });
+                             }
+                         }
+                     }
+                     renderPlaces({ places: validPlaces, latlng: latlng }, container, displayMode);
+                 };
 
-            // Request 1: 2.5 KM
-            const request = {
-                query: query,
-                location: latlng,
-                radius: 2500
-            };
-
-            service.textSearch(request, (results, status) => {
-                let validPlaces = [];
-                if (status === google.maps.places.PlacesServiceStatus.OK && results.length > 0) {
-                    validPlaces = results.map(p => {
-                            const placeLoc = p.geometry.location;
-                            const distKm = haversineDistance(latlng.lat, latlng.lng, placeLoc.lat(), placeLoc
-                                .lng());
-                            p._realDistance = distKm;
-                            p.dist = distKm.toFixed(1) + ' km';
-                            return p;
-                        }).filter(p => p._realDistance <= 3.0)
-                        .sort((a, b) => b.user_ratings_total - a.user_ratings_total)
-                        .slice(0, 3);
-                }
-
-                // CHECK: If empty, RETRY with 8 KM
-                if (validPlaces.length === 0) {
-                    // Retry Request
-                    const retryReq = {
-                        ...request,
-                        radius: 8000
-                    };
-                    service.textSearch(retryReq, (res2, stat2) => {
-                        if (stat2 === google.maps.places.PlacesServiceStatus.OK && res2.length > 0) {
-                            const validPlaces2 = res2.map(p => {
-                                    const placeLoc = p.geometry.location;
-                                    const distKm = haversineDistance(latlng.lat, latlng.lng, placeLoc
-                                        .lat(), placeLoc.lng());
-                                    p._realDistance = distKm;
-                                    p.dist = distKm.toFixed(1) + ' km';
-                                    return p;
-                                }).filter(p => p._realDistance <= 8.5)
-                                .sort((a, b) => b.user_ratings_total - a.user_ratings_total)
-                                .slice(0, 3);
-
-                            if (validPlaces2.length > 0) {
-                                renderPlaces({
-                                    places: validPlaces2,
-                                    latlng: latlng,
-                                    isPrediction: false
-                                }, container, displayMode);
-                            } else {
-                                renderFallback(item, containerId); // Final Fallback
-                            }
-                        } else {
-                            renderFallback(item, containerId); // Final Fallback
-                        }
-                    });
-                } else {
-                    // Found in first try
-                    renderPlaces({
-                        places: validPlaces,
-                        latlng: latlng,
-                        isPrediction: false
-                    }, container, displayMode);
-                }
-            });
+                 // Step 2: Try 10 KM
+                 if (validPlaces.length < 3) {
+                     service.textSearch({ ...request, radius: 10000 }, (res2, stat2) => {
+                         if (stat2 === google.maps.places.PlacesServiceStatus.OK && res2.length > 0) {
+                             const expanded = processResults(res2).filter(p => p._realDistance <= 12.0);
+                             // Merge unique
+                             expanded.forEach(p => {
+                                 if (validPlaces.length < 3 && !validPlaces.find(v => v.place_id === p.place_id)) {
+                                     validPlaces.push(p);
+                                 }
+                             });
+                         }
+                         
+                         // Step 3: Try 25 KM (Wide Area)
+                         if (validPlaces.length < 3) {
+                             service.textSearch({ ...request, radius: 25000 }, (res3, stat3) => {
+                                 if (stat3 === google.maps.places.PlacesServiceStatus.OK && res3.length > 0) {
+                                     const wide = processResults(res3).filter(p => p._realDistance <= 26.0);
+                                     wide.forEach(p => {
+                                         if (validPlaces.length < 3 && !validPlaces.find(v => v.place_id === p.place_id)) {
+                                              validPlaces.push(p);
+                                         }
+                                     });
+                                 }
+                                 finalize();
+                             });
+                         } else {
+                             finalize();
+                         }
+                     });
+                 } else {
+                     finalize();
+                 }
+             });
         }
 
         // Helper to Render Places
         function renderPlaces(data, container, displayMode) {
-            const {
-                places,
-                latlng,
-                isPrediction
-            } = data;
-
-            if (places.length > 0) {
+             const { places, latlng } = data;
+             
+             if (places.length > 0) {
                 const html = places.map(p => {
-                    // Calculate Real Distance or Use Simulated
-                    // Prioritize: 1. Real Calc (if Geom exists) 2. Existing Real 3. Simulated/Predicted
-                    let distStr = p.dist || p._realDistance || p._simulatedDist || '...';
-
-                    if (latlng && p.geometry && p.geometry.location) {
+                    // Logic: Use string distance if it's a fallback or calculated
+                    // Only recalc if it's a REAL Google Place with geometry AND NOT a fallback
+                    let distStr = p.dist || '...';
+                    
+                    if (latlng && p.geometry && p.geometry.location && !p.isFallback) {
                         const placeLoc = p.geometry.location;
-                        // Use internal Haversine to avoid dependency on geometry lib
                         const dKm = haversineDistance(latlng.lat, latlng.lng, placeLoc.lat(), placeLoc.lng());
                         distStr = dKm.toFixed(1) + ' km';
                     }
-
+                    
                     // Determine Icon/Color based on type
                     let icon = 'fa-map-pin';
                     let styles = 'bg-slate-50 text-slate-600';
-
+                    
                     const t = p.types || [];
-                    if (t.includes('shopping_mall')) {
-                        icon = 'fa-bag-shopping';
-                        styles = 'bg-pink-50 text-pink-500';
-                    } else if (t.includes('university') || t.includes('school')) {
-                        icon = 'fa-graduation-cap';
-                        styles = 'bg-blue-50 text-blue-500';
-                    } else if (t.includes('hospital')) {
-                        icon = 'fa-hospital';
-                        styles = 'bg-rose-50 text-rose-500';
-                    } else if (t.includes('train_station') || t.includes('transit_station')) {
-                        icon = 'fa-train-subway';
-                        styles = 'bg-indigo-50 text-indigo-500';
-                    } else if (t.includes('tourist_attraction')) {
-                        icon = 'fa-camera';
-                        styles = 'bg-green-50 text-green-500';
-                    } else if (t.includes('stadium')) {
-                        icon = 'fa-bullhorn';
-                        styles = 'bg-amber-50 text-amber-600';
-                    } else if (t.includes('finance')) {
-                        icon = 'fa-building';
-                        styles = 'bg-slate-100 text-slate-700';
-                    }
-
+                    if (t.includes('shopping_mall')) { icon = 'fa-bag-shopping'; styles = 'bg-pink-50 text-pink-500'; }
+                    else if (t.includes('university') || t.includes('school')) { icon = 'fa-graduation-cap'; styles = 'bg-blue-50 text-blue-500'; }
+                    else if (t.includes('hospital')) { icon = 'fa-hospital'; styles = 'bg-rose-50 text-rose-500'; }
+                    else if (t.includes('train_station') || t.includes('transit_station')) { icon = 'fa-train-subway'; styles = 'bg-indigo-50 text-indigo-500'; }
+                    else if (t.includes('tourist_attraction')) { icon = 'fa-camera'; styles = 'bg-green-50 text-green-500'; }
+                    else if (t.includes('stadium')) { icon = 'fa-bullhorn'; styles = 'bg-amber-50 text-amber-600'; }
+                    else if (t.includes('finance')) { icon = 'fa-building'; styles = 'bg-slate-100 text-slate-700'; }
+                    
                     // Opacity for prediction to indicate "Estimating"
-                    const opacityClass = isPrediction ? 'opacity-70 grayscale-[0.3]' : '';
-
+                    const opacityClass = p.isFallback ? 'opacity-70 grayscale-[0.3]' : '';
+                    
                     if (displayMode === 'dashboard') {
                         return `
                             <div class="px-3 py-1.5 rounded-full border border-slate-100 flex items-center gap-2 ${styles} ${opacityClass} transition-all duration-500">
@@ -1794,19 +1739,18 @@
                             </div>
                         `;
                     }
-                }).join('');
-
-                container.innerHTML = html;
-
-                if (displayMode === 'map') {
-                    container.className = 'space-y-2';
-                } else {
-                    container.className = 'flex flex-wrap gap-2';
-                }
-            } else {
-                container.innerHTML =
-                    '<span class="text-xs text-slate-400 italic pl-1">Tidak ada lokasi strategis utama dalam radius 2.5 km.</span>';
-            }
+                 }).join('');
+                 
+                 container.innerHTML = html;
+                 
+                 if (displayMode === 'map' || displayMode === 'analysis') {
+                     container.className = 'space-y-3';
+                 } else {
+                     container.className = 'flex flex-wrap gap-2'; 
+                 }
+             } else {
+                 container.innerHTML = '<span class="text-xs text-slate-400 italic pl-1">Tidak ada lokasi strategis utama dalam radius 2.5 km.</span>';
+             }
         }
 
         // --- DYNAMIC ANALYSIS LOGIC ---
@@ -1827,26 +1771,26 @@
                 day = 1;
                 timeStr = "09:00 WIB";
             }
-
+            
             // Create "Cycle Seed" to ensure data changes between cycles
             // Format: YYYYMMDD (e.g., 20260101 or 20260115)
             const cycleSeed = (now.getFullYear() * 10000) + ((now.getMonth() + 1) * 100) + day;
-
+            
             // 1. Populate Data
             // Traffic: Prime Time Average (Updates 2x Month)
             let baseVolume = parseInt(item.trafic || item._displayTraffic || 0);
             if (baseVolume === 0) baseVolume = calculateSmartProfile(item, true); // Fallback
-
+            
             // Apply subtle variation based on Cycle Seed so numbers shift slightly every 2 weeks
             // Use simple pseudo-random based on ID + CycleSeed
             const pseudoRandom = Math.sin(item.id + cycleSeed) * 10000;
             const fluctuation = (pseudoRandom - Math.floor(pseudoRandom)) * 0.1; // ±5% fluctuation
-
+            
             const currentVolume = Math.round(baseVolume * (1 + fluctuation));
 
             // Format: "15,240 View/Day"
             document.getElementById('kpi-volume').innerText = `${currentVolume.toLocaleString()} View/Day`;
-
+            
             // Trend Logic (Linked to Cycle Seed)
             // Trend changes completely every cycle
             const trendRandom = Math.cos(item.id * cycleSeed);
@@ -1863,27 +1807,22 @@
                 trendBadge.className = "bg-red-100 text-red-600 px-2 py-0.5 rounded-full font-bold text-xs";
                 trendBadge.innerHTML = `<i class="fa-solid fa-arrow-down"></i> ${trendVal}%`;
             }
-
+            
             // Create date object for display
             const updateDate = new Date(now.getFullYear(), now.getMonth(), day);
-            const options = {
-                day: '2-digit',
-                month: 'short',
-                year: 'numeric'
-            };
+            const options = { day: '2-digit', month: 'short', year: 'numeric' };
             const dateStr = updateDate.toLocaleDateString('id-ID', options);
-
+            
             // Display: "Update: 15 Jan 2026 17:00 WIB (Prime Time)"
             document.getElementById('kpi-trend-text').innerText = `Update: ${dateStr} ${timeStr} (Prime Time)`;
-
+            
             // REMOVED: Status Jalan Logic (as per request)
-
+            
             // AI Score
             const aiScore = calculateSmartProfile(item); // "9.2/10"
             const scoreNum = aiScore.split('/')[0];
-            document.getElementById('kpi-score').innerHTML =
-                `${scoreNum}<span class="text-lg font-normal text-indigo-200">/10</span>`;
-
+            document.getElementById('kpi-score').innerHTML = `${scoreNum}<span class="text-lg font-normal text-indigo-200">/10</span>`;
+            
             // Audience (Randomized for demo, or based on location keywords)
             const audiences = [
                 "25 - 40 Tahun",
@@ -1894,22 +1833,21 @@
             // Deterministic random based on ID
             const audIndex = item.id % audiences.length;
             document.getElementById('kpi-audience').innerText = audiences[audIndex];
-
+            
             // 3. Update Vehicle Chart (Dynamic Context)
             renderVehicleChart([item]); // Pass as single-item array to focus context logic
-
+            
             // 4. STRATEGIC LOCATIONS (REAL-TIME PLACES)
             const panel = document.getElementById('analysis-panel');
             let contextBar = document.getElementById('context-poi-bar');
-
-            if (!contextBar) {
-                contextBar = document.createElement('div');
-                contextBar.id = 'context-poi-bar';
-                contextBar.className =
-                    'col-span-1 md:col-span-3 bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex flex-wrap items-center gap-4';
-                panel.appendChild(contextBar);
+            
+            if(!contextBar) {
+                 contextBar = document.createElement('div');
+                 contextBar.id = 'context-poi-bar';
+                 contextBar.className = 'col-span-1 md:col-span-3 bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex flex-wrap items-center gap-4';
+                 panel.appendChild(contextBar);
             }
-
+            
             // Set Base HTML structure with container for results
             contextBar.innerHTML = `
                 <div class="mr-auto flex items-center gap-2">
@@ -1922,18 +1860,18 @@
                 <div id="dashboard-poi-list" class="flex flex-wrap gap-2 ml-4"></div>
             `;
             contextBar.style.display = 'flex';
-
+            
             // TRIGGER ASYNC FETCH
             fetchRealPlaces(item, 'dashboard-poi-list', 'dashboard');
 
             // 5. TRIGGER REAL-TIME VERIFICATION (Consistency with Map)
             if (typeof google !== 'undefined' && google.maps && google.maps.Geocoder) {
-                verifyRoadContext(item);
+                 verifyRoadContext(item);
             }
 
             // 2. Show Panel
             panel.style.display = 'grid'; // Grid layout
-
+            
             // Custom Scroll with Offset for Header
             // Calculate absolute position of panel
             const bodyRect = document.body.getBoundingClientRect().top;
@@ -1945,7 +1883,7 @@
                 top: offsetPosition,
                 behavior: 'smooth'
             });
-
+            
             // Highlight Table Row (Optional)
             // ...
         }
@@ -1955,7 +1893,7 @@
 
         function renderTrafficChart(top5Data) {
             const ctxTraffic = document.getElementById('trafficChart').getContext('2d');
-
+            
             // Prepare Data
             const labels = top5Data.map(item => {
                 // Shorten name for chart labels if too long
@@ -1984,7 +1922,7 @@
                         backgroundColor: gradient,
                         borderWidth: 3,
                         tension: 0.4, // Smooth curve
-                        fill: true, // Area fill
+                        fill: true,   // Area fill
                         pointBackgroundColor: '#fff',
                         pointBorderColor: '#2563EB',
                         pointRadius: 4,
@@ -1995,9 +1933,7 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: {
-                            display: false
-                        },
+                        legend: { display: false },
                         tooltip: {
                             callbacks: {
                                 label: function(context) {
@@ -2009,25 +1945,16 @@
                     scales: {
                         y: {
                             beginAtZero: true,
-                            grid: {
-                                borderDash: [4, 4],
-                                color: '#f1f5f9'
-                            },
+                            grid: { borderDash: [4, 4], color: '#f1f5f9' },
                             ticks: {
                                 callback: function(value) {
-                                    return value >= 1000 ? (value / 1000).toFixed(0) + 'k' : value;
+                                    return value >= 1000 ? (value/1000).toFixed(0) + 'k' : value;
                                 }
                             }
                         },
                         x: {
-                            grid: {
-                                display: false
-                            },
-                            ticks: {
-                                font: {
-                                    size: 10
-                                }
-                            }
+                            grid: { display: false },
+                            ticks: { font: { size: 10 } }
                         }
                     }
                 }
@@ -2046,12 +1973,12 @@
         function renderVehicleChart(data, canvasId = 'vehicleChart', legendId = 'vehicle-legend') {
             // 1. Context-Aware Prediction Engine
             // Analyze the currently filtered data to predict vehicle mix based on "Road Context"
-
+            
             let scoreCar = 0;
             let scoreMotor = 0;
             let scoreBus = 0;
             let count = 0;
-
+            
             // Calculate REAL Total Volume for Estimates
             let totalVolume = 0;
 
@@ -2060,51 +1987,41 @@
 
             sampleData.forEach(item => {
                 count++;
-
+                
                 // Traffic Calculation
-                const itemTraffic = parseInt(item.trafic || item._displayTraffic || calculateSmartProfile(item,
-                    true));
+                const itemTraffic = parseInt(item.trafic || item._displayTraffic || calculateSmartProfile(item, true));
                 totalVolume += itemTraffic;
 
                 const text = ((item.address || '') + ' ' + (item.location || '')).toLowerCase();
                 const type = (item.type && item.type.name ? item.type.name : '').toLowerCase();
 
                 // BASELINE: Indonesia is heavy on Motorbikes
-                let sCar = 1;
-                let sMotor = 2.5;
+                let sCar = 1; 
+                let sMotor = 2.5; 
                 let sBus = 0.5;
-
+                
                 // Track if this is a Toll Road to enforce rules later
                 let isToll = false;
 
                 // CONTEXT 1: ROAD TYPE (The "Google Maps" Logic)
                 // Toll roads: Mostly cars/trucks, no bikes
                 if (text.includes('tol') || text.includes('highway') || text.includes('bebas hambatan')) {
-                    sCar += 5;
-                    sMotor = 0;
-                    sBus += 3;
+                    sCar += 5; sMotor = 0; sBus += 3;
                     isToll = true;
                 } else if (text.includes('arteri') || text.includes('protokol') || text.includes('bypass')) {
-                    sCar += 3;
-                    sMotor += 1;
-                    sBus += 1;
+                    sCar += 3; sMotor += 1; sBus += 1;
                 } else if (text.includes('gang') || text.includes('jalan tikus') || text.includes('permukiman')) {
-                    sCar += 0;
-                    sMotor += 5;
-                    sBus += 0;
+                    sCar += 0; sMotor += 5; sBus += 0;
                 }
 
                 // CONTEXT 2: POI (Point of Interest)
                 if (text.includes('pasar') || text.includes('sekolah') || text.includes('kampus')) {
                     sMotor += 3; // High motorbike traffic areas
                 }
-                if (text.includes('mall') || text.includes('plaza') || text.includes('perkantoran') || text
-                    .includes('office')) {
-                    sCar += 3;
-                    sMotor += 1; // Cars for shopping/work
+                if (text.includes('mall') || text.includes('plaza') || text.includes('perkantoran') || text.includes('office')) {
+                    sCar += 3; sMotor += 1; // Cars for shopping/work
                 }
-                if (text.includes('terminal') || text.includes('stasiun') || text.includes('bandara') || text
-                    .includes('pabrik') || text.includes('industri')) {
+                if (text.includes('terminal') || text.includes('stasiun') || text.includes('bandara') || text.includes('pabrik') || text.includes('industri')) {
                     sBus += 4; // Transportation hubs / Industrial
                 }
 
@@ -2112,7 +2029,7 @@
                 if (type.includes('videotron') || type.includes('megatron')) {
                     sCar += 2; // Premium media usually on big roads
                 }
-
+                
                 // FINAL ENFORCEMENT for Toll Roads
                 if (isToll) {
                     sMotor = 0; // Strictly remove motorcycles regardless of POI proximity
@@ -2124,48 +2041,40 @@
             });
 
             // Fallback if no data
-            if (count === 0) {
-                scoreCar = 30;
-                scoreMotor = 60;
-                scoreBus = 10;
-                totalVolume = 10000;
-            }
+            if (count === 0) { scoreCar = 30; scoreMotor = 60; scoreBus = 10; totalVolume = 10000; }
 
             // Calculate Percentage
             const totalScore = scoreCar + scoreMotor + scoreBus;
             let pCar = Math.round((scoreCar / totalScore) * 100);
             let pBus = Math.round((scoreBus / totalScore) * 100);
             let pMotor = 100 - pCar - pBus; // Remainder to ensure 100%
-
+            
             // Adjust if negative due to rounding (rare but safe)
-            if (pMotor < 0) {
-                pMotor = 0;
-                pCar -= pMotor;
-            }
+            if (pMotor < 0) { pMotor = 0; pCar -= pMotor; } 
 
             const values = [pCar, pMotor, pBus];
             const labels = ['Mobil', 'Motor', 'Bus/Truk'];
             const colors = ['#3B82F6', '#10B981', '#F59E0B']; // Blue, Green, Orange
-
+            
             // CALCULATE ESTIMATED ABSOLUTE COUNTS
-            // If viewing a single item (map analysis), use its specific volume.
-            // If viewing dashboard (aggregate), use average or total sample volume?
+            // If viewing a single item (map analysis), use its specific volume. 
+            // If viewing dashboard (aggregate), use average or total sample volume? 
             // Let's use Total Volume of the context (sum of viewed items) for "Total Dashboard" view,
             // or the specific Item Volume for "Map Analysis" view.
-
+            
             // Heuristic: If canvasId is 'mapVehicleChart', we are likely looking at 1 item (logic in showAnalysis passed [item]).
             // So totalVolume is correct.
             // If dashboard, totalVolume might be huge. Let's show "Avg Count" or Scaled Count?
-            // Requirement was "Estimasi berapa banyaknya".
+            // Requirement was "Estimasi berapa banyaknya". 
             // For Dashboard: Let's show the breakdown of the TOTAL displayed volume.
-
+            
             const counts = values.map(pct => Math.round(totalVolume * (pct / 100)));
 
             const canvasEl = document.getElementById(canvasId);
             if (!canvasEl) return;
-
+            
             const ctxVehicle = canvasEl.getContext('2d');
-
+            
             // Destroy specific instance based on ID to avoid conflicts
             if (canvasId === 'vehicleChart') {
                 if (vehicleChartInstance) vehicleChartInstance.destroy();
@@ -2177,48 +2086,43 @@
                 type: 'doughnut',
                 data: {
                     labels: labels,
-                    datasets: [{
-                        data: values,
-                        backgroundColor: colors,
-                        borderWidth: 0,
-                        hoverOffset: 4
+                    datasets: [{ 
+                        data: values, 
+                        backgroundColor: colors, 
+                        borderWidth: 0, 
+                        hoverOffset: 4 
                     }]
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    cutout: '75%',
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false, 
+                    cutout: '75%', 
+                    plugins: { 
+                        legend: { display: false },
                         tooltip: {
                             callbacks: {
                                 label: function(context) {
                                     // Use the cached totalVolume to calculate absolute numbers for the tooltip
-                                    // We need to access totalVolume. Since it's in the outer scope of this function context,
+                                    // We need to access totalVolume. Since it's in the outer scope of this function context, 
                                     // but this callback runs later, we might need to rely on the data passed or recalculate.
                                     // Easier method: Pre-calculate counts in the dataset or metadata.
                                     // Actually, we have 'values' (percentages).
                                     // Let's use the 'counts' array we computed earlier, matching by dataIndex.
-
+                                    
                                     const index = context.dataIndex;
                                     const count = counts[index];
                                     const percentage = context.raw; // The value in 'data' is the percentage
                                     const label = context.label;
-
+                                    
                                     return ` ${label}: ${count.toLocaleString()} (${percentage}%)`;
                                 }
                             },
                             backgroundColor: 'rgba(15, 23, 42, 0.9)',
                             padding: 10,
                             cornerRadius: 8,
-                            bodyFont: {
-                                family: "'Inter', sans-serif",
-                                size: 12
-                            }
+                            bodyFont: { family: "'Inter', sans-serif", size: 12 }
                         }
-                    }
+                    } 
                 }
             });
 
@@ -2231,7 +2135,7 @@
 
             // Update Custom Legend with Percentages AND COUNTS (Refined Layout)
             const legendEl = document.getElementById(legendId);
-            if (legendEl) {
+            if(legendEl) {
                 // Clear any previous class that might force horizontal (just in case)
                 legendEl.className = "mt-6 flex flex-col gap-3"; // Force vertical stack with gap
 
@@ -2259,55 +2163,48 @@
 
         // --- REAL-TIME ROAD VERIFICATION ---
         function verifyRoadContext(item) {
-            const geocoder = new google.maps.Geocoder();
-            const latlng = {
-                lat: parseFloat(item.latitude),
-                lng: parseFloat(item.longitude)
-            };
-
-            geocoder.geocode({
-                location: latlng
-            }, (results, status) => {
-                if (status === 'OK' && results[0]) {
-                    // Check Types for 'motorway' (Toll/Freeway)
-                    // Also check 'route' if it has 'Toll' in the name (fallback)
-                    const types = results[0].types;
-                    const formattedAddress = results[0].formatted_address.toLowerCase();
-                    const addressComponents = results[0].address_components;
-
-                    let isConfirmedToll = false;
-
-                    // 1. Tag Check
-                    if (types.includes('motorway') || types.includes('highway')) {
-                        isConfirmedToll = true;
-                    }
-
-                    // 2. Component Check (Route Name)
-                    const route = addressComponents.find(c => c.types.includes('route'));
-                    if (route && (route.long_name.toLowerCase().includes('tol') || route.long_name.toLowerCase()
-                            .includes('toll'))) {
-                        isConfirmedToll = true;
-                    }
-
-                    if (isConfirmedToll) {
-                        // Force update chart for this item
-                        console.log("Verified as Toll Road via Geocoder:", item.name);
-                        renderVehicleChart([item], 'mapVehicleChart', 'vehicle-legend-map', true);
-
-                        // Add Badge to Card
-                        const header = document.getElementById('map-card-address').parentElement;
-                        let badge = document.getElementById('road-verified-badge');
-                        if (!badge) {
-                            badge = document.createElement('div');
-                            badge.id = 'road-verified-badge';
-                            badge.className = 'mt-1';
-                            header.appendChild(badge);
-                        }
-                        badge.innerHTML =
-                            '<span class="inline-flex items-center gap-1 bg-amber-100 text-amber-700 text-[9px] font-bold px-1.5 py-0.5 rounded border border-amber-200"><i class="fa-solid fa-road"></i> Verified: JALAN TOL (No Motor)</span>';
-                    }
-                }
-            });
+             const geocoder = new google.maps.Geocoder();
+             const latlng = { lat: parseFloat(item.latitude), lng: parseFloat(item.longitude) };
+             
+             geocoder.geocode({ location: latlng }, (results, status) => {
+                 if (status === 'OK' && results[0]) {
+                     // Check Types for 'motorway' (Toll/Freeway)
+                     // Also check 'route' if it has 'Toll' in the name (fallback)
+                     const types = results[0].types;
+                     const formattedAddress = results[0].formatted_address.toLowerCase();
+                     const addressComponents = results[0].address_components;
+                     
+                     let isConfirmedToll = false;
+                     
+                     // 1. Tag Check
+                     if (types.includes('motorway') || types.includes('highway')) {
+                         isConfirmedToll = true;
+                     }
+                     
+                     // 2. Component Check (Route Name)
+                     const route = addressComponents.find(c => c.types.includes('route'));
+                     if (route && (route.long_name.toLowerCase().includes('tol') || route.long_name.toLowerCase().includes('toll'))) {
+                         isConfirmedToll = true;
+                     }
+                     
+                     if (isConfirmedToll) {
+                         // Force update chart for this item
+                         console.log("Verified as Toll Road via Geocoder:", item.name);
+                         renderVehicleChart([item], 'mapVehicleChart', 'vehicle-legend-map', true);
+                         
+                         // Add Badge to Card
+                         const header = document.getElementById('map-card-address').parentElement;
+                         let badge = document.getElementById('road-verified-badge');
+                         if(!badge) {
+                             badge = document.createElement('div');
+                             badge.id = 'road-verified-badge';
+                             badge.className = 'mt-1';
+                             header.appendChild(badge);
+                         }
+                         badge.innerHTML = '<span class="inline-flex items-center gap-1 bg-amber-100 text-amber-700 text-[9px] font-bold px-1.5 py-0.5 rounded border border-amber-200"><i class="fa-solid fa-road"></i> Verified: JALAN TOL (No Motor)</span>';
+                     }
+                 }
+             });
         }
 
         // --- FLOATING MAP ANALYSIS LOGIC ---
@@ -2318,7 +2215,7 @@
 
             // 1. Populate Data
             // Title & Address
-            document.getElementById('map-card-title').innerText = item.name || item.location || 'Billboard Location';
+            document.getElementById('map-card-title').innerText = item.name || item.location || ('Billboard Lokasi');
             const city = item.city ? item.city.name : '';
             const prov = item.city && item.city.province ? item.city.province.name : '';
             document.getElementById('map-card-address').innerText = `${item.address || ''}, ${city}`;
@@ -2330,21 +2227,15 @@
 
             // Formatted Date (Use real last updated or Now)
             const lastUpdate = item.traffic_last_updated ? new Date(item.traffic_last_updated) : new Date();
-            const timeStr = lastUpdate.toLocaleTimeString('id-ID', {
-                hour: '2-digit',
-                minute: '2-digit'
-            });
-            const dateStr = lastUpdate.toLocaleDateString('id-ID', {
-                day: '2-digit',
-                month: 'short',
-                year: 'numeric'
-            });
-
+            const timeStr = lastUpdate.toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'});
+            const dateStr = lastUpdate.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
+            
             // Update Text in Card
             // Target the specific ID we added
             const updatedTextEl = document.getElementById('map-card-updated-text');
-            if (updatedTextEl) {
-                updatedTextEl.innerText = `Updated: ${dateStr} ${timeStr}`;
+            if(updatedTextEl) {
+                 const updatePrefix = 'Update Hari Ini';
+                 updatedTextEl.innerText = `${updatePrefix}: ${dateStr} ${timeStr}`;
             }
 
             // Trigger Real-Time Check
@@ -2366,16 +2257,16 @@
             // 3. STRATEGIC LOCATIONS (REAL-TIME PLACES)
             // Use fetchRealPlaces which handles async rendering
             let poiContainer = document.getElementById('map-poi-container');
-
+            
             if (!poiContainer) {
-                // Inject logic: Map Card Content Structure
-                const container = document.getElementById('map-analysis-card').querySelector('.space-y-4');
-                poiContainer = document.createElement('div');
-                poiContainer.id = 'map-poi-container';
-                poiContainer.className = 'bg-slate-50 p-3 rounded-xl border border-slate-100';
-                container.appendChild(poiContainer);
+                 // Inject logic: Map Card Content Structure
+                 const container = document.getElementById('map-analysis-card').querySelector('.space-y-4');
+                 poiContainer = document.createElement('div');
+                 poiContainer.id = 'map-poi-container';
+                 poiContainer.className = 'bg-slate-50 p-3 rounded-xl border border-slate-100';
+                 container.appendChild(poiContainer);
             }
-
+            
             // Set Initial Skeleton
             poiContainer.innerHTML = `
                 <div class="flex items-center gap-2 mb-2">
@@ -2387,7 +2278,7 @@
                     <div class="h-4 bg-slate-100 rounded w-3/4 animate-pulse"></div>
                 </div>
             `;
-
+            
             // TRIGGER ASYNC FETCH
             fetchRealPlaces(item, 'map-poi-list', 'map');
 
@@ -2395,8 +2286,8 @@
             if (typeof google !== 'undefined' && google.maps && google.maps.Geocoder) {
                 // Clear old badge first
                 const badge = document.getElementById('road-verified-badge');
-                if (badge) badge.remove();
-
+                if(badge) badge.remove();
+                
                 verifyRoadContext(item);
             }
 
@@ -2404,15 +2295,15 @@
             const card = document.getElementById('map-analysis-card');
             card.classList.remove('translate-x-[120%]');
             card.classList.add('translate-x-0');
-
+            
             // 6. Bind Report Button
             const btnReport = document.getElementById('btn-generate-report');
-            if (btnReport) {
-                btnReport.onclick = () => {
-                    // Get the EXACT displayed traffic value to ensure consistency
-                    const displayedTraffic = document.getElementById('map-card-traffic').innerText.replace(/\D/g, '');
-                    window.open('/location-intelligence/' + item.id + '?traffic=' + displayedTraffic, '_blank');
-                };
+            if(btnReport) {
+               btnReport.onclick = () => {
+                   openAnalysisView(item.id);
+               };
+               // Update Label
+               btnReport.innerHTML = '<i class="fa-solid fa-chart-pie"></i> Lihat Analisis Detail';
             }
         }
 
@@ -2421,8 +2312,327 @@
             card.classList.remove('translate-x-0');
             card.classList.add('translate-x-[120%]');
         }
+
+        // --- FLOATING SEARCH LOGIC ---
+        let mapSearchTimeout = null;
+
+        function handleMapSearch(query) {
+            const clearBtn = document.getElementById('map-search-clear');
+            const resultsBox = document.getElementById('map-search-results');
+            
+            // Toggle Clear Button
+            if (query.length > 0) {
+                clearBtn.classList.remove('hidden');
+            } else {
+                clearBtn.classList.add('hidden');
+                resultsBox.classList.add('hidden');
+                return;
+            }
+
+            // Debounce
+            clearTimeout(mapSearchTimeout);
+            mapSearchTimeout = setTimeout(() => {
+                performMapSearch(query);
+            }, 300);
+        }
+
+        function clearMapSearch() {
+            const input = document.getElementById('map-search-input');
+            input.value = '';
+            handleMapSearch('');
+            input.focus();
+        }
+
+        function performMapSearch(query) {
+            if (!window.mapData) return;
+
+            const lowerQ = query.toLowerCase();
+            const resultsBox = document.getElementById('map-search-results');
+            
+            // Filter Data
+            const matches = window.mapData.filter(item => {
+                const combined = (
+                    (item.address || '') + ' ' + 
+                    (item.location || '') + ' ' + 
+                    (item.name || '') + ' ' +
+                    (item.city ? item.city.name : '') + ' ' +
+                    (item.latitude || '') + ' ' +
+                    (item.longitude || '')
+                ).toLowerCase();
+                return combined.includes(lowerQ);
+            }).slice(0, 8); // Top 8 results
+
+            if (matches.length === 0) {
+                resultsBox.innerHTML = `
+                    <div class="p-4 text-center text-slate-400 text-xs italic">
+                        <i class="fa-regular fa-face-frown mb-1 block text-lg"></i>
+                        Tidak ditemukan lokasi yang cocok.
+                    </div>
+                `;
+            } else {
+                resultsBox.innerHTML = matches.map(item => {
+                     let title = item.location || item.name || 'Lokasi';
+                     let subtitle = item.address || (item.city ? item.city.name : '') || 'Tanpa Alamat';
+                     
+                     // Highlight matches (Simple)
+                     // Using regex to bold matching part would be nice but simple bold title is enough
+                     
+                     return `
+                     <div onclick="boostZoomToSpot(${item.id})" class="p-3 hover:bg-slate-50 border-b border-slate-50 last:border-none cursor-pointer transition group">
+                        <div class="flex items-start gap-3">
+                            <div class="mt-1 w-8 h-8 rounded-full bg-blue-50 text-blue-500 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition shadow-sm">
+                                <i class="fa-solid fa-location-dot text-xs"></i>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <h4 class="font-bold text-slate-700 text-sm truncate group-hover:text-blue-700 transition">${title}</h4>
+                                <p class="text-[11px] text-slate-500 truncate">${subtitle}</p>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <span class="text-[9px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded border border-slate-200">
+                                        ${item.type ? item.type.name : 'Billboard'}
+                                    </span>
+                                    <span class="text-[9px] text-slate-400">
+                                        ${calculateSmartProfile(item, false)} Match
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                     </div>
+                     `;
+                }).join('');
+            }
+            
+            resultsBox.classList.remove('hidden');
+        }
+
+        function boostZoomToSpot(id) {
+            // 1. Hide Search
+            document.getElementById('map-search-results').classList.add('hidden');
+            
+            // 2. Zoom Logic
+            zoomToSpot(id); // Re-use existing logic
+
+            // 3. Optional: Add a temporary bounce animation to marker? 
+            // Existing Zoom handles it generally.
+        }
     </script>
     <script>
+        // --- DETAILED ANALYSIS VIEW LOGIC ---
+        function openAnalysisView(id) {
+             const item = window.mapData.find(i => i.id == id);
+             if (!item) return;
+
+             // 1. Switch View
+             switchView('analysis');
+             
+             // 2. Populate Basic Info
+             document.getElementById('detail-area-name').innerText = item.address || item.location || item.name;
+             // Robust Lat/Lng
+             const lat = safeFloat(item.latitude);
+             const lng = safeFloat(item.longitude);
+             document.getElementById('detail-lat').innerText = lat ? lat.toFixed(6) : '-';
+             document.getElementById('detail-lng').innerText = lng ? lng.toFixed(6) : '-';
+             
+             // 3. Populate Traffic & Specs
+             // Use the calculated profile for consistency
+             const aiScore = calculateSmartProfile(item); // "9.2/10"
+             const trafficVal = calculateSmartProfile(item, true); // Raw number
+             
+             document.getElementById('detail-avg-views').innerText = trafficVal.toLocaleString().replace(/,/g, '.');
+             
+             // Calc Impressions (Monthly) = Daily * 30 (Simple Estimate)
+             const monthly = trafficVal * 30;
+             document.getElementById('detail-impressions').innerText = monthly.toLocaleString().replace(/,/g, '.');
+
+             document.getElementById('detail-type').innerText = item.type ? item.type.name : 'Unknown';
+             document.getElementById('detail-size').innerText = `${item.width}m x ${item.height}m`;
+             document.getElementById('detail-orientation').innerText = item.orientation || 'Vertical / 1 Sisi';
+
+             document.getElementById('detail-ai-score').innerText = aiScore;
+
+             // 4. Render Places
+             // Use existing fetchRealPlaces but ensure it targets the correct container ID
+             fetchRealPlaces(item, 'detail-places-list', 'analysis');
+
+             // 5. Render Audience (Mock Data for now as per design)
+             // Randomize slightly based on ID
+             const ages = ["18-24 Thn", "25-34 Thn", "30-40 Thn"];
+             document.getElementById('detail-dominant-age').innerText = ages[item.id % ages.length];
+
+             // 6. LEFT POSTER POPULATION (REFERENCE STYLE - IMAGE ONLY)
+             
+             // A. Image
+             const imgEl = document.getElementById('poster-image');
+             
+             // Logic: Try Image2 -> Image1 -> item.image -> Placeholder
+             let imgSrc = 'https://placehold.co/800x600?text=No+Image';
+             if (item.image2) {
+                 imgSrc = item.image2.startsWith('http') ? item.image2 : 'https://internal.yousee-indonesia.com/' + item.image2;
+             } else if (item.image1) {
+                 imgSrc = item.image1.startsWith('http') ? item.image1 : 'https://internal.yousee-indonesia.com/' + item.image1;
+             } else if (item.image) {
+                 imgSrc = item.image.startsWith('http') ? item.image : `/storage/${item.image}`;
+             }
+             imgEl.src = imgSrc;
+             
+             imgEl.onerror = function() { 
+                 this.onerror = null; 
+                 if (item.image && imgSrc !== `/storage/${item.image}` && !imgSrc.includes('/storage/')) {
+                     this.src = item.image.startsWith('http') ? item.image : `/storage/${item.image}`;
+                 } else {
+                     this.src = 'https://placehold.co/800x600?text=No+Image';
+                 }
+             };
+             
+             // 7. Render Vehicle Chart (Donut) & List
+             
+             // Fallback on error
+             imgEl.onerror = function() { 
+                 this.onerror = null; 
+                 if (item.image && imgSrc !== `/storage/${item.image}` && !imgSrc.includes('/storage/')) {
+                     this.src = item.image.startsWith('http') ? item.image : `/storage/${item.image}`;
+                 } else {
+                     this.src = 'https://placehold.co/800x600?text=No+Image';
+                 }
+             };
+
+             // 7. Render Vehicle Chart (Donut) & List
+             renderDetailVehicleChartFixed(item);
+             
+             // Scroll to top
+             window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function renderDetailVehicleChartFixed(item) {
+            console.log("Rendering Fixed Chart (Padding 30)");
+            // Re-use logic from renderVehicleChart but for the Detail View
+            // We need to render:
+            // 1. Donut Chart (id="detailVehicleChart")
+            // 2. Data Detail List (id="detail-vehicle-list")
+            
+            // Generate Data (Consistent with regular chart logic if possible, or simplified)
+            const scoreCar = 40 + (item.id % 20); // 40-60
+            const scoreMotor = 30 + (item.id % 15); // 30-45
+            const scoreBus = 100 - scoreCar - scoreMotor;
+            
+            const values = [scoreCar, scoreMotor, scoreBus];
+            const labels = ['Mobil', 'Motor', 'Bus/Truk'];
+            const colors = ['#3B82F6', '#10B981', '#F59E0B'];
+            
+            // Absolute Counts (Daily)
+            const trafficVal = calculateSmartProfile(item, true);
+            const counts = values.map(pct => Math.round(trafficVal * (pct / 100)));
+
+            // 1. Render Chart
+            const ctx = document.getElementById('detailVehicleChart').getContext('2d');
+            
+            // Check if exists, destroy
+            if (window.detailChartInstance) {
+                window.detailChartInstance.destroy();
+            }
+
+            window.detailChartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: values,
+                        backgroundColor: colors,
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '60%',
+                    events: [], // Disable all interactions (hover, click)
+                    layout: {
+                        padding: 10
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { enabled: false } // Disable tooltip
+                    },
+                    hover: { mode: null } // Disable hover mode
+                },
+                plugins: [{
+                    id: 'centerLabels',
+                    afterDatasetsDraw(chart) {
+                        const { ctx, data } = chart;
+                        ctx.save();
+                        
+                        chart.data.datasets.forEach((dataset, i) => {
+                            const meta = chart.getDatasetMeta(i);
+                            meta.data.forEach((element, index) => {
+                                // Draw only if value > 0
+                                const val = dataset.data[index];
+                                if (val > 5) { // Only label if > 5% to avoid clutter
+                                    const { x, y } = element.tooltipPosition();
+                                    
+                                    // Use centroid logic
+                                    const model = element;
+                                    const midAngle = model.startAngle + (model.endAngle - model.startAngle) / 2;
+                                    const midRadius = (model.innerRadius + model.outerRadius) / 2;
+                                    
+                                    const textX = model.x + Math.cos(midAngle) * midRadius;
+                                    const textY = model.y + Math.sin(midAngle) * midRadius;
+                                    
+                                    // IMPROVED STYLING
+                                    ctx.fillStyle = '#ffffff';
+                                    ctx.textAlign = 'center';
+                                    ctx.textBaseline = 'middle';
+                                    // Add shadow for better contrast
+                                    ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+                                    ctx.shadowBlur = 4;
+                                    ctx.shadowOffsetX = 0;
+                                    ctx.shadowOffsetY = 1;
+                                    
+                                    const count = counts[index];
+                                    
+                                    // Draw Percentage (Larger, Bolder)
+                                    ctx.font = '800 13px Inter'; // Extra Bold
+                                    ctx.fillText(`${val}%`, textX, textY - 7);
+                                    
+                                    // Draw Value (Clearer)
+                                    const countStr = count >= 1000 ? (count/1000).toFixed(1) + 'k' : count;
+                                    ctx.font = '600 11px Inter'; // Semi Bold
+                                    ctx.fillText(countStr, textX, textY + 8);
+                                }
+                            });
+                        });
+                        ctx.restore();
+                    }
+                }]
+            });
+
+            // 2. Render List with Progress Bars
+            const listContainer = document.getElementById('detail-vehicle-list');
+            listContainer.innerHTML = labels.map((label, i) => `
+                <div>
+                    <div class="flex justify-between items-center mb-1">
+                        <div class="flex items-center gap-2">
+                            <span class="w-3 h-3 rounded-full" style="background-color: ${colors[i]}"></span>
+                            <span class="font-bold text-slate-700 text-sm">${label}</span>
+                        </div>
+                        <div class="text-right">
+                             <span class="font-bold text-slate-800 text-sm">${counts[i].toLocaleString()}</span>
+                             <span class="text-xs text-slate-400">(${values[i]}%)</span>
+                        </div>
+                    </div>
+                    <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                        <div class="h-full rounded-full" style="width: ${values[i]}%; background-color: ${colors[i]}"></div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // --- HELPER FUNCTIONS ---
+        function checkSmartTraffic(id) {
+            // Mock function to simulate real-time checking
+            console.log("Checking smart traffic for ID:", id);
+        }
+
+
+
         // --- ROBUST GOOGLE MAPS LOADER ---
         // Prevents double loading and ensures libraries are ready
         (function(g) {
@@ -2447,10 +2657,9 @@
                     a.nonce = m.querySelector("script[nonce]")?.nonce || "";
                     m.head.append(a)
                 }));
-            d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() =>
-                d[l](f, ...n))
+            d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n))
         })({
-            key: "{{ config('services.google.maps_key') }}",
+            key: "AIzaSyCKgDP4LOkniDYckfr3FuRW45G56yVhnnI",
             v: "weekly",
             loading: "async"
         });
@@ -2458,30 +2667,19 @@
         // --- MODERN INIT ---
         async function initMap() {
             // Wait for Libraries
-            const {
-                Map
-            } = await google.maps.importLibrary("maps");
-            const {
-                TrafficLayer
-            } = await google.maps.importLibrary("maps"); // TrafficLayer is in maps lib
-            const {
-                PlacesService
-            } = await google.maps.importLibrary("places");
-            const {
-                Geocoder
-            } = await google.maps.importLibrary("geocoding");
+            const { Map } = await google.maps.importLibrary("maps");
+            const { TrafficLayer } = await google.maps.importLibrary("maps"); // TrafficLayer is in maps lib
+            const { PlacesService } = await google.maps.importLibrary("places");
+            const { Geocoder } = await google.maps.importLibrary("geocoding");
             // const { AdvancedMarkerElement } = await google.maps.importLibrary("marker"); // Future use
 
             // Default Center (Indonesia)
-            const centerIndonesia = {
-                lat: -2.5489,
-                lng: 118.0149
-            };
-
+            const centerIndonesia = { lat: -2.5489, lng: 118.0149 };
+            
             mapInstance = new Map(document.getElementById('map-container'), {
                 zoom: 5,
                 center: centerIndonesia,
-                mapTypeId: google.maps.MapTypeId.ROADMAP,
+                mapTypeId: google.maps.MapTypeId.ROADMAP, 
                 streetViewControl: true,
                 mapTypeControl: true,
                 mapTypeControlOptions: {
@@ -2499,25 +2697,26 @@
             // Check if data is already loaded
             if (window.mapData && window.mapData.length > 0) {
                 renderMarkers(window.mapData);
-                const loadingEl = document.getElementById('map-loading');
-                if (loadingEl) {
+                 const loadingEl = document.getElementById('map-loading');
+                 if (loadingEl) {
                     loadingEl.style.opacity = '0';
                     setTimeout(() => loadingEl.remove(), 500);
-                }
+                 }
             } else {
                 await fetchAndProcessData(true);
             }
         }
-
+        
         // --- HELPER WRAPPERS TO ENSURE LIB IS LOADED ---
         // These functions might be called before map is ready, so we must guard them?
         // Actually initMap is called only when tab is switched.
         // But fetchRealPlaces might be called from Dashboard view (no map yet).
-
+        
         async function ensurePlacesLib() {
-            await google.maps.importLibrary("places");
+             await google.maps.importLibrary("places");
         }
+
     </script>
 </body>
-
 </html>
+
