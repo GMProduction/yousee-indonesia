@@ -3,12 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Smart Billboard Dashboard</title>
     
     <!-- Tailwind CSS (Desain) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Chart.js (Grafik) -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"></script>
     
     <!-- FontAwesome (Ikon) -->
     <!-- FontAwesome (Ikon) -->
@@ -44,6 +47,12 @@
         /* Navigasi Aktif */
         .nav-item.active { background-color: #EFF6FF; color: #1D4ED8; }
         .nav-item.active i { color: #1D4ED8; }
+
+        /* Custom Scrollbar */
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background-color: #94a3b8; }
         
         /* Hide sections by default */
         .view-section { display: none; }
@@ -307,28 +316,93 @@
         <!-- VIEW 2: PETA LOKASI -->
         <div id="view-map" class="view-section h-full relative fade-in">
             
-            <!-- FLOATING SEARCH BAR -->
-            <div class="absolute top-6 left-6 z-[550] w-[85%] max-w-[380px] md:max-w-[420px]">
-                <div class="relative group">
-                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+            <!-- FLOATING SEARCH BAR & FILTERS (REVISED V2: Top Header Bar) -->
+            <!-- Adjusted position to sit right of Google Maps Type Control (approx 180px) -->
+            <div class="absolute top-3 left-[180px] right-14 z-[550] flex flex-col md:flex-row items-start md:items-center gap-2 pointer-events-none max-w-full overflow-x-auto no-scrollbar pr-2">
+                
+                <!-- SEARCH INPUT -->
+                <div class="relative group pointer-events-auto rounded-lg shadow-sm min-w-[280px] md:w-[320px]">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <i class="fa-solid fa-magnifying-glass text-slate-400 group-focus-within:text-blue-500 transition-colors"></i>
                     </div>
                     <input type="text" id="map-search-input" 
-                        onkeyup="handleMapSearch(this.value)"
-                        class="block w-full pl-11 pr-10 py-3.5 border-0 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] bg-white/95 backdrop-blur-sm text-sm font-semibold text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-blue-100 transition-all" 
-                        placeholder="Cari lokasi, jalan, atau area..."
+                        onkeyup="handleMapSearch()"
+                        class="block w-full pl-9 pr-8 py-2.5 border-0 rounded-lg bg-white/95 backdrop-blur-sm text-sm font-semibold text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-100 transition-all shadow-sm" 
+                        placeholder="Cari lokasi, jalan..."
                         autocomplete="off">
                     
                     <!-- Clear Button -->
-                    <button id="map-search-clear" onclick="clearMapSearch()" class="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-300 hover:text-red-500 hidden cursor-pointer transition-colors">
+                    <button id="map-search-clear" onclick="clearMapSearch()" class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-300 hover:text-red-500 hidden cursor-pointer transition-colors">
                         <i class="fa-solid fa-circle-xmark"></i>
                     </button>
+
+                     <!-- Results Dropdown -->
+                    <div id="map-search-results" class="hidden absolute top-full left-0 mt-2 w-full bg-white rounded-xl shadow-[0_10px_40px_rgb(0,0,0,0.12)] overflow-hidden border border-slate-100 max-h-[400px] overflow-y-auto custom-scrollbar pointer-events-auto z-[1000]">
+                        <!-- Results List -->
+                    </div>
                 </div>
 
-                <!-- Results Dropdown -->
-                <div id="map-search-results" class="hidden absolute top-full left-0 mt-3 w-full bg-white rounded-2xl shadow-[0_10px_40px_rgb(0,0,0,0.12)] overflow-hidden border border-slate-100 max-h-[400px] overflow-y-auto custom-scrollbar animate-in fade-in slide-in-from-top-2 duration-200">
-                    <!-- Results List -->
+                <!-- FILTERS ROW (Horizontal Scroll on Mobile) -->
+                <div class="flex items-center gap-2 pointer-events-auto pb-1 md:pb-0">
+                    
+                    <!-- PROVINCE FILTER -->
+                    <div class="relative group rounded-lg bg-white/95 backdrop-blur-sm shadow-sm">
+                        <div class="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none">
+                            <i class="fa-solid fa-map text-slate-400 group-focus-within:text-blue-500 text-xs"></i>
+                        </div>
+                        <select id="filter-map-province" onchange="handleMapFilterChange()" class="block w-[140px] pl-8 pr-6 py-2.5 border-0 rounded-lg bg-transparent text-xs font-bold text-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-100 cursor-pointer appearance-none truncate">
+                            <option value="">Semua Provinsi</option>
+                            <!-- Populated by JS -->
+                        </select>
+                        <div class="absolute inset-y-0 right-0 pr-2 flex items-center pointer-events-none">
+                            <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
+                        </div>
+                    </div>
+
+                    <!-- CITY FILTER -->
+                    <div class="relative group rounded-lg bg-white/95 backdrop-blur-sm shadow-sm">
+                         <div class="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none">
+                            <i class="fa-solid fa-city text-slate-400 group-focus-within:text-blue-500 text-xs"></i>
+                        </div>
+                        <select id="filter-map-city" onchange="handleMapFilterChange()" class="block w-[130px] pl-8 pr-6 py-2.5 border-0 rounded-lg bg-transparent text-xs font-bold text-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-100 cursor-pointer appearance-none truncate disabled:opacity-50 disabled:cursor-not-allowed">
+                            <option value="">Semua Kota</option>
+                             <!-- Populated by JS -->
+                        </select>
+                         <div class="absolute inset-y-0 right-0 pr-2 flex items-center pointer-events-none">
+                            <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
+                        </div>
+                    </div>
+
+                    <!-- TYPE FILTER -->
+                    <div class="relative group rounded-lg bg-white/95 backdrop-blur-sm shadow-sm">
+                         <div class="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none">
+                            <i class="fa-solid fa-layer-group text-slate-400 group-focus-within:text-blue-500 text-xs"></i>
+                        </div>
+                        <select id="filter-map-type" onchange="handleMapFilterChange()" class="block w-[130px] pl-8 pr-6 py-2.5 border-0 rounded-lg bg-transparent text-xs font-bold text-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-100 cursor-pointer appearance-none truncate">
+                            <option value="">Semua Tipe</option>
+                             <!-- Populated by JS -->
+                        </select>
+                         <div class="absolute inset-y-0 right-0 pr-2 flex items-center pointer-events-none">
+                            <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
+                        </div>
+                    </div>
+
+                    <!-- POSITION FILTER -->
+                    <div class="relative group rounded-lg bg-white/95 backdrop-blur-sm shadow-sm">
+                         <div class="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none">
+                            <i class="fa-solid fa-arrows-up-down-left-right text-slate-400 group-focus-within:text-blue-500 text-xs"></i>
+                        </div>
+                        <select id="filter-map-position" onchange="handleMapFilterChange()" class="block w-[130px] pl-8 pr-6 py-2.5 border-0 rounded-lg bg-transparent text-xs font-bold text-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-100 cursor-pointer appearance-none truncate">
+                            <option value="">Semua Posisi</option>
+                             <!-- Populated by JS -->
+                        </select>
+                         <div class="absolute inset-y-0 right-0 pr-2 flex items-center pointer-events-none">
+                            <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
+                        </div>
+                    </div>
+
                 </div>
+
             </div>
 
             <!-- Map Container -->
@@ -339,6 +413,11 @@
                 <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mb-3"></div>
                 <p class="text-sm font-semibold text-slate-600 animate-pulse">Memuat Peta...</p>
             </div>
+        </div>
+
+        <!-- FLOATING SEARCH RESULTS PANEL (NEW APPROACH) -->
+        <div id="floating-search-results" style="display:none; position:fixed; top:140px; left:200px; width:400px; max-height:500px; background:white; border-radius:16px; box-shadow:0 20px 60px rgba(0,0,0,0.2); z-index:10000; overflow-y:auto; border:2px solid #3b82f6;">
+            <!-- Results will be injected here -->
         </div>
 
         <!-- FLOATING ANALYSIS CARD (Map View) -->
@@ -419,8 +498,10 @@
 
         <!-- VIEW 4: DETAILED ANALYSIS (Replica of User Image) -->
         <div id="view-analysis" class="view-section p-6 max-w-[1600px] mx-auto w-full fade-in pb-20">
+                <!-- Detail Lokasi Intelligence Header Removed to Avoid Duplication with Main Header -->
+
             <!-- Back Button -->
-            <button onclick="switchView('map')" class="mb-4 flex items-center gap-2 text-slate-500 hover:text-slate-800 transition font-medium text-sm">
+            <button onclick="switchView('map')" class="mb-6 flex items-center gap-2 text-slate-500 hover:text-slate-800 transition font-medium text-sm">
                 <i class="fa-solid fa-arrow-left"></i> Kembali ke Peta
             </button>
 
@@ -430,21 +511,32 @@
                 <!-- 1. LEFT POSTER: VISUALS (Reconstructed Reference Style - Image Only) -->
                 <div class="bg-white rounded-[2rem] shadow-xl border border-slate-200 p-6 w-full lg:w-[48%] max-w-[700px] flex flex-col relative overflow-hidden h-full">
                     
-                    <!-- Main Image (Full Height of Container) -->
-                    <div class="relative w-full h-full bg-slate-50 rounded-lg overflow-hidden border border-slate-100">
-                        <img id="poster-image" src="" class="w-full h-full object-contain">
+                    <!-- DOWNLOAD BUTTON: Left -->
+                    <button onclick="downloadVisual()" data-html2canvas-ignore="true" class="absolute top-6 right-6 z-50 bg-black hover:bg-slate-800 text-white text-[10px] font-bold py-2 px-3 rounded-lg transition shadow-lg flex items-center gap-2">
+                        <i class="fa-solid fa-download"></i> Download Image
+                    </button>
+
+                    <!-- Main Image (SCROLLABLE HEIGHT) -->
+                    <div class="relative w-full h-full bg-slate-50 rounded-lg overflow-hidden border border-slate-100 mt-8 overflow-y-auto custom-scrollbar">
+                        <img id="poster-image" src="" class="w-full h-auto object-cover">
                     </div>
                 </div>
 
                 <!-- 2. RIGHT POSTER: LOCATION INTELLIGENCE (A4 Landscape) -->
-                <div class="bg-white rounded-[2rem] shadow-xl border border-slate-200 p-6 lg:p-8 w-full lg:w-[48%] max-w-[700px] relative overflow-hidden flex flex-col h-full">
+                <div id="right-poster-container" class="bg-white rounded-[2rem] shadow-xl border border-slate-200 p-6 lg:p-8 w-full lg:w-[48%] max-w-[700px] relative overflow-hidden flex flex-col h-full">
+                
+                <!-- DOWNLOAD BUTTON: Right (Ignored by html2canvas) -->
+                <button onclick="downloadData()" data-html2canvas-ignore="true" class="absolute top-6 right-6 z-50 bg-black hover:bg-slate-800 text-white text-[10px] font-bold py-2 px-3 rounded-lg transition shadow-lg flex items-center gap-2">
+                    <i class="fa-solid fa-download"></i> Download Image
+                </button>
+
                 <!-- Decorative Top Border -->
                 <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400"></div>
 
                 <!-- Title Section -->
                 <div class="mb-6 flex justify-between items-end">
                     <div>
-                        <h2 class="text-xl font-extrabold text-slate-800 tracking-tight">Location Intelligence Overview</h2>
+                        <h2 class="text-xl font-extrabold text-slate-800 tracking-tight">Location Intelligence</h2>
                       
                     </div>
 
@@ -454,7 +546,11 @@
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
                     
                     <!-- TOP LEFT: LOCATION & TRAFFIC -->
-                    <div class="bg-slate-50/50 p-5 rounded-2xl border border-slate-100 space-y-4">
+                    <div class="bg-slate-50/50 p-5 rounded-2xl border border-slate-100 space-y-4 relative group">
+                         <!-- EDIT BUTTON (Top Right) -->
+                         <button onclick="toggleEditMode()" id="btn-edit-location" class="absolute top-4 right-4 text-slate-400 hover:text-blue-600 transition p-1 z-10" title="Edit Data Lokasi">
+                            <i class="fa-solid fa-pen-to-square"></i> <span class="text-xs font-bold">Edit</span>
+                         </button>
                          <!-- Location Name -->
                          <div>
                             <label class="text-[9px] font-bold text-purple-400 uppercase tracking-wider mb-1.5 block">AREA NAME</label>
@@ -533,18 +629,29 @@
                          </div>
                     </div>
 
-                    <!-- MIDDLE LEFT: PLACES NEAR LOCATION -->
-                    <div class="bg-white p-5 rounded-xl border border-slate-100">
-                        <h3 class="font-bold text-xs text-slate-500 uppercase tracking-wide mb-4 flex items-center gap-2">
-                            <i class="fa-solid fa-location-crosshairs text-blue-500"></i> Place Near Location
-                        </h3>
-                        <div class="space-y-2.5 max-h-[250px] overflow-y-auto pr-2 custom-scrollbar" id="detail-places-list">
-                             <div class="animate-pulse space-y-2">
-                                 <div class="h-8 bg-slate-50 rounded-lg w-full"></div>
-                                 <div class="h-8 bg-slate-50 rounded-lg w-full"></div>
-                             </div>
+                </div> 
+                <!-- FLEX LAYOUT RESTRUCTURE -->
+                <div class="flex flex-col lg:flex-row gap-5 mt-5">
+
+                    <!-- [LEFT] EXTENDED PLACES LIST -->
+                    <div class="w-full lg:w-1/2 flex flex-col h-full">
+                         <div class="bg-white p-5 rounded-xl border border-slate-100 flex-1 flex flex-col h-full min-h-[500px]">
+                            <h3 class="font-bold text-xs text-slate-500 uppercase tracking-wide mb-4 flex items-center gap-2">
+                                <i class="fa-solid fa-location-crosshairs text-blue-500"></i> Place Near Location
+                            </h3>
+                            <!-- List fills remaining space -->
+                            <div class="space-y-1 flex-1 overflow-y-auto pr-2" id="detail-places-list">
+                                 <div class="animate-pulse space-y-2">
+                                     <div class="h-8 bg-slate-50 rounded-lg w-full"></div>
+                                     <div class="h-8 bg-slate-50 rounded-lg w-full"></div>
+                                 </div>
+                            </div>
                         </div>
                     </div>
+
+                    <!-- [RIGHT] AUDIENCE & VEHICLE STACK -->
+                    <div class="w-full lg:w-1/2 flex flex-col gap-5">
+
 
                     <!-- MIDDLE RIGHT: AUDIENCE PROFILE -->
                     <div class="bg-white p-5 rounded-xl border border-slate-100">
@@ -709,6 +816,12 @@
                          google.maps.event.trigger(mapInstance, "resize");
                     }
                 }, 100);
+            } else {
+                // Hide floating search panel when not on map view
+                const floatingPanel = document.getElementById('floating-search-results');
+                if (floatingPanel) {
+                    floatingPanel.style.display = 'none';
+                }
             }
         }
 
@@ -724,6 +837,9 @@
                     
                     // 1. UPDATE ANALYTICS (Dashboard)
                     updateAnalytics(window.mapData);
+                    
+                    // 1.5 POPULATE FILTERS
+                    populateMapFilters(window.mapData);
 
                     // 2. RENDER MAP MARKERS (If Map is ready/requested)
                     if (renderMap && typeof mapInstance !== 'undefined' && mapInstance) {
@@ -896,7 +1012,7 @@
                 if(!addr) return "Kawasan Umum";
                 const a = addr.toLowerCase();
                 if(a.includes('mall') || a.includes('plaza') || a.includes('pasar')) return "Pusat Perbelanjaan";
-                if(a.includes('sekolah') || a.includes('kampus') || a.includes('univ')) return "Zona Pendidikan";
+                if(a.includes('kampus') || a.includes('univ')) return "Zona Pendidikan";
                 if(a.includes('kantor') || a.includes('office') || a.includes('center')) return "Kawasan Bisnis";
                 if(a.includes('tol') || a.includes('stasiun') || a.includes('bandara')) return "Hub Transportasi";
                 if(a.includes('perum') || a.includes('warga') || a.includes('residence')) return "Permukiman";
@@ -1426,7 +1542,7 @@
              container.innerHTML = `
                 <div class="flex items-center gap-3 text-slate-500 text-xs py-2 animate-pulse">
                     <i class="fa-solid fa-satellite-dish fa-spin text-blue-500"></i>
-                    <span class="font-medium">Mencari lokasi strategis (Real-Time)...</span>
+                    <span class="font-medium">Mencari lokasi terdekat (Real-Time)...</span>
                 </div>
              `;
              
@@ -1503,7 +1619,7 @@
         }
 
         function renderFallback(container) {
-             container.innerHTML = '<span class="text-xs text-slate-400 italic pl-1">Tidak ada lokasi strategis utama dalam radius 2.5 km.</span>';
+             container.innerHTML = '<span class="text-xs text-slate-400 italic pl-1">Tidak ada lokasi Terdekat utama dalam radius 2.5 km.</span>';
         }
 
         // --- HELPER: Haversine Distance (KM) ---
@@ -1578,7 +1694,7 @@
         }
 
         // --- REAL-TIME PLACES API (Robust) ---
-        function fetchRealPlaces(item, containerId, displayMode) {
+        async function fetchRealPlaces(item, containerId, displayMode) {
              const container = document.getElementById(containerId);
              if (!container) return;
 
@@ -1589,6 +1705,9 @@
                  </div>
              `;
              
+             // Ensure Places Library is Loaded
+             await google.maps.importLibrary("places");
+             
              // Service Setup
              const dummyMap = document.createElement('div');
              const service = new google.maps.places.PlacesService(dummyMap);
@@ -1598,78 +1717,119 @@
              const query = `landmark, hospital, mall, school, university, office, bank, market near ${searchContext}`;
              const latlng = { lat: parseFloat(item.latitude), lng: parseFloat(item.longitude) };
              
-             // 1. Request 2.5 KM
-             const request = { query: query, location: latlng, radius: 2500 };
+             // 4. LIMIT & UI ADJUSTMENT
+             const isAnalysis = (displayMode === 'analysis');
+             const maxItems = isAnalysis ? 10 : 3;
              
-             service.textSearch(request, (results, status) => {
+             // 1. Request 2.5 KM (Nearby Search - Radar)
+             // Tipe yang dicari: Fasilitas Umum, Kantor & Komersial
+             const targetTypes = ['point_of_interest', 'establishment', 'school', 'shopping_mall', 'hospital', 'bank', 'local_government_office', 'finance', 'place_of_worship'];
+             
+             const request = { 
+                 location: latlng, 
+                 radius: 2500,
+                 type: 'point_of_interest' // Default broad type
+                 // RankBy: google.maps.places.RankBy.PROMINENCE (Default) or DISTANCE
+             };
+             
+             service.nearbySearch(request, (results, status) => {
                  let validPlaces = [];
                  
                  const processResults = (res) => {
                      return res.map(p => {
+                          if (!p.geometry || !p.geometry.location) return null;
                           const placeLoc = p.geometry.location;
-                          const distKm = haversineDistance(latlng.lat, latlng.lng, placeLoc.lat(), placeLoc.lng());
+                          // Force Float for Haversine
+                          const lat1 = parseFloat(latlng.lat);
+                          const lon1 = parseFloat(latlng.lng);
+                          const lat2 = typeof placeLoc.lat === 'function' ? placeLoc.lat() : parseFloat(placeLoc.lat);
+                          const lon2 = typeof placeLoc.lng === 'function' ? placeLoc.lng() : parseFloat(placeLoc.lng);
+
+                          const distKm = haversineDistance(lat1, lon1, lat2, lon2);
                           p._realDistance = distKm;
                           p.dist = distKm.toFixed(1) + ' km'; 
                           return p;
-                      }).sort((a,b) => b.user_ratings_total - a.user_ratings_total);
+                      }).filter(p => p !== null).sort((a,b) => a._realDistance - b._realDistance); // Prioritize Nearest
                  };
 
                  if (status === google.maps.places.PlacesServiceStatus.OK && results.length > 0) {
-                      validPlaces = processResults(results).filter(p => p._realDistance <= 4.0).slice(0, 3);
+                      // 1. Ambil 10 Lokasi Terdekat (Candidate Pool)
+                      let candidates = processResults(results).filter(p => p._realDistance <= 4.0).slice(0, 10);
+                      
+                      // 2. Urutkan 10 Lokasi Tersebut Berdasarkan Rating Tertinggi (Popularitas)
+                      validPlaces = candidates.sort((a,b) => (b.user_ratings_total || 0) - (a.user_ratings_total || 0));
                  }
                  
                  // RETRY LOGIC (Chain of Responsibilities)
-                 // If we have enough data (3), done. If not, expand radius.
-                 
                  const finalize = () => {
-                     // 3. FILLER FALLBACK (If still < 3 after all attempts)
-                     if (validPlaces.length < 3) {
+
+                     // Adjust Container Height for Analysis Mode
+                     if (isAnalysis) {
+                        // Reset manual height, let flex parent handle it, just ensure overflow
+                        container.style.height = '100%'; 
+                        container.style.overflowY = 'auto';
+                        container.style.paddingRight = '8px'; 
+                     } else {
+                        container.style.height = 'auto'; 
+                        container.style.overflowY = 'visible';
+                     }
+
+                     // Fallback Logic (Respect maxItems)
+                     if (validPlaces.length < maxItems) {
                          const existingNames = validPlaces.map(p => p.name);
                          const fallbacks = [
                             { name: `Pusat Bisnis ${item.city ? item.city.name : ''}`, types: ['office'], dist: '0.8 km' },
                             { name: `Area Komersial & Ruko`, types: ['store'], dist: '0.4 km' },
                             { name: `Akses Jalan Utama`, types: ['route'], dist: '0.2 km' },
                             { name: `Pemukiman Warga`, types: ['neighborhood'], dist: '0.5 km' },
-                            { name: `Minimarket Terdekat`, types: ['convenience_store'], dist: '0.3 km' }
+                            { name: `Minimarket Terdekat`, types: ['convenience_store'], dist: '0.3 km' },
+                             // Extra fallbacks for Analysis Mode
+                            { name: `Warung Makan Lokal`, types: ['restaurant'], dist: '0.1 km' },
+                            { name: `Masjid / Musholla`, types: ['mosque'], dist: '0.2 km' },
+                            { name: `Bengkel Motor`, types: ['car_repair'], dist: '0.6 km' },
+                            { name: `Sekolah`, types: ['school'], dist: '0.9 km' },
+                            { name: `Bank`, types: ['bank'], dist: '0.3 km' }
                          ];
 
                          for (let f of fallbacks) {
-                             if (validPlaces.length >= 3) break;
+                             if (validPlaces.length >= maxItems) break;
                              if (!existingNames.includes(f.name)) {
                                  validPlaces.push({
                                      name: f.name,
                                      types: f.types,
-                                     dist: f.dist, // Static distance
+                                     dist: f.dist, 
                                      user_ratings_total: 100,
-                                     isFallback: true // Flag to prevent recalc
-                                     // No geometry to avoid Haversine of (0,0)
+                                     isFallback: true 
                                  });
                              }
                          }
                      }
+                     // ULANGI SORTING FINAL & SLICE
+                     validPlaces.sort((a,b) => (b.user_ratings_total || 0) - (a.user_ratings_total || 0));
+                     validPlaces = validPlaces.slice(0, maxItems);
+                     
                      renderPlaces({ places: validPlaces, latlng: latlng }, container, displayMode);
                  };
 
                  // Step 2: Try 10 KM
-                 if (validPlaces.length < 3) {
+                 if (validPlaces.length < maxItems) {
                      service.textSearch({ ...request, radius: 10000 }, (res2, stat2) => {
                          if (stat2 === google.maps.places.PlacesServiceStatus.OK && res2.length > 0) {
                              const expanded = processResults(res2).filter(p => p._realDistance <= 12.0);
-                             // Merge unique
                              expanded.forEach(p => {
-                                 if (validPlaces.length < 3 && !validPlaces.find(v => v.place_id === p.place_id)) {
+                                 if (validPlaces.length < maxItems && !validPlaces.find(v => v.place_id === p.place_id)) {
                                      validPlaces.push(p);
                                  }
                              });
                          }
                          
-                         // Step 3: Try 25 KM (Wide Area)
-                         if (validPlaces.length < 3) {
+                         // Step 3: Try 25 KM
+                         if (validPlaces.length < maxItems) {
                              service.textSearch({ ...request, radius: 25000 }, (res3, stat3) => {
                                  if (stat3 === google.maps.places.PlacesServiceStatus.OK && res3.length > 0) {
                                      const wide = processResults(res3).filter(p => p._realDistance <= 26.0);
                                      wide.forEach(p => {
-                                         if (validPlaces.length < 3 && !validPlaces.find(v => v.place_id === p.place_id)) {
+                                         if (validPlaces.length < maxItems && !validPlaces.find(v => v.place_id === p.place_id)) {
                                               validPlaces.push(p);
                                          }
                                      });
@@ -1678,7 +1838,7 @@
                              });
                          } else {
                              finalize();
-                         }
+                          }
                      });
                  } else {
                      finalize();
@@ -1728,12 +1888,12 @@
                     } else {
                         // Map Card Format
                         return `
-                            <div class="flex items-center gap-2 text-xs bg-white p-2 rounded border border-slate-100 shadow-sm ${opacityClass} transition-all duration-500">
-                                 <div class="w-5 h-5 rounded-full flex items-center justify-center ${styles} shrink-0">
+                            <div class="flex items-start gap-2 text-xs bg-white p-2 rounded border border-slate-100 shadow-sm ${opacityClass} transition-all duration-500">
+                                 <div class="w-5 h-5 rounded-full flex items-center justify-center ${styles} shrink-0 mt-0.5">
                                     <i class="fa-solid ${icon} text-[10px]"></i>
                                  </div>
-                                 <div class="flex justify-between w-full min-w-0">
-                                    <span class="font-semibold text-slate-700 truncate mr-2" title="${p.name}">${p.name}</span>
+                                 <div class="flex flex-col w-full min-w-0">
+                                    <span class="font-semibold text-slate-700 leading-snug mb-0.5" title="${p.name}">${p.name}</span>
                                     <span class="text-[9px] text-slate-400 shrink-0">${distStr}</span>
                                  </div>
                             </div>
@@ -1749,7 +1909,7 @@
                      container.className = 'flex flex-wrap gap-2'; 
                  }
              } else {
-                 container.innerHTML = '<span class="text-xs text-slate-400 italic pl-1">Tidak ada lokasi strategis utama dalam radius 2.5 km.</span>';
+                 container.innerHTML = '<span class="text-xs text-slate-400 italic pl-1">Tidak ada lokasi terdekat utama dalam radius 2.5 km.</span>';
              }
         }
 
@@ -1853,8 +2013,8 @@
                 <div class="mr-auto flex items-center gap-2">
                     <div class="p-2 bg-blue-50 rounded-lg text-blue-600"><i class="fa-solid fa-map-pin"></i></div>
                     <div>
-                        <p class="text-xs font-bold text-slate-400 uppercase">Lokasi Strategis</p>
-                        <p class="text-sm font-bold text-slate-800">Analisis Radius 2.5 KM</p>
+                        <p class="text-xs font-bold text-slate-400 uppercase">Lokasi Terdekat</p>
+                        
                     </div>
                 </div>
                 <div id="dashboard-poi-list" class="flex flex-wrap gap-2 ml-4"></div>
@@ -2080,6 +2240,8 @@
                 if (vehicleChartInstance) vehicleChartInstance.destroy();
             } else if (canvasId === 'mapVehicleChart') {
                 if (vehicleChartMapInstance) vehicleChartMapInstance.destroy();
+            } else if (canvasId === 'detailVehicleChart') {
+                if (vehicleChartInstanceDetail) vehicleChartInstanceDetail.destroy();
             }
 
             const newChart = new Chart(ctxVehicle, {
@@ -2212,6 +2374,9 @@
         function showMapAnalysis(id) {
             const item = window.mapData.find(i => i.id == id);
             if (!item) return;
+            
+            // Set Current ID for Actions
+            currentDetailId = id;
 
             // 1. Populate Data
             // Title & Address
@@ -2271,7 +2436,7 @@
             poiContainer.innerHTML = `
                 <div class="flex items-center gap-2 mb-2">
                      <i class="fa-solid fa-map-pin text-blue-500 text-xs"></i>
-                     <h5 class="text-[10px] font-bold text-slate-500 uppercase">Lokasi Strategis (1.5 KM)</h5>
+                     <h5 class="text-[10px] font-bold text-slate-500 uppercase">Lokasi Terdekat</h5>
                 </div>
                 <div id="map-poi-list" class="space-y-2">
                     <div class="h-4 bg-slate-200 rounded w-full animate-pulse"></div>
@@ -2314,9 +2479,13 @@
         }
 
         // --- FLOATING SEARCH LOGIC ---
+
+        // --- MAP FILTER LOGIC ---
         let mapSearchTimeout = null;
 
-        function handleMapSearch(query) {
+        function handleMapSearch() {
+            const input = document.getElementById('map-search-input');
+            const query = input.value.trim();
             const clearBtn = document.getElementById('map-search-clear');
             const resultsBox = document.getElementById('map-search-results');
             
@@ -2325,22 +2494,312 @@
                 clearBtn.classList.remove('hidden');
             } else {
                 clearBtn.classList.add('hidden');
-                resultsBox.classList.add('hidden');
-                return;
+                // Hide floating panel
+                const floatingPanel = document.getElementById('floating-search-results');
+                if (floatingPanel) floatingPanel.style.display = 'none';
             }
 
             // Debounce
             clearTimeout(mapSearchTimeout);
-            mapSearchTimeout = setTimeout(() => {
-                performMapSearch(query);
-            }, 300);
+            
+            if (query.length > 0) {
+                mapSearchTimeout = setTimeout(() => {
+                    // Check if input is lat/long coordinates (e.g., "-6.1234, 106.5678")
+                    const latLongPattern = /^(-?\d+\.?\d*)\s*,\s*(-?\d+\.?\d*)$/;
+                    const match = query.match(latLongPattern);
+                    
+                    if (match) {
+                        const lat = parseFloat(match[1]);
+                        const lng = parseFloat(match[2]);
+                        
+                        if (lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180) {
+                            if (mapInstance) {
+                                mapInstance.setCenter({ lat, lng });
+                                mapInstance.setZoom(16);
+                                
+                                if (window.tempMarker) window.tempMarker.setMap(null);
+                                window.tempMarker = new google.maps.Marker({
+                                    position: { lat, lng },
+                                    map: mapInstance,
+                                    icon: {
+                                        path: google.maps.SymbolPath.CIRCLE,
+                                        scale: 10,
+                                        fillColor: '#ef4444',
+                                        fillOpacity: 0.9,
+                                        strokeColor: '#fff',
+                                        strokeWeight: 2
+                                    },
+                                    animation: google.maps.Animation.DROP
+                                });
+                            }
+                            
+                            const floatingPanel = document.getElementById('floating-search-results');
+                            if (floatingPanel) {
+                                const searchInput = document.getElementById('map-search-input');
+                                if (searchInput) {
+                                    const rect = searchInput.getBoundingClientRect();
+                                    floatingPanel.style.top = (rect.bottom + 8) + 'px';
+                                    floatingPanel.style.left = rect.left + 'px';
+                                    floatingPanel.style.width = rect.width + 'px';
+                                }
+                                floatingPanel.innerHTML = `
+                                    <div style="padding:16px; text-align:center; color:#1e293b;">
+                                        <div style="width:48px; height:48px; border-radius:50%; background:#dbeafe; color:#2563eb; display:flex; align-items:center; justify-content:center; margin:0 auto 12px;">
+                                            <i class="fa-solid fa-location-crosshairs" style="font-size:20px;"></i>
+                                        </div>
+                                        <p style="margin:0; font-weight:700; font-size:14px;">Koordinat Ditemukan</p>
+                                        <p style="margin:4px 0 0 0; font-size:12px; color:#64748b;">Lat: ${lat.toFixed(6)}, Lng: ${lng.toFixed(6)}</p>
+                                    </div>
+                                `;
+                                floatingPanel.style.display = 'block';
+                            }
+                            return;
+                        }
+                    }
+                    
+                    // Safety check
+                    if (!window.mapData || window.mapData.length === 0) {
+                        return;
+                    }
+                    
+                    // Filter data based on query
+                    const filtered = window.mapData.filter(item => {
+                        const searchText = [
+                            item.name,
+                            item.location,
+                            item.address,
+                            item.city?.name,
+                            item.city?.province?.name,
+                            item.type?.name,
+                            item.latitude?.toString(),
+                            item.longitude?.toString()
+                        ].filter(Boolean).join(' ').toLowerCase();
+                        
+                        return searchText.includes(query.toLowerCase());
+                    });
+                    
+                    // Show results in dropdown
+                    if (filtered.length > 0) {
+                        renderSearchResults(filtered.slice(0, 8)); // Show max 8 results
+                    } else {
+                        const floatingPanel = document.getElementById('floating-search-results');
+                        if (floatingPanel) {
+                            floatingPanel.innerHTML = `
+                                <div style="padding:20px; text-align:center; color:#64748b; font-size:14px;">
+                                    <i class="fa-solid fa-magnifying-glass" style="font-size:24px; margin-bottom:8px; display:block;"></i>
+                                    <p style="margin:0;">Tidak ada hasil untuk "${query}"</p>
+                                </div>
+                            `;
+                            floatingPanel.style.display = 'block';
+                        }
+                    }
+                }, 300);
+            }
+        }
+
+        function renderSearchResults(results) {
+            const floatingPanel = document.getElementById('floating-search-results');
+            
+            if (!floatingPanel) {
+                console.error('Floating panel not found!');
+                return;
+            }
+            
+            // Calculate position below search input
+            const searchInput = document.getElementById('map-search-input');
+            if (searchInput) {
+                const rect = searchInput.getBoundingClientRect();
+                floatingPanel.style.top = (rect.bottom + 8) + 'px';
+                floatingPanel.style.left = rect.left + 'px';
+                floatingPanel.style.width = rect.width + 'px';
+            }
+            
+            const html = results.map(item => {
+                const displayName = item.location || item.name || item.address || 'Lokasi';
+                const cityName = item.city?.name || '';
+                const provinceName = item.city?.province?.name || '';
+                const locationText = [cityName, provinceName].filter(Boolean).join(', ');
+                
+                return `
+                    <div style="cursor:pointer; padding:12px; border-bottom:1px solid #e5e7eb; transition:background 0.2s; background:white;" 
+                         onmouseover="this.style.backgroundColor='#eff6ff'" 
+                         onmouseout="this.style.backgroundColor='white'"
+                         onclick="selectSearchResult(${item.id})">
+                        <div style="display:flex; align-items:start; gap:12px;">
+                            <div style="width:32px; height:32px; border-radius:50%; background-color:#dbeafe; color:#2563eb; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                                <i class="fa-solid fa-location-dot" style="font-size:12px;"></i>
+                            </div>
+                            <div style="flex:1; min-width:0;">
+                                <p style="font-weight:700; font-size:14px; color:#1e293b; margin:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${displayName}</p>
+                                <p style="font-size:12px; color:#64748b; margin:4px 0 0 0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${locationText}</p>
+                            </div>
+                            <div style="color:#cbd5e1; flex-shrink:0; font-size:12px;">
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            floatingPanel.innerHTML = html;
+            floatingPanel.style.display = 'block';
+        }
+
+        function selectSearchResult(id) {
+            const item = window.mapData.find(i => i.id == id);
+            if (!item) return;
+            
+            // Clear search
+            const input = document.getElementById('map-search-input');
+            input.value = item.location || item.name || item.address || '';
+            
+            // Hide floating panel
+            const floatingPanel = document.getElementById('floating-search-results');
+            if (floatingPanel) floatingPanel.style.display = 'none';
+            
+            // Zoom to marker
+            if (mapInstance) {
+                const lat = parseFloat(item.latitude);
+                const lng = parseFloat(item.longitude);
+                
+                if (lat && lng) {
+                    mapInstance.setCenter({ lat, lng });
+                    mapInstance.setZoom(16);
+                    
+                    // Find and click marker
+                    const targetMarker = markers.find(m => m._id == id);
+                    if (targetMarker) {
+                        google.maps.event.trigger(targetMarker, 'click');
+                    }
+                }
+            }
         }
 
         function clearMapSearch() {
             const input = document.getElementById('map-search-input');
             input.value = '';
-            handleMapSearch('');
+            
+            // Hide floating panel
+            const floatingPanel = document.getElementById('floating-search-results');
+            if (floatingPanel) {
+                floatingPanel.style.display = 'none';
+                floatingPanel.innerHTML = '';
+            }
+            
+            const clearBtn = document.getElementById('map-search-clear');
+            clearBtn.classList.add('hidden');
+            
             input.focus();
+            
+            // Reset markers to show all
+            performMapSearch('');
+        }
+
+        // Helper to determine orientation consistently
+        function getOrientation(item) {
+            if (item.orientation) return item.orientation;
+            
+            // Fallback: Derive from dimensions
+            if (item.width && item.height) {
+                const w = parseFloat(item.width);
+                const h = parseFloat(item.height);
+                if (h >= w) return 'Vertical';
+                return 'Horizontal';
+            }
+            
+            return 'Vertical'; // Default fallback
+        }
+
+        function handleMapFilterChange() {
+            const provinceFilter = document.getElementById('filter-map-province');
+            const cityFilter = document.getElementById('filter-map-city');
+            
+            // If Province changes, we might want to reset/refilter City options
+            if (provinceFilter.value) {
+                // Determine cities available in this province
+                const citiesInProvince = window.mapData
+                    .filter(i => i.city && i.city.province && i.city.province.name === provinceFilter.value)
+                    .map(i => i.city.name)
+                    .filter((v, i, a) => a.indexOf(v) === i)
+                    .sort();
+                
+                // Update City Options
+                const currentCity = cityFilter.value;
+                cityFilter.innerHTML = '<option value="">Semua Kota</option>' + 
+                    citiesInProvince.map(c => `<option value="${c}" ${c === currentCity ? 'selected' : ''}>${c}</option>`).join('');
+                
+                cityFilter.disabled = false;
+            } else {
+                // If No Province, Show All Cities
+                populateCityFilter(window.mapData); // Reset full list
+            }
+
+            // Trigger Search/Filter
+            const input = document.getElementById('map-search-input');
+            performMapSearch(input.value.trim());
+        }
+
+        function populateMapFilters(data) {
+            const provinceFilter = document.getElementById('filter-map-province');
+            const cityFilter = document.getElementById('filter-map-city');
+            const typeFilter = document.getElementById('filter-map-type');
+            const posFilter = document.getElementById('filter-map-position');
+            
+            if(!provinceFilter || !cityFilter) return;
+
+            // 1. Extract Unique Provinces
+            const provinces = data
+                .map(i => i.city && i.city.province ? i.city.province.name : null)
+                .filter(p => p) // Remove nulls
+                .filter((v, i, a) => a.indexOf(v) === i) // Unique
+                .sort();
+
+            provinceFilter.innerHTML = '<option value="">Semua Provinsi</option>' + 
+                provinces.map(p => `<option value="${p}">${p}</option>`).join('');
+
+            // 2. Extract Unique Cities (Initial Full List)
+            populateCityFilter(data);
+
+            // 3. Extract Unique Types
+            if (typeFilter) {
+                const types = data
+                    .map(i => i.type ? i.type.name : null)
+                    .filter(t => t)
+                    .filter((v, i, a) => a.indexOf(v) === i)
+                    .sort();
+                
+                typeFilter.innerHTML = '<option value="">Semua Tipe</option>' + 
+                    types.map(t => `<option value="${t}">${t}</option>`).join('');
+            }
+
+            // 4. Extract Unique Positions (Orientation) -> Derived Consistently
+            if (posFilter) {
+                const positions = data
+                    .map(i => getOrientation(i))
+                    .filter(p => p)
+                    .filter((v, i, a) => a.indexOf(v) === i)
+                    .sort();
+                
+                // Usually just Vertical / Horizontal
+                posFilter.innerHTML = '<option value="">Semua Posisi</option>' + 
+                    positions.map(p => `<option value="${p}">${p}</option>`).join('');
+            }
+        }
+
+        function populateCityFilter(data) {
+             const cityFilter = document.getElementById('filter-map-city');
+             const cities = data
+                .map(i => i.city ? i.city.name : null)
+                .filter(c => c)
+                .filter((v, i, a) => a.indexOf(v) === i)
+                .sort();
+            
+            // Preserve selection if possible
+            const current = cityFilter.value;
+            cityFilter.innerHTML = '<option value="">Semua Kota</option>' + 
+                cities.map(c => `<option value="${c}" ${c === current ? 'selected' : ''}>${c}</option>`).join('');
+            
+            cityFilter.disabled = false;
         }
 
         function performMapSearch(query) {
@@ -2349,18 +2808,63 @@
             const lowerQ = query.toLowerCase();
             const resultsBox = document.getElementById('map-search-results');
             
-            // Filter Data
-            const matches = window.mapData.filter(item => {
-                const combined = (
-                    (item.address || '') + ' ' + 
-                    (item.location || '') + ' ' + 
-                    (item.name || '') + ' ' +
-                    (item.city ? item.city.name : '') + ' ' +
-                    (item.latitude || '') + ' ' +
-                    (item.longitude || '')
-                ).toLowerCase();
-                return combined.includes(lowerQ);
-            }).slice(0, 8); // Top 8 results
+            // Get Filter Values
+            const filterProv = document.getElementById('filter-map-province')?.value || '';
+            const filterCity = document.getElementById('filter-map-city')?.value || '';
+            const filterType = document.getElementById('filter-map-type')?.value || '';
+            const filterPos = document.getElementById('filter-map-position')?.value || '';
+
+            // FILTER DATA (Combined Logic: Search + Province + City + Type + Position)
+            const filteredData = window.mapData.filter(item => {
+                let match = true;
+
+                // 1. Province Filter
+                if (filterProv) {
+                    const itemProv = item.city && item.city.province ? item.city.province.name : '';
+                    if (itemProv !== filterProv) match = false;
+                }
+
+                // 2. City Filter
+                if (match && filterCity) {
+                    const itemCity = item.city ? item.city.name : '';
+                    if (itemCity !== filterCity) match = false;
+                }
+
+                // 3. Type Filter
+                if (match && filterType) {
+                    const itemType = item.type ? item.type.name : '';
+                    if (itemType !== filterType) match = false;
+                }
+
+                // 4. Position Filter (Orientation) -> Use derived logic
+                if (match && filterPos) {
+                     const itemPos = getOrientation(item);
+                     if (itemPos !== filterPos) match = false;
+                }
+
+                // 5. Search Query (Only if match still true)
+                if (match && lowerQ) {
+                    const checkName = (item.location || item.name || '').toLowerCase().includes(lowerQ);
+                    const checkAddress = (item.address || '').toLowerCase().includes(lowerQ) || 
+                                         (item.city && item.city.name ? item.city.name : '').toLowerCase().includes(lowerQ);
+                    
+                    if (!checkName && !checkAddress) match = false;
+                }
+
+                return match;
+            });
+
+            // UPDATE MAP MARKERS (Important: Show filtered results on map)
+            renderMarkers(filteredData);
+
+            // UPDATE DROPDOWN RESULTS (Only if user is typing)
+            if (query.length === 0) {
+                resultsBox.classList.add('hidden');
+                return;
+            }
+            
+            // Show top matches in dropdown
+            const matches = filteredData.slice(0, 8);
 
             if (matches.length === 0) {
                 resultsBox.innerHTML = `
@@ -2373,9 +2877,6 @@
                 resultsBox.innerHTML = matches.map(item => {
                      let title = item.location || item.name || 'Lokasi';
                      let subtitle = item.address || (item.city ? item.city.name : '') || 'Tanpa Alamat';
-                     
-                     // Highlight matches (Simple)
-                     // Using regex to bold matching part would be nice but simple bold title is enough
                      
                      return `
                      <div onclick="boostZoomToSpot(${item.id})" class="p-3 hover:bg-slate-50 border-b border-slate-50 last:border-none cursor-pointer transition group">
@@ -2391,7 +2892,7 @@
                                         ${item.type ? item.type.name : 'Billboard'}
                                     </span>
                                     <span class="text-[9px] text-slate-400">
-                                        ${calculateSmartProfile(item, false)} Match
+                                        ${item.city ? item.city.name : ''}
                                     </span>
                                 </div>
                             </div>
@@ -2400,7 +2901,6 @@
                      `;
                 }).join('');
             }
-            
             resultsBox.classList.remove('hidden');
         }
 
@@ -2420,6 +2920,9 @@
         function openAnalysisView(id) {
              const item = window.mapData.find(i => i.id == id);
              if (!item) return;
+             
+             // Track ID for Edit/Download actions
+             currentDetailId = id;
 
              // 1. Switch View
              switchView('analysis');
@@ -2500,6 +3003,237 @@
              
              // Scroll to top
              window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // --- EDIT LOCATION DATA LOGIC (LOCAL ONLY) ---
+        let isEditingLocation = false;
+
+        function toggleEditMode() {
+            const btn = document.getElementById('btn-edit-location');
+            const areaNameEl = document.getElementById('detail-area-name');
+            const latEl = document.getElementById('detail-lat');
+            const lngEl = document.getElementById('detail-lng');
+            
+            // Check if element exists
+            if(!areaNameEl || !latEl || !lngEl) return;
+
+            if (!isEditingLocation) {
+                // Switch to Edit Mode
+                isEditingLocation = true;
+                
+                // Save current values to dataset for revert
+                areaNameEl.dataset.original = areaNameEl.innerText;
+                latEl.dataset.original = latEl.innerText;
+                lngEl.dataset.original = lngEl.innerText;
+
+                // Replace with Inputs
+                // Area Name (Text)
+                areaNameEl.innerHTML = `<input type="text" id="input-area-name" value="${escapeHtml(areaNameEl.innerText.trim())}" class="w-full text-sm font-bold text-slate-700 border-b-2 border-blue-400 focus:outline-none bg-transparent py-1">`;
+                
+                // Lat/Lng (Number/Text)
+                latEl.innerHTML = `<input type="text" id="input-lat" value="${latEl.innerText.trim()}" class="w-full text-xs font-mono font-bold text-slate-600 border-b-2 border-blue-400 focus:outline-none bg-transparent py-1">`;
+                lngEl.innerHTML = `<input type="text" id="input-lng" value="${lngEl.innerText.trim()}" class="w-full text-xs font-mono font-bold text-slate-600 border-b-2 border-blue-400 focus:outline-none bg-transparent py-1">`;
+
+                // Update Edit Button to Save
+                if(btn) {
+                    btn.innerHTML = '<i class="fa-solid fa-save"></i> <span class="text-xs font-bold">Simpan</span>';
+                    btn.classList.add('text-blue-600');
+                    btn.classList.remove('text-slate-400');
+                    
+                    // Add Cancel Button next to it
+                    const cancelBtn = document.createElement('button');
+                    cancelBtn.id = 'btn-cancel-edit';
+                    cancelBtn.onclick = cancelEditMode;
+                    // ALIGNMENT FIX: 
+                    // Use right-[95px] and top-[17px] for better alignment with Simpan text
+                    cancelBtn.className = 'absolute top-[7px] right-[95px] text-red-500 hover:text-red-700 transition p-1 z-10 flex items-center justify-center h-6 w-6 rounded-full bg-white border border-slate-200 shadow-sm'; 
+                    cancelBtn.title = 'Batalkan Edit';
+                    cancelBtn.innerHTML = '<i class="fa-solid fa-xmark text-[11px]"></i>';
+                    
+                    btn.parentElement.appendChild(cancelBtn);
+                }
+
+            } else {
+                // Save Action (Local Only)
+                saveLocationDataLocal();
+            }
+        }
+
+        function cancelEditMode() {
+             const btn = document.getElementById('btn-edit-location');
+             const cancelBtn = document.getElementById('btn-cancel-edit');
+             const areaNameEl = document.getElementById('detail-area-name');
+             const latEl = document.getElementById('detail-lat');
+             const lngEl = document.getElementById('detail-lng');
+
+             if(areaNameEl && areaNameEl.dataset.original) areaNameEl.innerHTML = areaNameEl.dataset.original;
+             if(latEl && latEl.dataset.original) latEl.innerText = latEl.dataset.original;
+             if(lngEl && lngEl.dataset.original) lngEl.innerText = lngEl.dataset.original;
+
+             isEditingLocation = false;
+
+             // Reset Buttons
+             if(btn) {
+                btn.innerHTML = '<i class="fa-solid fa-pen-to-square"></i> <span class="text-xs font-bold">Edit</span>';
+                btn.classList.remove('text-blue-600');
+                btn.classList.add('text-slate-400');
+             }
+             if(cancelBtn) cancelBtn.remove();
+        }
+
+        function saveLocationDataLocal() {
+            const btn = document.getElementById('btn-edit-location');
+            const cancelBtn = document.getElementById('btn-cancel-edit');
+
+            // Default to existing if input missing (safety)
+            let newName = '';
+            let newLat = '';
+            let newLng = '';
+            
+            const nameInput = document.getElementById('input-area-name');
+            const latInput = document.getElementById('input-lat');
+            const lngInput = document.getElementById('input-lng');
+
+            if(nameInput) newName = nameInput.value;
+            if(latInput) newLat = latInput.value;
+            if(lngInput) newLng = lngInput.value;
+
+            // Update Local Data Only (window.mapData)
+            const item = window.mapData.find(i => i.id == currentDetailId);
+            if(item) {
+                if(newName) {
+                    item.name = newName;
+                    item.location = newName; 
+                }
+                if(newLat) item.latitude = newLat;
+                if(newLng) item.longitude = newLng;
+            }
+
+            // Restore UI to Read Mode with New Values
+            const areaNameEl = document.getElementById('detail-area-name');
+            const latEl = document.getElementById('detail-lat');
+            const lngEl = document.getElementById('detail-lng');
+
+            if(areaNameEl) areaNameEl.innerText = newName;
+            if(latEl) latEl.innerText = newLat;
+            if(lngEl) lngEl.innerText = newLng;
+            
+            isEditingLocation = false;
+            
+            // Remove Cancel Button
+            if(cancelBtn) cancelBtn.remove();
+
+            if(btn) {
+                // Flash success
+                const originalColor = btn.style.color;
+                btn.classList.remove('text-blue-600');
+                btn.classList.add('text-green-500');
+                btn.innerHTML = '<i class="fa-solid fa-check"></i> <span class="text-xs font-bold">Tersimpan (Lokal Gambar)</span>';
+                
+                setTimeout(() => {
+                        btn.classList.remove('text-green-500');
+                        btn.innerHTML = '<i class="fa-solid fa-pen-to-square"></i> <span class="text-xs font-bold">Edit</span>';
+                        btn.classList.add('text-slate-400');
+                }, 2000);
+            }
+        }
+
+        async function saveLocationData() {
+            const btn = document.getElementById('btn-edit-location');
+            
+            // Loading State
+            if(btn) {
+                btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <span class="text-xs font-bold">Menyimpan...</span>';
+                btn.disabled = true;
+            }
+
+            const newName = document.getElementById('input-area-name').value;
+            const newLat = document.getElementById('input-lat').value;
+            const newLng = document.getElementById('input-lng').value;
+
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+
+            try {
+                // Use generic item update endpoint
+                // Ensure currentDetailId is set
+                if(!currentDetailId) throw new Error("ID Lokasi tidak ditemukan.");
+
+                const response = await fetch('/data/item/post-item', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    body: JSON.stringify({
+                        id: currentDetailId,
+                        name: newName,
+                        latitude: newLat,
+                        longitude: newLng,
+                        // We only send changed fields. The controller should handle partial updates or merge.
+                        // Ideally we send 'type' and other required fields if the controller validates them strictly.
+                        // Assuming 'postItem' handles update by ID gracefully.
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.status === 200 || result.success || result.code === 200) {
+                    // Success
+                    // alert('Data berhasil disimpan!');
+                    
+                    // Update Local Data (window.mapData)
+                    const item = window.mapData.find(i => i.id == currentDetailId);
+                    if(item) {
+                        item.name = newName;
+                        item.location = newName; // Sync location name
+                        item.latitude = newLat;
+                        item.longitude = newLng;
+                        // Also update address if name is used as address logic
+                    }
+
+                    // Revert UI to Read Mode
+                    const areaNameEl = document.getElementById('detail-area-name');
+                    const latEl = document.getElementById('detail-lat');
+                    const lngEl = document.getElementById('detail-lng');
+
+                    if(areaNameEl) areaNameEl.innerText = newName;
+                    if(latEl) latEl.innerText = newLat;
+                    if(lngEl) lngEl.innerText = newLng;
+                    
+                    isEditingLocation = false;
+                    
+                    if(btn) {
+                        btn.innerHTML = '<i class="fa-solid fa-pen-to-square"></i> <span class="text-xs font-bold">Edit</span>';
+                        btn.classList.remove('text-blue-600');
+                        btn.classList.add('text-slate-400');
+                        
+                        // Flash success (Optional)
+                        const originalColor = btn.style.color;
+                        btn.classList.add('text-green-500');
+                        btn.innerHTML = '<i class="fa-solid fa-check"></i> <span class="text-xs font-bold">Tersimpan</span>';
+                        setTimeout(() => {
+                             btn.classList.remove('text-green-500');
+                             btn.innerHTML = '<i class="fa-solid fa-pen-to-square"></i> <span class="text-xs font-bold">Edit</span>';
+                             btn.classList.add('text-slate-400');
+                        }, 2000);
+                    }
+
+                } else {
+                    throw new Error(result.message || 'Gagal menyimpan data');
+                }
+
+            } catch (error) {
+                console.error('Save Failed:', error);
+                alert('Gagal menyimpan perubahan: ' + error.message);
+                
+                // Revert Button
+                if(btn) {
+                    btn.innerHTML = '<i class="fa-solid fa-save"></i> <span class="text-xs font-bold">Simpan</span>';
+                    btn.disabled = false;
+                }
+            } finally {
+                if(btn) btn.disabled = false;
+            }
         }
 
         function renderDetailVehicleChartFixed(item) {
@@ -2631,6 +3365,206 @@
             console.log("Checking smart traffic for ID:", id);
         }
 
+        // --- DOWNLOAD LOGIC (SEPARATE BUTTONS) ---
+        let currentDetailId = null;
+
+        // 1. Download Visual (Left Poster) - Image Source
+        function downloadVisual() {
+            if(!currentDetailId) return alert('No location selected!');
+            
+            const item = window.mapData.find(i => i.id == currentDetailId);
+            if (!item) return;
+
+            const nameSafe = (item.name || 'Location').replace(/[^a-z0-9]/gi, '_').substring(0, 20);
+            const img1 = item.image1 ? (item.image1.startsWith('http') ? item.image1 : 'https://internal.yousee-indonesia.com/' + item.image1) : null;
+            const img2 = item.image2 ? (item.image2.startsWith('http') ? item.image2 : 'https://internal.yousee-indonesia.com/' + item.image2) : null;
+            
+            const visualImg = img2 || img1;
+
+            if(visualImg) {
+                // FORCE DOWNLOAD using Fetch + Blob via PROXY to bypass CORS
+                const proxyUrl = `/image-proxy?url=${encodeURIComponent(visualImg)}`;
+
+                fetch(proxyUrl)
+                    .then(response => {
+                        if (!response.ok) throw new Error('Network response was not ok');
+                        return response.blob();
+                    })
+                    .then(blob => {
+                        const url = window.URL.createObjectURL(blob);
+                        const link = document.createElement('a');
+                        link.href = url;
+                        link.download = `Visual_${nameSafe}.jpg`;
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                        window.URL.revokeObjectURL(url);
+                    })
+                    .catch(e => {
+                        console.error('Download failed:', e);
+                        // Fallback: Open in New Tab
+                        const link = document.createElement('a');
+                        link.href = visualImg;
+                        link.target = '_blank';
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                        
+                        alert("Gagal mengunduh langsung. Gambar dibuka di tab baru (CORS Issue).");
+                    });
+            } else {
+                alert('Gambar visual tidak tersedia.');
+            }
+        }
+
+        // 2. Download Data - Ghost Clone Strategy (Centered Stats)
+        function downloadData() {
+            // CHECK EDIT MODE
+            if (isEditingLocation) {
+                alert("Anda sedang berada di mode edit, silahkan simpan dulu");
+                return;
+            }
+
+            if(!currentDetailId) return alert('No location selected!');
+            
+            const item = window.mapData.find(i => i.id == currentDetailId);
+            if (!item) return;
+
+            const nameSafe = (item.name || 'Location').replace(/[^a-z0-9]/gi, '_').substring(0, 20);
+            const element = document.getElementById('right-poster-container');
+            
+            if(element) {
+                // STRATEGI BARU: Ghost Clone dengan WIDE Width
+                const clone = element.cloneNode(true);
+                
+                // Hapus semua ID & Class pembatas lebar
+                clone.removeAttribute('id');
+                clone.style.maxWidth = 'none'; 
+                clone.style.width = '100%';
+                
+                // VITAL: Hapus scrollbar (Kotak Hitam di Bawah)
+                clone.style.overflow = 'hidden'; 
+                clone.style.maxHeight = 'none';
+
+                const allElements = clone.querySelectorAll('*');
+                allElements.forEach(el => el.removeAttribute('id'));
+
+                // Buat container "Ghost" lebar (1080px - Standar High Res)
+                const ghost = document.createElement('div');
+                ghost.style.position = 'fixed';
+                ghost.style.left = '0'; 
+                ghost.style.top = '0';
+                ghost.style.zIndex = '-9999'; // Hidden behind everything
+                ghost.style.width = '1080px'; 
+                ghost.style.height = 'auto'; 
+                ghost.style.padding = '40px'; 
+                ghost.style.backgroundColor = '#ffffff'; 
+                ghost.style.color = '#000000';
+                ghost.style.fontFamily = 'Inter, sans-serif'; // Paksa font family
+                ghost.style.overflow = 'hidden';
+
+                // --- HEADER FIX (Location Intelligence Center) ---
+                const headerH2 = clone.querySelector('h2');
+                if (headerH2 && headerH2.innerText.includes('Location Intelligence')) {
+                    // Cari container flex bapaknya
+                    const h2Container = headerH2.closest('.flex.justify-between');
+                    if(h2Container) {
+                        h2Container.style.display = 'block';
+                        h2Container.style.textAlign = 'center';
+                        h2Container.style.marginBottom = '25px';
+                        h2Container.style.width = '100%';
+                    }
+                    
+                    headerH2.style.width = '100%';
+                    headerH2.style.textAlign = 'center';
+                    headerH2.style.whiteSpace = 'nowrap'; 
+                    headerH2.style.fontSize = '2rem'; 
+                }
+
+                ghost.appendChild(clone);
+                document.body.appendChild(ghost);
+
+                // Modifikasi Clone
+                // a. Hapus tombol download
+                const btn = clone.querySelector('button');
+                if(btn) btn.remove();
+
+                // b. Paksa Hapus "Loading Data" indikator jika ada
+                const loadingIndicator = clone.querySelector('.fa-spinner')?.closest('div');
+                if(loadingIndicator) loadingIndicator.remove();
+                
+                // c. Fix Layout Place List
+                const scrollableDivs = clone.querySelectorAll('.overflow-y-auto');
+                scrollableDivs.forEach(div => {
+                    div.style.overflow = 'visible'; 
+                    div.style.height = 'auto';
+                    div.style.maxHeight = 'none';
+                });
+
+                // d. STATS CARDS (Fix Alignment)
+                const statsCards = clone.querySelectorAll('.border-pink-100, .border-purple-100');
+                statsCards.forEach(card => {
+                    card.style.height = '170px'; 
+                    card.style.display = 'flex';
+                    card.style.flexDirection = 'column';
+                    card.style.justifyContent = 'space-between';
+                    card.style.padding = '20px';
+                    
+                    const bigNumber = card.querySelector('h2');
+                    if(bigNumber) {
+                        bigNumber.style.textAlign = 'left';
+                        bigNumber.style.fontSize = '3.5rem';
+                        bigNumber.style.lineHeight = '1';
+                        bigNumber.style.marginTop = '-5px';
+                    }
+                });
+
+                // e. FORCE ICONS VISIBILITY (Font Awesome Fix)
+                const icons = clone.querySelectorAll('i');
+                icons.forEach(icon => {
+                    icon.style.display = 'inline-block';
+                    icon.style.visibility = 'visible';
+                });
+
+                // f. Canvas Clone (Vehicle Chart)
+                const originalCanvas = element.querySelector('canvas');
+                const clonedCanvas = clone.querySelector('canvas');
+                if (originalCanvas && clonedCanvas) {
+                    const ctx = clonedCanvas.getContext('2d');
+                    clonedCanvas.width = originalCanvas.width;
+                    clonedCanvas.height = originalCanvas.height;
+                    clonedCanvas.style.width = '65%';
+                    clonedCanvas.style.height = 'auto';
+                    clonedCanvas.style.margin = '0 auto'; 
+                    clonedCanvas.style.display = 'block'; 
+                    ctx.drawImage(originalCanvas, 0, 0);
+                }
+
+                // 3. GENERATE IMAGE (With Delay for Icons)
+                setTimeout(() => {
+                    htmlToImage.toPng(ghost, {
+                        quality: 1.0,
+                        pixelRatio: 2, // High Res
+                        backgroundColor: '#ffffff',
+                        cacheBust: true, 
+                    })
+                    .then(function (dataUrl) {
+                        const link = document.createElement('a');
+                        link.download = `Data_Location_${nameSafe}.png`;
+                        link.href = dataUrl;
+                        link.click();
+                        
+                        document.body.removeChild(ghost);
+                    })
+                    .catch(function (error) {
+                        console.error('oops, something went wrong!', error);
+                        alert('Gagal generate poster: ' + error.message);
+                        if(document.body.contains(ghost)) document.body.removeChild(ghost);
+                    });
+                }, 1500); // 1.5 Detik Delay
+            }
+        }
+
 
 
         // --- ROBUST GOOGLE MAPS LOADER ---
@@ -2661,6 +3595,7 @@
         })({
             key: "AIzaSyCKgDP4LOkniDYckfr3FuRW45G56yVhnnI",
             v: "weekly",
+            libraries: "places,geometry", // Preload places
             loading: "async"
         });
 
