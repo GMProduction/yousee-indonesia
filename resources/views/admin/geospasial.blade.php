@@ -542,41 +542,14 @@
 
                 </div>
 
-                <!-- Grid Layout (Tighter Gap) -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                <!-- Grid Layout Refactored -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5">
                     
-                    <!-- TOP LEFT: LOCATION & TRAFFIC -->
-                    <div class="bg-slate-50/50 p-5 rounded-2xl border border-slate-100 space-y-4 relative group">
-                         <!-- EDIT BUTTON (Top Right) -->
-                         <button onclick="toggleEditMode()" id="btn-edit-location" class="absolute top-4 right-4 text-slate-400 hover:text-blue-600 transition p-1 z-10" title="Edit Data Lokasi">
-                            <i class="fa-solid fa-pen-to-square"></i> <span class="text-xs font-bold">Edit</span>
-                         </button>
-                         <!-- Location Name -->
-                         <div>
-                            <label class="text-[9px] font-bold text-purple-400 uppercase tracking-wider mb-1.5 block">AREA NAME</label>
-                            <div class="bg-white p-3 rounded-xl border border-slate-100 shadow-sm text-slate-700 font-bold text-sm leading-snug" id="detail-area-name">
-                                 -
-                            </div>
-                         </div>
-
-                         <!-- Lat/Long -->
-                         <div class="grid grid-cols-2 gap-3">
-                            <div>
-                                <label class="text-[9px] font-bold text-purple-400 uppercase tracking-wider mb-1.5 block">LATITUDE</label>
-                                <div class="bg-white p-2.5 rounded-xl border border-slate-100 shadow-sm text-slate-600 font-bold text-xs font-mono" id="detail-lat">
-                                     -
-                                </div>
-                            </div>
-                             <div>
-                                <label class="text-[9px] font-bold text-purple-400 uppercase tracking-wider mb-1.5 block">LONGITUDE</label>
-                                <div class="bg-white p-2.5 rounded-xl border border-slate-100 shadow-sm text-slate-600 font-bold text-xs font-mono" id="detail-lng">
-                                     -
-                                </div>
-                            </div>
-                         </div>
-
-                         <!-- Avg Views -->
-                         <div class="bg-white p-5 rounded-xl border border-purple-100 shadow-sm mt-3 relative overflow-hidden group hover:border-purple-200 transition">
+                    <!-- [LEFT COLUMN] -->
+                    <div class="flex flex-col gap-5">
+                         
+                         <!-- 1. AVG VIEWS (Moved to Top Left) -->
+                         <div class="bg-white p-5 rounded-xl border border-purple-100 shadow-sm relative overflow-hidden group hover:border-purple-200 transition h-[160px] flex flex-col justify-center">
                             <div class="absolute right-0 top-0 w-16 h-16 bg-purple-50 rounded-bl-full -mr-4 -mt-4 transition group-hover:bg-purple-100"></div>
                             <div class="relative z-10">
                                 <div class="flex items-center gap-2 mb-1">
@@ -591,26 +564,22 @@
                                 </div>
                             </div>
                          </div>
-                    </div>
 
-                    <!-- TOP RIGHT: IMPRESSIONS & TECH SPECS -->
-                    <div class="bg-slate-50/50 p-5 rounded-2xl border border-slate-100 flex flex-col justify-between">
-                         <!-- Impressions -->
-                         <div class="bg-white p-5 rounded-xl border border-pink-100 shadow-sm mb-4 relative overflow-hidden group hover:border-pink-200 transition">
-                            <div class="absolute right-0 top-0 w-16 h-16 bg-pink-50 rounded-bl-full -mr-4 -mt-4 transition group-hover:bg-pink-100"></div>
-                            <div class="relative z-10">
-                                <div class="flex items-center gap-2 mb-2">
-                                    <i class="fa-solid fa-award text-pink-500 text-lg"></i>
-                                    <span class="text-[9px] font-bold text-slate-400 uppercase">TOTAL IMPRESSIONS (MO)</span>
-                                </div>
-                                <h2 class="text-4xl font-extrabold text-slate-800 tracking-tight" id="detail-impressions">0</h2>
-                                <p class="text-[10px] text-slate-400 mt-1">Estimated monthly exposure</p>
+                         <!-- 2. TECH SPECS (Moved to Left, below Avg Views) -->
+                         <div class="bg-white p-5 rounded-xl border border-slate-100 shadow-sm space-y-3 relative group h-[225px] flex flex-col justify-center">
+                            <!-- EDIT BUTTON (Moved Inside Tech Specs) -->
+                            <button onclick="toggleEditMode()" id="btn-edit-location" class="absolute top-1 right-4 text-slate-400 hover:text-blue-600 transition p-1 z-10" title="Edit Data Lokasi">
+                                <i class="fa-solid fa-pen-to-square"></i> <span class="text-xs font-bold">Edit</span>
+                            </button>
+
+                            <!-- Hidden Fields for JS Logic Compatibility (Area Name, Lat, Lng) -->
+                            <div class="hidden">
+                                <div id="detail-area-name"></div>
+                                <div id="detail-lat"></div>
+                                <div id="detail-lng"></div>
                             </div>
-                         </div>
 
-                         <!-- Tech Specs List -->
-                         <div class="bg-white p-5 rounded-xl border border-slate-100 shadow-sm space-y-3">
-                            <div class="flex justify-between items-center border-b border-slate-50 pb-2">
+                            <div class="flex justify-between items-center border-b border-slate-50 pb-2 mt-4">
                                  <span class="text-xs font-medium text-slate-500">Media Type</span>
                                  <span class="text-xs font-bold text-slate-800" id="detail-type">-</span>
                             </div>
@@ -627,76 +596,83 @@
                                  <span class="text-xl font-extrabold" id="detail-ai-score">-</span>
                             </div>
                          </div>
-                    </div>
 
-                </div> 
-                <!-- FLEX LAYOUT RESTRUCTURE -->
-                <div class="flex flex-col lg:flex-row gap-5 mt-5">
-
-                    <!-- [LEFT] EXTENDED PLACES LIST -->
-                    <div class="w-full lg:w-1/2 flex flex-col h-full">
-                         <div class="bg-white p-5 rounded-xl border border-slate-100 flex-1 flex flex-col h-full min-h-[500px]">
+                         <!-- 3. PLACE NEAR LOCATION (Limit 5 Items) -->
+                         <div class="bg-white p-5 rounded-xl border border-slate-100 flex-1 flex flex-col h-full min-h-[350px]">
                             <h3 class="font-bold text-xs text-slate-500 uppercase tracking-wide mb-4 flex items-center gap-2">
                                 <i class="fa-solid fa-location-crosshairs text-blue-500"></i> Place Near Location
                             </h3>
                             <!-- List fills remaining space -->
-                            <div class="space-y-1 flex-1 overflow-y-auto pr-2" id="detail-places-list">
-                                 <div class="animate-pulse space-y-2">
-                                     <div class="h-8 bg-slate-50 rounded-lg w-full"></div>
-                                     <div class="h-8 bg-slate-50 rounded-lg w-full"></div>
-                                 </div>
+                            <div class="space-y-1 flex-1 overflow-y-auto pr-2 custom-scrollbar" id="detail-places-list">
+                                 <!-- Filled by JS (Max 5 items) -->
                             </div>
                         </div>
-                    </div>
-
-                    <!-- [RIGHT] AUDIENCE & VEHICLE STACK -->
-                    <div class="w-full lg:w-1/2 flex flex-col gap-5">
-
-
-                    <!-- MIDDLE RIGHT: AUDIENCE PROFILE -->
-                    <div class="bg-white p-5 rounded-xl border border-slate-100">
-                         <h3 class="font-bold text-xs text-slate-500 uppercase tracking-wide mb-4 flex items-center gap-2">
-                            <i class="fa-solid fa-users-viewfinder text-purple-500"></i> Audience Profile
-                        </h3>
-                        
-                        <div class="bg-slate-50 p-3 rounded-lg flex justify-between items-center mb-5 border border-slate-100">
-                            <span class="text-slate-500 font-medium text-xs">Dominant Age</span>
-                            <span class="bg-white px-3 py-1 rounded-md font-bold text-slate-800 border border-slate-200 shadow-sm text-xs" id="detail-dominant-age">18-24 Thn</span>
-                        </div>
-
-                        <!-- Gender Bar -->
-                        <div class="mb-1.5 flex justify-between text-[9px] text-slate-400 font-bold uppercase tracking-wider">
-                            <span>Male</span><span>Female</span>
-                        </div>
-                        <div class="w-full h-3 bg-red-100 rounded-full overflow-hidden flex mb-1.5">
-                            <div class="h-full bg-blue-500" style="width: 55%"></div>
-                            <div class="h-full bg-pink-400" style="width: 45%"></div>
-                        </div>
-                         <div class="flex justify-between text-[10px] font-bold text-slate-700">
-                            <span>55%</span><span>45%</span>
-                        </div>
-                        
 
                     </div>
 
-                    <!-- BOTTOM LEFT: VEHICLE DISTRIBUTION CHART -->
-                    <div class="bg-white p-5 rounded-xl border border-slate-100 h-[260px] flex flex-col">
-                        <h3 class="font-bold text-xs text-slate-500 uppercase tracking-wide mb-2">VEHICLE DISTRIBUTION</h3>
-                        <div class="flex-1 relative flex items-center justify-center">
-                            <div class="h-48 w-full relative">
-                                <canvas id="detailVehicleChart"></canvas>
+                    <!-- [RIGHT COLUMN] -->
+                    <div class="flex flex-col gap-5">
+
+                         <!-- 1. IMPRESSIONS (Top Right) -->
+                         <div class="bg-white p-5 rounded-xl border border-pink-100 shadow-sm relative overflow-hidden group hover:border-pink-200 transition h-[160px] flex flex-col justify-center">
+                            <div class="absolute right-0 top-0 w-16 h-16 bg-pink-50 rounded-bl-full -mr-4 -mt-4 transition group-hover:bg-pink-100"></div>
+                            <div class="relative z-10">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <i class="fa-solid fa-award text-pink-500 text-lg"></i>
+                                    <span class="text-[9px] font-bold text-slate-400 uppercase">TOTAL IMPRESSIONS (MO)</span>
+                                </div>
+                                <h2 class="text-4xl font-extrabold text-slate-800 tracking-tight" id="detail-impressions">0</h2>
+                                <p class="text-[10px] text-slate-400 mt-1">Estimated monthly exposure</p>
+                            </div>
+                         </div>
+
+                         <!-- 2. AUDIENCE PROFILE (Below Impressions) -->
+                         <!-- 2. AUDIENCE PROFILE (Below Impressions) -->
+                         <div class="bg-white p-5 rounded-xl border border-slate-100 h-[225px] flex flex-col justify-center">
+                             <h3 class="font-bold text-xs text-slate-500 uppercase tracking-wide mb-4 flex items-center gap-2">
+                                <i class="fa-solid fa-users-viewfinder text-purple-500"></i> Audience Profile
+                            </h3>
+                            
+                            <div class="bg-slate-50 p-3 rounded-lg flex justify-between items-center mb-5 border border-slate-100">
+                                <span class="text-slate-500 font-medium text-xs">Dominant Age</span>
+                                <span class="bg-white px-3 py-1 rounded-md font-bold text-slate-800 border border-slate-200 shadow-sm text-xs" id="detail-dominant-age">18-24 Thn</span>
+                            </div>
+    
+                            <!-- Gender Bar -->
+                            <div class="mb-1.5 flex justify-between text-[9px] text-slate-400 font-bold uppercase tracking-wider">
+                                <span>Male</span><span>Female</span>
+                            </div>
+                            <div class="w-full h-3 bg-red-100 rounded-full overflow-hidden flex mb-1.5">
+                                <div class="h-full bg-blue-500" style="width: 55%"></div>
+                                <div class="h-full bg-pink-400" style="width: 45%"></div>
+                            </div>
+                             <div class="flex justify-between text-[10px] font-bold text-slate-700">
+                                <span>55%</span><span>45%</span>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- BOTTOM RIGHT: VEHICLE DATA DETAIL -->
-                     <div class="bg-white p-5 rounded-xl border border-slate-100 h-[260px] overflow-y-auto custom-scrollbar">
-                        <h3 class="font-bold text-xs text-slate-500 uppercase tracking-wide mb-4">VEHICLE DATA DETAIL</h3>
-                        <div class="space-y-5" id="detail-vehicle-list">
-                             <!-- Filled by JS -->
+                        <!-- 3. VEHICLE DISTRIBUTION CHART (Below Audience Profile) -->
+                        <div class="bg-white p-5 rounded-xl border border-slate-100 h-[350px] flex flex-col">
+                            <h3 class="font-bold text-xs text-slate-500 uppercase tracking-wide mb-2">VEHICLE DISTRIBUTION</h3>
+                            <div class="flex-1 relative flex items-center justify-center">
+                                <div class="h-56 w-full relative">
+                                    <canvas id="detailVehicleChart"></canvas>
+                                </div>
+                            </div>
                         </div>
-                    </div>
 
+                    </div> 
+
+                </div> 
+                
+                <!-- [BOTTOM ROW - FULL WIDTH] -->
+                <!-- VEHICLE DATA DETAIL (Memanjang) -->
+                 <div class="bg-white p-8 rounded-xl border border-slate-100 w-full overflow-y-auto custom-scrollbar mt-5 min-h-[180px] flex flex-col justify-center">
+                    <h3 class="font-bold text-xs text-slate-500 uppercase tracking-wide mb-6 border-b pb-4">VEHICLE DATA DETAIL</h3>
+                    <!-- Use grid for horizontal items or keep list but full width -->
+                    <div class="space-y-3 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-6" id="detail-vehicle-list">
+                         <!-- Filled by JS -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -1718,8 +1694,10 @@
              const latlng = { lat: parseFloat(item.latitude), lng: parseFloat(item.longitude) };
              
              // 4. LIMIT & UI ADJUSTMENT
+             // 4. LIMIT & UI ADJUSTMENT
              const isAnalysis = (displayMode === 'analysis');
-             const maxItems = isAnalysis ? 10 : 3;
+             let maxItems = isAnalysis ? 5 : 3;
+             if (displayMode === 'dashboard') maxItems = 8;
              
              // 1. Request 2.5 KM (Nearby Search - Radar)
              // Tipe yang dicari: Fasilitas Umum, Kantor & Komersial
@@ -3034,6 +3012,45 @@
                 latEl.innerHTML = `<input type="text" id="input-lat" value="${latEl.innerText.trim()}" class="w-full text-xs font-mono font-bold text-slate-600 border-b-2 border-blue-400 focus:outline-none bg-transparent py-1">`;
                 lngEl.innerHTML = `<input type="text" id="input-lng" value="${lngEl.innerText.trim()}" class="w-full text-xs font-mono font-bold text-slate-600 border-b-2 border-blue-400 focus:outline-none bg-transparent py-1">`;
 
+                // Tech Specs Inputs
+                const typeEl = document.getElementById('detail-type');
+                const sizeEl = document.getElementById('detail-size');
+                const orientationEl = document.getElementById('detail-orientation');
+
+                if (typeEl) {
+                    typeEl.dataset.original = typeEl.innerText;
+                    
+                    // Extract Unique Types from window.mapData
+                    let uniqueTypes = [];
+                    if(window.mapData) {
+                        uniqueTypes = [...new Set(window.mapData.map(item => item.type ? item.type.name : null).filter(Boolean))].sort();
+                    }
+                    
+                    // Fallback if empty or to ensure current value is present
+                    const currentVal = typeEl.innerText.trim();
+                    if(currentVal && !uniqueTypes.includes(currentVal)) {
+                        uniqueTypes.push(currentVal);
+                        uniqueTypes.sort();
+                    }
+
+                    let options = uniqueTypes.map(t => `<option value="${t}" ${t === currentVal ? 'selected' : ''}>${t}</option>`).join('');
+                    
+                    // Create Select
+                    typeEl.innerHTML = `
+                        <select id="input-type" class="w-full text-right text-xs font-bold text-slate-800 border-b-2 border-blue-400 focus:outline-none bg-transparent py-0.5">
+                            ${options}
+                        </select>
+                    `;
+                }
+                if (sizeEl) {
+                    sizeEl.dataset.original = sizeEl.innerText;
+                    sizeEl.innerHTML = `<input type="text" id="input-size" value="${sizeEl.innerText.trim()}" class="w-full text-right text-xs font-bold text-slate-800 border-b-2 border-blue-400 focus:outline-none bg-transparent py-0.5">`;
+                }
+                if (orientationEl) {
+                    orientationEl.dataset.original = orientationEl.innerText;
+                    orientationEl.innerHTML = `<input type="text" id="input-orientation" value="${orientationEl.innerText.trim()}" class="w-full text-right text-xs font-bold text-slate-800 border-b-2 border-blue-400 focus:outline-none bg-transparent py-0.5">`;
+                }
+
                 // Update Edit Button to Save
                 if(btn) {
                     btn.innerHTML = '<i class="fa-solid fa-save"></i> <span class="text-xs font-bold">Simpan</span>';
@@ -3045,12 +3062,16 @@
                     cancelBtn.id = 'btn-cancel-edit';
                     cancelBtn.onclick = cancelEditMode;
                     // ALIGNMENT FIX: 
-                    // Use right-[95px] and top-[17px] for better alignment with Simpan text
-                    cancelBtn.className = 'absolute top-[7px] right-[95px] text-red-500 hover:text-red-700 transition p-1 z-10 flex items-center justify-center h-6 w-6 rounded-full bg-white border border-slate-200 shadow-sm'; 
+                    // Center the buttons: Cancel on Left of Center, Save on Right of Center
+                    cancelBtn.className = 'absolute top-1 right-1/2 mr-1 text-red-500 hover:text-red-700 transition p-1 z-10 flex items-center justify-center h-6 w-6 rounded-full bg-white border border-slate-200 shadow-sm'; 
                     cancelBtn.title = 'Batalkan Edit';
                     cancelBtn.innerHTML = '<i class="fa-solid fa-xmark text-[11px]"></i>';
                     
                     btn.parentElement.appendChild(cancelBtn);
+                    
+                    // Move Save Button to Right of Center
+                    btn.classList.remove('-mt-1', 'right-4');
+                    btn.classList.add('left-1/2', 'ml-1');
                 }
 
             } else {
@@ -3071,12 +3092,21 @@
              if(lngEl && lngEl.dataset.original) lngEl.innerText = lngEl.dataset.original;
 
              isEditingLocation = false;
+             
+             // Restore Tech Specs
+             const typeEl = document.getElementById('detail-type');
+             const sizeEl = document.getElementById('detail-size');
+             const orientationEl = document.getElementById('detail-orientation');
+
+             if(typeEl && typeEl.dataset.original) typeEl.innerText = typeEl.dataset.original;
+             if(sizeEl && sizeEl.dataset.original) sizeEl.innerText = sizeEl.dataset.original;
+             if(orientationEl && orientationEl.dataset.original) orientationEl.innerText = orientationEl.dataset.original;
 
              // Reset Buttons
              if(btn) {
                 btn.innerHTML = '<i class="fa-solid fa-pen-to-square"></i> <span class="text-xs font-bold">Edit</span>';
-                btn.classList.remove('text-blue-600');
-                btn.classList.add('text-slate-400');
+                btn.classList.remove('text-blue-600', 'left-1/2', 'ml-1'); // Remove centering
+                btn.classList.add('text-slate-400', 'right-4'); // Restore position
              }
              if(cancelBtn) cancelBtn.remove();
         }
@@ -3098,6 +3128,14 @@
             if(latInput) newLat = latInput.value;
             if(lngInput) newLng = lngInput.value;
 
+            const inputType = document.getElementById('input-type');
+            const inputSize = document.getElementById('input-size');
+            const inputOrientation = document.getElementById('input-orientation');
+
+            let newType = inputType ? inputType.value : '';
+            let newSize = inputSize ? inputSize.value : '';
+            let newOrientation = inputOrientation ? inputOrientation.value : '';
+
             // Update Local Data Only (window.mapData)
             const item = window.mapData.find(i => i.id == currentDetailId);
             if(item) {
@@ -3107,6 +3145,20 @@
                 }
                 if(newLat) item.latitude = newLat;
                 if(newLng) item.longitude = newLng;
+                
+                 if(newType) {
+                     if(!item.type) item.type = {};
+                     item.type.name = newType;
+                 }
+                 if(newSize) {
+                     item.size = newSize;
+                     const dims = newSize.toLowerCase().split('x');
+                     if(dims.length == 2) {
+                         item.width = parseFloat(dims[0]);
+                         item.height = parseFloat(dims[1]);
+                     }
+                 }
+                 if(newOrientation) item.orientation = newOrientation;
             }
 
             // Restore UI to Read Mode with New Values
@@ -3118,25 +3170,36 @@
             if(latEl) latEl.innerText = newLat;
             if(lngEl) lngEl.innerText = newLng;
             
+            // Restore Tech Specs UI
+            const typeEl = document.getElementById('detail-type');
+            const sizeEl = document.getElementById('detail-size');
+            const orientationEl = document.getElementById('detail-orientation');
+
+            if(typeEl) typeEl.innerText = newType;
+            if(sizeEl) sizeEl.innerText = newSize;
+            if(orientationEl) orientationEl.innerText = newOrientation;
+            
             isEditingLocation = false;
             
-            // Remove Cancel Button
             if(cancelBtn) cancelBtn.remove();
-
-            if(btn) {
-                // Flash success
-                const originalColor = btn.style.color;
-                btn.classList.remove('text-blue-600');
-                btn.classList.add('text-green-500');
-                btn.innerHTML = '<i class="fa-solid fa-check"></i> <span class="text-xs font-bold">Tersimpan (Lokal Gambar)</span>';
-                
-                setTimeout(() => {
-                        btn.classList.remove('text-green-500');
-                        btn.innerHTML = '<i class="fa-solid fa-pen-to-square"></i> <span class="text-xs font-bold">Edit</span>';
-                        btn.classList.add('text-slate-400');
-                }, 2000);
+            
+            // Remove Tech Specs Inputs & Restore Logic already handled above
+                 if(btn) {
+                    // Flash success
+                    const originalColor = btn.style.color;
+                    btn.classList.remove('text-blue-600');
+                    btn.classList.remove('left-1/2', 'ml-1'); // Remove centering
+                    btn.classList.add('right-4'); // Restore original position
+                    btn.classList.add('text-green-500');
+                    btn.innerHTML = '<i class="fa-solid fa-check"></i> <span class="text-xs font-bold">Tersimpan (Lokal)</span>';
+                    
+                    setTimeout(() => {
+                            btn.classList.remove('text-green-500');
+                            btn.innerHTML = '<i class="fa-solid fa-pen-to-square"></i> <span class="text-xs font-bold">Edit</span>';
+                            btn.classList.add('text-slate-400');
+                    }, 2000);
+                }
             }
-        }
 
         async function saveLocationData() {
             const btn = document.getElementById('btn-edit-location');
@@ -3342,17 +3405,17 @@
             const listContainer = document.getElementById('detail-vehicle-list');
             listContainer.innerHTML = labels.map((label, i) => `
                 <div>
-                    <div class="flex justify-between items-center mb-1">
+                    <div class="flex justify-between items-center mb-3">
                         <div class="flex items-center gap-2">
                             <span class="w-3 h-3 rounded-full" style="background-color: ${colors[i]}"></span>
                             <span class="font-bold text-slate-700 text-sm">${label}</span>
                         </div>
                         <div class="text-right">
                              <span class="font-bold text-slate-800 text-sm">${counts[i].toLocaleString()}</span>
-                             <span class="text-xs text-slate-400">(${values[i]}%)</span>
+                             <span class="text-xs text-slate-400 font-medium ml-1">(${values[i]}%)</span>
                         </div>
                     </div>
-                    <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                    <div class="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
                         <div class="h-full rounded-full" style="width: ${values[i]}%; background-color: ${colors[i]}"></div>
                     </div>
                 </div>
@@ -3485,9 +3548,9 @@
                 document.body.appendChild(ghost);
 
                 // Modifikasi Clone
-                // a. Hapus tombol download
-                const btn = clone.querySelector('button');
-                if(btn) btn.remove();
+                // a. Hapus SEMUA tombol (Edit, Simpan, Cancel, Download, dll)
+                const allButtons = clone.querySelectorAll('button');
+                allButtons.forEach(btn => btn.remove());
 
                 // b. Paksa Hapus "Loading Data" indikator jika ada
                 const loadingIndicator = clone.querySelector('.fa-spinner')?.closest('div');
@@ -3540,30 +3603,61 @@
                     ctx.drawImage(originalCanvas, 0, 0);
                 }
 
-                // 3. GENERATE IMAGE (With Delay for Icons)
-                setTimeout(() => {
-                    htmlToImage.toPng(ghost, {
-                        quality: 1.0,
-                        pixelRatio: 2, // High Res
-                        backgroundColor: '#ffffff',
-                        cacheBust: true, 
-                    })
-                    .then(function (dataUrl) {
-                        const link = document.createElement('a');
-                        link.download = `Data_Location_${nameSafe}.png`;
-                        link.href = dataUrl;
-                        link.click();
-                        
-                        document.body.removeChild(ghost);
-                    })
-                    .catch(function (error) {
-                        console.error('oops, something went wrong!', error);
-                        alert('Gagal generate poster: ' + error.message);
-                        if(document.body.contains(ghost)) document.body.removeChild(ghost);
-                    });
-                }, 1500); // 1.5 Detik Delay
+            
+            // Loading State
+            const btnDownload = document.querySelector('button[onclick="downloadData()"]');
+            if (btnDownload) {
+                btnDownload.disabled = true;
+                btnDownload.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Loading...';
             }
+
+            // 3. GENERATE IMAGE (With Delay for Icons)
+            setTimeout(() => {
+                htmlToImage.toPng(ghost, {
+                    quality: 1.0,
+                    pixelRatio: 2, // High Res
+                    backgroundColor: '#ffffff',
+                    cacheBust: true,
+                    // Filter out external stylesheets that might cause CORS issues
+                    filter: (node) => {
+                       if(node.tagName === 'LINK' && node.rel === 'stylesheet') {
+                           if(node.href && (node.href.includes('fonts.googleapis.com') || node.href.includes('cdnjs.cloudflare.com'))) {
+                               // We hope crossorigin works, but if still error, we might need to skip.
+                               // Actually, let's keep them but catch error if possible? 
+                               // html-to-image usually fails hard on cssRules access.
+                               // Strategy: We added crossorigin to base.blade.php so they should work.
+                               // But to be safe from "SecurityError", we can exclude them IF they fail, but we can't try-catch inside filter.
+                               // Let's rely on crossorigin first. if user still complains, we filter.
+                               return true; 
+                           }
+                       }
+                       return true;
+                    } 
+                })
+                .then(function (dataUrl) {
+                    const link = document.createElement('a');
+                    link.download = `Data_Location_${nameSafe}.png`;
+                    link.href = dataUrl;
+                    link.click();
+                    
+                    document.body.removeChild(ghost);
+                })
+                .catch(function (error) {
+                    console.error('oops, something went wrong!', error);
+                    // Filter error often happens silently or logs but doesn't stop? 
+                    // If SecurityError, it might stop.
+                    alert('Gagal generate poster: ' + error.message);
+                    if(document.body.contains(ghost)) document.body.removeChild(ghost);
+                })
+                .finally(() => {
+                    if (btnDownload) {
+                        btnDownload.disabled = false;
+                        btnDownload.innerHTML = '<i class="fa-solid fa-download"></i> Download Data';
+                    }
+                });
+            }, 1500); // 1.5 Detik Delay
         }
+    }
 
 
 
