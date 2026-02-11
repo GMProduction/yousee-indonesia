@@ -76,6 +76,16 @@
                     </li>
 
                     <li>
+                        <a class=" menu {{ Request::is('admin/geospasial') ? 'active' : '' }} tooltip" href="/admin/geospasial" target="_blank"><span
+                                class="material-symbols-outlined">
+                                map
+                            </span>
+                            <span class="text-menu"> Geospasial</span>
+                            <span class="tooltiptext">Geospasial</span>
+                        </a>
+                    </li>
+
+                    <li>
                         <a class=" menu {{ Request::is('admin/analytics') ? 'active' : '' }} tooltip"
                             href="/admin/analytics"><span class="material-symbols-outlined">
                                 <span class="material-symbols-outlined">
