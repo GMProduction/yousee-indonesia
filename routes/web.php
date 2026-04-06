@@ -275,3 +275,8 @@ Route::get('/image-proxy', function (\Illuminate\Http\Request $request) {
 })->name('image.proxy');
 
 Route::get('/traffic/{id}/check', [\App\Http\Controllers\TitikController::class, 'checkTraffic'])->name('traffic.check');
+
+// Honeypot Trap Route
+Route::get('/cdn-cgi/health-check', function() {
+    return abort(403);
+})->middleware('bot_check');
