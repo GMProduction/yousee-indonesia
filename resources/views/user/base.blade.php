@@ -798,6 +798,9 @@
         })();
     </script>
 
+    {{-- Honeypot Trap --}}
+    <a href="/cdn-cgi/health-check" style="display:none" aria-hidden="true" tabindex="-1">Internal System Health Check</a>
+
 </body>
 
 </html>
