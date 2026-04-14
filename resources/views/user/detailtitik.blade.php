@@ -325,7 +325,7 @@
             isGmapLoading = true;
 
             var script = document.createElement('script');
-            script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyCKgDP4LOkniDYckfr3FuRW45G56yVhnnI&loading=async&libraries=places&callback=initStrategicLocations";
+            script.src = "https://maps.googleapis.com/maps/api/js?key={{ config('services.google.maps_key') }}&loading=async&libraries=places&callback=initStrategicLocations";
             script.async = true;
             script.defer = true;
             document.head.appendChild(script);
