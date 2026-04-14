@@ -3712,7 +3712,7 @@
                 }));
             d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n))
         })({
-            key: "AIzaSyCKgDP4LOkniDYckfr3FuRW45G56yVhnnI",
+            key: "{{ config('services.google.maps_key') }}",
             v: "weekly",
             libraries: "places,geometry", // Preload places
             loading: "async"

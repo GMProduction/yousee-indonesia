@@ -4166,7 +4166,7 @@
             d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() =>
                 d[l](f, ...n))
         })({
-            key: "AIzaSyAs_QwyMszHel8sTA19mwfeVYgvvBPK0-0",
+            key: "{{ config('services.google.maps_key') }}",
             v: "weekly",
             libraries: "places,geometry", // Preload places
             loading: "async"
