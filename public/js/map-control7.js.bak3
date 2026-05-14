@@ -430,80 +430,55 @@ var singleInfoWindow;
 function createGoogleMapMarker(payload) {
     return new Promise(function (resolve) {
         var bounds = new google.maps.LatLngBounds();
-        var total = payload.length;
-        if (total === 0) {
-            resolve();
-            return;
+
+        payload.forEach(function (v, k) {
+            var iconUrl = v.type && v.type.icon ? v.type.icon : undefined;
+
+            var marker = new google.maps.Marker({
+                position: new google.maps.LatLng(v["latitude"], v["longitude"]),
+                // map: map_container, // DO NOT SET MAP DI SINI (agar tidak ngelag merender 10k titik)
+                icon: iconUrl,
+                title: v["name"],
+                zIndex: 100 // Standard constant zIndex
+            });
+
+            multi_marker.push(marker);
+
+            // Dashboard-style Click Listener (One InfoWindow)
+            marker.addListener("click", function () {
+                singleInfoWindow.close();
+                var content = windowContent(v, k);
+                singleInfoWindow.setContent(content);
+                singleInfoWindow.open(map_container, marker);
+
+                // Trigger Async Data Fetch
+                setTimeout(function () {
+                    fetchRealPlaces(v, 'places-list-' + v.id);
+                }, 100);
+            });
+
+            bounds.extend(marker.getPosition());
+        });
+
+        // Menerapkan MarkerClusterer agar ringan walau 10k data
+        if (window.markerClusterer && window.markerClusterer.MarkerClusterer) {
+            if (window.markerCluster) {
+                window.markerCluster.clearMarkers();
+            }
+            window.markerCluster = new window.markerClusterer.MarkerClusterer({
+                map: map_container,
+                markers: multi_marker
+            });
+        } else {
+            // Fallback jika script gagal dimuat
+            multi_marker.forEach(function(m) { m.setMap(map_container); });
         }
 
-        var chunkSize = 400; // Chunk instantiation agar UI tidak freeze/hang
-        var index = 0;
-
-        function processChunk() {
-            var end = Math.min(index + chunkSize, total);
-            for (; index < end; index++) {
-                var v = payload[index];
-                var iconUrl = v.type && v.type.icon ? v.type.icon : undefined;
-
-                var marker = new google.maps.Marker({
-                    position: new google.maps.LatLng(v["latitude"], v["longitude"]),
-                    icon: iconUrl,
-                    title: v["name"],
-                    zIndex: 100
-                });
-
-                (function(item, idx, m) {
-                    m.addListener("click", function () {
-                        if (singleInfoWindow) {
-                            singleInfoWindow.close();
-                            var content = windowContent(item, idx);
-                            singleInfoWindow.setContent(content);
-                            singleInfoWindow.open(map_container, m);
-
-                            setTimeout(function () {
-                                fetchRealPlaces(item, 'places-list-' + item.id);
-                            }, 100);
-                        }
-                    });
-                })(v, index, marker);
-
-                multi_marker.push(marker);
-                bounds.extend(marker.getPosition());
-            }
-
-            var progressPercent = Math.floor(10 + (index / total) * 85);
-            var bar = document.getElementById('progress-bar');
-            if (bar) {
-                bar.style.width = progressPercent + '%';
-                bar.setAttribute('aria-valuenow', progressPercent);
-                bar.innerText = 'Membuat Titik Peta: ' + progressPercent + '%';
-            }
-
-            if (index < total) {
-                // Beri jeda thread agar UI tetap responsif dan animasi tidak tersendat
-                setTimeout(processChunk, 4);
-            } else {
-                // Selesai membuat semua marker, masukkan ke MarkerClusterer
-                if (window.markerClusterer && window.markerClusterer.MarkerClusterer) {
-                    if (window.markerCluster) {
-                        window.markerCluster.clearMarkers();
-                    }
-                    window.markerCluster = new window.markerClusterer.MarkerClusterer({
-                        map: map_container,
-                        markers: multi_marker
-                    });
-                } else {
-                    multi_marker.forEach(function(m) { m.setMap(map_container); });
-                }
-
-                if (total > 0 && map_container) {
-                    map_container.fitBounds(bounds);
-                }
-                resolve();
-            }
+        // Only fit bounds if we have markers (and not resetting filters excessively)
+        if (payload.length > 0) {
+            map_container.fitBounds(bounds);
         }
-
-        processChunk();
+        resolve();
     });
 }
 
