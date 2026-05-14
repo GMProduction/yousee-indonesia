@@ -520,7 +520,7 @@
                                         alt="Gambar-1" style="width: 100%"></a>
                                 <div class="d-flex flex-row" style="position: absolute; right: 10px; top: 10px">
                                     <a class="btn-success flex me-2 sendWa" id="sendWa1" style="">Kirim Wa
-                                        <img class="ms-2" src='{{ asset('/images/local/whatsapp.png') }}'
+                                        <img class="ms-2" src='{{ asset('/images/whatsapp.svg') }}'
                                             width='20'></a>
                                     <a class="btn-utama flex " id="dwnld-gbr1" style="">Download <i
                                             class="ms-2 material-symbols-outlined menu-icon"
@@ -535,7 +535,7 @@
                                         alt="Gambar-2" style="width: 100%"></a>
                                 <div class="d-flex flex-row" style="position: absolute; right: 10px; top: 10px">
                                     <a class="btn-success flex me-2 sendWa" id="sendWa2" style="">Kirim Wa
-                                        <img class="ms-2" src='{{ asset('/images/local/whatsapp.png') }}'
+                                        <img class="ms-2" src='{{ asset('/images/whatsapp.svg') }}'
                                             width='20'></a>
                                     <a class="btn-utama flex " id="dwnld-gbr2" style="">Download <i
                                             class="ms-2 material-symbols-outlined menu-icon text-white ">download</i></a>

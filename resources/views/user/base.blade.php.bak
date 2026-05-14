@@ -154,7 +154,7 @@
     </div>
 
     <button id="custom-crisp-chat" class="crips-float">
-        <img src="{{ asset('images/local/livechat.png') }}" alt="Chat" style="height: 25px"
+        <img src="http://www.yousee-indonesia.com/images/local/livechat.png" alt="Chat" style="height: 25px"
             id="chat-icon">
     </button>
 
