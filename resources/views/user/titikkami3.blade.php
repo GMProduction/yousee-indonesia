@@ -340,7 +340,7 @@
         }, window.translations || {});
     </script>
 
-    <script src="{{ asset('js/map-control7.js') }}?v=2"></script>
+    <script src="{{ asset('js/map-control7.js') }}?v=3"></script>
 
     <script>
         document.addEventListener('hidden.bs.modal', function(event) {
