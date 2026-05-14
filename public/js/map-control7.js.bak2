@@ -272,7 +272,12 @@ async function generateGoogleMapData() {
             return a >= -11.0 && a <= 6.1 && b >= 95.0 && b <= 141.0;
         });
 
-        // Hapus limit agar semua data tampil, tapi akan menggunakan MarkerClusterer
+        // OPTIMASI: Jangan render 10,000 marker di load awal yang membuat browser lemot (lagging)
+        var hasFilters = params.province || params.city || params.type || params.position;
+        if (!hasFilters && filteredPayload.length > 300) {
+            filteredPayload = filteredPayload.slice(0, 300);
+        }
+
         removeMultiMarker();
         if (filteredPayload.length > 0) {
             currentPage = 1;
@@ -415,9 +420,6 @@ function updateListTitik(titik) {
 var multi_marker = [];
 
 function removeMultiMarker() {
-    if (window.markerCluster) {
-        window.markerCluster.clearMarkers();
-    }
     for (var i = 0; i < multi_marker.length; i++) {
         multi_marker[i].setMap(null);
     }
@@ -432,11 +434,12 @@ function createGoogleMapMarker(payload) {
         var bounds = new google.maps.LatLngBounds();
 
         payload.forEach(function (v, k) {
+            // Dashboard-style Icon Logic
             var iconUrl = v.type && v.type.icon ? v.type.icon : undefined;
 
             var marker = new google.maps.Marker({
                 position: new google.maps.LatLng(v["latitude"], v["longitude"]),
-                // map: map_container, // DO NOT SET MAP DI SINI (agar tidak ngelag merender 10k titik)
+                map: map_container,
                 icon: iconUrl,
                 title: v["name"],
                 zIndex: 100 // Standard constant zIndex
@@ -459,20 +462,6 @@ function createGoogleMapMarker(payload) {
 
             bounds.extend(marker.getPosition());
         });
-
-        // Menerapkan MarkerClusterer agar ringan walau 10k data
-        if (window.markerClusterer && window.markerClusterer.MarkerClusterer) {
-            if (window.markerCluster) {
-                window.markerCluster.clearMarkers();
-            }
-            window.markerCluster = new window.markerClusterer.MarkerClusterer({
-                map: map_container,
-                markers: multi_marker
-            });
-        } else {
-            // Fallback jika script gagal dimuat
-            multi_marker.forEach(function(m) { m.setMap(map_container); });
-        }
 
         // Only fit bounds if we have markers (and not resetting filters excessively)
         if (payload.length > 0) {

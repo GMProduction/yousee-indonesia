@@ -14,25 +14,23 @@ class ArticleController extends CustomController
 
     public function datatable()
     {
-        // Hanya ambil kolom yang diperlukan agar tidak memuat 'content' yang mungkin berisi gambar base64 besar
-        $data = FrontArticle::select(['id', 'title', 'title_id', 'title_en', 'image', 'tags', 'sort_desc_id', 'sort_desc_en']);
-
-        // Cache all tags to memory to prevent N+1 queries
-        $allTags = FrontTags::all()->keyBy('id');
+        $data = FrontArticle::query();
 
         return DataTables::of($data)
-            ->addColumn('tag', function ($data) use ($allTags) {
+            ->addColumn('des', function ($data) {
+                return $data->content;
+            })
+            ->addColumn('tag', function ($data) {
                 $dTag = [];
-                if (is_array($data->tags)) {
-                    foreach ($data->tags as $key => $t) {
-                        if (isset($allTags[$t])) {
-                            $dTag[] = '<span class="badge bg-secondary me-1">' . $allTags[$t]->name . '</span>';
-                        }
+                foreach ($data->tags as $key => $t) {
+                    $tag = FrontTags::find($t);
+                    if ($tag) {
+                        $dTag[$key] = $tag->name;
                     }
                 }
-                return implode(' ', $dTag);
+                return $dTag;
             })
-            ->rawColumns(['tag'])
+            ->rawColumns(['des', 'tag'])
             ->make(true);
     }
 
