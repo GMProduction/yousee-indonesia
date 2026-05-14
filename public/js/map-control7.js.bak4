@@ -436,25 +436,11 @@ function createGoogleMapMarker(payload) {
             return;
         }
 
-        // Inisialisasi MarkerClusterer kosong di awal agar siap menampung titik secara progresif
-        var useClusterer = window.markerClusterer && window.markerClusterer.MarkerClusterer;
-        if (useClusterer) {
-            if (window.markerCluster) {
-                window.markerCluster.clearMarkers();
-            }
-            window.markerCluster = new window.markerClusterer.MarkerClusterer({
-                map: map_container,
-                markers: []
-            });
-        }
-
-        var chunkSize = 300; // Ukuran chunk sedikit dikurangi agar animasi pemunculan titik makin terasa
+        var chunkSize = 400; // Chunk instantiation agar UI tidak freeze/hang
         var index = 0;
 
         function processChunk() {
             var end = Math.min(index + chunkSize, total);
-            var chunkMarkers = [];
-
             for (; index < end; index++) {
                 var v = payload[index];
                 var iconUrl = v.type && v.type.icon ? v.type.icon : undefined;
@@ -481,16 +467,8 @@ function createGoogleMapMarker(payload) {
                     });
                 })(v, index, marker);
 
-                chunkMarkers.push(marker);
                 multi_marker.push(marker);
                 bounds.extend(marker.getPosition());
-            }
-
-            // Langsung munculkan titik-titik dari chunk ini ke peta/clusterer! (Muncul sedikit demi sedikit)
-            if (useClusterer && window.markerCluster) {
-                window.markerCluster.addMarkers(chunkMarkers, false); // false = izinkan redraw secara progresif
-            } else {
-                chunkMarkers.forEach(function(m) { m.setMap(map_container); });
             }
 
             var progressPercent = Math.floor(10 + (index / total) * 85);
@@ -498,14 +476,26 @@ function createGoogleMapMarker(payload) {
             if (bar) {
                 bar.style.width = progressPercent + '%';
                 bar.setAttribute('aria-valuenow', progressPercent);
-                bar.innerText = 'Memuat Titik ke Peta: ' + progressPercent + '%';
+                bar.innerText = 'Membuat Titik Peta: ' + progressPercent + '%';
             }
 
             if (index < total) {
-                // Beri jeda thread agar browser merender titik/cluster yang baru ditambahkan dengan mulus
-                setTimeout(processChunk, 10);
+                // Beri jeda thread agar UI tetap responsif dan animasi tidak tersendat
+                setTimeout(processChunk, 4);
             } else {
-                // Selesai memuat semua titik ke peta
+                // Selesai membuat semua marker, masukkan ke MarkerClusterer
+                if (window.markerClusterer && window.markerClusterer.MarkerClusterer) {
+                    if (window.markerCluster) {
+                        window.markerCluster.clearMarkers();
+                    }
+                    window.markerCluster = new window.markerClusterer.MarkerClusterer({
+                        map: map_container,
+                        markers: multi_marker
+                    });
+                } else {
+                    multi_marker.forEach(function(m) { m.setMap(map_container); });
+                }
+
                 if (total > 0 && map_container) {
                     map_container.fitBounds(bounds);
                 }
