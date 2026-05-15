@@ -33,7 +33,7 @@ class MapController extends CustomController
                     'items.id', 'items.latitude', 'items.longitude', 'items.name', 
                     'items.address', 'items.location', 'items.city_id', 'items.type_id', 
                     'items.position', 'items.width', 'items.height', 'items.side', 
-                    'items.image1', 'items.image2', 'items.image3', 'items.slug',
+                    'items.slug',
                     'types.name as type_name', 'types.icon as type_icon'
                 )
                 ->whereNull('items.deleted_at')
@@ -53,8 +53,8 @@ class MapController extends CustomController
                 $query->where('items.position', $position);
             }
 
-            // Batasi 2000 agar UI browser tetap ringan
-            $results = $query->limit(2000)->get();
+            // Uji coba limit 500 dan tanpa image untuk stabilitas
+            $results = $query->limit(500)->get();
 
             // Mapping kembali ke format bersarang (nested array) yang disukai frontend
             $data = $results->map(function ($item) {
@@ -71,9 +71,6 @@ class MapController extends CustomController
                     'width' => $item->width,
                     'height' => $item->height,
                     'side' => $item->side,
-                    'image1' => $item->image1,
-                    'image2' => $item->image2,
-                    'image3' => $item->image3,
                     'slug' => $item->slug,
                     'type' => [
                         'id' => $item->type_id,
