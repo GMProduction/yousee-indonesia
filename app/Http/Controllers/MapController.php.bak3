@@ -49,7 +49,7 @@ class MapController extends CustomController
             if ($position && $position !== 'undefined') {
                 $item = $item->where('position', $position);
             }
-            $data = $item->limit(2000)->get();
+            $data = $item->get();
             //            $geo_json_data = $data->map(function ($place) {
             //                return [
             //                    'type' => 'Feature',
