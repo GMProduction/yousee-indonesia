@@ -27,61 +27,29 @@ class MapController extends CustomController
             $type = \request('type');
             $position = \request('position');
             
-            $query = \Illuminate\Support\Facades\DB::table('items')
-                ->join('types', 'items.type_id', '=', 'types.id')
-                ->select(
-                    'items.id', 'items.latitude', 'items.longitude', 'items.name', 
-                    'items.address', 'items.location', 'items.city_id', 'items.type_id', 
-                    'items.position', 'items.width', 'items.height', 'items.side', 
-                    'items.image1', 'items.image2', 'items.image3', 'items.slug',
-                    'types.name as type_name', 'types.icon as type_icon'
-                )
-                ->whereNull('items.deleted_at')
-                ->where('items.isShow', '=', 1);
+            // OPTIMASI: Gunakan without(['city']) untuk mencegah load relasi city & province yang sangat redundan pada 10.000 data
+            $item = Item::without(['city'])
+                ->with(['type' => function ($q) {
+                    $q->select(['id', 'name', 'icon']);
+                }])
+                ->select(['id', 'latitude', 'longitude', 'name', 'address', 'location', 'city_id', 'type_id', 'position', 'width', 'height', 'side', 'image1', 'image2', 'image3', 'slug'])
+                ->whereNull('deleted_at');
                 
             if ($city && $city !== 'undefined') {
-                $query->where('items.city_id', $city);
+                $item = $item->where('city_id', $city);
             }
             if ($province && $province !== 'undefined') {
-                $query->join('cities', 'items.city_id', '=', 'cities.id')
-                      ->where('cities.province_id', $province);
+                $item = $item->whereHas('city', function ($q) use ($province) {
+                    return $q->where('province_id', $province);
+                });
             }
             if ($type && $type !== 'undefined') {
-                $query->where('items.type_id', $type);
+                $item = $item->where('type_id', $type);
             }
             if ($position && $position !== 'undefined') {
-                $query->where('items.position', $position);
+                $item = $item->where('position', $position);
             }
-
-            // Batasi 2000 agar UI browser tetap ringan
-            $results = $query->limit(2000)->get();
-
-            // Mapping kembali ke format bersarang (nested array) yang disukai frontend
-            $data = $results->map(function ($item) {
-                return [
-                    'id' => $item->id,
-                    'latitude' => $item->latitude,
-                    'longitude' => $item->longitude,
-                    'name' => $item->name,
-                    'address' => $item->address,
-                    'location' => $item->location,
-                    'city_id' => $item->city_id,
-                    'type_id' => $item->type_id,
-                    'position' => $item->position,
-                    'width' => $item->width,
-                    'height' => $item->height,
-                    'side' => $item->side,
-                    'image1' => $item->image1,
-                    'image2' => $item->image2,
-                    'image3' => $item->image3,
-                    'slug' => $item->slug,
-                    'type' => [
-                        'id' => $item->type_id,
-                        'name' => $item->type_name,
-                        'icon' => $item->type_icon,
-                    ]
-                ];
-            });
+            $data = $item->limit(2000)->get();
             //            $geo_json_data = $data->map(function ($place) {
             //                return [
             //                    'type' => 'Feature',
