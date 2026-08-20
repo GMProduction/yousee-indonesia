@@ -315,7 +315,8 @@
     <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js"></script>
-    <script src="{{ asset('js/admin-genosstyle.js') }}"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.2/dist/browser-image-compression.js"></script>
+    <script src="{{ asset('js/handler_image.js') }}"></script>
     <script src="{{ asset('js/dialog.js') }}"></script>
     <script src="{{ asset('js/datatable.js') }}"></script>
     <script src="{{ asset('js/dropify/js/dropify.js') }}"></script>

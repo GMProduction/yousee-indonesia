@@ -185,9 +185,14 @@
             initSummernote('#p-isiartikel2');
         });
 
-        function uploadSummernoteImage(file, editorSelector) {
+        async function uploadSummernoteImage(file, editorSelector) {
+            let compressedFile = file;
+            if (typeof compressSingleFile === 'function') {
+                compressedFile = await compressSingleFile(file, 0.8, 1600);
+            }
+
             let data = new FormData();
-            data.append('image', file);
+            data.append('image', compressedFile, compressedFile.name || file.name);
             data.append('_token', '{{ csrf_token() }}');
 
             $.ajax({

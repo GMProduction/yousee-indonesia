@@ -1,29 +1,43 @@
-async function handleImageUpload(event)  {
-    // console.log(event);
-    // const files = event.target.files;
-    const files = event[0].files;
-    var data = '';
-    for (var i = 0; i < files.length; i++) {
-        // console.log("FILE ", imageFile)
-        const imageFile = files[i];
-        console.log('originalFile instanceof Blob', imageFile instanceof Blob); // true
-        console.log(`originalFile size ${imageFile.size / 1024 / 1024} MB`);
-
-        const options = {
-            maxSizeMB: 0.5,
-            maxWidthOrHeight: 1000,
-            useWebWorker: true
-        };
-        try {
-            const compressedFile = await imageCompression(imageFile, options);// smaller than maxSizeMB
-            data = compressedFile;
-
-        } catch (error) {
-            console.log(error);
-            data = 'error'
-        }
-
+async function compressSingleFile(imageFile, maxSizeMB = 0.8, maxWidthOrHeight = 1600) {
+    if (!imageFile || !(imageFile instanceof Blob)) {
+        return imageFile;
     }
-    return data;
+    // Jika file sudah sangat kecil (< 300KB), tidak perlu dikompres
+    if (imageFile.size < 300 * 1024) {
+        return imageFile;
+    }
 
+    const options = {
+        maxSizeMB: maxSizeMB,
+        maxWidthOrHeight: maxWidthOrHeight,
+        useWebWorker: true,
+        fileType: imageFile.type === 'image/png' ? 'image/png' : 'image/jpeg'
+    };
+
+    try {
+        if (typeof imageCompression !== 'undefined') {
+            const compressedFile = await imageCompression(imageFile, options);
+            return compressedFile;
+        }
+    } catch (error) {
+        // Jika gagal kompres, kembalikan file original
+    }
+    return imageFile;
+}
+
+async function handleImageUpload(inputSource) {
+    let files = [];
+    if (inputSource instanceof File || inputSource instanceof Blob) {
+        return await compressSingleFile(inputSource);
+    } else if (inputSource && inputSource[0] && inputSource[0].files) {
+        files = inputSource[0].files;
+    } else if (inputSource && inputSource.files) {
+        files = inputSource.files;
+    }
+
+    if (files.length === 0) {
+        return null;
+    }
+
+    return await compressSingleFile(files[0]);
 }
