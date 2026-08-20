@@ -10,10 +10,11 @@
     <!-- Or for RTL support -->
     <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.rtl.min.css" />
-    <link rel="stylesheet" href="{{ asset('css/ckeditor.css') }}">
-    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.3.1/ckeditor5.css" />
-
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    <style>
+        .tox-tinymce {
+            border-radius: 8px !important;
+        }
+    </style>
 @endsection
 
 
@@ -135,92 +136,84 @@
 
 @section('morejs')
     <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tinymce@6.8.3/tinymce.min.js"></script>
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    {{--  <script type="importmap">
-		{
-			"imports": {
-				"ckeditor5": "https://cdn.ckeditor.com/ckeditor5/43.3.1/ckeditor5.js",
-				"ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/43.3.1/"
-			}
-		}
-		</script>
-    <script type="module" src="{{ asset('js/cdeditor.js') }}"></script> --}}
-
-
-
 
     <script>
         $(document).ready(function() {
-            function initSummernote(selector) {
-                $(selector).summernote({
-                    height: 300,
-                    tabsize: 2,
-                    toolbar: [
-                        ['style', ['style']],
-                        ['font', ['bold', 'underline', 'clear']],
-                        ['color', ['color']],
-                        ['para', ['ul', 'ol', 'paragraph']],
-                        ['table', ['table']],
-                        ['insert', ['link', 'picture']],
-                        ['view', ['fullscreen', 'codeview', 'help']]
-                    ],
-                    callbacks: {
-                        onImageUpload: function(files) {
-                            for (let i = 0; i < files.length; i++) {
-                                uploadSummernoteImage(files[i], selector);
+            tinymce.init({
+                selector: '#p-isiartikel, #p-isiartikel2',
+                height: 450,
+                menubar: true,
+                plugins: [
+                    'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+                    'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                    'insertdatetime', 'media', 'table', 'help', 'wordcount'
+                ],
+                toolbar: 'undo redo | blocks fontfamily fontsize | ' +
+                    'bold italic underline strikethrough | forecolor backcolor | alignleft aligncenter ' +
+                    'alignright alignjustify | bullist numlist outdent indent | ' +
+                    'removeformat | image media table link | fullscreen code',
+                content_style: 'body { font-family:Poppins,Helvetica,Arial,sans-serif; font-size:14px } img { max-width: 100%; height: auto; }',
+                image_caption: true,
+                image_advtab: true,
+                image_dimensions: true,
+                automatic_uploads: true,
+                images_upload_handler: async function (blobInfo, progress) {
+                    return new Promise(async (resolve, reject) => {
+                        try {
+                            let originalFile = blobInfo.blob();
+                            let compressed = originalFile;
+                            if (typeof compressSingleFile === 'function') {
+                                compressed = await compressSingleFile(originalFile, 0.8, 1400);
                             }
-                        },
-                        onPaste: function(e) {
-                            // Summernote default handle
+
+                            let formData = new FormData();
+                            formData.append('image', compressed, blobInfo.filename() || 'image.jpg');
+                            formData.append('_token', '{{ csrf_token() }}');
+
+                            $.ajax({
+                                url: '{{ route('admin.article.upload.image') }}',
+                                method: 'POST',
+                                data: formData,
+                                processData: false,
+                                contentType: false,
+                                xhr: function () {
+                                    let xhr = new window.XMLHttpRequest();
+                                    xhr.upload.addEventListener("progress", function (evt) {
+                                        if (evt.lengthComputable) {
+                                            let percent = Math.round((evt.loaded / evt.total) * 100);
+                                            progress(percent);
+                                        }
+                                    }, false);
+                                    return xhr;
+                                },
+                                success: function (response) {
+                                    if (response.url) {
+                                        resolve(response.url);
+                                    } else {
+                                        reject('Gagal mendapatkan URL gambar');
+                                    }
+                                },
+                                error: function (err) {
+                                    let msg = 'Gagal mengunggah gambar';
+                                    if (err.responseJSON && err.responseJSON.errors) {
+                                        msg = err.responseJSON.errors[Object.keys(err.responseJSON.errors)[0]][0];
+                                    } else if (err.responseJSON && err.responseJSON.msg) {
+                                        msg = err.responseJSON.msg;
+                                    }
+                                    reject(msg);
+                                }
+                            });
+                        } catch (e) {
+                            reject('Gagal memproses gambar');
                         }
-                    }
-                });
-            }
-
-            initSummernote('#p-isiartikel');
-            initSummernote('#p-isiartikel2');
-        });
-
-        async function uploadSummernoteImage(file, editorSelector) {
-            let compressedFile = file;
-            if (typeof compressSingleFile === 'function') {
-                compressedFile = await compressSingleFile(file, 0.8, 1600);
-            }
-
-            let data = new FormData();
-            data.append('image', compressedFile, compressedFile.name || file.name);
-            data.append('_token', '{{ csrf_token() }}');
-
-            $.ajax({
-                url: '{{ route('admin.article.upload.image') }}',
-                method: 'POST',
-                data: data,
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    if (response.url) {
-                        $(editorSelector).summernote('insertImage', response.url);
-                    }
-                },
-                error: function(err) {
-                    let msg = 'Gagal mengunggah gambar ke artikel';
-                    if (err.responseJSON && err.responseJSON.errors) {
-                        msg = err.responseJSON.errors[Object.keys(err.responseJSON.errors)[0]][0];
-                    } else if (err.responseJSON && err.responseJSON.msg) {
-                        msg = err.responseJSON.msg;
-                    }
-                    swal({
-                        title: "Gagal Upload Gambar",
-                        text: msg,
-                        icon: "error"
                     });
                 }
             });
-        }
+        });
     </script>
 
 
@@ -265,6 +258,9 @@
         }
 
         function saveForm() {
+            if (typeof tinymce !== 'undefined') {
+                tinymce.triggerSave();
+            }
             saveData('Simpan Artikel', 'form', '{{ route('admin.article.data') }}', null, 'image1')
             return false
         }
