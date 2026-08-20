@@ -265,7 +265,7 @@
         }
 
         function saveForm() {
-            saveData('Simpan Artikel', 'form', '{{ route('admin.article.data') }}', null, 'image')
+            saveData('Simpan Artikel', 'form', '{{ route('admin.article.data') }}', null, 'image1')
             return false
         }
 

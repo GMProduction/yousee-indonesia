@@ -31,8 +31,6 @@ function parseErrorMessage(error) {
 
 async function saveData(title, form, url, resposeSuccess, image = null) {
 
-    var form_data = new FormData($('#' + form)[0]);
-
     swal({
         title: title,
         text: "Apa kamu yakin ?",
@@ -42,12 +40,28 @@ async function saveData(title, form, url, resposeSuccess, image = null) {
     })
         .then(async (res) => {
             if (res) {
-                if (image){
-                    if ($('#'+image).val()) {
-                        let image1 = await handleImageUpload($('#'+image));
-                        form_data.append('profile', image1, image1.name);
+                // Tampilkan progress bar saat mulai proses
+                $('#progressbar').remove();
+                $('#'+form).append(' <div id="progressbar" class="progress mt-2">\n' +
+                    '                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 10%;">10% (Mengompres...)</div>\n' +
+                    '                            </div>');
+
+                var form_data = new FormData($('#' + form)[0]);
+
+                if (image) {
+                    let imageInput = $('#'+image);
+                    if (imageInput.length && imageInput[0].files && imageInput[0].files.length > 0) {
+                        let originalFile = imageInput[0].files[0];
+                        let compressed = await handleImageUpload(originalFile);
+                        if (compressed && compressed instanceof Blob) {
+                            let inputName = imageInput.attr('name') || 'image';
+                            form_data.set(inputName, compressed, compressed.name || originalFile.name);
+                        }
                     }
                 }
+
+                $('#progressbar div').attr('style', 'width: 25%;').html('25% (Mengunggah...)');
+
                 $.ajax({
                     type: "POST",
                     data: form_data,
@@ -58,7 +72,20 @@ async function saveData(title, form, url, resposeSuccess, image = null) {
                     headers: {
                         'Accept': "application/json"
                     },
+                    xhr: function() {
+                        var xhr = new window.XMLHttpRequest();
+                        xhr.upload.addEventListener("progress", function(evt) {
+                            if (evt.lengthComputable) {
+                                // Scaling progress dari 25% ke 95% selama upload
+                                var percent = 25 + Math.round((evt.loaded / evt.total) * 70);
+                                if (percent > 95) percent = 95;
+                                $('#progressbar div').attr('style', "width:" + percent + '%').html(percent + '%');
+                            }
+                        }, false);
+                        return xhr;
+                    },
                     success: function (data, textStatus, xhr) {
+                        $('#progressbar div').attr('style', "width:100%").html('100%').addClass('bg-success');
                         if (xhr.status === 200) {
                             swal("Berhasil", {
                                 icon: "success",
@@ -72,6 +99,7 @@ async function saveData(title, form, url, resposeSuccess, image = null) {
                                 }
                             });
                         } else {
+                            $('#progressbar div').removeClass('bg-success').addClass('bg-danger');
                             swal({
                                 title: "Gagal Menyimpan",
                                 text: data['msg'] || "Terjadi kesalahan saat menyimpan.",
@@ -79,30 +107,13 @@ async function saveData(title, form, url, resposeSuccess, image = null) {
                             });
                         }
                     },
-                    xhr: function() {
-                        $('#progressbar').remove();
-                        $('#'+form).append(' <div id="progressbar" class="progress mt-2">\n' +
-                            '                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>\n' +
-                            '                            </div>')
-                        var xhr = new window.XMLHttpRequest();
-                        xhr.upload.addEventListener("progress", function(evt) {
-                            if (evt.lengthComputable) {
-                                var percentComplete = (evt.loaded / evt.total) * 100;
-                                $('#progressbar div').attr('style',"width:"+percentComplete+'%').html(parseInt(percentComplete)+'%')
-                                if (percentComplete === 100){
-                                    $('#progressbar div').addClass('bg-success')
-                                }
-                            }
-                        }, false);
-                        return xhr;
-                    },
                     complete: function (xhr, textStatus) {
                         setTimeout(() => {
                             $('#progressbar').remove();
-                        }, 500);
+                        }, 800);
                     },
                     error: function (error, xhr, textStatus) {
-                        $('#progressbar div').removeClass('bg-success').addClass('bg-danger');
+                        $('#progressbar div').removeClass('bg-success').addClass('bg-danger').html('Gagal');
                         let reason = parseErrorMessage(error);
                         swal({
                             title: "Gagal Menyimpan",
