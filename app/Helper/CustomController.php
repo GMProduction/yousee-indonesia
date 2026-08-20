@@ -73,7 +73,23 @@ class CustomController extends Controller
     public function uploadImage($field, $targetName = '', $disk = 'upload')
     {
         $file = request()->file($field);
-        return Storage::disk($disk)->put($targetName, File::get($file));
+        if (!$file) {
+            return false;
+        }
+
+        try {
+            $root = config("filesystems.disks.{$disk}.root");
+            if ($root && !File::exists($root)) {
+                File::makeDirectory($root, 0755, true, true);
+            }
+            return Storage::disk($disk)->put($targetName, file_get_contents($file->getRealPath()));
+        } catch (\Exception $e) {
+            // Fallback manual copy jika Storage disk root berbeda path
+            if (isset($root)) {
+                return $file->move($root, $targetName);
+            }
+            throw $e;
+        }
     }
 
 
