@@ -155,27 +155,67 @@
 
     <script>
         $(document).ready(function() {
-            $('#p-isiartikel, #p-isiartikel2').summernote({
-                height: 300,
-                tabsize: 2,
-                toolbar: [
-                    ['style', ['style']],
-                    ['font', ['bold', 'underline', 'clear']],
-                    ['color', ['color']],
-                    ['para', ['ul', 'ol', 'paragraph']], // ul & ol ini untuk bullet/numbering
-                    ['table', ['table']],
-                    ['insert', ['link', 'picture']],
-                    ['view', ['fullscreen', 'codeview', 'help']]
-                ],
-                // Opsi tambahan untuk menangani Paste dari Word agar lebih bersih (Optional)
-                callbacks: {
-                    onPaste: function(e) {
-                        // Summernote defaultnya sudah handle, tapi bisa dicustom disini jika perlu
-                        console.log('Paste event detected!');
+            function initSummernote(selector) {
+                $(selector).summernote({
+                    height: 300,
+                    tabsize: 2,
+                    toolbar: [
+                        ['style', ['style']],
+                        ['font', ['bold', 'underline', 'clear']],
+                        ['color', ['color']],
+                        ['para', ['ul', 'ol', 'paragraph']],
+                        ['table', ['table']],
+                        ['insert', ['link', 'picture']],
+                        ['view', ['fullscreen', 'codeview', 'help']]
+                    ],
+                    callbacks: {
+                        onImageUpload: function(files) {
+                            for (let i = 0; i < files.length; i++) {
+                                uploadSummernoteImage(files[i], selector);
+                            }
+                        },
+                        onPaste: function(e) {
+                            // Summernote default handle
+                        }
                     }
+                });
+            }
+
+            initSummernote('#p-isiartikel');
+            initSummernote('#p-isiartikel2');
+        });
+
+        function uploadSummernoteImage(file, editorSelector) {
+            let data = new FormData();
+            data.append('image', file);
+            data.append('_token', '{{ csrf_token() }}');
+
+            $.ajax({
+                url: '{{ route('admin.article.upload.image') }}',
+                method: 'POST',
+                data: data,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    if (response.url) {
+                        $(editorSelector).summernote('insertImage', response.url);
+                    }
+                },
+                error: function(err) {
+                    let msg = 'Gagal mengunggah gambar ke artikel';
+                    if (err.responseJSON && err.responseJSON.errors) {
+                        msg = err.responseJSON.errors[Object.keys(err.responseJSON.errors)[0]][0];
+                    } else if (err.responseJSON && err.responseJSON.msg) {
+                        msg = err.responseJSON.msg;
+                    }
+                    swal({
+                        title: "Gagal Upload Gambar",
+                        text: msg,
+                        icon: "error"
+                    });
                 }
             });
-        });
+        }
     </script>
 
 
@@ -203,20 +243,17 @@
 
         async function getDataTags() {
             await $.get('{{ route('admin.tags') }}', function(res) {
-                console.log('res', res)
                 let tag = $('#p-tags')
                 tag.empty();
                 $.each(res, function(k, v) {
                     tag.append('<option value="' + v.id + '">' + v.name + '</option>')
                 })
             })
-            @if ($data)
+            @if ($data && !empty($data->tags) && is_array($data->tags))
                 var selectedValues = [];
                 @foreach ($data->tags as $k => $t)
                     selectedValues[{{ $k }}] = '{{ $t }}'
                 @endforeach
-                console.log('asdasd', selectedValues)
-                // $('#p-tags').select2('val', [1,2]);
                 sel2.val(selectedValues).trigger('change');
             @endif
 
@@ -233,7 +270,6 @@
                 'name': $('#p-newtags').val()
             }
             saveDataObjectFormData('Simpan Tags', form, '{{ route('admin.tags.add') }}', afterSave)
-            console.log('form', form);
             return false
         }
 

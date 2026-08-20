@@ -1,8 +1,38 @@
+function parseErrorMessage(error) {
+    let errorMessage = 'Terjadi kesalahan sistem atau koneksi saat memproses data.';
+    try {
+        let resp = error.responseJSON || (error.responseText ? JSON.parse(error.responseText) : null);
+        if (resp) {
+            if (resp.errors && typeof resp.errors === 'object' && Object.keys(resp.errors).length > 0) {
+                let firstKey = Object.keys(resp.errors)[0];
+                let firstVal = resp.errors[firstKey];
+                errorMessage = Array.isArray(firstVal) ? firstVal[0] : firstVal;
+            } else if (resp.message) {
+                errorMessage = resp.message;
+            } else if (resp.msg) {
+                errorMessage = resp.msg;
+            }
+        }
+    } catch (e) {
+        // Fallback berdasarkan HTTP status code jika responseText bukan JSON
+    }
+
+    if (error.status === 413) {
+        errorMessage = 'Ukuran file atau payload terlalu besar (Max upload terlampaui).';
+    } else if (error.status === 422 && errorMessage === 'Terjadi kesalahan sistem atau koneksi saat memproses data.') {
+        errorMessage = 'Data yang dikirimkan belum lengkap atau tidak valid.';
+    } else if (error.status === 404) {
+        errorMessage = 'Alamat endpoint tidak ditemukan (404).';
+    } else if (error.status === 500 && errorMessage === 'Terjadi kesalahan sistem atau koneksi saat memproses data.') {
+        errorMessage = 'Terjadi kesalahan internal server (500).';
+    }
+    return errorMessage;
+}
+
 async function saveData(title, form, url, resposeSuccess, image = null) {
 
     var form_data = new FormData($('#' + form)[0]);
 
-    console.log(form_data)
     swal({
         title: title,
         text: "Apa kamu yakin ?",
@@ -29,8 +59,6 @@ async function saveData(title, form, url, resposeSuccess, image = null) {
                         'Accept': "application/json"
                     },
                     success: function (data, textStatus, xhr) {
-                        console.log(data);
-
                         if (xhr.status === 200) {
                             swal("Berhasil", {
                                 icon: "success",
@@ -44,9 +72,12 @@ async function saveData(title, form, url, resposeSuccess, image = null) {
                                 }
                             });
                         } else {
-                            swal(data['msg'])
+                            swal({
+                                title: "Gagal Menyimpan",
+                                text: data['msg'] || "Terjadi kesalahan saat menyimpan.",
+                                icon: "error"
+                            });
                         }
-                        console.log(data);
                     },
                     xhr: function() {
                         $('#progressbar').remove();
@@ -57,8 +88,6 @@ async function saveData(title, form, url, resposeSuccess, image = null) {
                         xhr.upload.addEventListener("progress", function(evt) {
                             if (evt.lengthComputable) {
                                 var percentComplete = (evt.loaded / evt.total) * 100;
-                                //Do something with upload progress here
-                                // console.log(percentComplete)
                                 $('#progressbar div').attr('style',"width:"+percentComplete+'%').html(parseInt(percentComplete)+'%')
                                 if (percentComplete === 100){
                                     $('#progressbar div').addClass('bg-success')
@@ -67,23 +96,19 @@ async function saveData(title, form, url, resposeSuccess, image = null) {
                         }, false);
                         return xhr;
                     },
-                    // uploadProgress: function(event, position, total, percentComplete){
-                    //     var percentVal = percentComplete + '%';
-                    //     console.log(percentVal);
-                    //     console.log(percentVal);
-                    //
-                    // },
                     complete: function (xhr, textStatus) {
-                        $('#progressbar').remove();
+                        setTimeout(() => {
+                            $('#progressbar').remove();
+                        }, 500);
                     },
                     error: function (error, xhr, textStatus) {
-                        // console.log("LOG ERROR", error.responseJSON.errors);
-                        // console.log("LOG ERROR", error.responseJSON.errors[Object.keys(error.responseJSON.errors)[0]][0]);
                         $('#progressbar div').removeClass('bg-success').addClass('bg-danger');
-                        console.log(error);
-                        console.log(textStatus);
-                        swal(JSON.parse(error.responseText).errors ? JSON.parse(error.responseText).errors[Object.keys(JSON.parse(error.responseText).errors)[0]][0] : JSON.parse(error.responseText)?.message ? JSON.parse(error.responseText).message : JSON.parse(error.responseText).msg ? JSON.parse(error.responseText).msg : error.responseJSON['msg'] )
-                        // swal(error.responseText ? JSON.parse(error.responseText).message : error.responseJSON['msg'] )
+                        let reason = parseErrorMessage(error);
+                        swal({
+                            title: "Gagal Menyimpan",
+                            text: reason,
+                            icon: "error"
+                        });
                     }
                 })
             }
@@ -92,7 +117,6 @@ async function saveData(title, form, url, resposeSuccess, image = null) {
 }
 
 function saveDataObjectFormData(title, form_data, url, resposeSuccess) {
-    console.log('asdasd', form_data)
     swal({
         title: title,
         text: "Apa kamu yakin ?",
@@ -107,14 +131,10 @@ function saveDataObjectFormData(title, form_data, url, resposeSuccess) {
                     data: form_data,
                     url: url ?? window.location.pathname,
                     async: true,
-                    // processData: false,
-                    // contentType: false,
                     headers: {
                         'Accept': "application/json"
                     },
                     success: function (data, textStatus, xhr) {
-                        console.log(data);
-
                         if (xhr.status === 200) {
                             swal("Data Updated ", {
                                 icon: "success",
@@ -128,24 +148,20 @@ function saveDataObjectFormData(title, form_data, url, resposeSuccess) {
                                 }
                             });
                         } else {
-                            swal(data['msg'])
+                            swal({
+                                title: "Gagal Menyimpan",
+                                text: data['msg'] || "Terjadi kesalahan saat menyimpan.",
+                                icon: "error"
+                            });
                         }
-                        console.log(data);
-                    },
-                    complete: function (xhr, textStatus) {
-                        console.log(xhr.status);
-                        console.log(textStatus);
                     },
                     error: function (error, xhr, textStatus) {
-                        // console.log("LOG ERROR", error.responseJSON.errors);
-                        // console.log("LOG ERROR", error.responseJSON.errors[Object.keys(error.responseJSON.errors)[0]][0]);
-                        console.log(xhr.status);
-                        console.log(textStatus);
-                        console.log(error.responseJSON);
-                        swal(JSON.parse(error.responseText).errors ? JSON.parse(error.responseText).errors[Object.keys(JSON.parse(error.responseText).errors)[0]][0] : JSON.parse(error.responseText)?.message ? JSON.parse(error.responseText).message : error.responseJSON['msg'] )
-
-                        // swal(error.responseJSON.errors ? error.responseJSON.errors[Object.keys(error.responseJSON.errors)[0]][0] : error.responseJSON['message'] ? error.responseJSON['message'] : error.responseJSON['msg'] )
-
+                        let reason = parseErrorMessage(error);
+                        swal({
+                            title: "Gagal Menyimpan",
+                            text: reason,
+                            icon: "error"
+                        });
                     }
                 })
             }
@@ -155,7 +171,6 @@ function saveDataObjectFormData(title, form_data, url, resposeSuccess) {
 
 function saveDataAjaxWImage(title, form, form_data, url, resposeSuccess) {
     var dataForm = form_data['form_data'];
-    console.log(form_data);
     if (form_data['image']){
         $.each(form_data['image'], async function (k,v) {
             if ($('#'+form+' #'+v).val()) {
@@ -164,7 +179,6 @@ function saveDataAjaxWImage(title, form, form_data, url, resposeSuccess) {
             }
         })
     }
-    console.log(dataForm.get('icon'));
     swal({
         title: title,
         text: "Apa kamu yakin ?",
@@ -185,8 +199,6 @@ function saveDataAjaxWImage(title, form, form_data, url, resposeSuccess) {
                         'Accept': "application/json"
                     },
                     success: function (data, textStatus, xhr) {
-                        console.log(data);
-
                         if (xhr.status === 200) {
                             swal("Data created ", {
                                 icon: "success",
@@ -200,27 +212,26 @@ function saveDataAjaxWImage(title, form, form_data, url, resposeSuccess) {
                                 }
                             });
                         } else {
-                            swal(data['msg'])
+                            swal({
+                                title: "Gagal Menyimpan",
+                                text: data['msg'] || "Terjadi kesalahan saat menyimpan.",
+                                icon: "error"
+                            });
                         }
                     },
-                    complete: function (xhr, textStatus) {
-                        console.log(xhr.status);
-                        console.log(textStatus);
-                    },
                     error: function (error, xhr, textStatus) {
-                        // console.log("LOG ERROR", error.responseJSON.errors);
-                        // console.log("LOG ERROR", error.responseJSON.errors[Object.keys(error.responseJSON.errors)[0]][0]);
                         $('#progressbar div').removeClass('bg-success').addClass('bg-danger');
-                        console.log(error);
-                        console.log(textStatus);
-                        swal(JSON.parse(error.responseText).errors ? JSON.parse(error.responseText).errors[Object.keys(JSON.parse(error.responseText).errors)[0]][0] : JSON.parse(error.responseText)?.message ? JSON.parse(error.responseText).message : JSON.parse(error.responseText).msg ? JSON.parse(error.responseText).msg : error.responseJSON['msg'] )
-
+                        let reason = parseErrorMessage(error);
+                        swal({
+                            title: "Gagal Menyimpan",
+                            text: reason,
+                            icon: "error"
+                        });
                     }
                 })
             }
         });
     return false;
-
 }
 
 function deleteData(text, data,url, resposeSuccess) {

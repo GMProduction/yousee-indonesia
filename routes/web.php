@@ -138,6 +138,7 @@ Route::prefix('/admin')->middleware('auth')->group(function () {
         Route::get('datatable', [\App\Http\Controllers\Admin\ArticleController::class, 'datatable'])->name('admin.article.datatable');
         Route::get('', [\App\Http\Controllers\Admin\ArticleController::class, 'index'])->name('admin.article');
         Route::match(['GET', 'POST'], 'data', [\App\Http\Controllers\Admin\ArticleController::class, 'pageAdd'])->name('admin.article.data');
+        Route::post('upload-image', [\App\Http\Controllers\Admin\ArticleController::class, 'uploadImageContent'])->name('admin.article.upload.image');
         Route::post('delete', [\App\Http\Controllers\Admin\ArticleController::class, 'delete'])->name('admin.article.delete');
     });
     Route::prefix('service')->group(function () {

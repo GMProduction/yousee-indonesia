@@ -15,7 +15,7 @@ class ArticleController extends CustomController
     public function datatable()
     {
         // Hanya ambil kolom yang diperlukan agar tidak memuat 'content' yang mungkin berisi gambar base64 besar
-        $data = FrontArticle::select(['id', 'title', 'title_id', 'title_en', 'image', 'tags', 'sort_desc_id', 'sort_desc_en']);
+        $data = FrontArticle::select(['id', 'slug', 'title', 'title_id', 'title_en', 'image', 'tags', 'sort_desc_id', 'sort_desc_en']);
 
         // Cache all tags to memory to prevent N+1 queries
         $allTags = FrontTags::all()->keyBy('id');
@@ -62,8 +62,10 @@ class ArticleController extends CustomController
             'content_id' => 'required',
             'content_en' => 'required',
         ], [
-            'title.required'   => 'Judul artikel harus di isi',
-            'content.required' => 'Isi artikel harus di isi',
+            'title_id.required'   => 'Judul artikel (Indo) harus diisi',
+            'title_en.required'   => 'Judul artikel (English) harus diisi',
+            'content_id.required' => 'Isi artikel (Indo) harus diisi',
+            'content_en.required' => 'Isi artikel (English) harus diisi',
         ]);
 
         $form = request()->all();
@@ -120,6 +122,32 @@ class ArticleController extends CustomController
         );
     }
 
+
+    public function uploadImageContent()
+    {
+        request()->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
+        ], [
+            'image.required' => 'Gambar harus dipilih',
+            'image.image'    => 'File harus berupa gambar',
+            'image.mimes'    => 'Format gambar harus jpeg, png, jpg, gif, atau webp',
+            'image.max'      => 'Ukuran gambar maksimal 5MB',
+        ]);
+
+        if (request()->hasFile('image')) {
+            $image = $this->generateImageName('image');
+            $this->uploadImage('image', $image, 'articleImage');
+            $url = '/images/article/' . $image;
+
+            return response()->json([
+                'url' => $url
+            ], 200);
+        }
+
+        return response()->json([
+            'msg' => 'Gagal mengunggah gambar'
+        ], 400);
+    }
 
     public function delete()
     {

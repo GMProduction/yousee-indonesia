@@ -121,8 +121,9 @@
                     orderable: false,
                     searchable: false,
                     render: function(data, x, row) {
+                        let viewUrl = '/id/artikel/' + (row.slug || data);
                         return '<div class="d-flex justify-content-between gap-1">' +
-                            '       <a class="btn-primary-sm">Lihat</a>' +
+                            '       <a class="btn-primary-sm" href="' + viewUrl + '" target="_blank">Lihat</a>' +
                             '       <a class="btn-warning-sm" href="/admin/artikel/data?q=' + data + '">Ubah</a>' +
                             '       <a class="btn-danger-sm deletebutton" id="deleteData" data-name="' + row.title +
                             '" data-id="' + data + '">Hapus</a>' +

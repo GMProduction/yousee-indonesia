@@ -73,8 +73,12 @@ class ArtikelController extends Controller
 
         // Mengambil artikel lain yang memiliki tag yang sama dengan artikel yang ditampilkan
         $article = FrontArticle::where(function ($q) use ($checkSlug) {
-            foreach ($checkSlug->tags as $t) {
-                $q->orWhereJsonContains('tags', $t);
+            if (!empty($checkSlug->tags) && is_array($checkSlug->tags)) {
+                foreach ($checkSlug->tags as $t) {
+                    $q->orWhereJsonContains('tags', $t);
+                }
+            } else {
+                $q->whereRaw('1 = 0');
             }
         })->latest()->paginate(12);
 
