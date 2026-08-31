@@ -29,12 +29,17 @@ class MapController extends CustomController
             
             $query = \Illuminate\Support\Facades\DB::table('items')
                 ->join('types', 'items.type_id', '=', 'types.id')
+                ->leftJoin('cities', 'items.city_id', '=', 'cities.id')
+                ->leftJoin('provinces', 'cities.province_id', '=', 'provinces.id')
                 ->select(
                     'items.id', 'items.latitude', 'items.longitude', 'items.name', 
                     'items.address', 'items.location', 'items.city_id', 'items.type_id', 
                     'items.position', 'items.width', 'items.height', 'items.side', 
-                    'items.image2', 'items.slug',
-                    'types.name as type_name', 'types.icon as type_icon'
+                    'items.image2', 'items.slug', 'items.trafic',
+                    'types.name as type_name', 'types.icon as type_icon',
+                    'cities.name as city_name',
+                    'provinces.id as province_id',
+                    'provinces.name as province_name'
                 )
                 ->whereNull('items.deleted_at')
                 ->where('items.isShow', '=', 1);
@@ -43,8 +48,7 @@ class MapController extends CustomController
                 $query->where('items.city_id', $city);
             }
             if ($province && $province !== 'undefined') {
-                $query->join('cities', 'items.city_id', '=', 'cities.id')
-                      ->where('cities.province_id', $province);
+                $query->where('cities.province_id', $province);
             }
             if ($type && $type !== 'undefined') {
                 $query->where('items.type_id', $type);
@@ -71,8 +75,17 @@ class MapController extends CustomController
                     'width' => $item->width,
                     'height' => $item->height,
                     'side' => $item->side,
+                    'trafic' => $item->trafic,
                     'image2' => $item->image2,
                     'slug' => $item->slug,
+                    'city' => [
+                        'id' => $item->city_id,
+                        'name' => $item->city_name,
+                        'province' => [
+                            'id' => $item->province_id,
+                            'name' => $item->province_name,
+                        ]
+                    ],
                     'type' => [
                         'id' => $item->type_id,
                         'name' => $item->type_name,
