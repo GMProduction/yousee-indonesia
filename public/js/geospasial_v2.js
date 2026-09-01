@@ -66,7 +66,7 @@
         // 'renderMap': boolean, true if we should also create map markers
         async function fetchAndProcessData(renderMap = false) {
              try {
-                const response = await fetch('/admin/geospasial/data');
+                const response = await fetch('/admin/geospasial-v2/data');
                 const result = await response.json();
                 
                 if (result.status === 200 && result.payload) {

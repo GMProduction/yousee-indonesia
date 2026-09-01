@@ -14,7 +14,7 @@ class GeospasialController extends CustomController
 
     public function index()
     {
-        return view('admin.geospasial');
+        return view('admin.geospasial_v2');
     }
 
     public function getData()
