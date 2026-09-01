@@ -47,9 +47,7 @@ Route::post('/remove-from-cart', [CartController::class, 'removeFromCart']);
 
 // --- SECURED ANALYTICS ACCESS ---
 Route::middleware(['auth'])->group(function () {
-    Route::get('/geospasial-public', function () {
-        return view('admin.geospasial');
-    });
+    Route::get('/geospasial-public', [\App\Http\Controllers\Admin\GeospasialController::class, 'index']);
     // Location Intelligence Report (Secured)
     Route::get('/location-intelligence/{id}', [\App\Http\Controllers\TitikController::class, 'printLocation']);
 });
@@ -185,9 +183,10 @@ Route::prefix('/admin')->middleware('auth')->group(function () {
         return view('admin.inbox.inbox');
     });
 
-    Route::get('/geospasial', function () {
-        return view('admin.geospasial');
-    })->name('admin.geospasial');
+    Route::prefix('geospasial')->group(function () {
+        Route::get('/', [\App\Http\Controllers\Admin\GeospasialController::class, 'index'])->name('admin.geospasial');
+        Route::get('/data', [\App\Http\Controllers\Admin\GeospasialController::class, 'getData'])->name('admin.geospasial.data');
+    });
 });
 
 
